@@ -1,0 +1,21 @@
+<html>
+<body>
+<h3>All entries are mandatory</h3>
+<form action="create_config" method="post">
+<p>User: will be used to specify the path on the storage element "/gpfs_phys/storm/cms/store/user/$User"</p>
+<input type="text" name="user">
+<p>run number (only for data): can be a single run number or a range/list</p>
+<input type="text" name="run_number" %(run_number_form)s>
+<p>private string</p>
+<input type="text" name="private_string">
+<input type="hidden" value="%(dbs_sample)s" name="dbs_sample">
+<input type="hidden" value="%(primType)s" name="primType">
+<p>
+The private string will be placed in the filename as: filename_(private string).root
+</p>
+<input type="submit" value="create" />
+</form>
+
+
+</body>
+</html>

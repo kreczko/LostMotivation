@@ -1,0 +1,98 @@
+<html>
+<head>
+<title>Status</title>
+<style>
+
+td.done{background-color:#00CC00; font-size:8pt}
+td.missing{background-color:#FF0000;font-size:8pt}
+td.running{background-color:#FF9900;font-size:8pt}
+table{
+text-align: center;
+}
+</style>
+</head>
+<body>
+<center>
+
+<h2>Status</h2>
+<h3>for</h3>
+<h3>%(dbs_sample)s</h3>
+
+<table width="%(table_width)s" title="test">
+<tr>
+<th>Config</th>
+<th>total events</th>
+<th>nTuples on SE</th>
+<th>nTuples on soolin</th>
+<th>validation</th>
+<th>view std plots</th>
+</tr>
+<tr>
+<td>%(config_id)s</td>
+<td>(not read)</td>
+
+<td style='text-align: center'>
+<table width="%(table_width)s">
+<tr>
+%(grid)s
+</tr>
+</table>
+<form>
+<input type="button" ONCLICK="window.location.href='%(dashboard_link)s'" value="view details">
+</form>
+</td>
+
+<td style='text-align: center'>
+<table width="%(table_width)s">
+<tr>
+%(soolin)s
+</tr>
+</table>
+<form action="show_details_soolin" method="post">
+<input type="hidden" name='dbs_sample' value='%(dbs_sample)s'/>
+<input type="hidden" name='config_id' value='%(config_id)s'/>
+<input type="submit" value="view details">
+</form>
+</td>
+
+<td style='text-align: center'>
+<table width="%(table_width)s">
+<tr>
+%(validation)s
+</tr>
+</table>
+<form action="show_details_validation" method="post">
+<input type="hidden" name='dbs_sample' value='%(dbs_sample)s'/>
+<input type="submit" value="view details">
+</form>
+</td>
+
+<td>
+<form action='show_plots' method='post'>
+<input type="hidden" name="dbs_sample" value="%(dbs_sample)s"/>
+<input type="submit" name="Check" value="view std plots" />
+</form>
+</td>
+</tr>
+</table>
+<table>
+<tr>
+<td class="done" style="font-size:12pt; color: white; height: 16pt">
+&nbsp; finished&nbsp;
+</td>
+</tr>
+<tr>
+<td class="running" style="font-size:12pt; color: white; height: 16pt">
+&nbsp; running&nbsp;
+</td>
+</tr>
+<tr>
+<td class="missing" style="font-size:12pt; color: white; height: 16pt">
+&nbsp; missing (pending/unknown)&nbsp;
+</td>
+</tr>
+</table>
+</center>
+
+</body>
+</html>

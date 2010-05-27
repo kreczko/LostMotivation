@@ -1,0 +1,16 @@
+<html><body>
+<h2>configfile was created</h2>
+<p>To download the file click on
+<a href="%(config_path)s">%(config_name)s</a>
+</p>
+
+<form action="add_dashlink" method='post'>
+<p>Dashboard link</p>
+<input type="text" name="dashlink" size="80"/>
+<input type="hidden" name='dbs_sample' value='%(dbs_sample)s'>
+<input type="hidden" name='config_id' value='%(config_id)s'>
+<br></br>
+<input type="submit" value='confirm' />
+</form>
+</body>
+</html>

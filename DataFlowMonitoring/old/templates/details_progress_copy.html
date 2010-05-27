@@ -1,0 +1,36 @@
+<html>
+<head>
+<title>Copy status</title>
+<style>
+
+tr.one{background-color:#CCFFFF;}
+tr.two{background-color:#FFFFCC;}
+table{
+text-align: center;
+}
+</style>
+</head>
+<body>
+<center>
+<h3>Copy from</h3>
+<h3>%(location_folder)s</h3>
+<h3>to</h3>
+<h3>%(destination_folder)s</h3>
+<form action="delete_copy_request" method="post">
+<input type="hidden" name='config_id' value="%(config_id)s" />
+<input type="submit" value="delete all copy requests"/>
+
+</form>
+<table CELLSPACING=10>
+<tr>
+<th>file</th>
+<th>started</th>
+<th>finished</th>
+<th>copy time</th>
+</tr>
+%(table_rows)s
+</table>
+</center>
+</body>
+
+</html>

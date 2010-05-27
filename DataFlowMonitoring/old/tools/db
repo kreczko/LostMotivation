@@ -1,0 +1,6 @@
+schema = """CREATE TABLE config_files (validated NUMERIC, finsihed_copy NUMERIC, run_number NUMERIC, destination TEXT, finished_grid NUMERIC, DBS_sample_id INTEGER, crab_output_filename BLOB, crab_storage_path BLOB, creation_date TEXT, filepath TEXT, id INTEGER PRIMARY KEY, submission_date TEXT, submitted_by TEXT, dashlink TEXT);
+CREATE TABLE copy_jobs (config_id INTEGER, destination TEXT, done_date TEXT, id INTEGER PRIMARY KEY, location TEXT, request_date TEXT);
+CREATE TABLE dashboard (config_id INTEGER, id INTEGER PRIMARY KEY, job_id INTEGER, last_checked BLOB, status TEXT);
+CREATE TABLE dbs_samples (primType TEXT, id INTEGER PRIMARY KEY, luminosity REAL, name BLOB, twiki_page BLOB);
+CREATE TABLE validation_jobs (done_date TEXT, config_id INTEGER, filepath TEXT, id INTEGER PRIMARY KEY, plot_rootfile TEXT, plot_savepath TEXT, valid bool);
+CREATE INDEX job_by_config_id ON dashboard(config_id ASC);"""

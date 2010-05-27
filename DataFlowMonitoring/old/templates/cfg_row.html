@@ -1,0 +1,38 @@
+<tr>
+<td>%(creation_date)s</td>
+<td>%(submission_date)s</td>
+<td>%(submitted_by)s</td>
+<td>
+&nbsp;
+<form action="display_file" method="post">
+	<input type="hidden" name='filepath' value='%(filepath)s'>
+	<input type="submit" value='view config' />
+</form>
+</td>
+<td>
+&nbsp;
+<form action="show_progress" method="post">
+<input type="hidden" name='dbs_sample' value='%(dbs_sample)s'>
+<input type="hidden" name='config_id' value='%(config_id)s'>
+<input type="submit" value='show progress' />
+</form>
+</td>
+<td>
+&nbsp;
+<form action="prepair_dashlink" method="post">
+<input type="hidden" name='dbs_sample' value='%(dbs_sample)s'>
+<input type="hidden" name='config_id' value='%(config_id)s'>
+<input type="submit" value='add information' />
+</form>
+</td>
+<td>
+&nbsp;
+<form action="delete_config" method="post">
+<input type="hidden" name='dbs_sample' value='%(dbs_sample)s'>
+<input type="hidden" name='config_id' value='%(config_id)s'>
+<input type="submit" value='delete config' onClick="return confirm(
+  'Are you sure you want to delete the configuration file?');"/>
+</form>
+</td>
+
+</tr>

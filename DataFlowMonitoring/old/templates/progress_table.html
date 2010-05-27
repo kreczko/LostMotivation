@@ -1,0 +1,57 @@
+<table width="%(table_width)s">
+<tr>
+<th>Config</th>
+<th>total events</th>
+<th>nTuples on SE</th>
+<th>nTuples on soolin</th>
+<th>validation</th>
+<th>view std plots</th>
+</tr>
+<tr>
+<td>%(config_id)s</td>
+<td>(not read)</td>
+
+<td style='text-align: center'>
+<table width="%(table_width)s">
+<tr>
+%(grid)s
+</tr>
+</table>
+<form>
+<input type="button" ONCLICK="window.location.href='%(dashboard_link)s'" value="view details">
+</form>
+</td>
+
+<td style='text-align: center'>
+<table width="%(table_width)s">
+<tr>
+%(soolin)s
+</tr>
+</table>
+<form action="show_details_soolin" method="post">
+<input type="hidden" name='dbs_sample' value='%(dbs_sample)s'/>
+<input type="hidden" name='config_id' value='%(config_id)s'/>
+<input type="submit" value="view details">
+</form>
+</td>
+
+<td style='text-align: center'>
+<table width="%(table_width)s">
+<tr>
+%(validation)s
+</tr>
+</table>
+<form action="show_details_validation" method="post">
+<input type="hidden" name='dbs_sample' value='%(dbs_sample)s'/>
+<input type="submit" value="view details">
+</form>
+</td>
+
+<td>
+<form action='show_plots' method='POST'>
+<input type="hidden" name="dbs_sample" value="%(dbs_sample)s"/>
+<input type="submit" name="Check" value="view std plots" /></td>
+</form>
+
+</tr>
+</table>
