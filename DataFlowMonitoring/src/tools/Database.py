@@ -3,62 +3,27 @@ Created on 27 May 2010
 
 @author: kreczko
 '''
-from sqlite3 import dbapi2 as sqlite
-from sqlite3 import Error
+import sqlite3
 import os
 
-class Result:
-    def __init__(self):
-        self.innerResult = []
-    
-    def setQueryResult(self, sqlResult):
-        self.sqlResult = sqlResult
-        self.__createInnerResult()
-        
-    def __createInnerResult(self):
-        if len(self.sqlResult) > 0:
-            keys = self.sqlResult[-1]
-        for row in range(len(self.sqlResult) - 1):
-            result = {}
-            row = self.sqlResult[row]
-            for item in range(len(row)):
-                value = row[item]
-                key = keys[item]
-                result[key] = value
-            self.innerResult.append(result)
-                
-    def get(self):
-        return self.innerResult
-       
-    def __str__(self):
-        return self.innerResult.__str__()
-    
-    def __len__(self):
-        return len(self.innerResult)
-    
-    def __getitem__(self, i):
-        return self.innerResult[i]
-
 class Database:
-#    _currentDirectory = os.path.dirname(__file__)
-#    _applicationDirectory = _currentDirectory.rstrip(os.path.basename(_currentDirectory))
-#    database = _applicationDirectory + 'db/dfm_alpha.db'
     
     def __init__(self, database):
         if not os.path.exists(database):
             raise IOError('Could not find database')
         self.database = database
-        
+    
     def _queryDatabase(self, query):
-        result = Result()
+        result = []
         try:
-            connection = sqlite.connect(self.database)
+            connection = sqlite3.connect(self.database)
+            connection.row_factory = sqlite3.Row
             cursor = connection.cursor()
             cursor.execute(query)
-            result.setQueryResult(cursor.fetchall())
+            result = cursor.fetchall()
             connection.commit()
             connection.close()
-        except Error, e:
+        except sqlite3.Error, e:
             print 'An error occurred:', e.args[0]
         return result
     
@@ -105,4 +70,13 @@ class Database:
           
     def getListOfTables(self):
         result = self._queryDatabase("SELECT * FROM sqlite_master WHERE type='table'")
-        return result.get()
+        return result
+    
+    def addUser(self, user):
+        sqlCommand = 'INSERT INTO users(name, preferred_se_directory) VALUES ("%s", "%s")'
+        sqlCommand = sqlCommand % (user.getName(), user.getPreferredStorageElementPath())
+        self._queryDatabase(sqlCommand)
+        
+    def getListOfUsers(self):
+        result = self._queryDatabase('SELECT * from users')
+        return result
