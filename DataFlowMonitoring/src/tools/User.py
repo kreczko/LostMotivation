@@ -19,6 +19,9 @@ class User(object):
             raise ValueError('Tried to set empty Preferred Storage Element Path')
         elif not path.startswith(User.storage_path_userarea):
             raise ValueError('Specified Storage Element Path is not in user area')
+        
+        if not path.endswith('/'):
+            path += '/'
         self.__SEPath = path
         
     def getName(self):

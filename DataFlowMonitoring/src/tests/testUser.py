@@ -12,6 +12,7 @@ class TestUser(unittest.TestCase):
         self.emptyString = ''
         self.username = 'Lukasz Kreczko'
         self.preferredStorageElementPath = '/store/user/kreczko/'
+        self.storageElementPathWithoutEndingSlash = '/store/user/kreczko'
         self.invalidStorageElementPath = '/kreczko'
         
         self.validUser = User(self.username)
@@ -31,4 +32,8 @@ class TestUser(unittest.TestCase):
         
     def testGetUsername(self):
         self.assertEquals(self.username, self.validUser.getName())
+        
+    def testAutomaticCorrectionforSetPreferredStorageElementPath(self):
+        self.validUser.setPreferredStorageElementPath(self.storageElementPathWithoutEndingSlash)
+        self.assertEquals(self.preferredStorageElementPath, self.validUser.getPreferredStorageElementPath())
         
