@@ -20,8 +20,8 @@ class TestUser(unittest.TestCase):
         
         self.invalidUser = User(self.username)
         
-    def testConstructorInvalidNameRaisesException(self):
-        self.failUnlessRaises(ValueError, User, '')
+    def testSetUserInvalidNameRaisesException(self):
+        self.failUnlessRaises(ValueError, self.validUser.setName, '')
         
     def testGetPreferredStorageElementPathNotSetRaisesException(self):
         self.failUnlessRaises(ValueError, self.invalidUser.getPreferredStorageElementPath)
@@ -36,4 +36,22 @@ class TestUser(unittest.TestCase):
     def testAutomaticCorrectionforSetPreferredStorageElementPath(self):
         self.validUser.setPreferredStorageElementPath(self.storageElementPathWithoutEndingSlash)
         self.assertEquals(self.preferredStorageElementPath, self.validUser.getPreferredStorageElementPath())
+        
+    def testIsValidUser(self):
+        self.assertTrue(self.validUser.isValid())
+        self.assertFalse(self.invalidUser.isValid())
+        
+    def testIsValidUsername(self):
+        self.assertTrue(User.isValidName('myname'))
+        self.assertFalse(User.isValidName(''))
+        self.assertFalse(User.isValidName('   '))
+        self.assertFalse(User.isValidName(None))
+        
+    def testIsValidStorageElementPath(self):
+        self.assertTrue(User.isValidStorageElementPath(self.preferredStorageElementPath))
+        self.assertTrue(User.isValidStorageElementPath(self.storageElementPathWithoutEndingSlash))
+        self.assertFalse(User.isValidStorageElementPath(''))
+        self.assertFalse(User.isValidStorageElementPath(None))
+        self.assertFalse(User.isValidStorageElementPath('    '))
+        self.assertFalse(User.isValidStorageElementPath('/storage'))
         

@@ -8,8 +8,6 @@ class User(object):
     storage_path_userarea = '/store/user/'
     
     def __init__(self, name):
-        if name == '':
-            raise ValueError
         self.__name = name
         self.__SEPath = ''
         
@@ -27,7 +25,23 @@ class User(object):
     def getName(self):
         return self.__name
     
+    def setName(self, name):
+        if not User.isValidName(name):
+            raise ValueError('Trying to set empty user name')
+        self.__name = name
+    
     def getPreferredStorageElementPath(self):
         if self.__SEPath == '':
             raise ValueError('Preferred Storage Element Path is not set.')
         return self.__SEPath
+    
+    def isValid(self):
+        return User.isValidName(self.__name) and User.isValidStorageElementPath(self.__SEPath)
+    
+    def isValidName(name):
+        return not name is None and not name.strip() == ''
+    isValidName = staticmethod(isValidName)
+    
+    def isValidStorageElementPath(path):
+        return not path is None and not path == '' and path.startswith(User.storage_path_userarea)
+    isValidStorageElementPath = staticmethod(isValidStorageElementPath)
