@@ -15,7 +15,7 @@ class DummyDatabase(Database):
         database.close()
         Database.__init__(self, self.dummyDB)
     
-    def createDatabaseTable(self):
+    def createDatasetTable(self):
         self._createDatasetTable()
         
     def createConfigurationTable(self):
