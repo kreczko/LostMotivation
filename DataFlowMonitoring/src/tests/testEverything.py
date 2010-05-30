@@ -6,4 +6,4 @@ Created on 28 May 2010
 
 from testDatabase import TestDatabase
 from testUser import TestUser
-from testDataset import Dataset
+from testDataset import TestDataset
