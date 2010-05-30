@@ -5,6 +5,8 @@ Created on 27 May 2010
 '''
 import sqlite3
 import os
+from User import User
+from Dataset import Dataset
 
 class Database:
     
@@ -13,13 +15,16 @@ class Database:
             raise IOError('Could not find database')
         self.database = database
     
-    def _queryDatabase(self, query):
+    def _queryDatabase(self, query, paramTuple = None):
         result = []
         try:
             connection = sqlite3.connect(self.database)
             connection.row_factory = sqlite3.Row
             cursor = connection.cursor()
-            cursor.execute(query)
+            if not paramTuple is None:
+                cursor.execute(query, paramTuple)
+            else:
+                cursor.execute(query)
             result = cursor.fetchall()
             connection.commit()
             connection.close()
@@ -37,7 +42,7 @@ class Database:
     
     def _createDatasetTable(self):
         sqlCommand = 'CREATE TABLE "datasets" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" TEXT NOT NULL,' 
-        sqlCommand += '"twikiPage" TEXT, "JSONFILE" TEXT, "isData" TEXT NOT NULL)'
+        sqlCommand += '"twikiPage" TEXT NOT NULL, "JSONFILE" TEXT, "isData" TEXT NOT NULL)'
         self._queryDatabase(sqlCommand)
         
     def _createConfigurationsTable(self):
@@ -73,10 +78,45 @@ class Database:
         return result
     
     def addUser(self, user):
-        sqlCommand = 'INSERT INTO users(name, preferred_se_directory) VALUES ("%s", "%s")'
-        sqlCommand = sqlCommand % (user.getName(), user.getPreferredStorageElementPath())
-        self._queryDatabase(sqlCommand)
+        if not user.isValid():
+            return
+        sqlCommand = 'INSERT INTO users(name, preferred_se_directory) VALUES (?, ?)'
+        paramTuple = (user.getName(), user.getPreferredStorageElementPath())
+        self._queryDatabase(sqlCommand, paramTuple)
         
     def getListOfUsers(self):
         result = self._queryDatabase('SELECT * from users')
-        return result
+        users = []
+        for entry in result:
+            user = User(entry['name'])
+            user.setPreferredStorageElementPath(entry['preferred_se_directory'])
+            users.append(user)
+        return users
+    
+    def getUser(self, name):
+        result = self._queryDatabase('SELECT * from users where name = ? LIMIT 1', (name,))
+        user = User('')
+        if len(result) > 0:
+            user.setName(result[0]['name'])
+            user.setPreferredStorageElementPath(result[0]['preferred_se_directory'])
+        return user
+    
+    def addDataset(self, dataset):
+        if not dataset.isValid():
+            return
+        sqlCommand = 'INSERT INTO datasets(name, twikiPage, isData) VALUES (?, ?, ?)'
+        paramTuple = (dataset.Name, dataset.TwikiPage, dataset.isData)
+        self._queryDatabase(sqlCommand, paramTuple)
+        
+    def getListOfDatasets(self):
+        result = self._queryDatabase('SELECT * from datasets')
+        datasets = []
+        for singleResult in result:
+            dataset = Dataset.createDatasetFromSQLResult(singleResult)
+            datasets.append(dataset)
+        return datasets
+    
+    def getDataset(self, datasetName):
+        result = self._queryDatabase('SELECT * from datasets where name = ? LIMIT 1', (datasetName,))
+        dataset = Dataset.createDatasetFromSQLResult(result[0])
+        return dataset
