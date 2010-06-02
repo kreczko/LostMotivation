@@ -1,0 +1,1621 @@
+<taskjobsxml>
+	<tasks>
+		<item>
+			<TERMINATED>1</TERMINATED>
+			<TASKMONID>kreczko_27May_VqqJets_v1_6hn7a8</TASKMONID>
+			<SUCCESS>70</SUCCESS>
+			<NUMOFJOBS>94</NUMOFJOBS>
+			<FAILED>0</FAILED>
+			<RUNNING>3</RUNNING>
+			<TASKID>3551209</TASKID>
+			<PENDING>20</PENDING>
+		</item>
+	</tasks>
+	<jobs>
+		<item>
+			<STATUS>P</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>1</EventRange>
+			<started>1970-01-01 00:00:00</started>
+			<GridEndId>U</GridEndId>
+			<AppGenericStatusReasonValue>Error return without specification
+			</AppGenericStatusReasonValue>
+			<finished>1970-01-01 00:00:00</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>T2_US_UCSD</Site>
+			<TaskJobId>164721895</TaskJobId>
+			<JobExecExitCode></JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/W2I_2kryjrfKqPEgkcQurg
+			</SchedulerJobId>
+			<GridEndReason>Job successfully submitted to Globus</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>2</EventRange>
+			<started>2010-06-02 12:05:06</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-06-02 13:48:21</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>hep.ph.ic.ac.uk</Site>
+			<TaskJobId>164721888</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/MHgePlRGyLKD_L9q79qcRA
+			</SchedulerJobId>
+			<GridEndReason>Job terminated successfully</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>3</EventRange>
+			<started>2010-06-02 12:05:19</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-06-02 13:47:18</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>hep.ph.ic.ac.uk</Site>
+			<TaskJobId>164721961</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/eGR-EKg6MQno4r02H5f55w
+			</SchedulerJobId>
+			<GridEndReason>Job terminated successfully</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>3</resubmissions>
+			<EventRange>4</EventRange>
+			<started>2010-05-31 05:49:36</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-05-31 07:46:05</finished>
+			<submitted>2010-05-31 05:25:58</submitted>
+			<Site>T2_US_UCSD</Site>
+			<TaskJobId>164721949</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://wms213.cern.ch:9000/LRKxUY1Cb75rx24Usa-hXg
+			</SchedulerJobId>
+			<GridEndReason>None</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>5</EventRange>
+			<started>2010-06-02 12:04:17</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-06-02 13:55:48</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>hep.ph.ic.ac.uk</Site>
+			<TaskJobId>164721894</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/9rRcpVrjqHBnLKeX5_MxoQ
+			</SchedulerJobId>
+			<GridEndReason>Job terminated successfully</GridEndReason>
+		</item>
+		<item>
+			<STATUS>P</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>6</EventRange>
+			<started>1970-01-01 00:00:00</started>
+			<GridEndId>U</GridEndId>
+			<AppGenericStatusReasonValue>Error return without specification
+			</AppGenericStatusReasonValue>
+			<finished>1970-01-01 00:00:00</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>T2_US_UCSD</Site>
+			<TaskJobId>164721919</TaskJobId>
+			<JobExecExitCode></JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/1oaiAtxNaH2T-2BbDQKiAQ
+			</SchedulerJobId>
+			<GridEndReason>Job successfully submitted to Globus</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>7</EventRange>
+			<started>2010-06-02 12:04:49</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-06-02 13:51:24</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>hep.ph.ic.ac.uk</Site>
+			<TaskJobId>164721968</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/pK_DaGDQru7IGLcMDQD5KA
+			</SchedulerJobId>
+			<GridEndReason>Job terminated successfully</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>1</resubmissions>
+			<EventRange>8</EventRange>
+			<started>2010-05-27 21:17:24</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-05-27 22:38:42</finished>
+			<submitted>2010-05-27 19:21:39</submitted>
+			<Site>T2_US_UCSD</Site>
+			<TaskJobId>164721883</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/W7bxzB1OtJSjv8xJxsJNbQ
+			</SchedulerJobId>
+			<GridEndReason>None</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>3</resubmissions>
+			<EventRange>9</EventRange>
+			<started>2010-05-31 18:45:57</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-05-31 20:12:46</finished>
+			<submitted>2010-05-31 05:25:58</submitted>
+			<Site>T2_US_UCSD</Site>
+			<TaskJobId>164721957</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://wms213.cern.ch:9000/ZtVaksgi_LcIY2fhS2k2FA
+			</SchedulerJobId>
+			<GridEndReason>None</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>1</resubmissions>
+			<EventRange>10</EventRange>
+			<started>2010-05-27 21:18:22</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-05-27 22:37:57</finished>
+			<submitted>2010-05-27 19:21:39</submitted>
+			<Site>T2_US_UCSD</Site>
+			<TaskJobId>164721966</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/iW4ecJ0IMKwjJhEkwYmPMg
+			</SchedulerJobId>
+			<GridEndReason>None</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>11</EventRange>
+			<started>2010-06-02 12:05:19</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-06-02 13:40:26</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>hep.ph.ic.ac.uk</Site>
+			<TaskJobId>164721947</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/utHm98RkvMODbSN4fzNNRw
+			</SchedulerJobId>
+			<GridEndReason>Job terminated successfully</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>12</EventRange>
+			<started>2010-06-02 12:03:47</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-06-02 13:55:26</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>hep.ph.ic.ac.uk</Site>
+			<TaskJobId>164721897</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/GsbQya96N55vDgpEgM1ftA
+			</SchedulerJobId>
+			<GridEndReason>Job terminated successfully</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>13</EventRange>
+			<started>2010-06-02 12:03:30</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-06-02 13:47:34</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>hep.ph.ic.ac.uk</Site>
+			<TaskJobId>164721881</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/-o_t1AXG2kyrTNg0cbBD0A
+			</SchedulerJobId>
+			<GridEndReason>Job terminated successfully</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>14</EventRange>
+			<started>2010-06-02 12:05:03</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-06-02 13:50:49</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>hep.ph.ic.ac.uk</Site>
+			<TaskJobId>164721940</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/NIPH-m4LHDK8TMIxszR5YA
+			</SchedulerJobId>
+			<GridEndReason>Job terminated successfully</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>15</EventRange>
+			<started>2010-06-02 12:02:18</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-06-02 13:44:43</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>hep.ph.ic.ac.uk</Site>
+			<TaskJobId>164721930</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/WG73ItrVjg8VPdlgnoJXCg
+			</SchedulerJobId>
+			<GridEndReason>Job terminated successfully</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>1</resubmissions>
+			<EventRange>16</EventRange>
+			<started>2010-05-27 21:18:24</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-05-27 22:40:09</finished>
+			<submitted>2010-05-27 19:21:39</submitted>
+			<Site>T2_US_UCSD</Site>
+			<TaskJobId>164721967</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/BO0kX0D_tSLJvngSm4aOGw
+			</SchedulerJobId>
+			<GridEndReason>None</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>1</resubmissions>
+			<EventRange>17</EventRange>
+			<started>2010-05-27 21:20:30</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-05-27 22:41:13</finished>
+			<submitted>2010-05-27 19:21:39</submitted>
+			<Site>T2_US_UCSD</Site>
+			<TaskJobId>164721914</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/eC8pUR8dRkaVK2DrJ5MAjg
+			</SchedulerJobId>
+			<GridEndReason>None</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>1</resubmissions>
+			<EventRange>18</EventRange>
+			<started>2010-05-27 21:16:02</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-05-27 22:40:39</finished>
+			<submitted>2010-05-27 19:21:39</submitted>
+			<Site>T2_US_UCSD</Site>
+			<TaskJobId>164721935</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/Bo6EOCgxHQXREaaa593eSg
+			</SchedulerJobId>
+			<GridEndReason>None</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>19</EventRange>
+			<started>2010-06-02 12:03:00</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-06-02 13:47:31</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>hep.ph.ic.ac.uk</Site>
+			<TaskJobId>164721916</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/3vexPFWq-A461QPF9p6brw
+			</SchedulerJobId>
+			<GridEndReason>Job terminated successfully</GridEndReason>
+		</item>
+		<item>
+			<STATUS>P</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>20</EventRange>
+			<started>1970-01-01 00:00:00</started>
+			<GridEndId>U</GridEndId>
+			<AppGenericStatusReasonValue>Error return without specification
+			</AppGenericStatusReasonValue>
+			<finished>1970-01-01 00:00:00</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>T2_US_UCSD</Site>
+			<TaskJobId>164721958</TaskJobId>
+			<JobExecExitCode></JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/psp9wOWbjaKCp909eOvLHw
+			</SchedulerJobId>
+			<GridEndReason>Job successfully submitted to Globus</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>21</EventRange>
+			<started>2010-06-02 12:04:03</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-06-02 13:51:17</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>hep.ph.ic.ac.uk</Site>
+			<TaskJobId>164721932</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/Q_rqP0yxsp0GER_biI7tGg
+			</SchedulerJobId>
+			<GridEndReason>Job terminated successfully</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>22</EventRange>
+			<started>2010-06-02 12:04:48</started>
+			<GridEndId>U</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-06-02 14:11:10</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>hep.ph.ic.ac.uk</Site>
+			<TaskJobId>164721954</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/F7OifYetShQIp3Z5tDCFWQ
+			</SchedulerJobId>
+			<GridEndReason>Job successfully submitted to Globus</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>23</EventRange>
+			<started>2010-06-02 12:00:47</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-06-02 13:41:57</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>hep.ph.ic.ac.uk</Site>
+			<TaskJobId>164721878</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/kGaec5KC2Ux-rShTk08r5A
+			</SchedulerJobId>
+			<GridEndReason>Job terminated successfully</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>24</EventRange>
+			<started>2010-06-02 12:03:02</started>
+			<GridEndId>U</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-06-02 14:11:45</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>hep.ph.ic.ac.uk</Site>
+			<TaskJobId>164721920</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/ddMY3rv2ABbfdW37kfAevA
+			</SchedulerJobId>
+			<GridEndReason>Job successfully submitted to Globus</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>25</EventRange>
+			<started>2010-06-02 12:04:03</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-06-02 13:40:53</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>hep.ph.ic.ac.uk</Site>
+			<TaskJobId>164721972</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/d5F1EQ3LffhJMeNBcFTJgw
+			</SchedulerJobId>
+			<GridEndReason>Job terminated successfully</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>3</resubmissions>
+			<EventRange>26</EventRange>
+			<started>2010-05-31 18:45:59</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-05-31 20:11:40</finished>
+			<submitted>2010-05-31 05:25:58</submitted>
+			<Site>T2_US_UCSD</Site>
+			<TaskJobId>164721951</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://wms213.cern.ch:9000/eC8CJLIdpxGaG6Hs_X6eCQ
+			</SchedulerJobId>
+			<GridEndReason>None</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>1</resubmissions>
+			<EventRange>27</EventRange>
+			<started>2010-05-27 21:17:26</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-05-27 22:41:02</finished>
+			<submitted>2010-05-27 19:21:39</submitted>
+			<Site>T2_US_UCSD</Site>
+			<TaskJobId>164721903</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/yZN-PsLEQWBeix8svUcG3w
+			</SchedulerJobId>
+			<GridEndReason>None</GridEndReason>
+		</item>
+		<item>
+			<STATUS>P</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>28</EventRange>
+			<started>1970-01-01 00:00:00</started>
+			<GridEndId>U</GridEndId>
+			<AppGenericStatusReasonValue>Error return without specification
+			</AppGenericStatusReasonValue>
+			<finished>1970-01-01 00:00:00</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>T2_US_UCSD</Site>
+			<TaskJobId>164721952</TaskJobId>
+			<JobExecExitCode></JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/-Kj6Y3renMRKT8MX1wNdPQ
+			</SchedulerJobId>
+			<GridEndReason>Job successfully submitted to Globus</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>29</EventRange>
+			<started>2010-06-02 12:05:06</started>
+			<GridEndId>U</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-06-02 14:08:33</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>hep.ph.ic.ac.uk</Site>
+			<TaskJobId>164721891</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/iSxbS1pptCr9JyQU53ckOQ
+			</SchedulerJobId>
+			<GridEndReason>Job successfully submitted to Globus</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>30</EventRange>
+			<started>2010-06-02 12:03:16</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-06-02 13:45:48</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>hep.ph.ic.ac.uk</Site>
+			<TaskJobId>164721938</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/gBNNcvbUUQwQDoI3Dra_Qw
+			</SchedulerJobId>
+			<GridEndReason>Job terminated successfully</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>31</EventRange>
+			<started>2010-06-02 12:05:07</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-06-02 13:49:23</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>hep.ph.ic.ac.uk</Site>
+			<TaskJobId>164721943</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/9wGuIAJLtTyuja8w08kj6g
+			</SchedulerJobId>
+			<GridEndReason>Job terminated successfully</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>32</EventRange>
+			<started>2010-06-02 12:04:35</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-06-02 13:48:27</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>hep.ph.ic.ac.uk</Site>
+			<TaskJobId>164721931</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/ixQrNxc95MgFGcmPWbxqvQ
+			</SchedulerJobId>
+			<GridEndReason>Job terminated successfully</GridEndReason>
+		</item>
+		<item>
+			<STATUS>R</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>33</EventRange>
+			<started>2010-06-02 12:03:47</started>
+			<GridEndId>U</GridEndId>
+			<AppGenericStatusReasonValue>Error return without specification
+			</AppGenericStatusReasonValue>
+			<finished>1970-01-01 00:00:00</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>hep.ph.ic.ac.uk</Site>
+			<TaskJobId>164721890</TaskJobId>
+			<JobExecExitCode></JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/Jeiyl5XJbA6KNRqpWW5IKA
+			</SchedulerJobId>
+			<GridEndReason>Job successfully submitted to Globus</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>1</resubmissions>
+			<EventRange>34</EventRange>
+			<started>2010-05-27 21:19:29</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-05-27 22:41:11</finished>
+			<submitted>2010-05-27 19:21:39</submitted>
+			<Site>T2_US_UCSD</Site>
+			<TaskJobId>164721893</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/Q-AI-aY4k8I6ZDmcA9J7tA
+			</SchedulerJobId>
+			<GridEndReason>None</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>35</EventRange>
+			<started>2010-06-02 12:05:01</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-06-02 13:46:48</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>hep.ph.ic.ac.uk</Site>
+			<TaskJobId>164721937</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/LHz3ymthYGbskYu4UdNOeg
+			</SchedulerJobId>
+			<GridEndReason>Job terminated successfully</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>36</EventRange>
+			<started>2010-06-02 12:04:49</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-06-02 13:49:14</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>hep.ph.ic.ac.uk</Site>
+			<TaskJobId>164721971</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/TBw-P1lXs6UyCZ09Dc6G5Q
+			</SchedulerJobId>
+			<GridEndReason>Job terminated successfully</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>37</EventRange>
+			<started>2010-06-02 12:04:33</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-06-02 13:58:49</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>hep.ph.ic.ac.uk</Site>
+			<TaskJobId>164721970</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/KSzc5yFhkP1fLuK6TLMUzA
+			</SchedulerJobId>
+			<GridEndReason>Job terminated successfully</GridEndReason>
+		</item>
+		<item>
+			<STATUS>P</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>38</EventRange>
+			<started>1970-01-01 00:00:00</started>
+			<GridEndId>U</GridEndId>
+			<AppGenericStatusReasonValue>Error return without specification
+			</AppGenericStatusReasonValue>
+			<finished>1970-01-01 00:00:00</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>T2_US_UCSD</Site>
+			<TaskJobId>164721941</TaskJobId>
+			<JobExecExitCode></JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/RkY6FnttQFSJ2DljDbOv6A
+			</SchedulerJobId>
+			<GridEndReason>Job successfully submitted to Globus</GridEndReason>
+		</item>
+		<item>
+			<STATUS>P</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>39</EventRange>
+			<started>1970-01-01 00:00:00</started>
+			<GridEndId>U</GridEndId>
+			<AppGenericStatusReasonValue>Error return without specification
+			</AppGenericStatusReasonValue>
+			<finished>1970-01-01 00:00:00</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>T2_US_UCSD</Site>
+			<TaskJobId>164721965</TaskJobId>
+			<JobExecExitCode></JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/rW-upq74tDREIjDtgjZVTQ
+			</SchedulerJobId>
+			<GridEndReason>Job successfully submitted to Globus</GridEndReason>
+		</item>
+		<item>
+			<STATUS>U</STATUS>
+			<resubmissions>3</resubmissions>
+			<EventRange>40</EventRange>
+			<started>2010-05-31 18:45:57</started>
+			<GridEndId>U</GridEndId>
+			<AppGenericStatusReasonValue>Error return without specification
+			</AppGenericStatusReasonValue>
+			<finished>2010-06-02 06:40:06</finished>
+			<submitted>2010-05-31 05:25:58</submitted>
+			<Site>T2_US_UCSD</Site>
+			<TaskJobId>164721960</TaskJobId>
+			<JobExecExitCode></JobExecExitCode>
+			<SchedulerJobId>https://wms213.cern.ch:9000/Ihk8I0ZrW1XxuzCdUDAtIg
+			</SchedulerJobId>
+			<GridEndReason>None</GridEndReason>
+		</item>
+		<item>
+			<STATUS>P</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>41</EventRange>
+			<started>1970-01-01 00:00:00</started>
+			<GridEndId>U</GridEndId>
+			<AppGenericStatusReasonValue>Error return without specification
+			</AppGenericStatusReasonValue>
+			<finished>1970-01-01 00:00:00</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>T2_US_UCSD</Site>
+			<TaskJobId>164721956</TaskJobId>
+			<JobExecExitCode></JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/uJ8eVf-dmSg9zbuXbqJW_w
+			</SchedulerJobId>
+			<GridEndReason>Job successfully submitted to Globus</GridEndReason>
+		</item>
+		<item>
+			<STATUS>R</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>42</EventRange>
+			<started>2010-06-02 12:04:48</started>
+			<GridEndId>U</GridEndId>
+			<AppGenericStatusReasonValue>Error return without specification
+			</AppGenericStatusReasonValue>
+			<finished>1970-01-01 00:00:00</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>hep.ph.ic.ac.uk</Site>
+			<TaskJobId>164721934</TaskJobId>
+			<JobExecExitCode></JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/FThw6BN4FoBKVuDI0qnFow
+			</SchedulerJobId>
+			<GridEndReason>Job successfully submitted to Globus</GridEndReason>
+		</item>
+		<item>
+			<STATUS>P</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>43</EventRange>
+			<started>1970-01-01 00:00:00</started>
+			<GridEndId>U</GridEndId>
+			<AppGenericStatusReasonValue>Error return without specification
+			</AppGenericStatusReasonValue>
+			<finished>1970-01-01 00:00:00</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>T2_US_UCSD</Site>
+			<TaskJobId>164721908</TaskJobId>
+			<JobExecExitCode></JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/fuDzOZ8bQGQo99p6jtAipA
+			</SchedulerJobId>
+			<GridEndReason>Job successfully submitted to Globus</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>44</EventRange>
+			<started>2010-06-02 11:58:47</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-06-02 13:46:49</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>hep.ph.ic.ac.uk</Site>
+			<TaskJobId>164721906</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/hH5LCGtPeaddNQaF5k300A
+			</SchedulerJobId>
+			<GridEndReason>Job terminated successfully</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>3</resubmissions>
+			<EventRange>45</EventRange>
+			<started>2010-05-31 18:41:53</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-05-31 20:09:01</finished>
+			<submitted>2010-05-31 05:25:58</submitted>
+			<Site>T2_US_UCSD</Site>
+			<TaskJobId>164721926</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://wms213.cern.ch:9000/ZIqEfGgzvGS_SJZ2xz1B2w
+			</SchedulerJobId>
+			<GridEndReason>None</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>46</EventRange>
+			<started>2010-06-02 12:05:02</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-06-02 13:42:46</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>hep.ph.ic.ac.uk</Site>
+			<TaskJobId>164721902</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/gDXEkjAor1yGqS6POv8t_Q
+			</SchedulerJobId>
+			<GridEndReason>Job terminated successfully</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>3</resubmissions>
+			<EventRange>47</EventRange>
+			<started>2010-06-02 11:58:32</started>
+			<GridEndId>U</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-06-02 14:08:59</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>hep.ph.ic.ac.uk</Site>
+			<TaskJobId>164721912</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/8Iku3PuHabvpmH6kxITjcA
+			</SchedulerJobId>
+			<GridEndReason>Job successfully submitted to Globus</GridEndReason>
+		</item>
+		<item>
+			<STATUS>P</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>48</EventRange>
+			<started>1970-01-01 00:00:00</started>
+			<GridEndId>U</GridEndId>
+			<AppGenericStatusReasonValue>Error return without specification
+			</AppGenericStatusReasonValue>
+			<finished>1970-01-01 00:00:00</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>T2_US_UCSD</Site>
+			<TaskJobId>164721882</TaskJobId>
+			<JobExecExitCode></JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/qKEU6g_RH-Wnm9nDPSSxzQ
+			</SchedulerJobId>
+			<GridEndReason>Job successfully submitted to Globus</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>3</resubmissions>
+			<EventRange>49</EventRange>
+			<started>2010-06-02 12:05:03</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-06-02 13:49:27</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>hep.ph.ic.ac.uk</Site>
+			<TaskJobId>164721892</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/PzDeDwMZkeFC6Mo3vI7n7w
+			</SchedulerJobId>
+			<GridEndReason>Job terminated successfully</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>50</EventRange>
+			<started>2010-06-02 12:02:20</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-06-02 13:47:40</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>hep.ph.ic.ac.uk</Site>
+			<TaskJobId>164721939</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/tuiRg3nmoluKeGucD1znHw
+			</SchedulerJobId>
+			<GridEndReason>Job terminated successfully</GridEndReason>
+		</item>
+		<item>
+			<STATUS>P</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>51</EventRange>
+			<started>1970-01-01 00:00:00</started>
+			<GridEndId>U</GridEndId>
+			<AppGenericStatusReasonValue>Error return without specification
+			</AppGenericStatusReasonValue>
+			<finished>1970-01-01 00:00:00</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>T2_US_UCSD</Site>
+			<TaskJobId>164721953</TaskJobId>
+			<JobExecExitCode></JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/3QrGkUA-hE4tuy5xmaAp1Q
+			</SchedulerJobId>
+			<GridEndReason>Job successfully submitted to Globus</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>2</resubmissions>
+			<EventRange>52</EventRange>
+			<started>2010-05-29 16:49:23</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-05-29 18:16:33</finished>
+			<submitted>2010-05-29 10:29:35</submitted>
+			<Site>T2_US_UCSD</Site>
+			<TaskJobId>164721969</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://wms218.cern.ch:9000/BeLzgInwbQMcue5Sk_DGHg
+			</SchedulerJobId>
+			<GridEndReason>None</GridEndReason>
+		</item>
+		<item>
+			<STATUS>P</STATUS>
+			<resubmissions>3</resubmissions>
+			<EventRange>53</EventRange>
+			<started>1970-01-01 00:00:00</started>
+			<GridEndId>U</GridEndId>
+			<AppGenericStatusReasonValue>Error return without specification
+			</AppGenericStatusReasonValue>
+			<finished>1970-01-01 00:00:00</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>T2_US_UCSD</Site>
+			<TaskJobId>164721948</TaskJobId>
+			<JobExecExitCode></JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/y7UEhhYbGaGqqwP8dF8gdw
+			</SchedulerJobId>
+			<GridEndReason>Job successfully submitted to Globus</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>2</resubmissions>
+			<EventRange>54</EventRange>
+			<started>2010-05-29 16:47:58</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-05-29 18:13:41</finished>
+			<submitted>2010-05-29 10:29:35</submitted>
+			<Site>T2_US_UCSD</Site>
+			<TaskJobId>164721907</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://wms218.cern.ch:9000/Sr65nghsIc5gpcXUeGPLBQ
+			</SchedulerJobId>
+			<GridEndReason>None</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>55</EventRange>
+			<started>2010-06-02 11:53:47</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-06-02 13:41:30</finished>
+			<submitted>2010-06-02 11:53:47</submitted>
+			<Site>hep.ph.ic.ac.uk</Site>
+			<TaskJobId>164721904</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/ekiVOZXcW0T0-iQvM7KRnA
+			</SchedulerJobId>
+			<GridEndReason>Job terminated successfully</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>56</EventRange>
+			<started>2010-06-02 12:04:21</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-06-02 13:48:36</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>hep.ph.ic.ac.uk</Site>
+			<TaskJobId>164721924</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/BVdvb_aAc8nxkX3ikgFlmg
+			</SchedulerJobId>
+			<GridEndReason>Job terminated successfully</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>3</resubmissions>
+			<EventRange>57</EventRange>
+			<started>2010-05-31 05:49:33</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-05-31 07:17:30</finished>
+			<submitted>2010-05-31 05:25:58</submitted>
+			<Site>T2_US_UCSD</Site>
+			<TaskJobId>164721942</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://wms213.cern.ch:9000/I7lktNJTBa9_LHTFx16T3g
+			</SchedulerJobId>
+			<GridEndReason>None</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>58</EventRange>
+			<started>2010-06-02 11:57:03</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-06-02 13:36:02</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>hep.ph.ic.ac.uk</Site>
+			<TaskJobId>164721880</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/obzR2Oqd27CT-RX_kxWWAw
+			</SchedulerJobId>
+			<GridEndReason>Job terminated successfully</GridEndReason>
+		</item>
+		<item>
+			<STATUS>P</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>59</EventRange>
+			<started>1970-01-01 00:00:00</started>
+			<GridEndId>U</GridEndId>
+			<AppGenericStatusReasonValue>Error return without specification
+			</AppGenericStatusReasonValue>
+			<finished>1970-01-01 00:00:00</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>T2_US_UCSD</Site>
+			<TaskJobId>164721900</TaskJobId>
+			<JobExecExitCode></JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/kHV3ccmqr26Pv_bzHX1CKQ
+			</SchedulerJobId>
+			<GridEndReason>Job successfully submitted to Globus</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>60</EventRange>
+			<started>2010-06-02 12:05:02</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-06-02 13:45:46</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>hep.ph.ic.ac.uk</Site>
+			<TaskJobId>164721955</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/ii2rLOF7GKVcrZRoBMbmGw
+			</SchedulerJobId>
+			<GridEndReason>Job terminated successfully</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>61</EventRange>
+			<started>2010-06-02 12:04:04</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-06-02 13:40:06</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>hep.ph.ic.ac.uk</Site>
+			<TaskJobId>164721918</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/0hch_95nPSzmXMC_Ejlpkg
+			</SchedulerJobId>
+			<GridEndReason>Job terminated successfully</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>62</EventRange>
+			<started>2010-06-02 12:02:02</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-06-02 13:45:01</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>hep.ph.ic.ac.uk</Site>
+			<TaskJobId>164721879</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/TCX64n4M6Jp3aaCr6uHjfQ
+			</SchedulerJobId>
+			<GridEndReason>Job terminated successfully</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>63</EventRange>
+			<started>2010-06-02 12:04:48</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-06-02 13:39:27</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>hep.ph.ic.ac.uk</Site>
+			<TaskJobId>164721922</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/ql5hL10DABgxbOcB-5hmbQ
+			</SchedulerJobId>
+			<GridEndReason>Job terminated successfully</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>1</resubmissions>
+			<EventRange>64</EventRange>
+			<started>2010-05-27 20:03:04</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-05-27 21:24:37</finished>
+			<submitted>2010-05-27 19:21:39</submitted>
+			<Site>T2_US_UCSD</Site>
+			<TaskJobId>164721913</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/erqGFmMyUGyFFGyCwpEP3A
+			</SchedulerJobId>
+			<GridEndReason>None</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>1</resubmissions>
+			<EventRange>65</EventRange>
+			<started>2010-05-27 21:17:24</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-05-27 22:33:37</finished>
+			<submitted>2010-05-27 19:21:39</submitted>
+			<Site>T2_US_UCSD</Site>
+			<TaskJobId>164721933</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/-BMCHuDxJJ7Vi5m2NkA0-g
+			</SchedulerJobId>
+			<GridEndReason>None</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>66</EventRange>
+			<started>2010-06-02 12:04:49</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-06-02 13:39:56</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>hep.ph.ic.ac.uk</Site>
+			<TaskJobId>164721962</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/uJkMpalZ8Gw6aZK0AhWVKg
+			</SchedulerJobId>
+			<GridEndReason>Job terminated successfully</GridEndReason>
+		</item>
+		<item>
+			<STATUS>P</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>67</EventRange>
+			<started>1970-01-01 00:00:00</started>
+			<GridEndId>U</GridEndId>
+			<AppGenericStatusReasonValue>Error return without specification
+			</AppGenericStatusReasonValue>
+			<finished>1970-01-01 00:00:00</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>T2_US_UCSD</Site>
+			<TaskJobId>164721950</TaskJobId>
+			<JobExecExitCode></JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/qlQ_gbOwBVq2PtOUKjfkUQ
+			</SchedulerJobId>
+			<GridEndReason>Job successfully submitted to Globus</GridEndReason>
+		</item>
+		<item>
+			<STATUS>P</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>68</EventRange>
+			<started>1970-01-01 00:00:00</started>
+			<GridEndId>U</GridEndId>
+			<AppGenericStatusReasonValue>Error return without specification
+			</AppGenericStatusReasonValue>
+			<finished>1970-01-01 00:00:00</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>T2_US_UCSD</Site>
+			<TaskJobId>164721884</TaskJobId>
+			<JobExecExitCode></JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/N2UMqREafMvOxzrxJnF1Rg
+			</SchedulerJobId>
+			<GridEndReason>Job successfully submitted to Globus</GridEndReason>
+		</item>
+		<item>
+			<STATUS>P</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>69</EventRange>
+			<started>1970-01-01 00:00:00</started>
+			<GridEndId>U</GridEndId>
+			<AppGenericStatusReasonValue>Error return without specification
+			</AppGenericStatusReasonValue>
+			<finished>1970-01-01 00:00:00</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>T2_US_UCSD</Site>
+			<TaskJobId>164721887</TaskJobId>
+			<JobExecExitCode></JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/jeuFFWTpC6Cx9I9uYys50g
+			</SchedulerJobId>
+			<GridEndReason>Job successfully submitted to Globus</GridEndReason>
+		</item>
+		<item>
+			<STATUS>P</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>70</EventRange>
+			<started>1970-01-01 00:00:00</started>
+			<GridEndId>U</GridEndId>
+			<AppGenericStatusReasonValue>Error return without specification
+			</AppGenericStatusReasonValue>
+			<finished>1970-01-01 00:00:00</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>T2_US_UCSD</Site>
+			<TaskJobId>164721964</TaskJobId>
+			<JobExecExitCode></JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/huFN-Lhz7IBqyvUgyz31_Q
+			</SchedulerJobId>
+			<GridEndReason>Job successfully submitted to Globus</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>71</EventRange>
+			<started>2010-06-02 12:04:47</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-06-02 13:45:24</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>hep.ph.ic.ac.uk</Site>
+			<TaskJobId>164721917</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/j8t2MF0MY4oCg2BIPv-V8w
+			</SchedulerJobId>
+			<GridEndReason>Job terminated successfully</GridEndReason>
+		</item>
+		<item>
+			<STATUS>P</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>72</EventRange>
+			<started>1970-01-01 00:00:00</started>
+			<GridEndId>U</GridEndId>
+			<AppGenericStatusReasonValue>Error return without specification
+			</AppGenericStatusReasonValue>
+			<finished>1970-01-01 00:00:00</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>T2_US_UCSD</Site>
+			<TaskJobId>164721886</TaskJobId>
+			<JobExecExitCode></JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/X7X6lomhDjR4rPa0eNR4LA
+			</SchedulerJobId>
+			<GridEndReason>Job successfully submitted to Globus</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>73</EventRange>
+			<started>2010-06-02 12:04:03</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-06-02 13:47:21</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>hep.ph.ic.ac.uk</Site>
+			<TaskJobId>164721909</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/Uw0vbmsf4yh9sCtcAjtKrg
+			</SchedulerJobId>
+			<GridEndReason>Job terminated successfully</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>74</EventRange>
+			<started>2010-06-02 12:05:02</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-06-02 13:36:55</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>hep.ph.ic.ac.uk</Site>
+			<TaskJobId>164721921</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/6omT9HA3CI9feXDlzHPgTg
+			</SchedulerJobId>
+			<GridEndReason>Job terminated successfully</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>3</resubmissions>
+			<EventRange>75</EventRange>
+			<started>2010-05-31 18:45:57</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-05-31 20:11:15</finished>
+			<submitted>2010-05-31 05:25:58</submitted>
+			<Site>T2_US_UCSD</Site>
+			<TaskJobId>164721911</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://wms213.cern.ch:9000/iiQQWwZIbLeuneH-BqpkxQ
+			</SchedulerJobId>
+			<GridEndReason>None</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>76</EventRange>
+			<started>2010-06-02 12:04:32</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-06-02 13:44:41</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>hep.ph.ic.ac.uk</Site>
+			<TaskJobId>164721928</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/CXoKWj63YrxT07FHIxQP6A
+			</SchedulerJobId>
+			<GridEndReason>Job terminated successfully</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>77</EventRange>
+			<started>2010-06-02 12:04:03</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-06-02 13:44:40</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>hep.ph.ic.ac.uk</Site>
+			<TaskJobId>164721927</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/3TZOvGWDc6bTkgjbEL8Kxw
+			</SchedulerJobId>
+			<GridEndReason>Job terminated successfully</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>78</EventRange>
+			<started>2010-06-02 12:05:19</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-06-02 13:43:53</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>hep.ph.ic.ac.uk</Site>
+			<TaskJobId>164721936</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/5jKzXikn5LWr2hv3ochYfw
+			</SchedulerJobId>
+			<GridEndReason>Job terminated successfully</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>3</resubmissions>
+			<EventRange>79</EventRange>
+			<started>2010-05-31 18:45:57</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-05-31 20:12:02</finished>
+			<submitted>2010-05-31 05:25:58</submitted>
+			<Site>T2_US_UCSD</Site>
+			<TaskJobId>164721925</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://wms213.cern.ch:9000/iHY1AEVUjVZcHTkM602tVA
+			</SchedulerJobId>
+			<GridEndReason>None</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>3</resubmissions>
+			<EventRange>80</EventRange>
+			<started>2010-05-31 18:41:13</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-05-31 20:06:26</finished>
+			<submitted>2010-05-31 05:25:58</submitted>
+			<Site>T2_US_UCSD</Site>
+			<TaskJobId>164721896</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://wms213.cern.ch:9000/kvvCejchu2pjmWDeQ9SsGw
+			</SchedulerJobId>
+			<GridEndReason>None</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>2</resubmissions>
+			<EventRange>81</EventRange>
+			<started>2010-05-29 16:39:21</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-05-29 18:20:40</finished>
+			<submitted>2010-05-29 09:47:51</submitted>
+			<Site>T2_US_UCSD</Site>
+			<TaskJobId>164721885</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://lb001.cnaf.infn.it:9000/ntqzztll-Ts8RnS1x7pPqQ
+			</SchedulerJobId>
+			<GridEndReason>None</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>82</EventRange>
+			<started>2010-06-02 12:01:29</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-06-02 14:00:45</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>hep.ph.ic.ac.uk</Site>
+			<TaskJobId>164721945</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/WSv6BdSqNn5uRveXxa4mVQ
+			</SchedulerJobId>
+			<GridEndReason>Job terminated successfully</GridEndReason>
+		</item>
+		<item>
+			<STATUS>P</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>83</EventRange>
+			<started>1970-01-01 00:00:00</started>
+			<GridEndId>U</GridEndId>
+			<AppGenericStatusReasonValue>Error return without specification
+			</AppGenericStatusReasonValue>
+			<finished>1970-01-01 00:00:00</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>T2_US_UCSD</Site>
+			<TaskJobId>164721959</TaskJobId>
+			<JobExecExitCode></JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/uLODheZxFnqIeNarnEi02A
+			</SchedulerJobId>
+			<GridEndReason>Job successfully submitted to Globus</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>2</resubmissions>
+			<EventRange>84</EventRange>
+			<started>2010-05-29 16:49:23</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-05-29 18:12:35</finished>
+			<submitted>2010-05-29 10:29:35</submitted>
+			<Site>T2_US_UCSD</Site>
+			<TaskJobId>164721929</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://wms218.cern.ch:9000/uB1Qe7OQUQ0n1KAnzWQ8lA
+			</SchedulerJobId>
+			<GridEndReason>None</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>3</resubmissions>
+			<EventRange>85</EventRange>
+			<started>2010-05-31 06:36:30</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-05-31 07:59:57</finished>
+			<submitted>2010-05-31 05:25:58</submitted>
+			<Site>T2_US_UCSD</Site>
+			<TaskJobId>164721946</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://wms213.cern.ch:9000/1RN_K_J8cjqOGNldoo6cdQ
+			</SchedulerJobId>
+			<GridEndReason>None</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>86</EventRange>
+			<started>2010-06-02 12:04:48</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-06-02 13:41:53</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>hep.ph.ic.ac.uk</Site>
+			<TaskJobId>164721923</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/Huyqmw4IPy5VdR-UegsZAw
+			</SchedulerJobId>
+			<GridEndReason>Job terminated successfully</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>87</EventRange>
+			<started>2010-06-02 12:05:19</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-06-02 13:51:50</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>hep.ph.ic.ac.uk</Site>
+			<TaskJobId>164721899</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/dvuoxGO_2sITsArrTimx3g
+			</SchedulerJobId>
+			<GridEndReason>Job terminated successfully</GridEndReason>
+		</item>
+		<item>
+			<STATUS>R</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>88</EventRange>
+			<started>2010-06-02 12:01:23</started>
+			<GridEndId>U</GridEndId>
+			<AppGenericStatusReasonValue>Error return without specification
+			</AppGenericStatusReasonValue>
+			<finished>1970-01-01 00:00:00</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>hep.ph.ic.ac.uk</Site>
+			<TaskJobId>164721910</TaskJobId>
+			<JobExecExitCode></JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/rs_7qGv83JTY0lNprgkNIg
+			</SchedulerJobId>
+			<GridEndReason>Job successfully submitted to Globus</GridEndReason>
+		</item>
+		<item>
+			<STATUS>P</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>89</EventRange>
+			<started>1970-01-01 00:00:00</started>
+			<GridEndId>U</GridEndId>
+			<AppGenericStatusReasonValue>Error return without specification
+			</AppGenericStatusReasonValue>
+			<finished>1970-01-01 00:00:00</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>T2_US_UCSD</Site>
+			<TaskJobId>164721898</TaskJobId>
+			<JobExecExitCode></JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/4nrjjfeHWWJeE4JgIO_5tA
+			</SchedulerJobId>
+			<GridEndReason>Job successfully submitted to Globus</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>90</EventRange>
+			<started>2010-06-02 12:04:33</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-06-02 13:50:24</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>hep.ph.ic.ac.uk</Site>
+			<TaskJobId>164721901</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/ZVNftbcYoTV2Ku-kPq0dQw
+			</SchedulerJobId>
+			<GridEndReason>Job terminated successfully</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>91</EventRange>
+			<started>2010-06-02 12:05:02</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-06-02 14:02:24</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>hep.ph.ic.ac.uk</Site>
+			<TaskJobId>164721915</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/vStCyU4jLpHiRYfQH4-1Lg
+			</SchedulerJobId>
+			<GridEndReason>Job terminated successfully</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>92</EventRange>
+			<started>2010-06-02 12:04:51</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-06-02 13:48:33</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>hep.ph.ic.ac.uk</Site>
+			<TaskJobId>164721944</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/4_GNAF68LkAznftn6JDXuw
+			</SchedulerJobId>
+			<GridEndReason>Job terminated successfully</GridEndReason>
+		</item>
+		<item>
+			<STATUS>P</STATUS>
+			<resubmissions>4</resubmissions>
+			<EventRange>93</EventRange>
+			<started>1970-01-01 00:00:00</started>
+			<GridEndId>U</GridEndId>
+			<AppGenericStatusReasonValue>Error return without specification
+			</AppGenericStatusReasonValue>
+			<finished>1970-01-01 00:00:00</finished>
+			<submitted>2010-06-02 11:52:03</submitted>
+			<Site>T2_US_UCSD</Site>
+			<TaskJobId>164721963</TaskJobId>
+			<JobExecExitCode></JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/5GRyDmVrV35zEM_T77V-4g
+			</SchedulerJobId>
+			<GridEndReason>Job successfully submitted to Globus</GridEndReason>
+		</item>
+		<item>
+			<STATUS>S</STATUS>
+			<resubmissions>1</resubmissions>
+			<EventRange>94</EventRange>
+			<started>2010-05-27 21:25:26</started>
+			<GridEndId>D</GridEndId>
+			<AppGenericStatusReasonValue>Application finished properly
+			</AppGenericStatusReasonValue>
+			<finished>2010-05-27 22:19:57</finished>
+			<submitted>2010-05-27 19:21:39</submitted>
+			<Site>T2_US_UCSD</Site>
+			<TaskJobId>164721889</TaskJobId>
+			<JobExecExitCode>0</JobExecExitCode>
+			<SchedulerJobId>https://lb006.cnaf.infn.it:9000/8ihX4wrdRGud0LFSV-tp7g
+			</SchedulerJobId>
+			<GridEndReason>None</GridEndReason>
+		</item>
+	</jobs>
+	<plotParameters>task=kreczko_27May_VqqJets_v1_6hn7a8&amp;tasktype=&amp;numofjobs=94&amp;pending=20&amp;running=3&amp;success=70&amp;failed=0&amp;terminated=1
+	</plotParameters>
+	<meta>
+		<username>LukaszKreczko</username>
+		<what>ALL</what>
+		<taskmonid>kreczko_27May_VqqJets_v1_6hn7a8</taskmonid>
+	</meta>
+</taskjobsxml>
