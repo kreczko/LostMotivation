@@ -109,7 +109,7 @@ class TestDatabase(unittest.TestCase):
     def testGetDataset(self):
         self.db.createDatasetTable()
         self.db.addDataset(self.validDBDataset)
-        self.dataset = self.db.getDataset(self.validDBDataset.Name)
-        self.assertEquals(self.validDBDataset,self.dataset)
+        self.datasetName = self.db.getDataset(self.validDBDataset.Name)
+        self.assertEquals(self.validDBDataset,self.datasetName)
         
         
