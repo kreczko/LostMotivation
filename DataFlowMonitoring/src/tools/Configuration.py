@@ -3,6 +3,7 @@ Created on 29 May 2010
 
 @author: kreczko
 '''
+from time import time
 
 class Configuration(object):
     dashboardLinkStartsWith = 'http://dashb-cms-job-task.cern.ch'
@@ -35,7 +36,21 @@ class Configuration(object):
         return self.__dashboardLink
     
     def setDashboardLink(self, link):
-        pass
+        if Configuration.isValidDashboardLink(link):
+            self.__dashboardLink = link
+            self.__updateSubmissionTime()
+        else:
+            raise ValueError('Trying to set invalid dashboard link.')
+    
+    def __updateSubmissionTime(self):
+        self.__submissionTime = time()
+    
+    def isValidDashboardLink(link):
+        return str(link).startswith(Configuration.dashboardLinkStartsWith)
+    isValidDashboardLink = staticmethod(isValidDashboardLink)
+    
+    def isSubmitted(self):
+        return self.__submissionTime > 0
     
 
         
