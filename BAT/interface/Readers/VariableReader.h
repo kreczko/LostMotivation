@@ -10,38 +10,49 @@
 #include <string>
 #include <boost/shared_ptr.hpp>
 #include "TChain.h"
+#include "TBranch.h"
 
 namespace BAT {
 template<typename variableType = unsigned int>
 class VariableReader {
 public:
 	VariableReader() :
-		variableName("") {
+		input(0), variable(0), variableName("") {
 
 	}
 
-	VariableReader(TChain* chain, std::string varName):variableInput(chain), variableName(varName){
-		variableInput->SetBranchAddress(varName, &variable);
+	VariableReader(TChain* chain, std::string varName) :
+		input(chain), variable(0), variableName(varName) {
+		readVariableFromInput();
 	}
+
 	~VariableReader() {
 		delete variable;
+		delete variableName;
+		delete input;
 	}
-	std::string getVariableName() {
-		return variableName;
-	}
-	void setVariableName(std::string varName) {
-		if (VariableReader::isValidVariableName(varName)) {
-			variableName = varName;
-		}
-	}
+//	std::string getVariableName() {
+//		return variableName;
+//	}
+//	void setVariableName(std::string varName) {
+//		if (VariableReader::isValidVariableName(varName)) {
+//			variableName = varName;
+//		}
+//	}
 	static bool isValidVariableName(std::string varName) {
 		return varName != "";
 	}
-	variableType getVariable();
+	variableType getVariable() {
+		return variable;
+	}
 private:
-	std::string variableName;
+	boost::shared_ptr<TChain> input;
 	variableType variable;
-	boost::shared_ptr<TChain> variableInput;
+	std::string variableName;
+
+	void readVariableFromInput() {
+		input->SetBranchAddress(variableName.c_str(), &variable);
+	}
 };
 
 }
