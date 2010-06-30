@@ -4,6 +4,7 @@
 
 #include "TestEvent.h"
 #include "TestVariableReader.h"
+#include "ROOTLearnTests.h"
 
 
 //void testStringConstructorThrowsAtIllegalName(){
@@ -16,6 +17,7 @@
 void runSuite(){
 	cute::suite s = make_suite_TestEvent();
 	s+= make_suite_TestVariableReader();
+	s+= make_suite_ROOTLearnTests();
 	cute::ide_listener lis;
 	cute::makeRunner(lis)(s, "Testing BAT");
 }
