@@ -14,7 +14,7 @@ class Filter {
 public:
 	Filter();
 	virtual ~Filter();
-	Filter* createStandardFilter();
+	static Filter* makeStandardFilter();
 	void setGoodJetPtCut(float ptCut);
 	void setGoodJetEtaCut(float etaCut);
 	void setGoodElectronPtCut(float ptCut);
