@@ -13,7 +13,7 @@ static TChain* input;
 static string numberOfElectrons = "Nels";
 static string energyForEachElectron = "els_energy";
 
-static string invalidBranch = "this is not in the chain";
+static TString invalidBranch("this is not in the chain");
 
 void handler(int sig) throw(string){
   void *array[10];
@@ -42,7 +42,7 @@ void setUpROOTTests() {
 void testInvalidTBranch() {
 	signal(SIGSEGV, handler);
 	try{
-		input->FindBranch(invalidBranch.c_str());
+		TBranch* br = (TBranch*)input->GetListOfBranches()->FindObject(invalidBranch);
 //		input->SetBranchStatus(invalidBranch.c_str(), 1);
 	}
 	catch(...){
