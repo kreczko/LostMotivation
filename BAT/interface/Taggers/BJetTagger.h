@@ -14,13 +14,26 @@ namespace BAT {
 
 class BJetTagger {
 public:
+	enum Algorithm {
+		NONE,
+		FAKE,
+		TrackCountingHighEfficiency,
+		TrackCountingHighPurity,
+		JetBProbability,
+		JetProbability,
+		SimpleSecondaryVertex,
+		SoftElectron,
+		SoftMuon,
+		SoftMuonNoIP,
+		NUMBER_OF_BTAGALGORITHMS
+	};
 	static float simpleSecondaryVertexHighEfficiencyMediumCut;
 
 	//	BJetTagger();
 	//	virtual ~BJetTagger();
-	static bool tag(BTag::Algorithm type, float discriminator) {
+	static bool tag(BJetTagger::Algorithm type, float discriminator) {
 		switch (type) {
-		case BTag::NONE:
+		case BJetTagger::NONE:
 			return true;
 		default:
 			break;

@@ -7,19 +7,29 @@
 
 #ifndef JET_H_
 #define JET_H_
-#include "../Enumerators.h"
+#include "../Taggers/BJetTagger.h"
 
 namespace BAT {
 
 class Jet {
 public:
+	enum Algorithm{
+		DEFAULT,
+		JPT_AntiKt_ConeDR05,
+		KT_Cone04,
+		KT_Cone06,
+		ParticleFlow,
+		SiS_Cone05,
+		SiS_Cone07,
+		NUMBER_OF_JETALGORITHMS
+	};
 	static float goodJetMinimalEt;
 	static float goodJetMaximalAbsoluteEta;
 	static float goodJetMinimalElectromagneticFraction;
 	Jet();
 	virtual ~Jet();
 	bool isGoodJet();
-	bool isBJetAccordingToBtagAlgorithm(BTag::Algorithm btag);
+	bool isBJetAccordingToBtagAlgorithm(BJetTagger::Algorithm btag);
 };
 
 }
