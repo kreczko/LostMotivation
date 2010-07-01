@@ -9,6 +9,8 @@
 
 namespace BAT {
 
+float MET::goodMETMinimalEt = 0;
+
 MET::MET() {
 	// TODO Auto-generated constructor stub
 
