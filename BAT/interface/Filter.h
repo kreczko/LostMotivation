@@ -15,11 +15,18 @@ public:
 	Filter();
 	virtual ~Filter();
 	static Filter* makeStandardFilter();
-	void setGoodJetMinimalEt(float minimalPt);
+
+	void setGoodJetMinimalEt(float minimalEt);
 	void setGoodJetMaximalAbsoluteEta(float maximalAbsoluteEta);
 	void setGoodJetMinimalElectromagneticFraction(float minimalElectromagneticFraction);
+
 	void setGoodElectronMinimalEt(float minimalEt);
 	void setGoodElectronMaximalAbsoluteEta(float maximalAbsoluteEta);
+	void setGoodElectronMaximalDistanceFromInteractionPoint(float maximalDistance);
+	void setIsolatedElectronMaximalRelativeIsolation(float maximalRelativeIsolation);
+
+	void setGoodMETMinimalEt(float minimalEt);
+
 	void setSimpleSecondaryVertexHighEfficiencyMediumCut(float cut);
 };
 
