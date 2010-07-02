@@ -7,10 +7,11 @@
 
 #ifndef MUON_H_
 #define MUON_H_
+#include "Particle.h"
 
 namespace BAT {
 
-class Muon {
+class Muon : public Particle{
 public:
 	Muon();
 	virtual ~Muon();

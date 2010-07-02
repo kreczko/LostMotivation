@@ -8,10 +8,11 @@
 #ifndef JET_H_
 #define JET_H_
 #include "../Taggers/BJetTagger.h"
+#include "Particle.h"
 
 namespace BAT {
 
-class Jet {
+class Jet :public Particle{
 public:
 	enum Algorithm{
 		DEFAULT,

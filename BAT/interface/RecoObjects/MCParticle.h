@@ -7,11 +7,13 @@
 
 #ifndef MCPARTICLE_H_
 #define MCPARTICLE_H_
+#include "Particle.h"
 
 namespace BAT {
 
-class MCParticle {
+class MCParticle : public Particle{
 public:
+	float id;
 	MCParticle();
 	virtual ~MCParticle();
 };

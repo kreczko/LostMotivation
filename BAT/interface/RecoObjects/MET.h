@@ -7,10 +7,11 @@
 
 #ifndef MET_H_
 #define MET_H_
+#include "Particle.h"
 
 namespace BAT {
 
-class MET {
+class MET : public Particle{
 public:
 	enum Type{
 		DEFAULT,

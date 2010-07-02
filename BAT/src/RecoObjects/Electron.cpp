@@ -14,10 +14,13 @@ float Electron::goodElectronMaximalDistanceFromInteractionPoint = 5000;
 
 float Electron::isolatedElectronMaximalRelativeIsolation = 2;
 
-Electron::Electron() :
-	energy(0), transversalEnergy(0), px(0), py(0), pz(0), pt(0), eta(0), phi(0), robustLooseId(false), robustTightId(
+Electron::Electron() : Particle(),
+	robustLooseId(false), robustTightId(
 			false), calorimeterIsolation(0), trackerIsolation(0), relativeIsolation(0), innerLayerMissingHits(0) {
-	// TODO Auto-generated constructor stub
+}
+
+Electron::Electron(float energy, float px, float py, float pz): Particle(energy, px, py, pz), robustLooseId(false), robustTightId(
+		false), calorimeterIsolation(0), trackerIsolation(0), relativeIsolation(0), innerLayerMissingHits(0){
 
 }
 
