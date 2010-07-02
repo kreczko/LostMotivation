@@ -7,10 +7,11 @@
 
 #ifndef BEAMSPOT_H_
 #define BEAMSPOT_H_
+#include "Point3D.h"
 
 namespace BAT {
 
-class BeamSpot {
+class BeamSpot :public Point3D {
 public:
 	BeamSpot();
 	virtual ~BeamSpot();
