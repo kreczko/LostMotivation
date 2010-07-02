@@ -6,7 +6,7 @@
 #include "TestVariableReader.h"
 #include "TestFilter.h"
 #include "ROOTLearnTests.h"
-
+#include "TestParticle.h"
 
 //void testStringConstructorThrowsAtIllegalName(){
 //	ASSERT_THROWS(new BAT::Reader(""), std::);
@@ -20,6 +20,7 @@ void runSuite(){
 	s+= make_suite_TestVariableReader();
 	s+= make_suite_TestFilter();
 	s+= make_suite_ROOTLearnTests();
+	s+= make_suite_TestParticle();
 	cute::ide_listener lis;
 	cute::makeRunner(lis)(s, "Testing BAT");
 }
