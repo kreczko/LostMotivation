@@ -7,13 +7,13 @@
 
 #ifndef READER_H_
 #define READER_H_
-#include <string>
 #include <boost/shared_ptr.hpp>
 #include "TChain.h"
 #include "TBranch.h"
 #include "TString.h"
 #include <exception>
 
+typedef std::vector<float>* MultiFloatPointer;
 namespace BAT {
 struct VariableNotFoundException: public std::exception {
 	TString msg;
@@ -32,23 +32,24 @@ template<typename variableType = unsigned int>
 class VariableReader {
 public:
 	VariableReader() :
-		input(0), variable(0), variableName("") {
+		input(), variable(0), variableName("") {
 
 	}
 
 	VariableReader(TChain* chain, TString varName) :
 		input(chain), variable(0), variableName(varName) {
-		if	(variableExist())
+		if	(doesVariableExist()){
+			enableVariable();
 			readVariableFromInput();
+		}
 		else throw VariableNotFoundException("Variable '" + varName + "' was not found.");
 
 
 	}
 
 	~VariableReader() {
-		delete variable;
+//		delete variable;
 		delete variableName;
-		delete input;
 	}
 
 	variableType getVariable() {
@@ -63,8 +64,16 @@ private:
 		input->SetBranchAddress(variableName, &variable);
 	}
 
-	bool variableExist() {
+	bool doesVariableExist() {
 		return input->GetBranch(variableName) != NULL;
+	}
+
+	bool isVariableEnabled(){
+		return input->GetBranchStatus(variableName);
+	}
+
+	void enableVariable(){
+		input->SetBranchStatus(variableName, true);
 	}
 };
 
