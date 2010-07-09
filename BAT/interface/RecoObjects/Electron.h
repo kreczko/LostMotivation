@@ -22,15 +22,21 @@ public:
 	Electron();
 	Electron(float energy, float px, float py, float pz);
 	virtual ~Electron();
-	bool isGood();
-	bool isIsolated();
-	bool isInBarrelRegion();
-	bool isInCrack();
-	bool isInEndCapRegion();
+	bool isGood() const;
+	bool isIsolated() const;
+	bool isInBarrelRegion() const;
+	bool isInCrack() const;
+	bool isInEndCapRegion() const;
+	void setRobustLooseID(bool id);
+	void setRobustTightID(bool id);
+	void setEcalEtSumInDr03(float etSum);
+	void setHcalEtSumInDr03(float etSum);
+	void setTrackPtSumInDr03(float ptSum);
+	float relativeIsolation() const;
 private:
 
 	bool robustLooseId, robustTightId;
-	float calorimeterIsolation, trackerIsolation, relativeIsolation;
+	float ecalEtSumInDr03, hcalEtSumInDr03, trackPtSumInDr03;
 	float innerLayerMissingHits;
 
 };
