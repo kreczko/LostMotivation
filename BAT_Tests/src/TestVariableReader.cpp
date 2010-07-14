@@ -17,9 +17,9 @@ static VariableReader<unsigned int>* singleVariableReader;
 static VariableReader<vector<float>*>* multipleVariableReader;
 static const TString invalidEmptyVariableName("");
 static const TString invalidNotAvailableVariableName("thisIsNotInTheFile");
-static TChain* input;
-static TChain* nullChain(0);
-
+static boost::shared_ptr<TChain> input;
+static VariableReader<int>* invalidEmptyVariableVariableReader;
+static VariableReader<int>* invalidnNotAvailableVariableReader;
 //select two related variables
 static const TString numberOfElectrons("Nels");
 static const TString energyForEachElectron("els_energy");
@@ -29,12 +29,17 @@ void setUpOnce() {
 }
 
 void setUpVariableReaders() {
-	input = new TChain("configurableAnalysis/eventB");
+	input = boost::shared_ptr<TChain>(new TChain("configurableAnalysis/eventB"));
 	input->Add("/storage/top/mc/summer09_7TeV/MG/HLTskim_ttjet_7TeV_v5/*_1.root");
 	input->GetEntries();
 	input->SetBranchStatus("*", 0);
 	singleVariableReader = new VariableReader<unsigned int>::VariableReader(input, numberOfElectrons);
 	multipleVariableReader = new VariableReader<std::vector<float>*>::VariableReader(input, energyForEachElectron);
+	invalidEmptyVariableVariableReader = new VariableReader<int>::VariableReader(input, invalidEmptyVariableName);
+	invalidnNotAvailableVariableReader
+			= new VariableReader<int>::VariableReader(input, invalidNotAvailableVariableName);
+	singleVariableReader->initialise();
+	multipleVariableReader->initialise();
 	input->GetEntry(1);
 }
 
@@ -51,13 +56,12 @@ void testReadMultipleVariable() {
 
 void testInvalidVariableThrowsException() {
 	setUpVariableReaders();
-	ASSERT_THROWS(new VariableReader<int>::VariableReader(input, invalidNotAvailableVariableName), VariableNotFoundException);
+	ASSERT_THROWS(invalidnNotAvailableVariableReader->initialise(), VariableNotFoundException);
 }
-
 
 void testInvalidEmptyVariableThrowsException() {
 	setUpVariableReaders();
-	ASSERT_THROWS(new VariableReader<int>::VariableReader(input, invalidEmptyVariableName), VariableNotFoundException);
+	ASSERT_THROWS(invalidEmptyVariableVariableReader->initialise(), VariableNotFoundException);
 }
 
 cute::suite make_suite_TestVariableReader() {

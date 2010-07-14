@@ -5,19 +5,19 @@
 #include "Readers/ElectronReader.h"
 #include <vector>
 #include "RecoObjects/Electron.h"
-
+#include <boost/shared_ptr.hpp>
 using namespace BAT;
 
-static TChain* input;
+static boost::shared_ptr<TChain> input;
 static ElectronReader* electronReader;
 
 void setUpElectronReader() {
-	input = new TChain("configurableAnalysis/eventB");
+	input = boost::shared_ptr<TChain>(new TChain("configurableAnalysis/eventB"));
 	input->Add("/storage/top/mc/summer09_7TeV/MG/HLTskim_ttjet_7TeV_v5/*_1.root");
 	input->GetEntries();
 	input->SetBranchStatus("*", 0);
 	electronReader = new ElectronReader(input);
-
+	electronReader->initialise();
 	//	singleVariableReader = new VariableReader<unsigned int>::VariableReader(input, numberOfElectrons);
 	//	multipleVariableReader = new VariableReader<std::vector<float>*>::VariableReader(input, energyForEachElectron);
 	input->GetEntry(1);
