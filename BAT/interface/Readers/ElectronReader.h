@@ -11,14 +11,16 @@
 #include "VariableReader.h"
 #include <vector>
 #include "TChain.h"
+#include <boost/shared_ptr.hpp>
 
 namespace BAT {
 class ElectronReader{
 public:
 	ElectronReader();
-	ElectronReader(TChain* input);
+	ElectronReader(boost::shared_ptr<TChain> input);
 	virtual ~ElectronReader();
 	std::vector<Electron> getElectrons();
+	void initialise();
 private:
 	VariableReader<unsigned int> numberOfElectronsReader;
 	VariableReader<MultiFloatPointer> energyReader;
