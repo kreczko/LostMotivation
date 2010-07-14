@@ -12,13 +12,11 @@ float Jet::goodJetMaximalAbsoluteEta = 5;
 float Jet::goodJetMinimalEt = 0;
 float Jet::goodJetMinimalElectromagneticFraction = 0;
 
-Jet::Jet() {
-	// TODO Auto-generated constructor stub
+Jet::Jet(): Particle() {
 
 }
 
 Jet::~Jet() {
-	// TODO Auto-generated destructor stub
 }
 
 }

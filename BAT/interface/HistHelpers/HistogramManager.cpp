@@ -10,12 +10,10 @@
 namespace BAT {
 
 HistogramManager::HistogramManager() {
-	// TODO Auto-generated constructor stub
 
 }
 
 HistogramManager::~HistogramManager() {
-	// TODO Auto-generated destructor stub
 }
 
 }

@@ -10,12 +10,9 @@
 namespace BAT {
 
 BeamSpot::BeamSpot() {
-	// TODO Auto-generated constructor stub
-
 }
 
 BeamSpot::~BeamSpot() {
-	// TODO Auto-generated destructor stub
 }
 
 }

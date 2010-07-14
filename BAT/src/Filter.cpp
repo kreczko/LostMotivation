@@ -14,12 +14,10 @@
 namespace BAT {
 
 Filter::Filter() {
-	// TODO Auto-generated constructor stub
 
 }
 
 Filter::~Filter() {
-	// TODO Auto-generated destructor stub
 }
 
 Filter * Filter::makeStandardFilter() {

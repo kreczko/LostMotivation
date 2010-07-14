@@ -10,12 +10,10 @@
 namespace BAT {
 
 ConversionTagger::ConversionTagger() {
-	// TODO Auto-generated constructor stub
 
 }
 
 ConversionTagger::~ConversionTagger() {
-	// TODO Auto-generated destructor stub
 }
 
 }

@@ -10,12 +10,10 @@
 namespace BAT {
 
 EventReader::EventReader() {
-	// TODO Auto-generated constructor stub
 
 }
 
 EventReader::~EventReader() {
-	// TODO Auto-generated destructor stub
 }
 
 }

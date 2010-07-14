@@ -9,13 +9,11 @@
 
 namespace BAT {
 
-MCParticle::MCParticle() {
-	// TODO Auto-generated constructor stub
+MCParticle::MCParticle(): Particle() {
 
 }
 
 MCParticle::~MCParticle() {
-	// TODO Auto-generated destructor stub
 }
 
 }

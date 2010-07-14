@@ -10,7 +10,6 @@
 namespace BAT {
 
 BeamSpotReader::BeamSpotReader() {
-	// TODO Auto-generated constructor stub
 
 }
 

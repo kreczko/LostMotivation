@@ -10,12 +10,10 @@
 namespace BAT {
 
 JetReader::JetReader() {
-	// TODO Auto-generated constructor stub
 
 }
 
 JetReader::~JetReader() {
-	// TODO Auto-generated destructor stub
 }
 
 }
