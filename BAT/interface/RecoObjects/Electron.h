@@ -8,6 +8,7 @@
 #ifndef ELECTRON_H_
 #define ELECTRON_H_
 #include "Particle.h"
+#include <vector>
 
 namespace BAT {
 
@@ -40,6 +41,8 @@ private:
 	float innerLayerMissingHits;
 
 };
+
+typedef std::vector<Electron> ElectronCollection;
 
 }
 
