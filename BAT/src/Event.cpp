@@ -9,13 +9,27 @@
 
 namespace BAT {
 
-Event::Event() {
-	// TODO Auto-generated constructor stub
+Event::Event() :
+	goodElectrons(), goodBarrelElectrons(), goodEndcapElectrons(), goodIsolatedElectrons(),
+			goodIsolatedBarrelElectrons(), goodIsolatedEndcapElectrons(), otherElectrons(), dataType(DATA) {
 
 }
 
 Event::~Event() {
-	// TODO Auto-generated destructor stub
+}
+
+bool Event::isRealData() {
+	return dataType == DATA;
+}
+
+void Event::addElectrons(ElectronCollection electrons){
+	otherElectrons.clear();
+	otherElectrons = electrons;
+
+}
+
+ElectronCollection* Event::getOtherElectrons(){
+	return &otherElectrons;
 }
 
 }
