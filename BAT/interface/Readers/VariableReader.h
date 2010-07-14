@@ -36,24 +36,24 @@ public:
 
 	}
 
-	VariableReader(TChain* chain, TString varName) :
+	VariableReader(boost::shared_ptr<TChain> chain, TString varName) :
 		input(chain), variable(0), variableName(varName) {
-		if	(doesVariableExist()){
-			enableVariable();
-			readVariableFromInput();
-		}
-		else throw VariableNotFoundException("Variable '" + varName + "' was not found.");
-
 
 	}
 
 	~VariableReader() {
-//		delete variable;
 		delete variableName;
 	}
 
 	variableType getVariable() {
 		return variable;
+	}
+	void initialise() {
+		if (doesVariableExist()) {
+			enableVariable();
+			readVariableFromInput();
+		} else
+			throw VariableNotFoundException("Variable '" + variableName + "' was not found.");
 	}
 private:
 	boost::shared_ptr<TChain> input;
@@ -68,11 +68,11 @@ private:
 		return input->GetBranch(variableName) != NULL;
 	}
 
-	bool isVariableEnabled(){
+	bool isVariableEnabled() {
 		return input->GetBranchStatus(variableName);
 	}
 
-	void enableVariable(){
+	void enableVariable() {
 		input->SetBranchStatus(variableName, true);
 	}
 };
