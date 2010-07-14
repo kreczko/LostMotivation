@@ -5,7 +5,7 @@
  *      Author: kreczko
  */
 
-#include "TopPairEventCandidate.h"
+#include "../interface/TopPairEventCandidate.h"
 
 namespace BAT {
 
