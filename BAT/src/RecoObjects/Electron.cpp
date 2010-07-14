@@ -47,4 +47,9 @@ void Electron::setHcalEtSumInDr03(float etsum){
 void Electron::setTrackPtSumInDr03(float ptsum){
 	trackPtSumInDr03 = ptsum;
 }
+
+bool Electron::isGood() const{
+	//TODO: implement good Electron
+	return false;
+}
 }
