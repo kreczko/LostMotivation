@@ -9,15 +9,18 @@
 #define NTUPLEEVENTREADER_H_
 #include <boost/scoped_ptr.hpp>
 #include <boost/shared_ptr.hpp>
+#include <boost/array.hpp>
 #include "TChain.h"
 #include "../Event.h"
 #include "ElectronReader.h"
-
+#include <string>
 namespace BAT {
 
 class NTupleEventReader {
 	static const char * EVENT_CHAIN;
 	static const char * HLT_TRIGGER_CHAIN;
+	static const boost::array<std::string, 12> FileTypes;
+	static const std::string FilePrefix;
 public:
 	NTupleEventReader();
 	virtual ~NTupleEventReader();
@@ -36,6 +39,8 @@ private:
 	void selectNextNtupleEvent();
 	void initateNumberOfEventsIfNotSet();
 	void initiateReadersIfNotSet();
+	Event::DataType getDataType();
+	std::string findCurrentFileType();
 };
 }
 
