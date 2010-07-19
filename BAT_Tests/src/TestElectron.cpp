@@ -40,7 +40,7 @@ void setGoodElectron() {
 	goodElectron.setHcalIsolation(0.5);
 	goodElectron.setEcalIsolation(0.3);
 	goodElectron.setTrackerIsolation(0.4);
-	goodElectron.setRobustTightID(true);
+	goodElectron.setVBTF_W70_ElectronID(true);
 
 	ASSERT(fabs(goodElectron.eta()) < Electron::goodElectronMaximalAbsoluteEta);
 	ASSERT(fabs(goodElectron.d0()) < Electron::goodElectronMaximalDistanceFromInteractionPoint);
@@ -50,6 +50,7 @@ void setGoodElectron() {
 void setBadEtElectron() {
 	badEtElectron = Electron(20., 10., 0., 5.);
 	badEtElectron.setD0(100.);
+	badEtElectron.setVBTF_W70_ElectronID(true);
 	ASSERT(fabs(badEtElectron.eta()) < Electron::goodElectronMaximalAbsoluteEta);
 	ASSERT(fabs(badEtElectron.d0()) < Electron::goodElectronMaximalDistanceFromInteractionPoint);
 	//and fails the selected
@@ -59,6 +60,7 @@ void setBadEtElectron() {
 void setBadEtaElectron() {
 	badEtaElectron = Electron(400., 50., 50., 380);
 	badEtaElectron.setSuperClusterEta(2.6);
+	badEtaElectron.setVBTF_W70_ElectronID(true);
 	//make sure it passes all other requirements
 	ASSERT(badEtaElectron.et() > Electron::goodElectronMinimalEt);
 	ASSERT(fabs(badEtaElectron.d0()) < Electron::goodElectronMaximalDistanceFromInteractionPoint);
@@ -69,6 +71,7 @@ void setBadEtaElectron() {
 void setBadD0Electron() {
 	badD0Electron = Electron(40., 5., 5., 0.);
 	badD0Electron.setD0(300.);
+	badD0Electron.setVBTF_W70_ElectronID(true);
 	//make sure it passes all other requirements
 	ASSERT(badD0Electron.et() > Electron::goodElectronMinimalEt);
 	ASSERT(fabs(badD0Electron.eta()) < Electron::goodElectronMaximalAbsoluteEta);
@@ -78,6 +81,7 @@ void setBadD0Electron() {
 
 void setBadInCrackElectron() {
 	badInCrackElectron = Electron(400., 50., 50., 380);
+	badInCrackElectron.setVBTF_W70_ElectronID(true);
 	badInCrackElectron.setSuperClusterEta(1.5);
 	//make sure it passes all other requirements
 	ASSERT(badInCrackElectron.et() > Electron::goodElectronMinimalEt);
@@ -90,6 +94,7 @@ void setBadInCrackElectron() {
 void setElectronFromConversion() {
 	badElectronFromConversion = Electron(400., 50., 50., 380);
 	badElectronFromConversion.setNumberOfMissingInnerLayerHits(1);
+	badElectronFromConversion.setVBTF_W70_ElectronID(true);
 }
 
 void setLooseElectron() {

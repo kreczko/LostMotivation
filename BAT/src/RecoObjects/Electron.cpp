@@ -99,7 +99,7 @@ bool Electron::isGood() const {
 	bool passesEt = et() > Electron::goodElectronMinimalEt;
 	bool passesEta = fabs(superClusterEta()) < goodElectronMaximalAbsoluteEta && !isInCrack();
 	bool passesD0 = fabs(d0()) < goodElectronMaximalDistanceFromInteractionPoint;
-	return passesEt && passesEta && passesD0 && robustTightId;
+	return passesEt && passesEta && passesD0 && VBTF_W70_ElectronID;
 }
 
 bool Electron::isInBarrelRegion() const {
