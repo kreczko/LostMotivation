@@ -30,7 +30,7 @@ void setUpOnce() {
 
 void setUpVariableReaders() {
 	input = boost::shared_ptr<TChain>(new TChain("configurableAnalysis/eventB"));
-	input->Add("/storage/top/mc/summer09_7TeV/MG/HLTskim_ttjet_7TeV_v5/*_1.root");
+	input->Add("/storage/top/mc/spring10_7TeV_v4/MG/e20skim_ttjet/*_1.root");
 	input->GetEntries();
 	input->SetBranchStatus("*", 0);
 	singleVariableReader = new VariableReader<unsigned int>::VariableReader(input, numberOfElectrons);
@@ -45,12 +45,12 @@ void setUpVariableReaders() {
 
 void testReadSingleVariable() {
 	setUpVariableReaders();
-	ASSERT_EQUAL(3, singleVariableReader->getVariable());
+	ASSERT_EQUAL(6, singleVariableReader->getVariable());
 }
 
 void testReadMultipleVariable() {
 	setUpVariableReaders();
-	ASSERT_EQUAL_DELTA(193.008, multipleVariableReader->getVariable()->at(0), 0.001);
+	ASSERT_EQUAL_DELTA(38.7786, multipleVariableReader->getVariable()->at(0), 0.0001);
 	ASSERT_EQUAL(singleVariableReader->getVariable(), multipleVariableReader->getVariable()->size());
 }
 
