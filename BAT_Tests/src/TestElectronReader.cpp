@@ -13,13 +13,11 @@ static ElectronReader* electronReader;
 
 void setUpElectronReader() {
 	input = boost::shared_ptr<TChain>(new TChain("configurableAnalysis/eventB"));
-	input->Add("/storage/top/mc/summer09_7TeV/MG/HLTskim_ttjet_7TeV_v5/*_1.root");
+	input->Add("/storage/top/mc/spring10_7TeV_v4/MG/e20skim_ttjet/*_1.root");
 	input->GetEntries();
 	input->SetBranchStatus("*", 0);
 	electronReader = new ElectronReader(input);
 	electronReader->initialise();
-	//	singleVariableReader = new VariableReader<unsigned int>::VariableReader(input, numberOfElectrons);
-	//	multipleVariableReader = new VariableReader<std::vector<float>*>::VariableReader(input, energyForEachElectron);
 	input->GetEntry(1);
 }
 
@@ -27,13 +25,13 @@ void setUpElectronReader() {
 void testReadElectronsSize() {
 	setUpElectronReader();
 	std::vector<Electron> electrons = electronReader->getElectrons();
-	ASSERT_EQUAL(3, electrons.size());
+	ASSERT_EQUAL(6, electrons.size());
 }
 
 void testReadFirstElectronEnergy(){
 	std::vector<Electron> electrons = electronReader->getElectrons();
 	Electron firstElectron = electrons.front();
-	ASSERT_EQUAL_DELTA(193.008, firstElectron.energy(), 0.001);
+	ASSERT_EQUAL_DELTA(38.7786, firstElectron.energy(), 0.0001);
 }
 
 
