@@ -18,8 +18,16 @@ Event::Event() :
 Event::~Event() {
 }
 
-bool Event::isRealData() {
+bool Event::isRealData() const{
 	return dataType == DATA;
+}
+
+Event::DataType Event::getDataType() const{
+	return dataType;
+}
+
+void Event::setDataType(Event::DataType type){
+	dataType = type;
 }
 
 void Event::addElectrons(ElectronCollection electrons){
