@@ -22,6 +22,8 @@ public:
 	void setGoodJetMinimalEt(float minimalEt);
 	void setGoodJetMaximalAbsoluteEta(float maximalAbsoluteEta);
 	void setGoodJetMinimalElectromagneticFraction(float minimalElectromagneticFraction);
+	void setGoodJetMinimalNumberOfRecHitsContaining90PercentOfTheJetEnergy(float n90Hits);
+	void setGoodJetMaximalFractionOfEnergyIntheHottestHPDReadout(float fHPD);
 
 	void setGoodElectronMinimalEt(float minimalEt);
 	void setGoodElectronMaximalAbsoluteEta(float maximalAbsoluteEta);

@@ -23,6 +23,8 @@ Filter * Filter::makeStandardFilter() {
 	filter->setGoodJetMinimalEt(30.0);
 	filter->setGoodJetMaximalAbsoluteEta(2.4);
 	filter->setGoodJetMinimalElectromagneticFraction(0.01);
+	filter->setGoodJetMinimalNumberOfRecHitsContaining90PercentOfTheJetEnergy(1.);
+	filter->setGoodJetMaximalFractionOfEnergyIntheHottestHPDReadout(0.98);
 
 	filter->setGoodElectronMinimalEt(30.0);
 	filter->setGoodElectronMaximalAbsoluteEta(2.5);
@@ -49,6 +51,14 @@ void Filter::setGoodJetMaximalAbsoluteEta(float maximalAbsoluteEta) {
 
 void Filter::setGoodJetMinimalElectromagneticFraction(float minimalElectromagneticFraction) {
 	Jet::goodJetMinimalElectromagneticFraction = minimalElectromagneticFraction;
+}
+
+void Filter::setGoodJetMinimalNumberOfRecHitsContaining90PercentOfTheJetEnergy(float n90Hits){
+	Jet::goodJetMinimalNumberOfRecHitsContaining90PercentOfTheJetEnergy = n90Hits;
+}
+
+void Filter::setGoodJetMaximalFractionOfEnergyIntheHottestHPDReadout(float fHPD){
+	Jet::goodJetMaximalFractionOfEnergyIntheHottestHPDReadout = fHPD;
 }
 
 void Filter::setGoodElectronMinimalEt(float minimalEt){
@@ -82,5 +92,6 @@ void Filter::setLooseElectronMaximalAbsoluteEta(float maximalAbsoluteEta){
 void Filter::setLooseIsolatedElectronMaximalRelativeIsolation(float maximalRelativeIsolation){
 	Electron::looseIsolatedElectronMaximalRelativeIsolation = maximalRelativeIsolation;
 }
+
 
 }

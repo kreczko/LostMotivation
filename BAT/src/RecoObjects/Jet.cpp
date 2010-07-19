@@ -11,6 +11,8 @@ namespace BAT {
 float Jet::goodJetMaximalAbsoluteEta = 5;
 float Jet::goodJetMinimalEt = 0;
 float Jet::goodJetMinimalElectromagneticFraction = 0;
+float Jet::goodJetMinimalNumberOfRecHitsContaining90PercentOfTheJetEnergy = 0;
+float Jet::goodJetMaximalFractionOfEnergyIntheHottestHPDReadout = 5000.;
 
 Jet::Jet() :
 	Particle(), electroMagneticFraction(0.), btag_discriminators(BJetTagger::NUMBER_OF_BTAGALGORITHMS) {

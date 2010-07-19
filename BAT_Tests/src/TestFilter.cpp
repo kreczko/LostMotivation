@@ -42,6 +42,24 @@ void testSetGoodJetMinimalElectromagneticFraction() {
 	ASSERT_EQUAL_DELTA(0.9, Jet::goodJetMinimalElectromagneticFraction, 0.01);
 	tearDownFilter();
 }
+
+void testSetGoodJetMinimalNumberOfRecHitsContaining90PercentOfTheJetEnergy() {
+	setUpTestFilter();
+	ASSERT_EQUAL_DELTA(1., Jet::goodJetMinimalNumberOfRecHitsContaining90PercentOfTheJetEnergy, 0.001);
+	filter->setGoodJetMinimalNumberOfRecHitsContaining90PercentOfTheJetEnergy(0.9);
+	ASSERT_EQUAL_DELTA(0.9, Jet::goodJetMinimalNumberOfRecHitsContaining90PercentOfTheJetEnergy, 0.01);
+	tearDownFilter();
+}
+
+void testSetGoodJetMaximalFractionOfEnergyIntheHottestHPDReadout() {
+	setUpTestFilter();
+	ASSERT_EQUAL_DELTA(0.98, Jet::goodJetMaximalFractionOfEnergyIntheHottestHPDReadout, 0.001);
+	filter->setGoodJetMaximalFractionOfEnergyIntheHottestHPDReadout(1.9);
+	ASSERT_EQUAL_DELTA(1.9, Jet::goodJetMaximalFractionOfEnergyIntheHottestHPDReadout, 0.01);
+	tearDownFilter();
+}
+
+
 void testSetGoodElectronMinimalEt() {
 	setUpTestFilter();
 	ASSERT_EQUAL_DELTA(30.0, Electron::goodElectronMinimalEt, 0.01);
@@ -105,6 +123,7 @@ void testSetGoodMETMinimalEt() {
 	tearDownFilter();
 }
 
+
 cute::suite make_suite_TestFilter() {
 	cute::suite s;
 	s.push_back(CUTE(testSetGoodJetMinimalPt));
@@ -118,6 +137,9 @@ cute::suite make_suite_TestFilter() {
 	s.push_back(CUTE(testSetLooseElectronMinimalEt));
 	s.push_back(CUTE(testSetLooseElectronMaximalRelativeIsolation));
 	s.push_back(CUTE(testSetLooseElectronMaximalAbsoluteEta));
+	s.push_back(CUTE(testSetGoodJetMinimalNumberOfRecHitsContaining90PercentOfTheJetEnergy));
+	s.push_back(CUTE(testSetGoodJetMaximalFractionOfEnergyIntheHottestHPDReadout));
+
 	return s;
 }
 
