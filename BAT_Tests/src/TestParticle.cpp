@@ -11,27 +11,28 @@ static Particle particle2;
 static Particle particle3;
 static FourVector combinedVector;
 
-void setUpTestParticle() {
+void setUpParticles() {
 	particle1 = Particle(20., 10., 0., 0.);
+	particle1.setD0(180.);
 	particle2 = Particle(20., -10., 0., 0.);
 	combinedVector = FourVector(particle1.getFourVector() + particle2.getFourVector());
 	particle3 = particle1 + particle2;
 }
 
 void testAsignOperator() {
-	setUpTestParticle();
+	setUpParticles();
 	particle3 = particle1;
 	ASSERT_EQUAL(particle1.mass(), particle3.mass());
 	ASSERT_EQUAL(particle1.getFourVector(), particle3.getFourVector());
 }
 
 void testPlusOperatorCorrectFourvector() {
-	setUpTestParticle();
+	setUpParticles();
 	ASSERT_EQUAL(particle3.getFourVector(), combinedVector);
 }
 
 void testPlusOperatorCorrectMass() {
-	setUpTestParticle();
+	setUpParticles();
 	ASSERT_EQUAL(combinedVector.M(), particle3.mass());
 }
 
@@ -51,16 +52,26 @@ void testFourvectorConstructor() {
 	ASSERT_EQUAL(4., particle.px());
 	ASSERT_EQUAL(0., particle.py());
 	ASSERT_EQUAL(0., particle.pz());
-	ASSERT_EQUAL(0., particle.mass());
 	ASSERT_EQUAL(3., particle.massFromEnergyAndMomentum());
 }
 
 void testSetMass() {
-	setUpTestParticle();
-	ASSERT_EQUAL(0.,particle1.mass());
+	setUpParticles();
 	particle1.setMass(200.);
 	ASSERT_EQUAL(200., particle1.mass());
 }
+
+void testDistanceFromInteractionPointAliasD0(){
+	setUpParticles();
+	ASSERT_EQUAL(180., particle1.d0());
+}
+
+void testGetMassFromEnergyAndMomentumIfEquals0(){
+	setUpParticles();
+	ASSERT(particle1.mass() != 0);
+}
+
+
 
 cute::suite make_suite_TestParticle() {
 	cute::suite s;
@@ -70,6 +81,8 @@ cute::suite make_suite_TestParticle() {
 	s.push_back(CUTE(testStandardConstructor));
 	s.push_back(CUTE(testFourvectorConstructor));
 	s.push_back(CUTE(testSetMass));
+	s.push_back(CUTE(testDistanceFromInteractionPointAliasD0));
+	s.push_back(CUTE(testGetMassFromEnergyAndMomentumIfEquals0));
 	return s;
 }
 
