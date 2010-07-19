@@ -11,42 +11,70 @@
 #include <vector>
 #include <string>
 #include <boost/static_assert.hpp>
-namespace BAT {
-enum ElectronID {
-	loose, tight, robustLoose, robustTight, VBTF_W70, HEEP, NUMBER_OF_ELECTRONIDS
-};
+#include <boost/array.hpp>
 
-const std::string ElectronIDNames[] = { "loose ID", "tight ID", "robust loose ID", "robust tight ID",
-		"VBTF working point 70%", "High Energy" };
+namespace BAT {
 //make sure the IDs and their string representations are identical
-BOOST_STATIC_ASSERT(NUMBER_OF_ELECTRONIDS == (int) (sizeof(ElectronIDNames)/sizeof(ElectronIDNames[0])));
+//
 
 class Electron: public Particle {
 public:
+	enum ElectronID {
+		loose, tight, robustLoose, robustTight, VBTF_W70, HEEP, NUMBER_OF_ELECTRONIDS
+	};
+	static const boost::array<std::string, NUMBER_OF_ELECTRONIDS> ElectronIDNames;
 	static float goodElectronMinimalEt;
 	static float goodElectronMaximalAbsoluteEta;
 	static float goodElectronMaximalDistanceFromInteractionPoint;
 
+	static float looseElectronMinimalEt;
+	static float looseElectronMaximalAbsoluteEta;
+
+	static float MaximalNumberOfMissingInnerLayerHitsBeforeCalledConversion;
+
+	static ElectronID goodElectronID;
+
 	static float isolatedElectronMaximalRelativeIsolation;
+	static float looseIsolatedElectronMaximalRelativeIsolation;
+
+	static std::string getElectronIDAsString(ElectronID id){
+		return Electron::ElectronIDNames.at(id);
+	}
 
 	Electron();
 	Electron(float energy, float px, float py, float pz);
 	virtual ~Electron();
 	bool isGood() const;
 	bool isIsolated() const;
+	bool isFromConversion() const;
+	bool isLoose() const;
+
+	float ecalIsolation() const;
+	float hcalIsolation() const;
+	float trackerIsolation() const;
+	float superClusterEta() const;
 
 	void setRobustLooseID(bool id);
 	void setRobustTightID(bool id);
+	void setVBTF_W70_ElectronID(bool id);
 
+	void setSuperClusterEta(float eta);
 	void setEcalIsolation(float isolation);
 	void setHcalIsolation(float isolation);
 	void setTrackerIsolation(float isolation);
+	void setNumberOfMissingInnerLayerHits(float missingHits);
 
 	float relativeIsolation() const;
+
+	bool isInBarrelRegion() const;
+	bool isInCrack() const;
+	bool isInEndCapRegion() const;
+
 private:
 
-	bool robustLooseId, robustTightId;
-	float ecalIsolation, hcalIsolation, trackerIsolation;
+	bool robustLooseId, robustTightId, VBTF_W70_ElectronID;
+	float superCluser_Eta;
+	float ecal_Isolation, hcal_Isolation, tracker_Isolation;
 	float innerLayerMissingHits;
 
 };
