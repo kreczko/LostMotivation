@@ -8,5 +8,17 @@
 #include "../../interface/Taggers/BJetTagger.h"
 
 namespace BAT {
-float BJetTagger::simpleSecondaryVertexHighEfficiencyMediumCut = -1000;
+bool BJetTagger::doesDiscriminatorPassBtagOfType(float discriminator, BJetTagger::Algorithm type) {
+	switch (type) {
+	case BJetTagger::NONE:
+		return true;
+	case BJetTagger::FAKE:
+		return false;
+	case BJetTagger::SimpleSecondaryVertex:
+		return discriminator > simpleSecondaryVertexHighEfficiencyMediumCut;
+	default:
+		break;
+	}
+}
+
 }
