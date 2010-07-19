@@ -17,7 +17,7 @@ bool BJetTagger::doesDiscriminatorPassBtagOfType(float discriminator, BJetTagger
 	case BJetTagger::SimpleSecondaryVertex:
 		return discriminator > simpleSecondaryVertexHighEfficiencyMediumCut;
 	default:
-		break;
+		return false;
 	}
 }
 
