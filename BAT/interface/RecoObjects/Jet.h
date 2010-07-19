@@ -14,9 +14,9 @@
 #include <vector>
 namespace BAT {
 
-class Jet :public Particle{
+class Jet: public Particle {
 public:
-	enum Algorithm{
+	enum Algorithm {
 		DEFAULT,
 		JPT_AntiKt_ConeDR05,
 		KT_Cone04,
@@ -31,6 +31,11 @@ public:
 	static float goodJetMaximalAbsoluteEta;
 	static float goodJetMinimalElectromagneticFraction;
 
+	static void resetSelectionValues() {
+		Jet::goodJetMaximalAbsoluteEta = 5;
+		Jet::goodJetMinimalEt = 0;
+		Jet::goodJetMinimalElectromagneticFraction = 0;
+	}
 	Jet();
 	Jet(float energy, float px, float py, float pz);
 	virtual ~Jet();

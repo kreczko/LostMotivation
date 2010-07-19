@@ -41,6 +41,20 @@ public:
 		return Electron::ElectronIDNames.at(id);
 	}
 
+	static void resetSelectionValues(){
+		Electron::goodElectronMinimalEt = 0;
+		Electron::goodElectronMaximalAbsoluteEta = 5;
+		Electron::goodElectronMaximalDistanceFromInteractionPoint = 5000;
+
+		Electron::looseElectronMinimalEt = 0;
+		Electron::looseElectronMaximalAbsoluteEta = 5;
+		Electron::looseIsolatedElectronMaximalRelativeIsolation = 5000;
+
+		Electron::MaximalNumberOfMissingInnerLayerHitsBeforeCalledConversion = 500;
+
+		Electron::isolatedElectronMaximalRelativeIsolation = 2;
+	}
+
 	Electron();
 	Electron(float energy, float px, float py, float pz);
 	virtual ~Electron();
