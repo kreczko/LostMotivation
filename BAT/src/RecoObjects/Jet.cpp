@@ -25,15 +25,15 @@ Jet::Jet(float energy, float px, float py, float pz) :
 
 Jet::~Jet() {
 }
-float Jet::emf(){
+float Jet::emf() {
 	return electroMagneticFraction;
 }
 
-void Jet::setEMF(float emf){
+void Jet::setEMF(float emf) {
 	electroMagneticFraction = emf;
 }
 
-void Jet::setDiscriminatorForBtagType(float discriminator, BJetTagger::Algorithm type){
+void Jet::setDiscriminatorForBtagType(float discriminator, BJetTagger::Algorithm type) {
 	btag_discriminators[type] = discriminator;
 }
 }
