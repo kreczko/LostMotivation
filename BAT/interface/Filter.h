@@ -26,8 +26,6 @@ public:
 	void setIsolatedElectronMaximalRelativeIsolation(float maximalRelativeIsolation);
 
 	void setGoodMETMinimalEt(float minimalEt);
-
-	void setSimpleSecondaryVertexHighEfficiencyMediumCut(float cut);
 };
 
 }
