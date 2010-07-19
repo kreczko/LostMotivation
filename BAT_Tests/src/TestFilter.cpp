@@ -15,13 +15,6 @@ void setUpTestFilter() {
 	filter = Filter::makeStandardFilter();
 }
 
-void testSetBTagSimpleSecondaryVertexHighEfficiencyMediumCut() {
-	setUpTestFilter();
-	//standard value
-	ASSERT_EQUAL_DELTA(1.74, BJetTagger::simpleSecondaryVertexHighEfficiencyMediumCut, 0.01);
-	filter->setSimpleSecondaryVertexHighEfficiencyMediumCut(2.0);
-	ASSERT_EQUAL_DELTA(2.0, BJetTagger::simpleSecondaryVertexHighEfficiencyMediumCut, 0.01);
-}
 
 void testSetGoodJetMinimalPt() {
 	setUpTestFilter();
@@ -80,7 +73,6 @@ void testSetGoodMETMinimalEt() {
 
 cute::suite make_suite_TestFilter() {
 	cute::suite s;
-	s.push_back(CUTE(testSetBTagSimpleSecondaryVertexHighEfficiencyMediumCut));
 	s.push_back(CUTE(testSetGoodJetMinimalPt));
 	s.push_back(CUTE(testSetGoodJetMaximalAbsoluteEta));
 	s.push_back(CUTE(testSetGoodJetMinimalElectromagneticFraction));
