@@ -9,7 +9,9 @@
 #define JET_H_
 #include "../Taggers/BJetTagger.h"
 #include "Particle.h"
+#include "Electron.h"
 
+#include <vector>
 namespace BAT {
 
 class Jet :public Particle{
@@ -24,13 +26,23 @@ public:
 		SiS_Cone07,
 		NUMBER_OF_JETALGORITHMS
 	};
+
 	static float goodJetMinimalEt;
 	static float goodJetMaximalAbsoluteEta;
 	static float goodJetMinimalElectromagneticFraction;
+
 	Jet();
+	Jet(float energy, float px, float py, float pz);
 	virtual ~Jet();
-	bool isGoodJet();
-	bool isBJetAccordingToBtagAlgorithm(BJetTagger::Algorithm btag);
+	bool isGoodJet() const;
+	bool isBJetAccordingToBtagAlgorithm(BJetTagger::Algorithm btag) const;
+	float emf();
+	void setEMF(float emf);
+	void setDiscriminatorForBtagType(float discriminator, BJetTagger::Algorithm type);
+private:
+	float electroMagneticFraction;
+	std::vector<float> btag_discriminators;
+	bool isCloseToElectron(const std::vector<Electron>& electrons) const;
 };
 
 }
