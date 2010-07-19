@@ -14,7 +14,9 @@ ElectronReader::ElectronReader() :
 }
 ElectronReader::ElectronReader(boost::shared_ptr<TChain> input) :
 	numberOfElectronsReader(input, "Nels"), energyReader(input, "els_energy"), pxReader(input, "els_px"), pyReader(
-			input, "els_py"), pzReader(input, "els_pz"), d0Reader(input, "els3_d0_bs"), electrons() {
+			input, "els_py"), pzReader(input, "els_pz"), d0Reader(input, "els3_d0_bs"), ecalIsolationReader(input,
+			"els_dr03EcalRecHitSumEt"), hcalIsolationReader(input, "els_dr03HcalTowerSumEt"), trackerIsolationReader(
+			input, "els_dr03TkSumPt"), electrons() {
 
 }
 
@@ -30,13 +32,16 @@ std::vector<Electron> ElectronReader::getElectrons() {
 
 void ElectronReader::readElectrons() {
 	unsigned int numberOfElectrons = numberOfElectronsReader.getVariable();
-	for (unsigned int electronIndex = 0; electronIndex < numberOfElectrons; electronIndex++) {
-		float energy = energyReader.getVariable()->at(electronIndex);
-		float px = pxReader.getVariable()->at(electronIndex);
-		float py = pyReader.getVariable()->at(electronIndex);
-		float pz = pzReader.getVariable()->at(electronIndex);
+	for (unsigned int index = 0; index < numberOfElectrons; index++) {
+		float energy = energyReader.getVariable()->at(index);
+		float px = pxReader.getVariable()->at(index);
+		float py = pyReader.getVariable()->at(index);
+		float pz = pzReader.getVariable()->at(index);
 		Electron electron(energy, px, py, pz);
-		electron.setD0(d0Reader.getVariable()->at(electronIndex));
+		electron.setD0(d0Reader.getVariable()->at(index));
+		electron.setEcalIsolation(ecalIsolationReader.getVariable()->at(index));
+		electron.setHcalIsolation(hcalIsolationReader.getVariable()->at(index));
+		electron.setTrackerIsolation(trackerIsolationReader.getVariable()->at(index));
 		electrons.push_back(electron);
 	}
 }
@@ -48,6 +53,9 @@ void ElectronReader::initialise() {
 	pyReader.initialise();
 	pzReader.initialise();
 	d0Reader.initialise();
+	ecalIsolationReader.initialise();
+	hcalIsolationReader.initialise();
+	trackerIsolationReader.initialise();
 }
 
 }

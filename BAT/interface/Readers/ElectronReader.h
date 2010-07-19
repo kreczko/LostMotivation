@@ -28,6 +28,9 @@ private:
 	VariableReader<MultiFloatPointer> pyReader;
 	VariableReader<MultiFloatPointer> pzReader;
 	VariableReader<MultiFloatPointer> d0Reader;
+	VariableReader<MultiFloatPointer> ecalIsolationReader;
+	VariableReader<MultiFloatPointer> hcalIsolationReader;
+	VariableReader<MultiFloatPointer> trackerIsolationReader;
 
 	std::vector<Electron> electrons;
 	void readElectrons();
