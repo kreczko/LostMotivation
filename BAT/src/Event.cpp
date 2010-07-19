@@ -22,7 +22,7 @@ bool Event::isRealData() const{
 	return dataType == DATA;
 }
 
-Event::DataType Event::getDataType() const{
+const Event::DataType Event::getDataType() const{
 	return dataType;
 }
 
@@ -36,7 +36,7 @@ void Event::addElectrons(ElectronCollection electrons){
 
 }
 
-ElectronCollection* Event::getOtherElectrons(){
+const ElectronCollection* Event::getOtherElectrons(){
 	return &otherElectrons;
 }
 

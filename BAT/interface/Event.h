@@ -9,6 +9,8 @@
 #define EVENT_H_
 #include "RecoObjects/Electron.h"
 #include <vector>
+#include "Selection.h"
+
 namespace BAT {
 
 class Event {
@@ -46,7 +48,7 @@ public:
 		singleTop_ALL,
 		NUMBER_OF_DATA_TYPES
 	};
-private:
+protected:
 	ElectronCollection goodElectrons;
 	ElectronCollection goodBarrelElectrons;
 	ElectronCollection goodEndcapElectrons;
@@ -65,10 +67,24 @@ public:
 	Event();
 	virtual ~Event();
 	bool isRealData() const;
-	DataType getDataType() const;
+	const DataType getDataType() const;
 	void setDataType(DataType type);
 	void addElectrons(ElectronCollection electrons);
-	ElectronCollection * getOtherElectrons();
+	const ElectronCollection * getOtherElectrons();
+	bool passesSelectionStep(Selection::SelectionSteps step) const;
+	bool passesSelectionStepUpTo(Selection::SelectionSteps upToStep) const;
+	bool passesHighLevelTrigger() const;
+	bool hasOneGoodPrimaryVertex() const;
+	bool hasOnlyOneGoodIsolatedElectron() const;
+	bool isolatedElectronDoesNotComeFromConversion() const;
+	bool hasNoIsolatedMuon() const;
+
+	bool hasAtLeastOneGoodJet() const;
+	bool hasAtLeastTwoGoodJets() const;
+	bool hasAtLeastThreeGoodJets() const;
+	bool hasAtLeastFourGoodJets() const;
+
+	bool isNoZBosonEvent() const;
 };
 
 }
