@@ -34,7 +34,6 @@ Filter * Filter::makeStandardFilter() {
 
 	filter->setGoodMETMinimalEt(20);
 
-	filter->setSimpleSecondaryVertexHighEfficiencyMediumCut(1.74);
 	return filter;
 }
 
@@ -70,7 +69,4 @@ void Filter::setGoodMETMinimalEt(float minimalEt){
 	MET::goodMETMinimalEt = minimalEt;
 }
 
-void Filter::setSimpleSecondaryVertexHighEfficiencyMediumCut(float cut) {
-	BJetTagger::simpleSecondaryVertexHighEfficiencyMediumCut = cut;
-}
 }
