@@ -3,20 +3,36 @@
 #include "cute_runner.h"
 #include "TestParticle.h"
 #include "RecoObjects/Particle.h"
-
+#include <assert.h>
+#include "DetectorGeometry.h"
+#include <iostream>
 using namespace BAT;
 
 static Particle particle1;
 static Particle particle2;
 static Particle particle3;
+static Particle particleInBarrelRegion;
+static Particle particleInCrack;
+static Particle particleInEndcap;
 static FourVector combinedVector;
 
 void setUpParticles() {
 	particle1 = Particle(20., 10., 0., 0.);
 	particle1.setD0(180.);
 	particle2 = Particle(20., -10., 0., 0.);
+
 	combinedVector = FourVector(particle1.getFourVector() + particle2.getFourVector());
 	particle3 = particle1 + particle2;
+
+	particleInBarrelRegion = Particle(30., 20., -20., 0.);
+	assert(fabs(particleInBarrelRegion.eta()) < Detector::Barrel::MaximalAbsoluteEta);
+
+	particleInEndcap = Particle(20., 5., 5., -20.);
+	assert(fabs(particleInEndcap.eta()) > Detector::EndCap::MinimalAbsoluteEta);
+
+	particleInCrack = Particle(25., 0., 10., -20.);
+	assert(fabs(particleInCrack.eta()) > Detector::Crack::MinimalAbsoluteEta);
+	assert(fabs(particleInCrack.eta()) < Detector::Crack::MaximalAbsoluteEta);
 }
 
 void testAsignOperator() {
@@ -61,17 +77,37 @@ void testSetMass() {
 	ASSERT_EQUAL(200., particle1.mass());
 }
 
-void testDistanceFromInteractionPointAliasD0(){
+void testDistanceFromInteractionPointAliasD0() {
 	setUpParticles();
 	ASSERT_EQUAL(180., particle1.d0());
 }
 
-void testGetMassFromEnergyAndMomentumIfEquals0(){
+void testGetMassFromEnergyAndMomentumIfEquals0() {
 	setUpParticles();
 	ASSERT(particle1.mass() != 0);
 }
 
+void testParticleIsInBarrelRegion() {
+	setUpParticles();
+	ASSERT(particleInBarrelRegion.isInBarrelRegion());
+	ASSERT(particleInBarrelRegion.isInEndCapRegion() == false);
+	ASSERT(particleInBarrelRegion.isInCrack() == false);
 
+}
+
+void testParticleInEndcap() {
+	setUpParticles();
+	ASSERT(particleInEndcap.isInEndCapRegion());
+	ASSERT(particleInEndcap.isInCrack() == false);
+	ASSERT(particleInEndcap.isInBarrelRegion() == false);
+}
+
+void testParticleInCrack() {
+	setUpParticles();
+	ASSERT(particleInCrack.isInCrack());
+	ASSERT(particleInCrack.isInEndCapRegion() == false);
+	ASSERT(particleInCrack.isInBarrelRegion() == false);
+}
 
 cute::suite make_suite_TestParticle() {
 	cute::suite s;
@@ -83,6 +119,9 @@ cute::suite make_suite_TestParticle() {
 	s.push_back(CUTE(testSetMass));
 	s.push_back(CUTE(testDistanceFromInteractionPointAliasD0));
 	s.push_back(CUTE(testGetMassFromEnergyAndMomentumIfEquals0));
+	s.push_back(CUTE(testParticleIsInBarrelRegion));
+	s.push_back(CUTE(testParticleInEndcap));
+	s.push_back(CUTE(testParticleInCrack));
 	return s;
 }
 
