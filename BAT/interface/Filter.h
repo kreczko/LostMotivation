@@ -7,6 +7,9 @@
 
 #ifndef FILTER_H_
 #define FILTER_H_
+#include "../interface/RecoObjects/Electron.h"
+#include "../interface/RecoObjects/Jet.h"
+#include "../interface/RecoObjects/MET.h"
 
 namespace BAT {
 
@@ -23,9 +26,19 @@ public:
 	void setGoodElectronMinimalEt(float minimalEt);
 	void setGoodElectronMaximalAbsoluteEta(float maximalAbsoluteEta);
 	void setGoodElectronMaximalDistanceFromInteractionPoint(float maximalDistance);
+
+	void setLooseElectronMinimalEt(float minimalEt);
+	void setLooseElectronMaximalAbsoluteEta(float maximalAbsoluteEta);
 	void setIsolatedElectronMaximalRelativeIsolation(float maximalRelativeIsolation);
+	void setLooseIsolatedElectronMaximalRelativeIsolation(float maximalRelativeIsolation);
 
 	void setGoodMETMinimalEt(float minimalEt);
+
+	static void resetSelectionValues(){
+		Electron::resetSelectionValues();
+		Jet::resetSelectionValues();
+		MET::resetSelectionValues();
+	}
 };
 
 }

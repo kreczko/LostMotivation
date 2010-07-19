@@ -6,10 +6,6 @@
  */
 
 #include "../interface/Filter.h"
-#include "../interface/Taggers/BJetTagger.h"
-#include "../interface/RecoObjects/Jet.h"
-#include "../interface/RecoObjects/Electron.h"
-#include "../interface/RecoObjects/MET.h"
 
 namespace BAT {
 
@@ -21,6 +17,7 @@ Filter::~Filter() {
 }
 
 Filter * Filter::makeStandardFilter() {
+	Filter::resetSelectionValues();
 	Filter * filter = new Filter();
 	
 	filter->setGoodJetMinimalEt(30.0);
@@ -30,7 +27,12 @@ Filter * Filter::makeStandardFilter() {
 	filter->setGoodElectronMinimalEt(30.0);
 	filter->setGoodElectronMaximalAbsoluteEta(2.5);
 	filter->setGoodElectronMaximalDistanceFromInteractionPoint(200);//micro meter
+
+	filter->setLooseElectronMinimalEt(20.0);
+	filter->setLooseElectronMaximalAbsoluteEta(2.5);
+
 	filter->setIsolatedElectronMaximalRelativeIsolation(0.1);
+	filter->setLooseIsolatedElectronMaximalRelativeIsolation(1.);
 
 	filter->setGoodMETMinimalEt(20);
 
@@ -67,6 +69,18 @@ void Filter::setIsolatedElectronMaximalRelativeIsolation(float maximalRelativeIs
 
 void Filter::setGoodMETMinimalEt(float minimalEt){
 	MET::goodMETMinimalEt = minimalEt;
+}
+
+void Filter::setLooseElectronMinimalEt(float minimalEt){
+	Electron::looseElectronMinimalEt = minimalEt;
+}
+
+void Filter::setLooseElectronMaximalAbsoluteEta(float maximalAbsoluteEta){
+	Electron::looseElectronMaximalAbsoluteEta = maximalAbsoluteEta;
+}
+
+void Filter::setLooseIsolatedElectronMaximalRelativeIsolation(float maximalRelativeIsolation){
+	Electron::looseIsolatedElectronMaximalRelativeIsolation = maximalRelativeIsolation;
 }
 
 }

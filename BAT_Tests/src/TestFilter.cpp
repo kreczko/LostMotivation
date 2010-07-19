@@ -15,12 +15,16 @@ void setUpTestFilter() {
 	filter = Filter::makeStandardFilter();
 }
 
+void tearDownFilter(){
+	delete filter;
+}
 
 void testSetGoodJetMinimalPt() {
 	setUpTestFilter();
 	ASSERT_EQUAL_DELTA(30.0, Jet::goodJetMinimalEt, 0.01);
 	filter->setGoodJetMinimalEt(50.5);
 	ASSERT_EQUAL_DELTA(50.5, Jet::goodJetMinimalEt, 0.01);
+	tearDownFilter();
 }
 
 void testSetGoodJetMaximalAbsoluteEta() {
@@ -28,6 +32,7 @@ void testSetGoodJetMaximalAbsoluteEta() {
 	ASSERT_EQUAL_DELTA(2.4, Jet::goodJetMaximalAbsoluteEta, 0.01);
 	filter->setGoodJetMaximalAbsoluteEta(1.4);
 	ASSERT_EQUAL_DELTA(1.4, Jet::goodJetMaximalAbsoluteEta, 0.01);
+	tearDownFilter();
 }
 
 void testSetGoodJetMinimalElectromagneticFraction() {
@@ -35,12 +40,14 @@ void testSetGoodJetMinimalElectromagneticFraction() {
 	ASSERT_EQUAL_DELTA(0.01, Jet::goodJetMinimalElectromagneticFraction, 0.001);
 	filter->setGoodJetMinimalElectromagneticFraction(0.9);
 	ASSERT_EQUAL_DELTA(0.9, Jet::goodJetMinimalElectromagneticFraction, 0.01);
+	tearDownFilter();
 }
 void testSetGoodElectronMinimalEt() {
 	setUpTestFilter();
 	ASSERT_EQUAL_DELTA(30.0, Electron::goodElectronMinimalEt, 0.01);
 	filter->setGoodElectronMinimalEt(50.5);
 	ASSERT_EQUAL_DELTA(50.5, Electron::goodElectronMinimalEt, 0.01);
+	tearDownFilter();
 }
 
 void testSetGoodElectronMaximalAbsoluteEta() {
@@ -48,6 +55,7 @@ void testSetGoodElectronMaximalAbsoluteEta() {
 	ASSERT_EQUAL_DELTA(2.5, Electron::goodElectronMaximalAbsoluteEta, 0.01);
 	filter->setGoodElectronMaximalAbsoluteEta(1.442);
 	ASSERT_EQUAL_DELTA(1.442, Electron::goodElectronMaximalAbsoluteEta, 0.01);
+	tearDownFilter();
 }
 
 void testSetGoodElectronMaximalRelativeIsolation() {
@@ -55,13 +63,38 @@ void testSetGoodElectronMaximalRelativeIsolation() {
 	ASSERT_EQUAL_DELTA(0.1, Electron::isolatedElectronMaximalRelativeIsolation, 0.01);
 	filter->setIsolatedElectronMaximalRelativeIsolation(0.05);
 	ASSERT_EQUAL_DELTA(0.05, Electron::isolatedElectronMaximalRelativeIsolation, 0.005);
+	tearDownFilter();
 }
 
+void testSetLooseElectronMinimalEt() {
+	setUpTestFilter();
+	ASSERT_EQUAL_DELTA(20, Electron::looseElectronMinimalEt, 0.1);
+	filter->setLooseElectronMinimalEt(55);
+	ASSERT_EQUAL_DELTA(55, Electron::looseElectronMinimalEt, 0.1);
+	tearDownFilter();
+}
+
+void testSetLooseElectronMaximalRelativeIsolation() {
+	setUpTestFilter();
+	ASSERT_EQUAL_DELTA(1., Electron::looseIsolatedElectronMaximalRelativeIsolation, 0.01);
+	filter->setLooseIsolatedElectronMaximalRelativeIsolation(1.442);
+	ASSERT_EQUAL_DELTA(1.442, Electron::looseIsolatedElectronMaximalRelativeIsolation, 0.01);
+	tearDownFilter();
+}
+
+void testSetLooseElectronMaximalAbsoluteEta() {
+	setUpTestFilter();
+	ASSERT_EQUAL_DELTA(2.5, Electron::looseElectronMaximalAbsoluteEta, 0.01);
+	filter->setLooseElectronMaximalAbsoluteEta(1.442);
+	ASSERT_EQUAL_DELTA(1.442, Electron::looseElectronMaximalAbsoluteEta, 0.01);
+	tearDownFilter();
+}
 void testSetGoodElectronMaximalDistanceFromInteractionPoint() {
 	setUpTestFilter();
 	ASSERT_EQUAL_DELTA(200, Electron::goodElectronMaximalDistanceFromInteractionPoint, 0.1);
 	filter->setGoodElectronMaximalDistanceFromInteractionPoint(100);
 	ASSERT_EQUAL_DELTA(100, Electron::goodElectronMaximalDistanceFromInteractionPoint, 0.1);
+	tearDownFilter();
 }
 
 void testSetGoodMETMinimalEt() {
@@ -69,6 +102,7 @@ void testSetGoodMETMinimalEt() {
 	ASSERT_EQUAL_DELTA(20, MET::goodMETMinimalEt, 0.1);
 	filter->setGoodMETMinimalEt(30);
 	ASSERT_EQUAL_DELTA(30, MET::goodMETMinimalEt, 0.1);
+	tearDownFilter();
 }
 
 cute::suite make_suite_TestFilter() {
@@ -81,6 +115,9 @@ cute::suite make_suite_TestFilter() {
 	s.push_back(CUTE(testSetGoodElectronMaximalRelativeIsolation));
 	s.push_back(CUTE(testSetGoodElectronMaximalDistanceFromInteractionPoint));
 	s.push_back(CUTE(testSetGoodMETMinimalEt));
+	s.push_back(CUTE(testSetLooseElectronMinimalEt));
+	s.push_back(CUTE(testSetLooseElectronMaximalRelativeIsolation));
+	s.push_back(CUTE(testSetLooseElectronMaximalAbsoluteEta));
 	return s;
 }
 
