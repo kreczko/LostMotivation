@@ -17,7 +17,7 @@ static TString invalidBranch("this is not in the chain");
 
 void setUpROOTTests() {
 	input = new TChain("configurableAnalysis/eventB");
-	input->Add("/storage/top/mc/summer09_7TeV/MG/HLTskim_ttjet_7TeV_v5/HLTskim_S9nTuple_ttjet_7TeV_v5_1.root");
+	input->Add("/storage/top/mc/spring10_7TeV_v4/MG/e20skim_ttjet/*_1.root");
 
 	input->GetEntries();
 	input->SetBranchStatus("*", 0);
