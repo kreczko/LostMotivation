@@ -9,8 +9,17 @@
 #define ELECTRON_H_
 #include "Particle.h"
 #include <vector>
-
+#include <string>
+#include <boost/static_assert.hpp>
 namespace BAT {
+enum ElectronID {
+	loose, tight, robustLoose, robustTight, VBTF_W70, HEEP, NUMBER_OF_ELECTRONIDS
+};
+
+const std::string ElectronIDNames[] = { "loose ID", "tight ID", "robust loose ID", "robust tight ID",
+		"VBTF working point 70%", "High Energy" };
+//make sure the IDs and their string representations are identical
+BOOST_STATIC_ASSERT(NUMBER_OF_ELECTRONIDS == (int) (sizeof(ElectronIDNames)/sizeof(ElectronIDNames[0])));
 
 class Electron: public Particle {
 public:
@@ -25,19 +34,19 @@ public:
 	virtual ~Electron();
 	bool isGood() const;
 	bool isIsolated() const;
-	bool isInBarrelRegion() const;
-	bool isInCrack() const;
-	bool isInEndCapRegion() const;
+
 	void setRobustLooseID(bool id);
 	void setRobustTightID(bool id);
-	void setEcalEtSumInDr03(float etSum);
-	void setHcalEtSumInDr03(float etSum);
-	void setTrackPtSumInDr03(float ptSum);
+
+	void setEcalIsolation(float isolation);
+	void setHcalIsolation(float isolation);
+	void setTrackerIsolation(float isolation);
+
 	float relativeIsolation() const;
 private:
 
 	bool robustLooseId, robustTightId;
-	float ecalEtSumInDr03, hcalEtSumInDr03, trackPtSumInDr03;
+	float ecalIsolation, hcalIsolation, trackerIsolation;
 	float innerLayerMissingHits;
 
 };
