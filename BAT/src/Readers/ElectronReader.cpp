@@ -14,12 +14,11 @@ ElectronReader::ElectronReader() :
 }
 ElectronReader::ElectronReader(boost::shared_ptr<TChain> input) :
 	numberOfElectronsReader(input, "Nels"), energyReader(input, "els_energy"), pxReader(input, "els_px"), pyReader(
-			input, "els_py"), pzReader(input, "els_pz"), electrons() {
+			input, "els_py"), pzReader(input, "els_pz"), d0Reader(input, "els3_d0_bs"), electrons() {
 
 }
 
 ElectronReader::~ElectronReader() {
-	// TODO Auto-generated destructor stub
 }
 
 std::vector<Electron> ElectronReader::getElectrons() {
@@ -37,6 +36,7 @@ void ElectronReader::readElectrons() {
 		float py = pyReader.getVariable()->at(electronIndex);
 		float pz = pzReader.getVariable()->at(electronIndex);
 		Electron electron(energy, px, py, pz);
+		electron.setD0(d0Reader.getVariable()->at(electronIndex));
 		electrons.push_back(electron);
 	}
 }
@@ -47,6 +47,7 @@ void ElectronReader::initialise() {
 	pxReader.initialise();
 	pyReader.initialise();
 	pzReader.initialise();
+	d0Reader.initialise();
 }
 
 }

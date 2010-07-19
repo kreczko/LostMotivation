@@ -27,6 +27,7 @@ private:
 	VariableReader<MultiFloatPointer> pxReader;
 	VariableReader<MultiFloatPointer> pyReader;
 	VariableReader<MultiFloatPointer> pzReader;
+	VariableReader<MultiFloatPointer> d0Reader;
 
 	std::vector<Electron> electrons;
 	void readElectrons();
