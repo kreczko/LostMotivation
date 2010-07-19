@@ -6,6 +6,7 @@
  */
 
 #include "../../interface/RecoObjects/Electron.h"
+#include <assert.h>
 
 namespace BAT {
 float Electron::goodElectronMinimalEt = 0;
@@ -14,42 +15,44 @@ float Electron::goodElectronMaximalDistanceFromInteractionPoint = 5000;
 
 float Electron::isolatedElectronMaximalRelativeIsolation = 2;
 
-Electron::Electron() : Particle(),
-	robustLooseId(false), robustTightId(
-			false), ecalEtSumInDr03(0), hcalEtSumInDr03(0), trackPtSumInDr03(0), innerLayerMissingHits(0) {
+Electron::Electron() :
+	Particle(), robustLooseId(false), robustTightId(false), ecalIsolation(0), hcalIsolation(0), trackerIsolation(0),
+			innerLayerMissingHits(0) {
 }
 
-Electron::Electron(float energy, float px, float py, float pz): Particle(energy, px, py, pz), robustLooseId(false), robustTightId(
-		false), ecalEtSumInDr03(0), hcalEtSumInDr03(0), trackPtSumInDr03(0), innerLayerMissingHits(0){
-
+Electron::Electron(float energy, float px, float py, float pz) :
+	Particle(energy, px, py, pz), robustLooseId(false), robustTightId(false), ecalIsolation(0), hcalIsolation(0),
+			trackerIsolation(0), innerLayerMissingHits(0) {
 }
 
 Electron::~Electron() {
 	// TODO Auto-generated destructor stub
 }
 
-float Electron::relativeIsolation() const{
-	return (ecalEtSumInDr03 + hcalEtSumInDr03 + trackPtSumInDr03)/this->et();
+float Electron::relativeIsolation() const {
+	return (ecalIsolation + hcalIsolation + trackerIsolation) / this->et();
 }
 
-bool Electron::isIsolated() const{
+bool Electron::isIsolated() const {
 	return this->relativeIsolation() < Electron::isolatedElectronMaximalRelativeIsolation;
 }
 
-void Electron::setEcalEtSumInDr03(float etsum){
-	ecalEtSumInDr03 = etsum;
+void Electron::setEcalIsolation(float isolation) {
+	ecalIsolation = isolation;
 }
 
-void Electron::setHcalEtSumInDr03(float etsum){
-	hcalEtSumInDr03 = etsum;
+void Electron::setHcalIsolation(float isolation) {
+	hcalIsolation = isolation;
 }
 
-void Electron::setTrackPtSumInDr03(float ptsum){
-	trackPtSumInDr03 = ptsum;
+void Electron::setTrackerIsolation(float isolation) {
+	trackerIsolation = isolation;
 }
 
-bool Electron::isGood() const{
-	//TODO: implement good Electron
-	return false;
+bool Electron::isGood() const {
+	bool passesEt = et() > Electron::goodElectronMinimalEt;
+	bool passesEta = fabs(eta()) < goodElectronMaximalAbsoluteEta;
+	bool passesD0 = fabs(d0()) < goodElectronMaximalDistanceFromInteractionPoint;
+	return passesEt && passesEta && passesD0;
 }
 }
