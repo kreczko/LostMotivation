@@ -42,7 +42,6 @@ public:
 	}
 
 	~VariableReader() {
-		delete variableName;
 	}
 
 	variableType getVariable() {
@@ -66,10 +65,6 @@ private:
 
 	bool doesVariableExist() {
 		return input->GetBranch(variableName) != NULL;
-	}
-
-	bool isVariableEnabled() {
-		return input->GetBranchStatus(variableName);
 	}
 
 	void enableVariable() {
