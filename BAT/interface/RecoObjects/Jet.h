@@ -30,11 +30,16 @@ public:
 	static float goodJetMinimalEt;
 	static float goodJetMaximalAbsoluteEta;
 	static float goodJetMinimalElectromagneticFraction;
+	static float goodJetMinimalNumberOfRecHitsContaining90PercentOfTheJetEnergy;
+	static float goodJetMaximalFractionOfEnergyIntheHottestHPDReadout;
+
 
 	static void resetSelectionValues() {
 		Jet::goodJetMaximalAbsoluteEta = 5;
 		Jet::goodJetMinimalEt = 0;
 		Jet::goodJetMinimalElectromagneticFraction = 0;
+		Jet::goodJetMinimalNumberOfRecHitsContaining90PercentOfTheJetEnergy = 0.;
+		Jet::goodJetMaximalFractionOfEnergyIntheHottestHPDReadout = 5000;
 	}
 	Jet();
 	Jet(float energy, float px, float py, float pz);
@@ -42,6 +47,8 @@ public:
 	bool isGoodJet() const;
 	bool isBJetAccordingToBtagAlgorithm(BJetTagger::Algorithm btag) const;
 	float emf();
+	float n90Hits();
+	float fHPD();
 	void setEMF(float emf);
 	void setDiscriminatorForBtagType(float discriminator, BJetTagger::Algorithm type);
 private:
