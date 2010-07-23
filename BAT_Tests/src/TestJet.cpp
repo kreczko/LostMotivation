@@ -3,7 +3,7 @@
 #include "cute_runner.h"
 #include "TestJet.h"
 #include "RecoObjects/Jet.h"
-
+#include "Taggers/BJetTagger.h"
 using namespace BAT;
 
 static Jet goodJet;
@@ -105,22 +105,43 @@ void testBadfHPDJet() {
 	ASSERT(badfHPDJet.isGoodJet() == false);
 }
 
-void testEMF() {
+void testUsedJetAlgorithm() {
+	setUpJets();
+	ASSERT_EQUAL(Jet::DEFAULT, goodJet.getUsedAlgorithm());
+	goodJet.setUsedAlgorithm(Jet::ParticleFlow);
+	ASSERT_EQUAL(Jet::ParticleFlow, goodJet.getUsedAlgorithm());
+}
+
+void testJetEMF() {
 	setUpJets();
 	goodJet.setEMF(2304.23);
 	ASSERT_EQUAL_DELTA(2304.23, goodJet.emf(), 0.01);
 }
 
-void testN90Hits() {
+void testJetN90Hits() {
 	setUpJets();
 	goodJet.setN90Hits(234.);
 	ASSERT_EQUAL_DELTA(234., goodJet.n90Hits(), 0.1);
 }
 
-void testFHPD() {
+void testJetFHPD() {
 	setUpJets();
 	goodJet.setFHPD(0.444);
 	ASSERT_EQUAL_DELTA(0.444, goodJet.fHPD(), 0.001);
+}
+
+void testPositiveBtag() {
+	setUpJets();
+	goodJet.setDiscriminatorForBtagType(BJetTagger::simpleSecondaryVertexHighEfficiencyMediumCut + 0.1,
+			BJetTagger::SimpleSecondaryVertex);
+	ASSERT(goodJet.isBJetAccordingToBtagAlgorithm(BJetTagger::SimpleSecondaryVertex));
+}
+
+void testNegativeBtag() {
+	setUpJets();
+	goodJet.setDiscriminatorForBtagType(BJetTagger::simpleSecondaryVertexHighEfficiencyMediumCut - 0.1,
+			BJetTagger::SimpleSecondaryVertex);
+	ASSERT(goodJet.isBJetAccordingToBtagAlgorithm(BJetTagger::SimpleSecondaryVertex) == false);
 }
 cute::suite make_suite_TestJet() {
 	cute::suite s;
@@ -131,9 +152,13 @@ cute::suite make_suite_TestJet() {
 	s.push_back(CUTE(testBadN90HitsJet));
 	s.push_back(CUTE(testBadfHPDJet));
 
-	s.push_back(CUTE(testEMF));
-	s.push_back(CUTE(testN90Hits));
-	s.push_back(CUTE(testFHPD));
+	s.push_back(CUTE(testUsedJetAlgorithm));
+	s.push_back(CUTE(testJetEMF));
+	s.push_back(CUTE(testJetN90Hits));
+	s.push_back(CUTE(testJetFHPD));
+
+	s.push_back(CUTE(testPositiveBtag));
+	s.push_back(CUTE(testNegativeBtag));
 	return s;
 }
 
