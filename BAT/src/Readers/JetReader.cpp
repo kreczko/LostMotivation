@@ -9,17 +9,23 @@
 
 namespace BAT {
 
+const std::string JetReader::algorithmPrefixes[Jet::NUMBER_OF_JETALGORITHMS] = { "jets", "jetsJPTAK5", "jetsKT4",
+		"jetsKT6", "PFJets", "jetsSC5", "jetsSC7" };
+
 JetReader::JetReader() :
-	numberOfJetsReader(), energyReader(), pxReader(), pyReader(), pzReader(), emfReader(),
-			btagSimpleSecondaryVertexReader(), btagTrackCountingHighPurityReader(),
+	numberOfJetsReader(), energyReader(), pxReader(), pyReader(), pzReader(), emfReader(), n90HitsReader(),
+			fHPDReader(), btagSimpleSecondaryVertexReader(), btagTrackCountingHighPurityReader(),
 			btagTrackCountingHighEfficiencyReader(), jets() {
 
 }
-JetReader::JetReader(boost::shared_ptr<TChain> input) :
-	numberOfJetsReader(input, "Njets"), energyReader(input, "jets_energy"), pxReader(input, "jets_px"), pyReader(input,
-			"jets_py"), pzReader(input, "jets_pz"), emfReader(input, "jets_emf"), btagSimpleSecondaryVertexReader(
-			input, "jets_btag_secVertex"), btagTrackCountingHighPurityReader(input, "jets_btag_TC_highPur"),
-			btagTrackCountingHighEfficiencyReader(input, "jets_btag_TC_highEff"), jets() {
+JetReader::JetReader(boost::shared_ptr<TChain> input, Jet::Algorithm algo) :
+	numberOfJetsReader(input, "N" + algorithmPrefixes[algo]), energyReader(input, algorithmPrefixes[algo] + "_energy"),
+			pxReader(input, algorithmPrefixes[algo] + "_px"), pyReader(input, algorithmPrefixes[algo] + "_py"),
+			pzReader(input, algorithmPrefixes[algo] + "_pz"), emfReader(input, algorithmPrefixes[algo] + "_emf"),
+			n90HitsReader(input, algorithmPrefixes[algo] + "_id_hitsInN90"), fHPDReader(input, algorithmPrefixes[algo]
+					+ "_id_fHPD"), btagSimpleSecondaryVertexReader(input, algorithmPrefixes[algo] + "_btag_secVertex"),
+			btagTrackCountingHighPurityReader(input, algorithmPrefixes[algo] + "_btag_TC_highPur"),
+			btagTrackCountingHighEfficiencyReader(input, algorithmPrefixes[algo] + "_btag_TC_highEff"), jets() {
 
 }
 JetReader::~JetReader() {
@@ -35,17 +41,19 @@ std::vector<Jet> JetReader::getJets() {
 void JetReader::readJets() {
 	unsigned int numberOfJets = numberOfJetsReader.getVariable();
 	for (unsigned int jetIndex = 0; jetIndex < numberOfJets; jetIndex++) {
-		float energy = energyReader.getVariable()->at(jetIndex);
-		float px = pxReader.getVariable()->at(jetIndex);
-		float py = pyReader.getVariable()->at(jetIndex);
-		float pz = pzReader.getVariable()->at(jetIndex);
+		float energy = energyReader.getVariableAt(jetIndex);
+		float px = pxReader.getVariableAt(jetIndex);
+		float py = pyReader.getVariableAt(jetIndex);
+		float pz = pzReader.getVariableAt(jetIndex);
 		Jet jet(energy, px, py, pz);
-		jet.setEMF(emfReader.getVariable()->at(jetIndex));
-		jet.setDiscriminatorForBtagType(btagSimpleSecondaryVertexReader.getVariable()->at(jetIndex),
+		jet.setEMF(emfReader.getVariableAt(jetIndex));
+		jet.setN90Hits(n90HitsReader.getVariableAt(jetIndex));
+		jet.setFHPD(fHPDReader.getVariableAt(jetIndex));
+		jet.setDiscriminatorForBtagType(btagSimpleSecondaryVertexReader.getVariableAt(jetIndex),
 				BJetTagger::SimpleSecondaryVertex);
-		jet.setDiscriminatorForBtagType(btagTrackCountingHighPurityReader.getVariable()->at(jetIndex),
+		jet.setDiscriminatorForBtagType(btagTrackCountingHighPurityReader.getVariableAt(jetIndex),
 				BJetTagger::TrackCountingHighPurity);
-		jet.setDiscriminatorForBtagType(btagTrackCountingHighEfficiencyReader.getVariable()->at(jetIndex),
+		jet.setDiscriminatorForBtagType(btagTrackCountingHighEfficiencyReader.getVariableAt(jetIndex),
 				BJetTagger::TrackCountingHighEfficiency);
 		jets.push_back(jet);
 	}
@@ -57,6 +65,8 @@ void JetReader::initialise() {
 	pyReader.initialise();
 	pzReader.initialise();
 	emfReader.initialise();
+	n90HitsReader.initialise();
+	fHPDReader.initialise();
 	btagSimpleSecondaryVertexReader.initialise();
 	btagTrackCountingHighPurityReader.initialise();
 	btagTrackCountingHighEfficiencyReader.initialise();
