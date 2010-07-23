@@ -1,0 +1,43 @@
+Name (location);Time;Calls;Time/Call;%Time
+Summary;20.0ms;;;100.0
+main;0ns;0;;0.0
+Analysis::Analysis();0ns;1;0ns;0.0
+Analysis::addInputFile(char const*);0ns;1;0ns;0.0
+Analysis::analyze();10.0ms;1;10.0ms;50.0
+Analysis::analyze() (??:-1);10.0ms;;;50.0
+0x406e40;10.0ms;;;50.0
+BAT::ElectronReader::ElectronReader(boost::shared_ptr<TChain>);0ns;1;0ns;0.0
+BAT::ElectronReader::initialise();0ns;1;0ns;0.0
+BAT::Filter::Filter();0ns;1;0ns;0.0
+BAT::Filter::makeStandardFilter();0ns;1;0ns;0.0
+BAT::Filter::setGoodElectronMaximalAbsoluteEta(float);0ns;1;0ns;0.0
+BAT::Filter::setGoodElectronMaximalDistanceFromInteractionPoint(float);0ns;1;0ns;0.0
+BAT::Filter::setGoodElectronMinimalEt(float);0ns;1;0ns;0.0
+BAT::Filter::setGoodJetMaximalAbsoluteEta(float);0ns;1;0ns;0.0
+BAT::Filter::setGoodJetMinimalElectromagneticFraction(float);0ns;1;0ns;0.0
+BAT::Filter::setGoodJetMinimalEt(float);0ns;1;0ns;0.0
+BAT::Filter::setGoodMETMinimalEt(float);0ns;1;0ns;0.0
+BAT::Filter::setIsolatedElectronMaximalRelativeIsolation(float);0ns;1;0ns;0.0
+BAT::Filter::setSimpleSecondaryVertexHighEfficiencyMediumCut(float);0ns;1;0ns;0.0
+BAT::NTupleEventReader::NTupleEventReader();0ns;1;0ns;0.0
+BAT::NTupleEventReader::addInputFile(char const*);0ns;1;0ns;0.0
+boost::detail::sp_enable_shared_from_this(...);0ns;2;0ns;0.0
+std::vector<BAT::Electron, std::allocator<BAT::Electron> >::_M_insert_aux(__gnu_cxx::__normal_iterator<BAT::Electron*, std::vector<BAT::Electron, std::allocator<BAT::Electron> > >, BAT::Electron const&);0ns;5;0ns;0.0
+BAT::ElectronReader::getElectrons();0ns;6313;0ns;0.0
+BAT::ElectronReader::readElectrons();10.0ms;6313;1.584us;50.0
+BAT::ElectronReader::readElectrons() (??:-1);10.0ms;;;50.0
+0x40b194;10.0ms;;;50.0
+BAT::Event::Event();0ns;6313;0ns;0.0
+BAT::Event::addElectrons(std::vector<BAT::Electron, std::allocator<BAT::Electron> >);0ns;6313;0ns;0.0
+BAT::Event::getOtherElectrons();0ns;6313;0ns;0.0
+BAT::NTupleEventReader::getNextEvent();0ns;6313;0ns;0.0
+BAT::NTupleEventReader::initiateReadersIfNotSet();0ns;6313;0ns;0.0
+BAT::NTupleEventReader::selectNextNtupleEvent();0ns;6313;0ns;0.0
+BAT::Particle::energy() const;0ns;6313;0ns;0.0
+std::vector<BAT::Electron, std::allocator<BAT::Electron> >::operator=(std::vector<BAT::Electron, std::allocator<BAT::Electron> > const&);0ns;6313;0ns;0.0
+BAT::NTupleEventReader::getNumberOfEvents();0ns;6314;0ns;0.0
+BAT::NTupleEventReader::initateNumberOfEventsIfNotSet();0ns;6314;0ns;0.0
+BAT::Electron::Electron(float, float, float, float);0ns;16584;0ns;0.0
+BAT::Particle::Particle(float, float, float, float);0ns;16584;0ns;0.0
+BAT::Electron::~Electron();0ns;49765;0ns;0.0
+BAT::Particle::~Particle();0ns;49765;0ns;0.0
