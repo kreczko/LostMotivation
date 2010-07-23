@@ -4,26 +4,27 @@
 #include "ROOTLearnTests.h"
 #include "TChain.h"
 #include "TBranch.h"
-#include <signal.h>
-#include <execinfo.h>
 using namespace std;
 
 static TChain* input;
 //select two related variables
-static string numberOfElectrons = "Nels";
-static string energyForEachElectron = "els_energy";
+static TString numberOfElectrons = "Nels";
+static TString energyForEachElectron = "els_energy";
 
 static TString invalidBranch("this is not in the chain");
 
 void setUpROOTTests() {
 	input = new TChain("configurableAnalysis/eventB");
-	input->Add("/storage/top/mc/spring10_7TeV_v4/MG/e20skim_ttjet/*_1.root");
+	input->Add("/storage/top/mc/V4/MG/e20skim_ttjet/e20skim_nTuple_ttjet_f_1.root");
 
 	input->GetEntries();
 	input->SetBranchStatus("*", 0);
-	input->SetBranchStatus(numberOfElectrons.c_str(), 1);
-	input->SetBranchStatus(energyForEachElectron.c_str(), 1);
-	//	input->GetEntry(1);
+	input->SetBranchStatus(numberOfElectrons, 1);
+	input->SetBranchStatus(energyForEachElectron, 1);
+}
+
+void tearDownROOTTests(){
+	delete input;
 }
 
 void testInvalidTBranch() {
@@ -36,12 +37,20 @@ void testInvalidTBranch() {
 	} catch (...) {
 		cout << "exception occurred" << endl;
 	}
+	ASSERT(input->GetBranch(invalidBranch) == NULL);
+	tearDownROOTTests();
+}
 
+void testValidBranch(){
+	setUpROOTTests();
+	ASSERT(input->GetBranch(numberOfElectrons) != NULL);
+	tearDownROOTTests();
 }
 
 cute::suite make_suite_ROOTLearnTests() {
 	cute::suite s;
 	s.push_back(CUTE(testInvalidTBranch));
+	s.push_back(CUTE(testValidBranch));
 	return s;
 }
 
