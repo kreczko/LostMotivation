@@ -15,24 +15,31 @@ float Jet::goodJetMinimalNumberOfRecHitsContaining90PercentOfTheJetEnergy = 0;
 float Jet::goodJetMaximalFractionOfEnergyIntheHottestHPDReadout = 5000.;
 
 Jet::Jet() :
-	Particle(), electroMagneticFraction(0.), numberOfRecHitsContaining90PercentOfTheJetEnergy(0.),
-			fractionOfEnergyIntheHottestHPDReadout(0.), btag_discriminators(BJetTagger::NUMBER_OF_BTAGALGORITHMS) {
+	Particle(), usedAlgorithm(Jet::DEFAULT), electroMagneticFraction(0.),
+			numberOfRecHitsContaining90PercentOfTheJetEnergy(0.), fractionOfEnergyIntheHottestHPDReadout(0.),
+			btag_discriminators(BJetTagger::NUMBER_OF_BTAGALGORITHMS) {
 
 }
 
 Jet::Jet(const Particle& particle) :
-	Particle(particle), electroMagneticFraction(0.), numberOfRecHitsContaining90PercentOfTheJetEnergy(0.),
-			fractionOfEnergyIntheHottestHPDReadout(0.), btag_discriminators(BJetTagger::NUMBER_OF_BTAGALGORITHMS) {
+	Particle(particle), usedAlgorithm(Jet::DEFAULT), electroMagneticFraction(0.),
+			numberOfRecHitsContaining90PercentOfTheJetEnergy(0.), fractionOfEnergyIntheHottestHPDReadout(0.),
+			btag_discriminators(BJetTagger::NUMBER_OF_BTAGALGORITHMS) {
 
 }
 Jet::Jet(float energy, float px, float py, float pz) :
-	Particle(energy, px, py, pz), electroMagneticFraction(0.),
-			btag_discriminators(BJetTagger::NUMBER_OF_BTAGALGORITHMS) {
+	Particle(energy, px, py, pz), usedAlgorithm(Jet::DEFAULT), electroMagneticFraction(0.), btag_discriminators(
+			BJetTagger::NUMBER_OF_BTAGALGORITHMS) {
 
 }
 
 Jet::~Jet() {
 }
+
+Jet::Algorithm Jet::getUsedAlgorithm() const{
+	return usedAlgorithm;
+}
+
 float Jet::emf() const {
 	return electroMagneticFraction;
 }
@@ -45,6 +52,9 @@ float Jet::fHPD() const {
 	return fractionOfEnergyIntheHottestHPDReadout;
 }
 
+void Jet::setUsedAlgorithm(Jet::Algorithm algo){
+	usedAlgorithm = algo;
+}
 void Jet::setEMF(float emf) {
 	electroMagneticFraction = emf;
 }
@@ -61,12 +71,16 @@ void Jet::setDiscriminatorForBtagType(float discriminator, BJetTagger::Algorithm
 	btag_discriminators[type] = discriminator;
 }
 
-bool Jet::isGoodJet() const{
+bool Jet::isGoodJet() const {
 	bool passesEt = et() > Jet::goodJetMinimalEt;
 	bool passesEta = fabs(eta()) < Jet::goodJetMaximalAbsoluteEta;
 	bool passesEMF = emf() > Jet::goodJetMinimalElectromagneticFraction;
 	bool passesN90Hits = n90Hits() > Jet::goodJetMinimalNumberOfRecHitsContaining90PercentOfTheJetEnergy;
 	bool passesFHPD = fHPD() < Jet::goodJetMaximalFractionOfEnergyIntheHottestHPDReadout;
 	return passesEt && passesEta && passesEMF && passesN90Hits && passesFHPD;
+}
+
+bool Jet::isBJetAccordingToBtagAlgorithm(BJetTagger::Algorithm btag) const {
+	return BJetTagger::doesDiscriminatorPassBtagOfType(btag_discriminators.at(btag), btag);
 }
 }

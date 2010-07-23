@@ -40,20 +40,22 @@ public:
 		Jet::goodJetMaximalFractionOfEnergyIntheHottestHPDReadout = 5000;
 	}
 	Jet();
-	Jet(Algorithm jetAlgorithm);
 	Jet(const Particle& particle);
 	Jet(float energy, float px, float py, float pz);
 	virtual ~Jet();
 	bool isGoodJet() const;
 	bool isBJetAccordingToBtagAlgorithm(BJetTagger::Algorithm btag) const;
+	Algorithm getUsedAlgorithm() const;
 	float emf() const;
 	float n90Hits() const;
 	float fHPD() const;
+	void setUsedAlgorithm(Algorithm algo);
 	void setEMF(float emf);
 	void setN90Hits(float n90Hits);
 	void setFHPD(float fHPD);
 	void setDiscriminatorForBtagType(float discriminator, BJetTagger::Algorithm type);
 private:
+	Algorithm usedAlgorithm;
 	float electroMagneticFraction;
 	float numberOfRecHitsContaining90PercentOfTheJetEnergy;
 	float fractionOfEnergyIntheHottestHPDReadout;
