@@ -57,7 +57,7 @@ protected:
 	ElectronCollection goodIsolatedBarrelElectrons;
 	ElectronCollection goodIsolatedEndcapElectrons;
 
-	ElectronCollection otherElectrons;
+	ElectronCollection allElectrons;
 	//	ElectronCollection goodNonIsolatedElectrons;
 	//	ElectronCollection goodNonIsolatedBarrelElectrons;
 	//	ElectronCollection goodNonIsolatedEndcapElectrons;
@@ -70,9 +70,12 @@ public:
 	const DataType getDataType() const;
 	void setDataType(DataType type);
 	void addElectrons(ElectronCollection electrons);
-	const ElectronCollection * getOtherElectrons();
+	const ElectronCollection& getElectrons() const;
+	const ElectronCollection& getGoodElectrons() const;
+
 	bool passesSelectionStep(Selection::SelectionSteps step) const;
 	bool passesSelectionStepUpTo(Selection::SelectionSteps upToStep) const;
+
 	bool passesHighLevelTrigger() const;
 	bool hasOneGoodPrimaryVertex() const;
 	bool hasOnlyOneGoodIsolatedElectron() const;
@@ -84,7 +87,8 @@ public:
 	bool hasAtLeastThreeGoodJets() const;
 	bool hasAtLeastFourGoodJets() const;
 
-	bool isNoZBosonEvent() const;
+	bool isNotAZBosonEvent() const;
+	bool isIsolatedElectronInBarrelRegion() const;
 };
 
 }

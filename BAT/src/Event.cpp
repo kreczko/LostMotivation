@@ -11,7 +11,7 @@ namespace BAT {
 
 Event::Event() :
 	goodElectrons(), goodBarrelElectrons(), goodEndcapElectrons(), goodIsolatedElectrons(),
-			goodIsolatedBarrelElectrons(), goodIsolatedEndcapElectrons(), otherElectrons(), dataType(DATA) {
+			goodIsolatedBarrelElectrons(), goodIsolatedEndcapElectrons(), allElectrons(), dataType(DATA) {
 
 }
 
@@ -31,13 +31,17 @@ void Event::setDataType(Event::DataType type){
 }
 
 void Event::addElectrons(ElectronCollection electrons){
-	otherElectrons.clear();
-	otherElectrons = electrons;
+	allElectrons.clear();
+	allElectrons = electrons;
 
 }
 
-const ElectronCollection* Event::getOtherElectrons(){
-	return &otherElectrons;
+const ElectronCollection& Event::getElectrons() const{
+	return allElectrons;
+}
+
+const ElectronCollection& Event::getGoodElectrons() const{
+	return goodElectrons;
 }
 
 }
