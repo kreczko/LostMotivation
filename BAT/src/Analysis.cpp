@@ -31,7 +31,7 @@ void Analysis::analyze() {
 	unsigned long numberOfGoodElectrons = 0;
 	for (unsigned long eventIndex = 0; eventIndex < numberOfEvents; eventIndex++) {
 		Event* event = eventReader->getNextEvent();
-		Electron leadingElectron = event->getOtherElectrons()->front();
+		Electron leadingElectron = event->getElectrons().front();
 		if (leadingElectron.isGood())
 			numberOfGoodElectrons++;
 		h_energy->Fill(leadingElectron.energy());
