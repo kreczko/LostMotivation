@@ -10,7 +10,6 @@
 #include "../Taggers/BJetTagger.h"
 #include "Particle.h"
 #include "Electron.h"
-
 #include <vector>
 namespace BAT {
 
@@ -33,7 +32,6 @@ public:
 	static float goodJetMinimalNumberOfRecHitsContaining90PercentOfTheJetEnergy;
 	static float goodJetMaximalFractionOfEnergyIntheHottestHPDReadout;
 
-
 	static void resetSelectionValues() {
 		Jet::goodJetMaximalAbsoluteEta = 5;
 		Jet::goodJetMinimalEt = 0;
@@ -42,17 +40,23 @@ public:
 		Jet::goodJetMaximalFractionOfEnergyIntheHottestHPDReadout = 5000;
 	}
 	Jet();
+	Jet(Algorithm jetAlgorithm);
+	Jet(const Particle& particle);
 	Jet(float energy, float px, float py, float pz);
 	virtual ~Jet();
 	bool isGoodJet() const;
 	bool isBJetAccordingToBtagAlgorithm(BJetTagger::Algorithm btag) const;
-	float emf();
-	float n90Hits();
-	float fHPD();
+	float emf() const;
+	float n90Hits() const;
+	float fHPD() const;
 	void setEMF(float emf);
+	void setN90Hits(float n90Hits);
+	void setFHPD(float fHPD);
 	void setDiscriminatorForBtagType(float discriminator, BJetTagger::Algorithm type);
 private:
 	float electroMagneticFraction;
+	float numberOfRecHitsContaining90PercentOfTheJetEnergy;
+	float fractionOfEnergyIntheHottestHPDReadout;
 	std::vector<float> btag_discriminators;
 	bool isCloseToElectron(const std::vector<Electron>& electrons) const;
 };
