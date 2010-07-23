@@ -71,6 +71,15 @@ void testFourvectorConstructor() {
 	ASSERT_EQUAL(3., particle.massFromEnergyAndMomentum());
 }
 
+void testParticleConstructor() {
+	setUpParticles();
+	Particle particle(particle1);
+	ASSERT_EQUAL(particle1.energy(), particle.energy());
+	ASSERT_EQUAL(particle1.px(), particle.px());
+	ASSERT_EQUAL(particle1.py(), particle.py());
+	ASSERT_EQUAL(particle1.pz(), particle.pz());
+}
+
 void testSetMass() {
 	setUpParticles();
 	particle1.setMass(200.);
@@ -122,6 +131,7 @@ cute::suite make_suite_TestParticle() {
 	s.push_back(CUTE(testParticleIsInBarrelRegion));
 	s.push_back(CUTE(testParticleInEndcap));
 	s.push_back(CUTE(testParticleInCrack));
+	s.push_back(CUTE(testParticleConstructor));
 	return s;
 }
 
