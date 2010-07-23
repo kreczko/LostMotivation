@@ -13,7 +13,7 @@ static ElectronReader* electronReader;
 
 void setUpElectronReader() {
 	input = boost::shared_ptr<TChain>(new TChain("configurableAnalysis/eventB"));
-	input->Add("/storage/top/mc/spring10_7TeV_v4/MG/e20skim_ttjet/*_1.root");
+	input->Add("/storage/top/mc/V4/MG/e20skim_ttjet/e20skim_nTuple_ttjet_f_1.root");
 	input->GetEntries();
 	input->SetBranchStatus("*", 0);
 	electronReader = new ElectronReader(input);
