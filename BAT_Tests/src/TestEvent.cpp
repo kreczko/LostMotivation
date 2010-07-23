@@ -10,13 +10,9 @@ void setUpEvents(){
 	event = new BAT::Event();
 }
 
-void thisIsATest() {
-	ASSERTM("start writing tests", true);
-}
 
 cute::suite make_suite_TestEvent(){
 	cute::suite s;
-	s.push_back(CUTE(thisIsATest));
 	return s;
 }
 
