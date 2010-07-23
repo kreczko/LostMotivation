@@ -14,6 +14,12 @@ Particle::Particle() :
 
 }
 
+Particle::Particle(const Particle& particle) :
+	particleMass(particle.mass()), distanceFromInteractionPointInMicron(particle.d0()), fourvector(
+			particle.getFourVector()) {
+
+}
+
 Particle::Particle(float energy, float px, float py, float pz) :
 	particleMass(0), distanceFromInteractionPointInMicron(0.), fourvector(px, py, pz, energy) {
 }
@@ -22,13 +28,13 @@ Particle::~Particle() {
 }
 
 float Particle::mass() const {
-	if(particleMass == 0)
+	if (particleMass == 0)
 		return massFromEnergyAndMomentum();
 	else
 		return particleMass;
 }
 
-float Particle::d0() const{
+float Particle::d0() const {
 	return distanceFromInteractionPointInMicron;
 }
 
@@ -68,11 +74,11 @@ void Particle::setMass(float mass) {
 	particleMass = mass;
 }
 
-void Particle::setD0(float d0){
+void Particle::setD0(float d0) {
 	distanceFromInteractionPointInMicron = d0;
 }
 
-FourVector Particle::getFourVector() const {
+const FourVector& Particle::getFourVector() const {
 	return fourvector;
 }
 
@@ -96,17 +102,17 @@ const Particle Particle::operator +(const Particle &other) const {
 	return result;
 }
 
-bool Particle::isInBarrelRegion() const{
+bool Particle::isInBarrelRegion() const {
 	return fabs(eta()) < Detector::Barrel::MaximalAbsoluteEta;
 }
 
-bool Particle::isInCrack() const{
+bool Particle::isInCrack() const {
 	bool passesMinimalEta = fabs(eta()) > Detector::Crack::MinimalAbsoluteEta;
 	bool passesMaximalEta = fabs(eta()) < Detector::Crack::MaximalAbsoluteEta;
-	return  passesMinimalEta && passesMaximalEta;
+	return passesMinimalEta && passesMaximalEta;
 }
 
-bool Particle::isInEndCapRegion() const{
+bool Particle::isInEndCapRegion() const {
 	return fabs(eta()) > Detector::EndCap::MinimalAbsoluteEta;
 }
 

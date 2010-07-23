@@ -19,6 +19,7 @@ namespace BAT {
 class Particle {
 public:
 	Particle();
+	Particle(const Particle& particle);
 	Particle(float energy, float px, float py, float pz);
 	virtual ~Particle();
 	const Particle operator+(const Particle &other) const;
@@ -36,7 +37,7 @@ public:
 	float massFromEnergyAndMomentum() const;
 	void setMass(float mass);
 	void setD0(float d0);
-	FourVector getFourVector() const;
+	const FourVector& getFourVector() const;
 	void setFourVector(FourVector fourvector);
 //	float computeD0WRTBeamSpot(const BeamSpot & spot);
 	unsigned int getClosest(const std::vector<Particle>& particles) const;
@@ -45,6 +46,10 @@ public:
 	bool isInCrack() const;
 	bool isInEndCapRegion() const;
 	std::string getEtaRegion() const;
+	float relativePtTo(const Particle& otherParticle) const;
+	float deltaR(const Particle& otherParticle) const;
+	float deltaPhi(const Particle& otherParticle) const;
+	float deltaEta(const Particle& otherParticle) const;
 
 protected:
 	float particleMass;
