@@ -43,7 +43,7 @@ public:
 	Jet(const Particle& particle);
 	Jet(float energy, float px, float py, float pz);
 	virtual ~Jet();
-	bool isGoodJet() const;
+	bool isGood() const;
 	bool isBJetAccordingToBtagAlgorithm(BJetTagger::Algorithm btag) const;
 	Algorithm getUsedAlgorithm() const;
 	float emf() const;
@@ -60,9 +60,8 @@ private:
 	float numberOfRecHitsContaining90PercentOfTheJetEnergy;
 	float fractionOfEnergyIntheHottestHPDReadout;
 	std::vector<float> btag_discriminators;
-	bool isCloseToElectron(const std::vector<Electron>& electrons) const;
 };
-
+typedef std::vector<Jet> JetCollection;
 }
 
 #endif /* JET_H_ */

@@ -71,7 +71,7 @@ void Jet::setDiscriminatorForBtagType(float discriminator, BJetTagger::Algorithm
 	btag_discriminators[type] = discriminator;
 }
 
-bool Jet::isGoodJet() const {
+bool Jet::isGood() const {
 	bool passesEt = et() > Jet::goodJetMinimalEt;
 	bool passesEta = fabs(eta()) < Jet::goodJetMaximalAbsoluteEta;
 	bool passesEMF = emf() > Jet::goodJetMinimalElectromagneticFraction;
