@@ -77,32 +77,32 @@ void setUpJets() {
 
 void testGoodJet() {
 	setUpJets();
-	ASSERT(goodJet.isGoodJet());
+	ASSERT(goodJet.isGood());
 }
 
 void testBadEtaJet() {
 	setUpJets();
-	ASSERT(badEtaJet.isGoodJet() == false);
+	ASSERT(badEtaJet.isGood() == false);
 }
 
 void testBadEtJet() {
 	setUpJets();
-	ASSERT(badEtJet.isGoodJet() == false);
+	ASSERT(badEtJet.isGood() == false);
 }
 
 void testBadEMFJet() {
 	setUpJets();
-	ASSERT(badEMFJet.isGoodJet() == false);
+	ASSERT(badEMFJet.isGood() == false);
 }
 
 void testBadN90HitsJet() {
 	setUpJets();
-	ASSERT(badn90HitsJet.isGoodJet() == false);
+	ASSERT(badn90HitsJet.isGood() == false);
 }
 
 void testBadfHPDJet() {
 	setUpJets();
-	ASSERT(badfHPDJet.isGoodJet() == false);
+	ASSERT(badfHPDJet.isGood() == false);
 }
 
 void testUsedJetAlgorithm() {
