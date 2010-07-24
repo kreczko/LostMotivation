@@ -13,6 +13,7 @@
 #include "TChain.h"
 #include "../Event.h"
 #include "ElectronReader.h"
+#include "JetReader.h"
 #include <string>
 namespace BAT {
 
@@ -35,6 +36,7 @@ private:
 	boost::shared_ptr<TChain> input;
 	boost::shared_ptr<TChain> hltTriggerInput;
 	boost::scoped_ptr<ElectronReader> electronReader;
+	boost::scoped_ptr<JetReader> jetReader;
 	bool areReadersSet;
 	void selectNextNtupleEvent();
 	void initateNumberOfEventsIfNotSet();
