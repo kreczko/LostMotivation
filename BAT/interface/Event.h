@@ -8,6 +8,7 @@
 #ifndef EVENT_H_
 #define EVENT_H_
 #include "RecoObjects/Electron.h"
+#include "RecoObjects/Jet.h"
 #include <vector>
 #include "Selection.h"
 
@@ -49,6 +50,7 @@ public:
 		NUMBER_OF_DATA_TYPES
 	};
 protected:
+	ElectronCollection allElectrons;
 	ElectronCollection goodElectrons;
 	ElectronCollection goodBarrelElectrons;
 	ElectronCollection goodEndcapElectrons;
@@ -57,7 +59,8 @@ protected:
 	ElectronCollection goodIsolatedBarrelElectrons;
 	ElectronCollection goodIsolatedEndcapElectrons;
 
-	ElectronCollection allElectrons;
+	JetCollection allJets;
+	JetCollection goodJets;
 	//	ElectronCollection goodNonIsolatedElectrons;
 	//	ElectronCollection goodNonIsolatedBarrelElectrons;
 	//	ElectronCollection goodNonIsolatedEndcapElectrons;
@@ -69,9 +72,12 @@ public:
 	bool isRealData() const;
 	const DataType getDataType() const;
 	void setDataType(DataType type);
-	void addElectrons(ElectronCollection electrons);
+	void setElectrons(ElectronCollection electrons);
+	void setJets(JetCollection electrons);
 	const ElectronCollection& getElectrons() const;
 	const ElectronCollection& getGoodElectrons() const;
+	const JetCollection& getJets() const;
+	const JetCollection& getGoodJets() const;
 
 	bool passesSelectionStep(Selection::SelectionSteps step) const;
 	bool passesSelectionStepUpTo(Selection::SelectionSteps upToStep) const;
@@ -89,6 +95,10 @@ public:
 
 	bool isNotAZBosonEvent() const;
 	bool isIsolatedElectronInBarrelRegion() const;
+
+private:
+	void selectGoodElectrons();
+	void selectGoodJets();
 };
 
 }
