@@ -118,6 +118,21 @@ void testParticleInCrack() {
 	ASSERT(particleInCrack.isInBarrelRegion() == false);
 }
 
+void testGetEtaRegionCrack(){
+	setUpParticles();
+	ASSERT(strcmp("crack", particleInCrack.getEtaRegion()) == 0);
+}
+
+void testGetEtaRegionBarrel(){
+	setUpParticles();
+	ASSERT(strcmp("barrel", particleInBarrelRegion.getEtaRegion()) == 0);
+}
+
+void testGetEtaRegionEndcap(){
+	setUpParticles();
+	ASSERT(strcmp("endcap", particleInEndcap.getEtaRegion()) == 0);
+}
+
 cute::suite make_suite_TestParticle() {
 	cute::suite s;
 	s.push_back(CUTE(testPlusOperatorCorrectFourvector));
@@ -132,6 +147,10 @@ cute::suite make_suite_TestParticle() {
 	s.push_back(CUTE(testParticleInEndcap));
 	s.push_back(CUTE(testParticleInCrack));
 	s.push_back(CUTE(testParticleConstructor));
+
+	s.push_back(CUTE(testGetEtaRegionCrack));
+	s.push_back(CUTE(testGetEtaRegionBarrel));
+	s.push_back(CUTE(testGetEtaRegionEndcap));
 	return s;
 }
 
