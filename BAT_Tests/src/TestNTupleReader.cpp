@@ -38,7 +38,7 @@ void setUpNTupleReader() {
 	TWReader = new NTupleEventReader();
 	TChanReader = new NTupleEventReader();
 	TChanReader = new NTupleEventReader();
-	DataReader  = new NTupleEventReader();
+	DataReader = new NTupleEventReader();
 
 	TTbarReader->addInputFile("/storage/top/mc/V4/MG/e20skim_ttjet/e20skim_nTuple_ttjet_f_1.root");
 	QCDenri1Reader->addInputFile("/storage/top/mc/V4/pythia/e20skim_enri1/e20skim_nTuple_enri1_f_1_3_aGl.root");
@@ -167,6 +167,21 @@ void testDataType() {
 	ASSERT_EQUAL(Event::DATA, currentEvent->getDataType());
 	tearDownNTupleReader();
 }
+
+void testNumberOfElectronsInEvent1() {
+	setUpNTupleReader();
+	Event* currentEvent = TTbarReader->getNextEvent();
+	ASSERT_EQUAL(3, currentEvent->getElectrons().size());
+	tearDownNTupleReader();
+}
+
+void testNumberOfJetsInEvent1() {
+	setUpNTupleReader();
+	Event* currentEvent = TTbarReader->getNextEvent();
+	ASSERT_EQUAL(8, currentEvent->getJets().size());
+	tearDownNTupleReader();
+}
+
 cute::suite make_suite_TestNTupleReader() {
 	cute::suite s;
 	s.push_back(CUTE(testNumberOfEvents));
@@ -187,6 +202,9 @@ cute::suite make_suite_TestNTupleReader() {
 	s.push_back(CUTE(testTChanType));
 
 	s.push_back(CUTE(testDataType));
+
+	s.push_back(CUTE(testNumberOfElectronsInEvent1));
+	s.push_back(CUTE(testNumberOfJetsInEvent1));
 	return s;
 }
 
