@@ -8,7 +8,6 @@
 #ifndef PARTICLE_H_
 #define PARTICLE_H_
 #include "TLorentzVector.h"
-//#include "BeamSpot.h"
 #include <vector>
 #include <string>
 
@@ -39,17 +38,17 @@ public:
 	void setD0(float d0);
 	const FourVector& getFourVector() const;
 	void setFourVector(FourVector fourvector);
-//	float computeD0WRTBeamSpot(const BeamSpot & spot);
 	unsigned int getClosest(const std::vector<Particle>& particles) const;
 
 	bool isInBarrelRegion() const;
 	bool isInCrack() const;
 	bool isInEndCapRegion() const;
-	std::string getEtaRegion() const;
+	const char* getEtaRegion() const;
 	float relativePtTo(const Particle& otherParticle) const;
 	float deltaR(const Particle& otherParticle) const;
 	float deltaPhi(const Particle& otherParticle) const;
 	float deltaEta(const Particle& otherParticle) const;
+	bool isWithDeltaROf(float deltaR, const Particle& particle) const;
 
 protected:
 	float particleMass;

@@ -116,4 +116,15 @@ bool Particle::isInEndCapRegion() const {
 	return fabs(eta()) > Detector::EndCap::MinimalAbsoluteEta;
 }
 
+const char* Particle::getEtaRegion() const{
+	if(isInBarrelRegion())
+		return "barrel";
+	else if(isInCrack())
+		return "crack";
+	else if(isInEndCapRegion())
+		return "endcap";
+	else
+		return "unknown";
+}
+
 }
