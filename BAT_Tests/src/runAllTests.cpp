@@ -2,7 +2,6 @@
 #include "ide_listener.h"
 #include "cute_runner.h"
 
-#include "ROOTLearnTests.h"
 #include "TestElectron.h"
 #include "TestElectronReader.h"
 #include "TestEvent.h"
@@ -12,9 +11,19 @@
 #include "TestJetReader.h"
 #include "TestNTupleReader.h"
 #include "TestParticle.h"
+#include "TestPrimaryVertex.h"
+#include "TestPrimaryVertexReader.h"
+#include "TestROOT.h"
 #include "TestVariableReader.h"
 
+#include "TROOT.h"
+
+void setUpOnce() {
+	gROOT->ProcessLine("#include <vector>");
+}
+
 void runSuite(){
+	setUpOnce();
 	cute::suite s = make_suite_ROOTLearnTests();
 	s+= make_suite_TestElectron();
 	s+= make_suite_TestElectronReader();
@@ -25,6 +34,8 @@ void runSuite(){
 	s+= make_suite_TestJetReader();
 	s+= make_suite_TestNTupleReader();
 	s+= make_suite_TestParticle();
+	s+= make_suite_TestPrimaryVertex();
+	s+= make_suite_TestPrimaryVertexReader();
 	s+= make_suite_TestVariableReader();
 	cute::ide_listener lis;
 	cute::makeRunner(lis)(s, "Testing BAT");
