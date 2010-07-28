@@ -16,7 +16,7 @@ const std::string NTupleEventReader::FilePrefix = "nTuple_";
 NTupleEventReader::NTupleEventReader() :
 	numberOfEvents(0), currentEventEntry(0), numberOfFiles(0), input(new TChain(NTupleEventReader::EVENT_CHAIN)),
 			hltTriggerInput(new TChain(NTupleEventReader::HLT_TRIGGER_CHAIN)),
-			electronReader(new ElectronReader(input)), jetReader(new JetReader(input)), areReadersSet(false) {
+			electronReader(new ElectronReader(input)), jetReader(new JetReader(input)), areReadersSet(false), currentEvent() {
 	input->AddFriend(hltTriggerInput.get());
 }
 
@@ -28,14 +28,14 @@ void NTupleEventReader::addInputFile(const char * fileName) {
 	hltTriggerInput->Add(fileName);
 }
 
-Event* NTupleEventReader::getNextEvent() {
+const Event& NTupleEventReader::getNextEvent() {
 	initiateReadersIfNotSet();
 	selectNextNtupleEvent();
-	Event* event = new Event();
-	event->setElectrons(electronReader->getElectrons());
-	event->setJets(jetReader->getJets());
-	event->setDataType(getDataType());
-	return event;
+	currentEvent = Event();
+	currentEvent.setElectrons(electronReader->getElectrons());
+	currentEvent.setJets(jetReader->getJets());
+	currentEvent.setDataType(getDataType());
+	return currentEvent;
 }
 
 void NTupleEventReader::selectNextNtupleEvent() {

@@ -26,7 +26,7 @@ public:
 	NTupleEventReader();
 	virtual ~NTupleEventReader();
 	unsigned long getNumberOfEvents();
-	Event* getNextEvent();
+	const Event& getNextEvent();
 	void addInputFile(const char* fileName);
 	void addInputFile(const char* fileName, Event::DataType type);
 private:
@@ -38,6 +38,7 @@ private:
 	boost::scoped_ptr<ElectronReader> electronReader;
 	boost::scoped_ptr<JetReader> jetReader;
 	bool areReadersSet;
+	Event currentEvent;
 	void selectNextNtupleEvent();
 	void initateNumberOfEventsIfNotSet();
 	void initiateReadersIfNotSet();
