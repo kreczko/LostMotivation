@@ -14,6 +14,7 @@
 #include <exception>
 
 typedef std::vector<float>* MultiFloatPointer;
+typedef boost::shared_ptr<TChain> TChainPointer;
 namespace BAT {
 struct VariableNotFoundException: public std::exception {
 	TString msg;
@@ -36,7 +37,7 @@ public:
 
 	}
 
-	VariableReader(boost::shared_ptr<TChain> chain, TString varName) :
+	VariableReader(TChainPointer chain, TString varName) :
 		input(chain), variable(0), variableName(varName) {
 
 	}
@@ -44,7 +45,7 @@ public:
 	~VariableReader() {
 	}
 
-	variableType getVariable() {
+	const variableType& getVariable() {
 		return variable;
 	}
 
@@ -56,7 +57,7 @@ public:
 			throw VariableNotFoundException("Variable '" + variableName + "' was not found.");
 	}
 private:
-	boost::shared_ptr<TChain> input;
+	TChainPointer input;
 	variableType variable;
 	TString variableName;
 
@@ -90,8 +91,8 @@ public:
 		delete variable;
 	}
 
-	MultiFloatPointer getVariable() {
-		return variable;
+	unsigned int size() const{
+		return variable->size();
 	}
 
 	float getVariableAt(unsigned int index){
