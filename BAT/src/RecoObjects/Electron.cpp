@@ -26,12 +26,13 @@ float Electron::isolatedElectronMaximalRelativeIsolation = 2;
 
 Electron::Electron() :
 	Particle(), robustLooseId(false), robustTightId(false), VBTF_W70_ElectronID(false), superCluser_Eta(0.),
-			ecal_Isolation(0), hcal_Isolation(0), tracker_Isolation(0), innerLayerMissingHits(0) {
+			ecal_Isolation(0.), hcal_Isolation(0.), tracker_Isolation(0.), innerLayerMissingHits(0.) {
 }
 
 Electron::Electron(float energy, float px, float py, float pz) :
 	Particle(energy, px, py, pz), robustLooseId(false), robustTightId(false), VBTF_W70_ElectronID(false),
-			superCluser_Eta(0.), ecal_Isolation(0), hcal_Isolation(0), tracker_Isolation(0), innerLayerMissingHits(0) {
+			superCluser_Eta(0.), ecal_Isolation(0.), hcal_Isolation(0.), tracker_Isolation(0.), innerLayerMissingHits(
+					0.) {
 }
 
 Electron::~Electron() {
@@ -99,7 +100,8 @@ bool Electron::isGood() const {
 	bool passesEt = et() > Electron::goodElectronMinimalEt;
 	bool passesEta = fabs(superClusterEta()) < goodElectronMaximalAbsoluteEta && !isInCrack();
 	bool passesD0 = fabs(d0()) < goodElectronMaximalDistanceFromInteractionPoint;
-	return passesEt && passesEta && passesD0 && VBTF_W70_ElectronID;
+	bool passesID = VBTF_W70_ElectronID;
+	return passesEt && passesEta && passesD0 && passesID;
 }
 
 bool Electron::isInBarrelRegion() const {
