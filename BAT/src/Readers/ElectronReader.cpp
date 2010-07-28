@@ -15,7 +15,7 @@ ElectronReader::ElectronReader() :
 			dPhiInReader(), dEtaInReader(), hadOverEmReader(), electrons() {
 
 }
-ElectronReader::ElectronReader(boost::shared_ptr<TChain> input) :
+ElectronReader::ElectronReader(TChainPointer input) :
 	numberOfElectronsReader(input, "Nels"), energyReader(input, "els_energy"), pxReader(input, "els_px"), pyReader(
 			input, "els_py"), pzReader(input, "els_pz"), superClusterEtaReader(input, "els_scEta"), d0Reader(input,
 			"els3_d0_bs"), numberOfInnerLayerMissingHitsReader(input, "els_innerLayerMissingHits"),
@@ -30,7 +30,7 @@ ElectronReader::ElectronReader(boost::shared_ptr<TChain> input) :
 ElectronReader::~ElectronReader() {
 }
 
-std::vector<Electron> ElectronReader::getElectrons() {
+const ElectronCollection& ElectronReader::getElectrons() {
 	if (electrons.empty() == false)
 		electrons.clear();
 	readElectrons();

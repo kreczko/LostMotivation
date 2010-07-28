@@ -7,20 +7,17 @@
 
 #ifndef ELECTRONREADER_H_
 #define ELECTRONREADER_H_
-#include "../RecoObjects/Electron.h"
 #include "VariableReader.h"
-#include <vector>
-#include "TChain.h"
-#include <boost/shared_ptr.hpp>
+#include "../RecoObjects/Electron.h"
 #include "../VBTF_ElectronID.h"
 
 namespace BAT {
 class ElectronReader{
 public:
 	ElectronReader();
-	ElectronReader(boost::shared_ptr<TChain> input);
+	ElectronReader(TChainPointer input);
 	virtual ~ElectronReader();
-	std::vector<Electron> getElectrons();
+	const ElectronCollection& getElectrons();
 	void initialise();
 private:
 	VariableReader<unsigned int> numberOfElectronsReader;
@@ -43,7 +40,7 @@ private:
 	VariableReader<MultiFloatPointer> dEtaInReader;
 	VariableReader<MultiFloatPointer> hadOverEmReader;
 
-	std::vector<Electron> electrons;
+	ElectronCollection electrons;
 	void readElectrons();
 	bool getVBTF_W70_ElectronID_Barrel(unsigned int index);
 	bool getVBTF_W70_ElectronID_Endcap(unsigned int index);
