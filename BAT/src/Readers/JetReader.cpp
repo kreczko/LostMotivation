@@ -18,7 +18,7 @@ JetReader::JetReader() :
 			btagTrackCountingHighEfficiencyReader(), jets() {
 
 }
-JetReader::JetReader(boost::shared_ptr<TChain> input, Jet::Algorithm algo) :
+JetReader::JetReader(TChainPointer input, Jet::Algorithm algo) :
 	numberOfJetsReader(input, "N" + algorithmPrefixes[algo]), energyReader(input, algorithmPrefixes[algo] + "_energy"),
 			pxReader(input, algorithmPrefixes[algo] + "_px"), pyReader(input, algorithmPrefixes[algo] + "_py"),
 			pzReader(input, algorithmPrefixes[algo] + "_pz"), emfReader(input, algorithmPrefixes[algo] + "_emf"),
@@ -31,7 +31,7 @@ JetReader::JetReader(boost::shared_ptr<TChain> input, Jet::Algorithm algo) :
 JetReader::~JetReader() {
 }
 
-std::vector<Jet> JetReader::getJets() {
+const JetCollection& JetReader::getJets() {
 	if (jets.empty() == false)
 		jets.clear();
 	readJets();

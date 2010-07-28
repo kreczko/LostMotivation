@@ -7,11 +7,8 @@
 
 #ifndef JETREADER_H_
 #define JETREADER_H_
-#include "../RecoObjects/Jet.h"
 #include "VariableReader.h"
-#include <vector>
-#include "TChain.h"
-#include <boost/shared_ptr.hpp>
+#include "../RecoObjects/Jet.h"
 #include <string>
 namespace BAT {
 
@@ -21,9 +18,9 @@ public:
 	const static std::string algorithmPrefixes[Jet::NUMBER_OF_JETALGORITHMS];
 	
 	JetReader();
-	JetReader(boost::shared_ptr<TChain> input, Jet::Algorithm algo = Jet::DEFAULT);
+	JetReader(TChainPointer, Jet::Algorithm algo = Jet::DEFAULT);
 	virtual ~JetReader();
-	std::vector<Jet> getJets();
+	const JetCollection& getJets();
 	void initialise();
 private:
 	VariableReader<unsigned int> numberOfJetsReader;
@@ -40,7 +37,7 @@ private:
 	VariableReader<MultiFloatPointer> btagTrackCountingHighPurityReader;
 	VariableReader<MultiFloatPointer> btagTrackCountingHighEfficiencyReader;
 
-	std::vector<Jet> jets;
+	JetCollection jets;
 	void readJets();
 };
 
