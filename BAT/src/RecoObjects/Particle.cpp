@@ -127,4 +127,19 @@ const char* Particle::getEtaRegion() const{
 		return "unknown";
 }
 
+float Particle::deltaEta(const Particle& other) const{
+	return fabs(eta() - other.eta());
+}
+
+float Particle::deltaPhi(const Particle& other) const{
+	return fourvector.DeltaPhi(other.getFourVector());
+}
+
+float Particle::deltaR(const Particle& other) const{
+	return fourvector.DeltaR(other.getFourVector());
+}
+
+bool Particle::isWithinDeltaR(float delta_R, const Particle& particle) const{
+	return deltaR(particle) < delta_R;
+}
 }
