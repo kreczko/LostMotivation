@@ -52,6 +52,36 @@ void testPlusOperatorCorrectMass() {
 	ASSERT_EQUAL(combinedVector.M(), particle3.mass());
 }
 
+void testDeltaEta() {
+	setUpParticles();
+	float deltaEta = fabs(particle1.eta() - particle2.eta());
+	ASSERT_EQUAL(deltaEta, particle1.deltaEta(particle2));
+}
+
+void testDeltaPhi() {
+	setUpParticles();
+	float deltaPhi = particle1.getFourVector().DeltaPhi(particle2.getFourVector());
+	ASSERT_EQUAL(deltaPhi, particle1.deltaPhi(particle2));
+}
+
+void testDeltaR() {
+	setUpParticles();
+	float deltaR = particle1.getFourVector().DeltaR(particle2.getFourVector());
+	ASSERT_EQUAL(deltaR, particle1.deltaR(particle2));
+}
+
+void testIsWithinDR() {
+	setUpParticles();
+	Particle particle(20., 9.99, 0., 0.);
+	ASSERT(particle1.isWithinDeltaR(0.3, particle));
+}
+
+void testIsNotWithinDR() {
+	setUpParticles();
+	Particle particle(20., -9.99, 0., 0.);
+	ASSERT(particle1.isWithinDeltaR(0.3, particle) == false);
+}
+
 void testStandardConstructor() {
 	Particle particle;
 	ASSERT_EQUAL(0., particle.energy());
@@ -118,17 +148,17 @@ void testParticleInCrack() {
 	ASSERT(particleInCrack.isInBarrelRegion() == false);
 }
 
-void testGetEtaRegionCrack(){
+void testGetEtaRegionCrack() {
 	setUpParticles();
 	ASSERT(strcmp("crack", particleInCrack.getEtaRegion()) == 0);
 }
 
-void testGetEtaRegionBarrel(){
+void testGetEtaRegionBarrel() {
 	setUpParticles();
 	ASSERT(strcmp("barrel", particleInBarrelRegion.getEtaRegion()) == 0);
 }
 
-void testGetEtaRegionEndcap(){
+void testGetEtaRegionEndcap() {
 	setUpParticles();
 	ASSERT(strcmp("endcap", particleInEndcap.getEtaRegion()) == 0);
 }
@@ -151,6 +181,13 @@ cute::suite make_suite_TestParticle() {
 	s.push_back(CUTE(testGetEtaRegionCrack));
 	s.push_back(CUTE(testGetEtaRegionBarrel));
 	s.push_back(CUTE(testGetEtaRegionEndcap));
+
+	s.push_back(CUTE(testDeltaEta));
+	s.push_back(CUTE(testDeltaPhi));
+	s.push_back(CUTE(testDeltaR));
+
+	s.push_back(CUTE(testIsWithinDR));
+	s.push_back(CUTE(testIsNotWithinDR));
 	return s;
 }
 
