@@ -86,99 +86,99 @@ void testNumberOfEvents() {
 
 void testTTbarType() {
 	setUpNTupleReader();
-	Event* currentEvent = TTbarReader->getNextEvent();
-	ASSERT_EQUAL(Event::ttbar, currentEvent->getDataType());
+	Event currentEvent = TTbarReader->getNextEvent();
+	ASSERT_EQUAL(Event::ttbar, currentEvent.getDataType());
 	tearDownNTupleReader();
 }
 
 void testQCD_EMEnriched_80_to_170Type() {
 	setUpNTupleReader();
-	Event* currentEvent = QCDenri3Reader->getNextEvent();
-	ASSERT_EQUAL(Event::QCD_EMEnriched_Pt80to170, currentEvent->getDataType());
+	Event currentEvent = QCDenri3Reader->getNextEvent();
+	ASSERT_EQUAL(Event::QCD_EMEnriched_Pt80to170, currentEvent.getDataType());
 	tearDownNTupleReader();
 }
 
 void testQCD_EMEnriched_30_to_80Type() {
 	setUpNTupleReader();
-	Event* currentEvent = QCDenri2Reader->getNextEvent();
-	ASSERT_EQUAL(Event::QCD_EMEnriched_Pt30to80, currentEvent->getDataType());
+	Event currentEvent = QCDenri2Reader->getNextEvent();
+	ASSERT_EQUAL(Event::QCD_EMEnriched_Pt30to80, currentEvent.getDataType());
 	tearDownNTupleReader();
 }
 
 void testQCD_EMEnriched_20_to_30Type() {
 	setUpNTupleReader();
-	Event* currentEvent = QCDenri1Reader->getNextEvent();
-	ASSERT_EQUAL(Event::QCD_EMEnriched_Pt20to30, currentEvent->getDataType());
+	Event currentEvent = QCDenri1Reader->getNextEvent();
+	ASSERT_EQUAL(Event::QCD_EMEnriched_Pt20to30, currentEvent.getDataType());
 	tearDownNTupleReader();
 }
 
 void testQCD_BCtoE_80_to_170Type() {
 	setUpNTupleReader();
-	Event* currentEvent = QCDbce3Reader->getNextEvent();
-	ASSERT_EQUAL(Event::QCD_BCtoE_Pt80to170, currentEvent->getDataType());
+	Event currentEvent = QCDbce3Reader->getNextEvent();
+	ASSERT_EQUAL(Event::QCD_BCtoE_Pt80to170, currentEvent.getDataType());
 	tearDownNTupleReader();
 }
 
 void testQCD_BCtoE_30_to_80Type() {
 	setUpNTupleReader();
-	Event* currentEvent = QCDbce2Reader->getNextEvent();
-	ASSERT_EQUAL(Event::QCD_BCtoE_Pt30to80, currentEvent->getDataType());
+	Event currentEvent = QCDbce2Reader->getNextEvent();
+	ASSERT_EQUAL(Event::QCD_BCtoE_Pt30to80, currentEvent.getDataType());
 	tearDownNTupleReader();
 }
 
 void testQCD_BCtoE_20_to_30Type() {
 	setUpNTupleReader();
-	Event* currentEvent = QCDbce1Reader->getNextEvent();
-	ASSERT_EQUAL(Event::QCD_BCtoE_Pt20to30, currentEvent->getDataType());
+	Event currentEvent = QCDbce1Reader->getNextEvent();
+	ASSERT_EQUAL(Event::QCD_BCtoE_Pt20to30, currentEvent.getDataType());
 	tearDownNTupleReader();
 }
 
 void testWjetsType() {
 	setUpNTupleReader();
-	Event* currentEvent = WjetsReader->getNextEvent();
-	ASSERT_EQUAL(Event::Wjets, currentEvent->getDataType());
+	Event currentEvent = WjetsReader->getNextEvent();
+	ASSERT_EQUAL(Event::Wjets, currentEvent.getDataType());
 	tearDownNTupleReader();
 }
 
 void testZjetsType() {
 	setUpNTupleReader();
-	Event* currentEvent = ZJetsReader->getNextEvent();
-	ASSERT_EQUAL(Event::Zjets, currentEvent->getDataType());
+	Event currentEvent = ZJetsReader->getNextEvent();
+	ASSERT_EQUAL(Event::Zjets, currentEvent.getDataType());
 	tearDownNTupleReader();
 }
 
 void testTWType() {
 	setUpNTupleReader();
-	Event* currentEvent = TWReader->getNextEvent();
-	ASSERT_EQUAL(Event::singleTop_And_W, currentEvent->getDataType());
+	Event currentEvent = TWReader->getNextEvent();
+	ASSERT_EQUAL(Event::singleTop_And_W, currentEvent.getDataType());
 	tearDownNTupleReader();
 }
 
 void testTChanType() {
 	setUpNTupleReader();
-	Event* currentEvent = TChanReader->getNextEvent();
-	ASSERT_EQUAL(Event::singleTopTChannel, currentEvent->getDataType());
+	Event currentEvent = TChanReader->getNextEvent();
+	ASSERT_EQUAL(Event::singleTopTChannel, currentEvent.getDataType());
 	tearDownNTupleReader();
 }
 
 void testDataType() {
 	setUpNTupleReader();
-	Event* currentEvent = DataReader->getNextEvent();
-	ASSERT_EQUAL(Event::DATA, currentEvent->getDataType());
+	Event currentEvent = DataReader->getNextEvent();
+	ASSERT_EQUAL(Event::DATA, currentEvent.getDataType());
 	tearDownNTupleReader();
 }
 
 void testNumberOfElectronsInEvent1() {
 	setUpNTupleReader();
-	Event* currentEvent = TTbarReader->getNextEvent();
-	ASSERT_EQUAL(3, currentEvent->getElectrons().size());
+	Event currentEvent = TTbarReader->getNextEvent();
+	ASSERT_EQUAL(3, currentEvent.getElectrons().size());
 	tearDownNTupleReader();
 }
 
 void testNumberOfJetsInEvent1() {
 	setUpNTupleReader();
-	Event* currentEvent = TTbarReader->getNextEvent();
-	ASSERT_EQUAL(8, currentEvent->getJets().size());
+	Event currentEvent = TTbarReader->getNextEvent();
+	ASSERT_EQUAL(8, currentEvent.getJets().size());
 	tearDownNTupleReader();
 }
 
