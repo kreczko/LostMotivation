@@ -26,7 +26,7 @@ void tearDownElectronReader(){
 }
 void testReadElectronsSize() {
 	setUpElectronReader();
-	std::vector<Electron> electrons = electronReader->getElectrons();
+	ElectronCollection electrons = electronReader->getElectrons();
 	ASSERT_EQUAL(6, electrons.size());
 	tearDownElectronReader();
 }
