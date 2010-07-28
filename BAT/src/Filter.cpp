@@ -20,6 +20,10 @@ Filter * Filter::makeStandardFilter() {
 	Filter::resetSelectionValues();
 	Filter * filter = new Filter();
 	
+	filter->setGoodVertexMinimalNumberOfDegreesOfFreedom(4);
+	filter->setGoodVertexMaximalAbsoluteZPosition(15);
+	filter->setGoodVertexMaximalRho(2.0);
+
 	filter->setGoodJetMinimalEt(30.0);
 	filter->setGoodJetMaximalAbsoluteEta(2.4);
 	filter->setGoodJetMinimalElectromagneticFraction(0.01);
@@ -39,6 +43,18 @@ Filter * Filter::makeStandardFilter() {
 	filter->setGoodMETMinimalEt(20);
 
 	return filter;
+}
+
+void Filter::setGoodVertexMinimalNumberOfDegreesOfFreedom(unsigned int minimalNDOF){
+	PrimaryVertex::goodVertexMinimalNumberOfDegreesOfFreedom = minimalNDOF;
+}
+
+void Filter::setGoodVertexMaximalAbsoluteZPosition(float absoluteZ){
+	PrimaryVertex::goodVertexMaximalAbsoluteZPosition = absoluteZ;
+}
+
+void Filter::setGoodVertexMaximalRho(float rho){
+	PrimaryVertex::goodVertexMaximalAbsoluteRho = rho;
 }
 
 void Filter::setGoodJetMinimalEt(float minimalEt) {

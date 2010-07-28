@@ -10,6 +10,7 @@
 #include "../interface/RecoObjects/Electron.h"
 #include "../interface/RecoObjects/Jet.h"
 #include "../interface/RecoObjects/MET.h"
+#include "../interface/RecoObjects/PrimaryVertex.h"
 
 namespace BAT {
 
@@ -18,6 +19,10 @@ public:
 	Filter();
 	virtual ~Filter();
 	static Filter* makeStandardFilter();
+
+	void setGoodVertexMinimalNumberOfDegreesOfFreedom(unsigned int minimalNDOF);
+	void setGoodVertexMaximalAbsoluteZPosition(float absoluteZ);
+	void setGoodVertexMaximalRho(float rho);
 
 	void setGoodJetMinimalEt(float minimalEt);
 	void setGoodJetMaximalAbsoluteEta(float maximalAbsoluteEta);
@@ -40,6 +45,7 @@ public:
 		Electron::resetSelectionValues();
 		Jet::resetSelectionValues();
 		MET::resetSelectionValues();
+		PrimaryVertex::resetSelectionValues();
 	}
 };
 
