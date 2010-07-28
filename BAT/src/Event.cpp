@@ -10,68 +10,125 @@
 namespace BAT {
 
 Event::Event() :
-	allElectrons(),goodElectrons(), goodBarrelElectrons(), goodEndcapElectrons(), goodIsolatedElectrons(),
-			goodIsolatedBarrelElectrons(), goodIsolatedEndcapElectrons(),  dataType(DATA) {
+	HLT_PHOTON15_L1R(false), primaryVertex(), allElectrons(), goodElectrons(), goodBarrelElectrons(),
+			goodEndcapElectrons(), goodIsolatedElectrons(), goodIsolatedBarrelElectrons(),
+			goodIsolatedEndcapElectrons(), dataType(DATA) {
 
 }
 
 Event::~Event() {
 }
 
-bool Event::isRealData() const{
+bool Event::isRealData() const {
 	return dataType == DATA;
 }
 
-const Event::DataType Event::getDataType() const{
+const Event::DataType Event::getDataType() const {
 	return dataType;
 }
 
-void Event::setDataType(Event::DataType type){
+void Event::setDataType(Event::DataType type) {
 	dataType = type;
 }
 
-void Event::setElectrons(ElectronCollection electrons){
+void Event::setPrimaryVertex(PrimaryVertex vertex) {
+	primaryVertex = vertex;
+}
+void Event::setElectrons(ElectronCollection electrons) {
 	allElectrons.clear();
 	allElectrons = electrons;
-	selectGoodElectrons();
+	selectElectronsByQuality();
 }
 
-void Event::setJets(JetCollection jets){
+void Event::setJets(JetCollection jets) {
 	allJets.clear();
 	allJets = jets;
 	selectGoodJets();
 }
 
-const ElectronCollection& Event::getElectrons() const{
+void Event::setHLT_Photon15_L1R(bool hltTrigger) {
+	HLT_PHOTON15_L1R = hltTrigger;
+}
+
+const PrimaryVertex& Event::getPrimaryVertex() const {
+	return primaryVertex;
+}
+
+const ElectronCollection& Event::getElectrons() const {
 	return allElectrons;
 }
 
-const ElectronCollection& Event::getGoodElectrons() const{
+const ElectronCollection& Event::getGoodElectrons() const {
 	return goodElectrons;
 }
 
-const JetCollection& Event::getJets() const{
+const ElectronCollection& Event::getGoodIsolatedElectrons() const {
+	return goodIsolatedElectrons;
+}
+
+const JetCollection& Event::getJets() const {
 	return allJets;
 }
 
-const JetCollection& Event::getGoodJets() const{
+const JetCollection& Event::getGoodJets() const {
 	return goodJets;
 }
 
-void Event::selectGoodElectrons(){
+void Event::selectElectronsByQuality() {
 	goodElectrons.clear();
-	for(unsigned int index = 0; index < allElectrons.size(); ++ index){
-		if(allElectrons.at(index).isGood())
-			goodElectrons.push_back(allElectrons.at(index));
+	goodIsolatedElectrons.clear();
+	for (unsigned int index = 0; index < allElectrons.size(); ++index) {
+		Electron electron = allElectrons.at(index);
+
+		if (electron.isGood())
+			goodElectrons.push_back(electron);
+
+		if (electron.isGood() && electron.isIsolated())
+			goodIsolatedElectrons.push_back(electron);
 	}
 }
 
-void Event::selectGoodJets(){
+void Event::selectGoodJets() {
 	goodJets.clear();
-	for(unsigned int index = 0; index < allJets.size(); ++ index){
-		if(allJets.at(index).isGood())
+	for (unsigned int index = 0; index < allJets.size(); ++index) {
+		if (allJets.at(index).isGood())
 			goodJets.push_back(allJets.at(index));
 	}
+}
+
+bool Event::passesHighLevelTrigger() const {
+	return HLT_PHOTON15_L1R;
+}
+
+bool Event::hasOneGoodPrimaryVertex() const {
+	return primaryVertex.isGood();
+}
+
+bool Event::hasOnlyOneGoodIsolatedElectron() const {
+	return goodIsolatedElectrons.size() == 1;
+}
+
+bool Event::isolatedElectronDoesNotComeFromConversion() const {
+	if (goodIsolatedElectrons.size() > 0)
+		return goodIsolatedElectrons.front().isFromConversion() == false;
+	else
+		return false;
+}
+
+bool Event::hasAtLeastOneGoodJet() const {
+	return goodJets.size() >= 1;
+}
+
+bool Event::hasAtLeastTwoGoodJets() const {
+	return goodJets.size() >= 2;
+}
+
+bool Event::hasAtLeastThreeGoodJets() const {
+	return goodJets.size() >= 3;
+}
+
+bool Event::hasAtLeastFourGoodJets() const {
+	return goodJets.size() >= 4;
 }
 
 }

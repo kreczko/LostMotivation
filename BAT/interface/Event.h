@@ -9,7 +9,7 @@
 #define EVENT_H_
 #include "RecoObjects/Electron.h"
 #include "RecoObjects/Jet.h"
-#include <vector>
+#include "RecoObjects/PrimaryVertex.h"
 #include "Selection.h"
 
 namespace BAT {
@@ -50,6 +50,8 @@ public:
 		NUMBER_OF_DATA_TYPES
 	};
 protected:
+	bool HLT_PHOTON15_L1R;
+	PrimaryVertex primaryVertex;
 	ElectronCollection allElectrons;
 	ElectronCollection goodElectrons;
 	ElectronCollection goodBarrelElectrons;
@@ -72,10 +74,14 @@ public:
 	bool isRealData() const;
 	const DataType getDataType() const;
 	void setDataType(DataType type);
+	void setPrimaryVertex(PrimaryVertex vertex);
 	void setElectrons(ElectronCollection electrons);
 	void setJets(JetCollection electrons);
+	void setHLT_Photon15_L1R(bool hltTrigger);
+	const PrimaryVertex& getPrimaryVertex() const;
 	const ElectronCollection& getElectrons() const;
 	const ElectronCollection& getGoodElectrons() const;
+	const ElectronCollection& getGoodIsolatedElectrons() const;
 	const JetCollection& getJets() const;
 	const JetCollection& getGoodJets() const;
 
@@ -97,7 +103,7 @@ public:
 	bool isIsolatedElectronInBarrelRegion() const;
 
 private:
-	void selectGoodElectrons();
+	void selectElectronsByQuality();
 	void selectGoodJets();
 };
 
