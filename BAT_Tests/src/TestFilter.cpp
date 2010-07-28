@@ -7,6 +7,7 @@
 #include "RecoObjects/Jet.h"
 #include "RecoObjects/Electron.h"
 #include "RecoObjects/MET.h"
+#include "RecoObjects/PrimaryVertex.h"
 
 using namespace BAT;
 static Filter* filter;
@@ -15,8 +16,32 @@ void setUpTestFilter() {
 	filter = Filter::makeStandardFilter();
 }
 
-void tearDownFilter(){
+void tearDownFilter() {
 	delete filter;
+}
+
+void testSetGoodVertexMinimalNumberOfDegreesOfFreedom() {
+	setUpTestFilter();
+	ASSERT_EQUAL(4, PrimaryVertex::goodVertexMinimalNumberOfDegreesOfFreedom);
+	filter->setGoodVertexMinimalNumberOfDegreesOfFreedom(5);
+	ASSERT_EQUAL(5, PrimaryVertex::goodVertexMinimalNumberOfDegreesOfFreedom);
+	tearDownFilter();
+}
+
+void testSetGoodVertexMaximalAbsoluteZPosition() {
+	setUpTestFilter();
+	ASSERT_EQUAL(15, PrimaryVertex::goodVertexMaximalAbsoluteZPosition);
+	filter->setGoodVertexMaximalAbsoluteZPosition(20);
+	ASSERT_EQUAL(20, PrimaryVertex::goodVertexMaximalAbsoluteZPosition);
+	tearDownFilter();
+}
+
+void testSetGoodVertexMaximalRho() {
+	setUpTestFilter();
+	ASSERT_EQUAL(2.0, PrimaryVertex::goodVertexMaximalAbsoluteRho);
+	filter->setGoodVertexMaximalRho(2.5);
+	ASSERT_EQUAL(2.5, PrimaryVertex::goodVertexMaximalAbsoluteRho);
+	tearDownFilter();
 }
 
 void testSetGoodJetMinimalPt() {
@@ -58,7 +83,6 @@ void testSetGoodJetMaximalFractionOfEnergyIntheHottestHPDReadout() {
 	ASSERT_EQUAL_DELTA(1.9, Jet::goodJetMaximalFractionOfEnergyIntheHottestHPDReadout, 0.01);
 	tearDownFilter();
 }
-
 
 void testSetGoodElectronMinimalEt() {
 	setUpTestFilter();
@@ -123,9 +147,12 @@ void testSetGoodMETMinimalEt() {
 	tearDownFilter();
 }
 
-
 cute::suite make_suite_TestFilter() {
 	cute::suite s;
+	s.push_back(CUTE(testSetGoodVertexMinimalNumberOfDegreesOfFreedom));
+	s.push_back(CUTE(testSetGoodVertexMaximalAbsoluteZPosition));
+	s.push_back(CUTE(testSetGoodVertexMaximalRho));
+
 	s.push_back(CUTE(testSetGoodJetMinimalPt));
 	s.push_back(CUTE(testSetGoodJetMaximalAbsoluteEta));
 	s.push_back(CUTE(testSetGoodJetMinimalElectromagneticFraction));
