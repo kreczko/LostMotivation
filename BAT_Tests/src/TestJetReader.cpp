@@ -11,10 +11,9 @@ static JetReader* reader;
 //static VariableReader<unsigned int>* numberOfJetsReader;//left here to demonstrate that the normal way doesn't work
 void setUpJetReader() {
 	input = boost::shared_ptr<TChain>(new TChain("configurableAnalysis/eventB"));
-	input->Add("/storage/top/mc/V4/MG/e20skim_ttjet/e20skim_nTuple_ttjet_f_1.root");
-	input->GetEntries();
-	input->SetBranchStatus("*", 0);
 	reader = new JetReader(input);
+	input->Add("/storage/top/mc/V4/MG/e20skim_ttjet/e20skim_nTuple_ttjet_f_1.root");
+	input->SetBranchStatus("*", 0);
 	//	numberOfJetsReader = new VariableReader<unsigned int>(input, "Njets");//left here to demonstrate that the normal way doesn't work
 	reader->initialise();
 	//	numberOfJetsReader->initialise();//left here to demonstrate that the normal way doesn't work
