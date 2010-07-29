@@ -25,12 +25,17 @@ class NTupleEventReader {
 public:
 	NTupleEventReader();
 	virtual ~NTupleEventReader();
-	unsigned long getNumberOfEvents();
 	const Event& getNextEvent();
+	bool hasNextEvent();
 	void addInputFile(const char* fileName);
 	void addInputFile(const char* fileName, Event::DataType type);
+	void skipNumberOfEvents(unsigned long skipNextNEvents);
+	unsigned long getNumberOfProccessedEvents() const;
+	unsigned long getCurrentLocalEventNumber() const;
+	void setMaximumNumberOfEvents(unsigned long maxNumberOfEvents);
 private:
-	unsigned long numberOfEvents;
+	unsigned long processedEvents;
+	unsigned long maximalNumberOfEvents;
 	unsigned long currentEventEntry;
 	unsigned long numberOfFiles;
 	boost::shared_ptr<TChain> input;
@@ -40,7 +45,6 @@ private:
 	bool areReadersSet;
 	Event currentEvent;
 	void selectNextNtupleEvent();
-	void initateNumberOfEventsIfNotSet();
 	void initiateReadersIfNotSet();
 	Event::DataType getDataType();
 	std::string findCurrentFileType();
