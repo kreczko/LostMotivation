@@ -49,6 +49,7 @@ public:
 	float deltaPhi(const Particle& otherParticle) const;
 	float deltaEta(const Particle& otherParticle) const;
 	bool isWithinDeltaR(float deltaR, const Particle& particle) const;
+	float invariantMass(const Particle& otherParticle) const;
 
 protected:
 	float particleMass;

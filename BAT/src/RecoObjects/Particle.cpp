@@ -142,4 +142,9 @@ float Particle::deltaR(const Particle& other) const{
 bool Particle::isWithinDeltaR(float delta_R, const Particle& particle) const{
 	return deltaR(particle) < delta_R;
 }
+
+float Particle::invariantMass(const Particle& otherParticle) const{
+	TLorentzVector combinedParticle(fourvector + otherParticle.getFourVector());
+	return combinedParticle.M();
+}
 }
