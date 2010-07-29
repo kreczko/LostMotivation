@@ -265,6 +265,7 @@ extern cute::suite make_suite_TestEvent() {
 	cute::suite s;
 	s.push_back(CUTE_SMEMFUN(TestEvent, testNumberOfElectrons));
 	s.push_back(CUTE_SMEMFUN(TestEvent, testNumberOfGoodElectrons));
+	s.push_back(CUTE_SMEMFUN(TestEvent, testNumberOfGoodIsolatedElectrons));
 	s.push_back(CUTE_SMEMFUN(TestEvent, testNumberOfJets));
 	s.push_back(CUTE_SMEMFUN(TestEvent, testNumberOfGoodJets));
 
