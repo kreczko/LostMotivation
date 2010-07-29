@@ -78,12 +78,6 @@ void tearDownNTupleReader() {
 	delete chain;
 }
 
-void testNumberOfEvents() {
-	setUpNTupleReader();
-	ASSERT_EQUAL(chain->GetEntries(), TTbarReader->getNumberOfEvents());
-	tearDownNTupleReader();
-}
-
 void testTTbarType() {
 	setUpNTupleReader();
 	Event currentEvent = TTbarReader->getNextEvent();
@@ -182,10 +176,70 @@ void testNumberOfJetsInEvent1() {
 	tearDownNTupleReader();
 }
 
+void testHasNextEvent() {
+	setUpNTupleReader();
+	ASSERT(TTbarReader->hasNextEvent());
+	tearDownNTupleReader();
+}
+
+void testHasNotNextEvent() {
+	setUpNTupleReader();
+	TTbarReader->skipNumberOfEvents(chain->GetEntriesFast());
+	ASSERT(TTbarReader->hasNextEvent() == false);
+	tearDownNTupleReader();
+}
+
+void testGetProccessedNumberOfEvents() {
+	setUpNTupleReader();
+	TTbarReader->getNextEvent();
+	ASSERT_EQUAL(1,TTbarReader->getNumberOfProccessedEvents());
+	TTbarReader->getNextEvent();
+	ASSERT_EQUAL(2,TTbarReader->getNumberOfProccessedEvents());
+	tearDownNTupleReader();
+}
+
+void testGetProccessedNumberOfEventsWithSkippedEvents() {
+	setUpNTupleReader();
+	TTbarReader->getNextEvent();
+	TTbarReader->skipNumberOfEvents(100);
+	ASSERT_EQUAL(1,TTbarReader->getNumberOfProccessedEvents());
+	tearDownNTupleReader();
+}
+void testSkipEvents() {
+	setUpNTupleReader();
+	TTbarReader->skipNumberOfEvents(10);
+	ASSERT_EQUAL(10, TTbarReader->getCurrentLocalEventNumber());
+	tearDownNTupleReader();
+}
+
+void testGetCurrentLocalEventNumber() {
+	setUpNTupleReader();
+	ASSERT_EQUAL(0, TTbarReader->getCurrentLocalEventNumber());
+	TTbarReader->getNextEvent();
+	ASSERT_EQUAL(1, TTbarReader->getCurrentLocalEventNumber());
+	tearDownNTupleReader();
+}
+
+void testSetMaximumNumberOfEventsWithSkippedEvents() {
+	setUpNTupleReader();
+	TTbarReader->setMaximumNumberOfEvents(5);
+	TTbarReader->skipNumberOfEvents(10);
+	ASSERT(TTbarReader->hasNextEvent() == false);
+	tearDownNTupleReader();
+}
+
+void testSetMaximumNumberOfEvents() {
+	setUpNTupleReader();
+	unsigned int maxEvents = 5;
+	TTbarReader->setMaximumNumberOfEvents(maxEvents);
+	while (TTbarReader->hasNextEvent())
+		TTbarReader->getNextEvent();
+	ASSERT_EQUAL(maxEvents, TTbarReader->getNumberOfProccessedEvents());
+	tearDownNTupleReader();
+}
+
 cute::suite make_suite_TestNTupleReader() {
 	cute::suite s;
-	s.push_back(CUTE(testNumberOfEvents));
-
 	s.push_back(CUTE(testTTbarType));
 
 	s.push_back(CUTE(testQCD_EMEnriched_20_to_30Type));
@@ -205,6 +259,14 @@ cute::suite make_suite_TestNTupleReader() {
 
 	s.push_back(CUTE(testNumberOfElectronsInEvent1));
 	s.push_back(CUTE(testNumberOfJetsInEvent1));
+	s.push_back(CUTE(testHasNextEvent));
+	s.push_back(CUTE(testHasNotNextEvent));
+	s.push_back(CUTE(testGetProccessedNumberOfEvents));
+	s.push_back(CUTE(testGetProccessedNumberOfEventsWithSkippedEvents));
+	s.push_back(CUTE(testSkipEvents));
+	s.push_back(CUTE(testGetCurrentLocalEventNumber));
+	s.push_back(CUTE(testSetMaximumNumberOfEventsWithSkippedEvents));
+	s.push_back(CUTE(testSetMaximumNumberOfEvents));
 	return s;
 }
 
