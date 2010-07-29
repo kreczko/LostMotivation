@@ -25,23 +25,41 @@ void Analysis::addInputFile(const char* fileName) {
 }
 
 void Analysis::analyze() {
-	unsigned long numberOfEvents = eventReader->getNumberOfEvents();
-	cout << "total number of events to analyse: " << numberOfEvents << endl;
-	TH1F* h_energy = new TH1F("histname", "histtitle", 500, 0, 500);
+	TH1F* h_et = new TH1F("histname", "histtitle", 100, 0, 100);
+	TH1F* h_diElectronMass = new TH1F("diElectronMass", "diElectronMass", 500, 0, 500);
 	unsigned long numberOfGoodElectrons = 0;
-	for (unsigned long eventIndex = 0; eventIndex < numberOfEvents; eventIndex++) {
-		Event* event = eventReader->getNextEvent();
-		Electron leadingElectron = event->getElectrons().front();
-		if (leadingElectron.isGood())
-			numberOfGoodElectrons++;
-		h_energy->Fill(leadingElectron.energy());
+	//	eventReader->setMaximumNumberOfEvents(100000);
+	while (eventReader->hasNextEvent()) {
+		unsigned long eventIndex = eventReader->getNumberOfProccessedEvents();
+		if (eventIndex % 10000 == 0)
+			cout << "Analysing event no " << eventIndex << endl;
+		Event event = eventReader->getNextEvent();
+		ElectronCollection electrons = event.getGoodElectrons();
+		if (electrons.size() == 2) {
+			numberOfGoodElectrons += 2;
+			Electron leadingElectron = electrons.front();
+			Electron secondElectron = electrons.at(1);
+			h_et->Fill(leadingElectron.et());
+			h_diElectronMass->Fill(leadingElectron.invariantMass(secondElectron));
+		}
 	}
+	//	for (unsigned long eventIndex = 0; eventIndex < eventReader->getNumberOfEvents() && eventIndex < 100000; eventIndex++) {
+
+	//	}
 	cout << "finished analysis, number of good leading electrons: " << numberOfGoodElectrons << endl;
+	cout << "total number of processed events: " << eventReader->getNumberOfProccessedEvents() << endl;
 	TCanvas * c = new TCanvas("name", "title", 800, 600);
-	h_energy->Draw();
+	h_et->Draw();
 	c->Update();
 	c->Draw();
-	c->SaveAs("h_energy.png");
+	c->SaveAs("h_et.png");
+
+	c = new TCanvas("invMass", "title", 800, 600);
+	h_diElectronMass->Draw();
+	c->Update();
+	c->Draw();
+	c->SaveAs("h_DiElectronInvariantMass.png");
 	delete c;
-	delete h_energy;
+	delete h_et;
+	delete h_diElectronMass;
 }
