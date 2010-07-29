@@ -14,6 +14,8 @@ static Particle particle3;
 static Particle particleInBarrelRegion;
 static Particle particleInCrack;
 static Particle particleInEndcap;
+static Particle zParticle1;
+static Particle zParticle2;
 static FourVector combinedVector;
 
 void setUpParticles() {
@@ -33,6 +35,9 @@ void setUpParticles() {
 	particleInCrack = Particle(25., 0., 10., -20.);
 	assert(fabs(particleInCrack.eta()) > Detector::Crack::MinimalAbsoluteEta);
 	assert(fabs(particleInCrack.eta()) < Detector::Crack::MaximalAbsoluteEta);
+
+	zParticle1 = Particle(100., 79., -13., -5.);
+	zParticle2 = Particle(100., 99., 13., 5.);
 }
 
 void testAsignOperator() {
@@ -163,6 +168,16 @@ void testGetEtaRegionEndcap() {
 	ASSERT(strcmp("endcap", particleInEndcap.getEtaRegion()) == 0);
 }
 
+void testInvarianMassOfTwoParticles(){
+	setUpParticles();
+	TLorentzVector combinedParticle(zParticle1.getFourVector() + zParticle2.getFourVector());
+	ASSERT_EQUAL_DELTA(combinedParticle.M(), zParticle1.invariantMass(zParticle2), 0.0001);
+}
+
+void testInvarianMassOfOneParticles(){
+	setUpParticles();
+	ASSERT_EQUAL_DELTA(2*zParticle1.mass(), zParticle1.invariantMass(zParticle1), 0.0001);
+}
 cute::suite make_suite_TestParticle() {
 	cute::suite s;
 	s.push_back(CUTE(testPlusOperatorCorrectFourvector));
@@ -188,6 +203,9 @@ cute::suite make_suite_TestParticle() {
 
 	s.push_back(CUTE(testIsWithinDR));
 	s.push_back(CUTE(testIsNotWithinDR));
+
+	s.push_back(CUTE(testInvarianMassOfTwoParticles));
+	s.push_back(CUTE(testInvarianMassOfOneParticles));
 	return s;
 }
 
