@@ -33,58 +33,6 @@ public:
 		setBadElectronNoID();
 	}
 
-	void testEcalIsolation() {
-		ASSERT_EQUAL_DELTA(0.3, goodElectron.ecalIsolation(), 0.01);
-	}
-
-	void testHcalIsolation() {
-		ASSERT_EQUAL_DELTA(0.5, goodElectron.hcalIsolation(), 0.01);
-	}
-
-	void testTrackerIsolation() {
-		ASSERT_EQUAL_DELTA(0.4, goodElectron.trackerIsolation(), 0.01);
-	}
-
-	void testBadEtElectron() {
-		ASSERT(badEtElectron.isGood() == false);
-	}
-
-	void testBadEtaElectron() {
-		ASSERT(badEtaElectron.isGood() == false);
-	}
-
-	void testBadInCrackElectron() {
-		ASSERT(badInCrackElectron.isGood() == false);
-	}
-
-	void testElectronFromConversion() {
-		ASSERT(badElectronFromConversion.isFromConversion());
-	}
-	void testBadD0Electron() {
-		ASSERT(badD0Electron.isGood() == false);
-	}
-
-	void testLooseElectron() {
-		ASSERT(badD0Electron.isLoose() == false);
-		ASSERT(looseElectron.isLoose());
-	}
-
-	void testRelativeIsolation() {
-		ASSERT_EQUAL_DELTA(2.9 / 30., isolatedElectron.relativeIsolation(), 0.01);
-		ASSERT(isolatedElectron.isIsolated());
-	}
-
-	void testGoodElectron() {
-		ASSERT(goodElectron.isGood());
-	}
-
-	void testBadLooseElectronNoID() {
-		ASSERT(badLooseElectronNoID.isLoose() == false);
-	}
-
-	void testBadElectronNoID() {
-		ASSERT(badElectronNoID.isGood() == false);
-	}
 private:
 	void setElectronConditions() {
 		Electron::isolatedElectronMaximalRelativeIsolation = 0.1;
@@ -178,24 +126,75 @@ private:
 		badElectronNoID.setTrackerIsolation(0.4);
 	}
 
-	void setUpElectrons() {
-
+public:
+	void testEcalIsolation() {
+		ASSERT_EQUAL_DELTA(0.3, goodElectron.ecalIsolation(), 0.01);
 	}
+
+	void testHcalIsolation() {
+		ASSERT_EQUAL_DELTA(0.5, goodElectron.hcalIsolation(), 0.01);
+	}
+
+	void testTrackerIsolation() {
+		ASSERT_EQUAL_DELTA(0.4, goodElectron.trackerIsolation(), 0.01);
+	}
+
+	void testBadEtElectron() {
+		ASSERT(badEtElectron.isGood() == false);
+	}
+
+	void testBadEtaElectron() {
+		ASSERT(badEtaElectron.isGood() == false);
+	}
+
+	void testBadInCrackElectron() {
+		ASSERT(badInCrackElectron.isGood() == false);
+	}
+
+	void testElectronFromConversion() {
+		ASSERT(badElectronFromConversion.isFromConversion());
+	}
+	void testBadD0Electron() {
+		ASSERT(badD0Electron.isGood() == false);
+	}
+
+	void testLooseElectron() {
+		ASSERT(badD0Electron.isLoose() == false);
+		ASSERT(looseElectron.isLoose());
+	}
+
+	void testRelativeIsolation() {
+		ASSERT_EQUAL_DELTA(2.9 / 30., isolatedElectron.relativeIsolation(), 0.01);
+		ASSERT(isolatedElectron.isIsolated());
+	}
+
+	void testGoodElectron() {
+		ASSERT(goodElectron.isGood());
+	}
+
+	void testBadLooseElectronNoID() {
+		ASSERT(badLooseElectronNoID.isLoose() == false);
+	}
+
+	void testBadElectronNoID() {
+		ASSERT(badElectronNoID.isGood() == false);
+	}
+
 };
 extern cute::suite make_suite_TestElectron() {
 	cute::suite s;
-	s.push_back(CUTE_SMEMFUN(TestElectron,testRelativeIsolation));
-	s.push_back(CUTE_SMEMFUN(TestElectron,testGoodElectron));
-	s.push_back(CUTE_SMEMFUN(TestElectron,testBadEtElectron));
-	s.push_back(CUTE_SMEMFUN(TestElectron,testBadEtaElectron));
-	s.push_back(CUTE_SMEMFUN(TestElectron,testBadD0Electron));
-	s.push_back(CUTE_SMEMFUN(TestElectron,testBadInCrackElectron));
-	s.push_back(CUTE_SMEMFUN(TestElectron,testElectronFromConversion));
-	s.push_back(CUTE_SMEMFUN(TestElectron,testEcalIsolation));
-	s.push_back(CUTE_SMEMFUN(TestElectron,testHcalIsolation));
-	s.push_back(CUTE_SMEMFUN(TestElectron,testTrackerIsolation));
-	s.push_back(CUTE_SMEMFUN(TestElectron,testLooseElectron));
-	s.push_back(CUTE_SMEMFUN(TestElectron,testBadLooseElectronNoID));
-	s.push_back(CUTE_SMEMFUN(TestElectron,testBadElectronNoID));
+	s.push_back(CUTE_SMEMFUN(TestElectron, testRelativeIsolation));
+	s.push_back(CUTE_SMEMFUN(TestElectron, testGoodElectron));
+	s.push_back(CUTE_SMEMFUN(TestElectron, testBadEtElectron));
+	s.push_back(CUTE_SMEMFUN(TestElectron, testBadEtaElectron));
+	s.push_back(CUTE_SMEMFUN(TestElectron, testBadD0Electron));
+	s.push_back(CUTE_SMEMFUN(TestElectron, testBadInCrackElectron));
+	s.push_back(CUTE_SMEMFUN(TestElectron, testElectronFromConversion));
+	s.push_back(CUTE_SMEMFUN(TestElectron, testEcalIsolation));
+	s.push_back(CUTE_SMEMFUN(TestElectron, testHcalIsolation));
+	s.push_back(CUTE_SMEMFUN(TestElectron, testTrackerIsolation));
+	s.push_back(CUTE_SMEMFUN(TestElectron, testLooseElectron));
+	s.push_back(CUTE_SMEMFUN(TestElectron, testBadLooseElectronNoID));
+	s.push_back(CUTE_SMEMFUN(TestElectron, testBadElectronNoID));
 	return s;
 }
