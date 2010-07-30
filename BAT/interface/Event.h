@@ -60,6 +60,7 @@ protected:
 	ElectronCollection goodIsolatedElectrons;
 	ElectronCollection goodIsolatedBarrelElectrons;
 	ElectronCollection goodIsolatedEndcapElectrons;
+	ElectronCollection looseElectrons;
 
 	JetCollection allJets;
 	JetCollection goodJets;
@@ -100,7 +101,7 @@ public:
 	bool hasAtLeastFourGoodJets() const;
 
 	bool isNotAZBosonEvent() const;
-	bool isIsolatedElectronInBarrelRegion() const;
+	bool hasIsolatedElectronInBarrelRegion() const;
 
 private:
 	void selectElectronsByQuality();

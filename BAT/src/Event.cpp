@@ -85,6 +85,8 @@ void Event::selectElectronsByQuality() {
 
 		if (electron.isGood() && electron.isIsolated())
 			goodIsolatedElectrons.push_back(electron);
+		if(electron.isGood() == false && electron.isLoose())
+			looseElectrons.push_back(electron);
 	}
 }
 
@@ -129,6 +131,18 @@ bool Event::hasAtLeastThreeGoodJets() const {
 
 bool Event::hasAtLeastFourGoodJets() const {
 	return goodJets.size() >= 4;
+}
+
+bool Event::isNotAZBosonEvent() const {
+	float invariantMass = 0;
+	if (goodIsolatedElectrons.size() == 2)
+		invariantMass = goodIsolatedElectrons.at(0).invariantMass(goodIsolatedElectrons.at(1));
+	else if (goodIsolatedElectrons.size() == 1 && looseElectrons.size() > 0)
+		invariantMass = goodIsolatedElectrons.front().invariantMass(looseElectrons.front());
+
+	bool passesLowerLimit = invariantMass >= 76;
+	bool passesUpperLimit = invariantMass <= 106;
+	return (passesLowerLimit && passesUpperLimit) == false;
 }
 
 }
