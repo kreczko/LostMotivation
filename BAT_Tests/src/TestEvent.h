@@ -35,6 +35,7 @@ struct TestEvent {
 
 		setUpTTbarEvent();
 		setUpGoodZEvent();
+		setUpPoorZEvent();
 		setUpDiJetEvent();
 	}
 
@@ -44,7 +45,7 @@ private:
 		goodIsolatedElectron.setEcalIsolation(0.3);
 		goodIsolatedElectron.setTrackerIsolation(0.4);
 		goodIsolatedElectron.setVBTF_W70_ElectronID(true);
-		electronFromConversion.setNumberOfMissingInnerLayerHits(0);
+		goodIsolatedElectron.setNumberOfMissingInnerLayerHits(0);
 	}
 
 	void setUpGoodIsolatedElectron2() {
@@ -52,7 +53,7 @@ private:
 		goodIsolatedElectron2.setEcalIsolation(0.3);
 		goodIsolatedElectron2.setTrackerIsolation(0.4);
 		goodIsolatedElectron2.setVBTF_W70_ElectronID(true);
-		electronFromConversion.setNumberOfMissingInnerLayerHits(0);
+		goodIsolatedElectron2.setNumberOfMissingInnerLayerHits(0);
 	}
 
 	void setUpGoodLooseElectron() {
@@ -61,7 +62,9 @@ private:
 		goodLooseElectron.setTrackerIsolation(4);
 		goodLooseElectron.setVBTF_W70_ElectronID(false);
 		goodLooseElectron.setRobustLooseID(true);
-		electronFromConversion.setNumberOfMissingInnerLayerHits(0);
+		goodLooseElectron.setNumberOfMissingInnerLayerHits(0);
+		assert(goodLooseElectron.isGood() == false);
+		assert(goodLooseElectron.isLoose());
 	}
 
 	void setUpGoodIsolatedElectronFromConversion() {
@@ -259,6 +262,22 @@ public:
 		ASSERT(DiJetEvent.hasAtLeastThreeGoodJets() == false);
 	}
 
+	void testTTbarIsNotAZBosonEvent() {
+		ASSERT(ttbarEvent.isNotAZBosonEvent());
+	}
+
+	void testGoodZIsAZBosonEvent() {
+		ASSERT(goodZEvent.isNotAZBosonEvent() == false);
+	}
+
+	void testPoorZIsAZBosonEvent() {
+		ASSERT(poorZEvent.isNotAZBosonEvent() == false);
+	}
+
+	void testDiJetIsNotAZBosonEvent() {
+			ASSERT(DiJetEvent.isNotAZBosonEvent());
+		}
+
 };
 
 extern cute::suite make_suite_TestEvent() {
@@ -287,5 +306,11 @@ extern cute::suite make_suite_TestEvent() {
 	s.push_back(CUTE_SMEMFUN(TestEvent, testHasNoThreeGoodJets));
 	s.push_back(CUTE_SMEMFUN(TestEvent, testHasAtFourThreeGoodJets));
 	s.push_back(CUTE_SMEMFUN(TestEvent, testHasNoFourThreeGoodJets));
+
+	s.push_back(CUTE_SMEMFUN(TestEvent, testTTbarIsNotAZBosonEvent));
+	s.push_back(CUTE_SMEMFUN(TestEvent, testGoodZIsAZBosonEvent));
+	s.push_back(CUTE_SMEMFUN(TestEvent, testPoorZIsAZBosonEvent));
+	s.push_back(CUTE_SMEMFUN(TestEvent, testDiJetIsNotAZBosonEvent));
+
 	return s;
 }
