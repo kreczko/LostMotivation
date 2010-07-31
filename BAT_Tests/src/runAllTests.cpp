@@ -9,6 +9,7 @@
 #include "TestFilter.h"
 #include "TestJet.h"
 #include "TestJetReader.h"
+#include "TestMuon.h"
 #include "TestNTupleReader.h"
 #include "TestParticle.h"
 #include "TestPrimaryVertex.h"
@@ -32,6 +33,7 @@ void runSuite(){
 	s+= make_suite_TestFilter();
 	s+= make_suite_TestJet();
 	s+= make_suite_TestJetReader();
+	s+= make_suite_TestMuon();
 	s+= make_suite_TestNTupleReader();
 	s+= make_suite_TestParticle();
 	s+= make_suite_TestPrimaryVertex();
