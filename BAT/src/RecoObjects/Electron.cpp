@@ -36,7 +36,6 @@ Electron::Electron(float energy, float px, float py, float pz) :
 }
 
 Electron::~Electron() {
-	// TODO Auto-generated destructor stub
 }
 
 float Electron::superClusterEta() const {
