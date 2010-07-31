@@ -9,9 +9,13 @@
 #include <iostream>
 #include "TH1F.h"
 #include "TCanvas.h"
+#include "TFile.h"
+#include <boost/scoped_ptr.hpp>
 
 using namespace BAT;
 using namespace std;
+using namespace boost;
+
 Analysis::Analysis() :
 	eventReader(new NTupleEventReader()), eventFilter(Filter::makeStandardFilter()) {
 
@@ -25,10 +29,11 @@ void Analysis::addInputFile(const char* fileName) {
 }
 
 void Analysis::analyze() {
-	TH1F* h_et = new TH1F("histname", "histtitle", 100, 0, 100);
-	TH1F* h_diElectronMass = new TH1F("diElectronMass", "diElectronMass", 500, 0, 500);
+	scoped_ptr<TH1F> h_et(new TH1F("histname", "histtitle", 100, 0, 100));
+	scoped_ptr<TH1F> h_diElectronMass(new TH1F("diElectronMass", "diElectronMass", 500, 0, 500));
+	scoped_ptr<TFile> outputfile(new TFile("egammaAnalysis.root", "RECREATE"));
 	unsigned long numberOfGoodElectrons = 0;
-	//	eventReader->setMaximumNumberOfEvents(100000);
+	eventReader->setMaximumNumberOfEvents(100000);
 	while (eventReader->hasNextEvent()) {
 		unsigned long eventIndex = eventReader->getNumberOfProccessedEvents();
 		if (eventIndex % 10000 == 0)
@@ -48,18 +53,21 @@ void Analysis::analyze() {
 	//	}
 	cout << "finished analysis, number of good leading electrons: " << numberOfGoodElectrons << endl;
 	cout << "total number of processed events: " << eventReader->getNumberOfProccessedEvents() << endl;
-	TCanvas * c = new TCanvas("name", "title", 800, 600);
-	h_et->Draw();
-	c->Update();
-	c->Draw();
-	c->SaveAs("h_et.png");
 
-	c = new TCanvas("invMass", "title", 800, 600);
-	h_diElectronMass->Draw();
-	c->Update();
-	c->Draw();
-	c->SaveAs("h_DiElectronInvariantMass.png");
-	delete c;
-	delete h_et;
-	delete h_diElectronMass;
+	//	TCanvas * c = new TCanvas("name", "title", 800, 600);
+	h_et->Write();
+	h_diElectronMass->Write();
+	outputfile->Write();
+	outputfile->Close();
+	//	c->Update();
+	//	c->Draw();
+	//	c->SaveAs("h_et.png");
+
+	//	c = new TCanvas("invMass", "title", 800, 600);
+	//	h_diElectronMass->Draw();
+	//	c->Update();
+	//	c->Draw();
+	//	c->SaveAs("h_DiElectronInvariantMass.png");
+	//	delete c;
+
 }
