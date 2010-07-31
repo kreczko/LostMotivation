@@ -5,7 +5,7 @@
 
 using namespace BAT;
 
-struct TestNTupleReader {
+struct TestNTupleEventReader {
 private:
 	boost::scoped_ptr<NTupleEventReader> TTbarReader;
 	boost::scoped_ptr<NTupleEventReader> QCDenri1Reader;
@@ -24,7 +24,7 @@ private:
 	boost::scoped_ptr<TChain> chain;
 
 public:
-	TestNTupleReader() :
+	TestNTupleEventReader() :
 		TTbarReader(new NTupleEventReader()), QCDenri1Reader(new NTupleEventReader()), QCDenri2Reader(
 				new NTupleEventReader()), QCDenri3Reader(new NTupleEventReader()), QCDbce1Reader(
 				new NTupleEventReader()), QCDbce2Reader(new NTupleEventReader()),
@@ -167,34 +167,34 @@ public:
 	}
 };
 
-extern cute::suite make_suite_TestNTupleReader() {
+extern cute::suite make_suite_TestNTupleEventReader() {
 	cute::suite s;
-	s.push_back(CUTE_SMEMFUN(TestNTupleReader,testTTbarType));
+	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader,testTTbarType));
 
-	s.push_back(CUTE_SMEMFUN(TestNTupleReader,testQCD_EMEnriched_20_to_30Type));
-	s.push_back(CUTE_SMEMFUN(TestNTupleReader,testQCD_EMEnriched_30_to_80Type));
-	s.push_back(CUTE_SMEMFUN(TestNTupleReader,testQCD_EMEnriched_80_to_170Type));
+	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader,testQCD_EMEnriched_20_to_30Type));
+	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader,testQCD_EMEnriched_30_to_80Type));
+	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader,testQCD_EMEnriched_80_to_170Type));
 
-	s.push_back(CUTE_SMEMFUN(TestNTupleReader,testQCD_BCtoE_20_to_30Type));
-	s.push_back(CUTE_SMEMFUN(TestNTupleReader,testQCD_BCtoE_30_to_80Type));
-	s.push_back(CUTE_SMEMFUN(TestNTupleReader,testQCD_BCtoE_80_to_170Type));
+	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader,testQCD_BCtoE_20_to_30Type));
+	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader,testQCD_BCtoE_30_to_80Type));
+	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader,testQCD_BCtoE_80_to_170Type));
 
-	s.push_back(CUTE_SMEMFUN(TestNTupleReader,testWjetsType));
-	s.push_back(CUTE_SMEMFUN(TestNTupleReader,testZjetsType));
-	s.push_back(CUTE_SMEMFUN(TestNTupleReader,testTWType));
-	s.push_back(CUTE_SMEMFUN(TestNTupleReader,testTChanType));
+	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader,testWjetsType));
+	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader,testZjetsType));
+	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader,testTWType));
+	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader,testTChanType));
 
-	s.push_back(CUTE_SMEMFUN(TestNTupleReader,testDataType));
+	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader,testDataType));
 
-	s.push_back(CUTE_SMEMFUN(TestNTupleReader,testNumberOfElectronsInEvent1));
-	s.push_back(CUTE_SMEMFUN(TestNTupleReader,testNumberOfJetsInEvent1));
-	s.push_back(CUTE_SMEMFUN(TestNTupleReader,testHasNextEvent));
-	s.push_back(CUTE_SMEMFUN(TestNTupleReader,testHasNotNextEvent));
-	s.push_back(CUTE_SMEMFUN(TestNTupleReader,testGetProccessedNumberOfEvents));
-	s.push_back(CUTE_SMEMFUN(TestNTupleReader,testGetProccessedNumberOfEventsWithSkippedEvents));
-	s.push_back(CUTE_SMEMFUN(TestNTupleReader,testSkipEvents));
-	s.push_back(CUTE_SMEMFUN(TestNTupleReader,testGetCurrentLocalEventNumber));
-	s.push_back(CUTE_SMEMFUN(TestNTupleReader,testSetMaximumNumberOfEventsWithSkippedEvents));
-	s.push_back(CUTE_SMEMFUN(TestNTupleReader,testSetMaximumNumberOfEvents));
+	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader,testNumberOfElectronsInEvent1));
+	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader,testNumberOfJetsInEvent1));
+	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader,testHasNextEvent));
+	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader,testHasNotNextEvent));
+	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader,testGetProccessedNumberOfEvents));
+	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader,testGetProccessedNumberOfEventsWithSkippedEvents));
+	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader,testSkipEvents));
+	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader,testGetCurrentLocalEventNumber));
+	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader,testSetMaximumNumberOfEventsWithSkippedEvents));
+	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader,testSetMaximumNumberOfEvents));
 	return s;
 }
