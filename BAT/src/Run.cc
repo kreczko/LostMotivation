@@ -22,7 +22,9 @@ int main(int argc, char **argv) {
 
 	cout << "adding files" << endl;
 	//Input files
-	myAnalysis->addInputFile("/storage/top/data/200710/EG_Run2010A-PromptReco-v4_RECO_137437_139558/*.root");
+	myAnalysis->addInputFile("/storage/top/data/250nb/EG_Run2010A-Jun14thReReco_v1_RECO/*.root");
+	myAnalysis->addInputFile("/storage/top/data/250nb/EG_Run2010A-Jul16-v4_RECO_139559_140159_withCleanTrig/*.root");
+	myAnalysis->addInputFile("/storage/top/data/250nb/EG_Run2010A-PromptReco-v4_RECO_140160_140399/*.root");
 
 	cout << "starting analysis" << endl;
 	myAnalysis->analyze();
