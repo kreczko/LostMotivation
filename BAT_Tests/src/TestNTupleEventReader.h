@@ -110,6 +110,11 @@ public:
 		ASSERT_EQUAL(Event::DATA, currentEvent.getDataType());
 	}
 
+	void testReadDataType() {
+		Event currentEvent = DataReader->getNextEvent();
+		ASSERT_EQUAL(true, currentEvent.isRealData());
+	}
+
 	void testNumberOfElectronsInEvent1() {
 		Event currentEvent = TTbarReader->getNextEvent();
 		ASSERT_EQUAL(3, currentEvent.getElectrons().size());
@@ -170,6 +175,22 @@ public:
 			TTbarReader->getNextEvent();
 		ASSERT_EQUAL(maxEvents, TTbarReader->getNumberOfProccessedEvents());
 	}
+
+	void testMCRunNumber() {
+		ASSERT_EQUAL(1, TTbarReader->getNextEvent().runnumber());
+	}
+
+	void testMCLumiBlock() {
+		ASSERT_EQUAL(2, TTbarReader->getNextEvent().lumiblock());
+	}
+
+	void testLocalEventNumber() {
+		ASSERT_EQUAL(1, TTbarReader->getNextEvent().localnumber());
+	}
+
+	void testInitialEventWeigth() {
+		ASSERT_EQUAL(1., TTbarReader->getNextEvent().weight());
+	}
 };
 
 extern cute::suite make_suite_TestNTupleEventReader() {
@@ -190,6 +211,7 @@ extern cute::suite make_suite_TestNTupleEventReader() {
 	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader, testTChanType));
 
 	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader, testDataType));
+	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader, testReadDataType));
 
 	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader, testNumberOfElectronsInEvent1));
 	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader, testNumberOfJetsInEvent1));
@@ -202,5 +224,10 @@ extern cute::suite make_suite_TestNTupleEventReader() {
 	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader, testGetCurrentLocalEventNumber));
 	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader, testSetMaximumNumberOfEventsWithSkippedEvents));
 	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader, testSetMaximumNumberOfEvents));
+
+	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader, testMCRunNumber));
+	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader, testMCLumiBlock));
+	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader, testLocalEventNumber));
+	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader, testInitialEventWeigth));
 	return s;
 }
