@@ -104,8 +104,8 @@ public:
 	unsigned long lumiblock() const;
 	float weight() const;
 
-	bool passesSelectionStep(Selection::TTbarEPlusJetsSelectionSteps step) const;
-	bool passesSelectionStepUpTo(Selection::TTbarEPlusJetsSelectionSteps upToStep) const;
+	bool passesSelectionStep(TTbarEPlusJetsSelection::Step step) const;
+	bool passesSelectionStepUpTo(TTbarEPlusJetsSelection::Step upToStep) const;
 
 	bool passesHighLevelTrigger() const;
 	bool hasOneGoodPrimaryVertex() const;

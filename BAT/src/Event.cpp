@@ -220,4 +220,35 @@ bool Event::isNotAZBosonEvent() const {
 	return (passesLowerLimit && passesUpperLimit) == false;
 }
 
+bool Event::passesSelectionStep(enum TTbarEPlusJetsSelection::Step step) const{
+	switch(step){
+	case TTbarEPlusJetsSelection::HighLevelTrigger:
+		return passesHighLevelTrigger();
+	case TTbarEPlusJetsSelection::GoodPrimaryvertex:
+		return hasOneGoodPrimaryVertex();
+	case TTbarEPlusJetsSelection::OneIsolatedElectron:
+		return hasOnlyOneGoodIsolatedElectron();
+	case TTbarEPlusJetsSelection::ConversionRejection:
+		return isolatedElectronDoesNotComeFromConversion();
+	case TTbarEPlusJetsSelection::LooseMuonVeto:
+		return hasNoIsolatedMuon();
+	case TTbarEPlusJetsSelection::AtLeastFourGoodJets:
+		return hasAtLeastFourGoodJets();
+	case TTbarEPlusJetsSelection::Zveto:
+		return isNotAZBosonEvent();
+	default:
+		return false;
+	}
+}
+
+bool Event::passesSelectionStepUpTo(enum TTbarEPlusJetsSelection::Step step) const{
+	if(step == TTbarEPlusJetsSelection::HighLevelTrigger)
+		return passesSelectionStep(step);
+	else{
+		unsigned int newstep = (int)step -1;
+		return passesSelectionStep(step) && passesSelectionStepUpTo((TTbarEPlusJetsSelection::Step)newstep);
+	}
+
+}
+
 }
