@@ -18,10 +18,10 @@ const boost::array<std::string, 12> NTupleEventReader::FileTypes = { { "ttbar", 
 const std::string NTupleEventReader::FilePrefix = "nTuple_";
 
 NTupleEventReader::NTupleEventReader() :
-	processedEvents(0), maximalNumberOfEvents(999999999), currentEventEntry(0), numberOfFiles(0), input(new TChain(NTupleEventReader::EVENT_CHAIN)),
-			hltTriggerInput(new TChain(NTupleEventReader::HLT_TRIGGER_CHAIN)),
-			electronReader(new ElectronReader(input)), jetReader(new JetReader(input)), areReadersSet(false),
-			currentEvent() {
+	processedEvents(0), maximalNumberOfEvents(999999999), currentEventEntry(0), numberOfFiles(0), input(new TChain(
+			NTupleEventReader::EVENT_CHAIN)), hltTriggerInput(new TChain(NTupleEventReader::HLT_TRIGGER_CHAIN)),
+			electronReader(new ElectronReader(input)), jetReader(new JetReader(input)), muonReader(
+					new MuonReader(input)), areReadersSet(false), currentEvent() {
 	input->AddFriend(hltTriggerInput.get());
 }
 
@@ -39,6 +39,7 @@ const Event& NTupleEventReader::getNextEvent() {
 	currentEvent = Event();
 	currentEvent.setElectrons(electronReader->getElectrons());
 	currentEvent.setJets(jetReader->getJets());
+	currentEvent.setMuons(muonReader->getMuons());
 	currentEvent.setDataType(getDataType());
 	return currentEvent;
 }
@@ -99,6 +100,7 @@ void NTupleEventReader::initiateReadersIfNotSet() {
 		hltTriggerInput->SetBranchStatus("*", 0);
 		electronReader->initialise();
 		jetReader->initialise();
+		muonReader->initialise();
 		areReadersSet = true;
 	}
 }
@@ -121,7 +123,7 @@ void NTupleEventReader::skipNumberOfEvents(unsigned long skipNextNEvents) {
 	currentEventEntry += skipNextNEvents;
 }
 
-void NTupleEventReader::setMaximumNumberOfEvents(unsigned long maxNumberOfEvents){
+void NTupleEventReader::setMaximumNumberOfEvents(unsigned long maxNumberOfEvents) {
 	maximalNumberOfEvents = maxNumberOfEvents;
 }
 }

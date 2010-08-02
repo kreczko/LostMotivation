@@ -120,6 +120,11 @@ public:
 		ASSERT_EQUAL(8, currentEvent.getJets().size());
 	}
 
+	void testNumberOfMuonsInEvent1() {
+		Event currentEvent = TTbarReader->getNextEvent();
+		ASSERT_EQUAL(1, currentEvent.getMuons().size());
+	}
+
 	void testHasNextEvent() {
 		ASSERT(TTbarReader->hasNextEvent());
 	}
@@ -131,15 +136,15 @@ public:
 
 	void testGetProccessedNumberOfEvents() {
 		TTbarReader->getNextEvent();
-		ASSERT_EQUAL(1,TTbarReader->getNumberOfProccessedEvents());
+		ASSERT_EQUAL(1, TTbarReader->getNumberOfProccessedEvents());
 		TTbarReader->getNextEvent();
-		ASSERT_EQUAL(2,TTbarReader->getNumberOfProccessedEvents());
+		ASSERT_EQUAL(2, TTbarReader->getNumberOfProccessedEvents());
 	}
 
 	void testGetProccessedNumberOfEventsWithSkippedEvents() {
 		TTbarReader->getNextEvent();
 		TTbarReader->skipNumberOfEvents(100);
-		ASSERT_EQUAL(1,TTbarReader->getNumberOfProccessedEvents());
+		ASSERT_EQUAL(1, TTbarReader->getNumberOfProccessedEvents());
 	}
 	void testSkipEvents() {
 		TTbarReader->skipNumberOfEvents(10);
@@ -169,32 +174,33 @@ public:
 
 extern cute::suite make_suite_TestNTupleEventReader() {
 	cute::suite s;
-	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader,testTTbarType));
+	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader, testTTbarType));
 
-	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader,testQCD_EMEnriched_20_to_30Type));
-	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader,testQCD_EMEnriched_30_to_80Type));
-	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader,testQCD_EMEnriched_80_to_170Type));
+	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader, testQCD_EMEnriched_20_to_30Type));
+	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader, testQCD_EMEnriched_30_to_80Type));
+	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader, testQCD_EMEnriched_80_to_170Type));
 
-	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader,testQCD_BCtoE_20_to_30Type));
-	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader,testQCD_BCtoE_30_to_80Type));
-	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader,testQCD_BCtoE_80_to_170Type));
+	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader, testQCD_BCtoE_20_to_30Type));
+	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader, testQCD_BCtoE_30_to_80Type));
+	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader, testQCD_BCtoE_80_to_170Type));
 
-	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader,testWjetsType));
-	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader,testZjetsType));
-	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader,testTWType));
-	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader,testTChanType));
+	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader, testWjetsType));
+	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader, testZjetsType));
+	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader, testTWType));
+	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader, testTChanType));
 
-	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader,testDataType));
+	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader, testDataType));
 
-	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader,testNumberOfElectronsInEvent1));
-	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader,testNumberOfJetsInEvent1));
-	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader,testHasNextEvent));
-	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader,testHasNotNextEvent));
-	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader,testGetProccessedNumberOfEvents));
-	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader,testGetProccessedNumberOfEventsWithSkippedEvents));
-	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader,testSkipEvents));
-	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader,testGetCurrentLocalEventNumber));
-	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader,testSetMaximumNumberOfEventsWithSkippedEvents));
-	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader,testSetMaximumNumberOfEvents));
+	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader, testNumberOfElectronsInEvent1));
+	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader, testNumberOfJetsInEvent1));
+	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader, testNumberOfMuonsInEvent1));
+	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader, testHasNextEvent));
+	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader, testHasNotNextEvent));
+	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader, testGetProccessedNumberOfEvents));
+	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader, testGetProccessedNumberOfEventsWithSkippedEvents));
+	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader, testSkipEvents));
+	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader, testGetCurrentLocalEventNumber));
+	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader, testSetMaximumNumberOfEventsWithSkippedEvents));
+	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader, testSetMaximumNumberOfEvents));
 	return s;
 }

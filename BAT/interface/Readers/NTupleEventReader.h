@@ -14,7 +14,9 @@
 #include "../Event.h"
 #include "ElectronReader.h"
 #include "JetReader.h"
+#include "MuonReader.h"
 #include <string>
+
 namespace BAT {
 
 class NTupleEventReader {
@@ -42,6 +44,7 @@ private:
 	boost::shared_ptr<TChain> hltTriggerInput;
 	boost::scoped_ptr<ElectronReader> electronReader;
 	boost::scoped_ptr<JetReader> jetReader;
+	boost::scoped_ptr<MuonReader> muonReader;
 	bool areReadersSet;
 	Event currentEvent;
 	void selectNextNtupleEvent();
