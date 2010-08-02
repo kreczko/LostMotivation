@@ -2,6 +2,7 @@
 #include "Event.h"
 #include "Filter.h"
 #include <boost/scoped_ptr.hpp>
+#include "Selection.h"
 
 using namespace BAT;
 
@@ -350,6 +351,45 @@ public:
 		ASSERT_EQUAL_DELTA(1.152, ttbarEvent.weight(), 0.001);
 	}
 
+	void testEventPasses1stStep() {
+		ASSERT_EQUAL(true, ttbarEvent.passesSelectionStep(TTbarEPlusJetsSelection::HighLevelTrigger));
+	}
+
+	void testEventPasses2ndStep() {
+		ASSERT_EQUAL(true, ttbarEvent.passesSelectionStep(TTbarEPlusJetsSelection::GoodPrimaryvertex));
+	}
+
+	void testEventPasses3ndStep() {
+		ASSERT_EQUAL(true, ttbarEvent.passesSelectionStep(TTbarEPlusJetsSelection::OneIsolatedElectron));
+	}
+
+	void testEventPasses4thStep() {
+		ASSERT_EQUAL(true, ttbarEvent.passesSelectionStep(TTbarEPlusJetsSelection::ConversionRejection));
+	}
+
+	void testEventPasses5thStep() {
+		ASSERT_EQUAL(true, ttbarEvent.passesSelectionStep(TTbarEPlusJetsSelection::LooseMuonVeto));
+	}
+
+	void testEventPasses6thStep() {
+		ASSERT_EQUAL(true, ttbarEvent.passesSelectionStep(TTbarEPlusJetsSelection::AtLeastFourGoodJets));
+	}
+
+	void testEventPasses7thStep() {
+		ASSERT_EQUAL(true, ttbarEvent.passesSelectionStep(TTbarEPlusJetsSelection::Zveto));
+	}
+
+	void testTTbarEventPassesNStep() {
+		ASSERT_EQUAL(true, ttbarEvent.passesSelectionStepUpTo(TTbarEPlusJetsSelection::Zveto));
+	}
+
+	void testPoorZEventPassesUpToStep() {
+		ASSERT_EQUAL(true, poorZEvent.passesSelectionStepUpTo(TTbarEPlusJetsSelection::AtLeastFourGoodJets));
+	}
+
+	void testPoorZEventDoesntPassUpToStep() {
+		ASSERT_EQUAL(false, poorZEvent.passesSelectionStepUpTo(TTbarEPlusJetsSelection::Zveto));
+	}
 };
 
 extern cute::suite make_suite_TestEvent() {
@@ -392,6 +432,18 @@ extern cute::suite make_suite_TestEvent() {
 	s.push_back(CUTE_SMEMFUN(TestEvent, testLocalEventNumber));
 	s.push_back(CUTE_SMEMFUN(TestEvent, testLumiBlock));
 	s.push_back(CUTE_SMEMFUN(TestEvent, testEventWeight));
+
+	s.push_back(CUTE_SMEMFUN(TestEvent, testEventPasses1stStep));
+	s.push_back(CUTE_SMEMFUN(TestEvent, testEventPasses2ndStep));
+	s.push_back(CUTE_SMEMFUN(TestEvent, testEventPasses3ndStep));
+	s.push_back(CUTE_SMEMFUN(TestEvent, testEventPasses4thStep));
+	s.push_back(CUTE_SMEMFUN(TestEvent, testEventPasses5thStep));
+	s.push_back(CUTE_SMEMFUN(TestEvent, testEventPasses6thStep));
+	s.push_back(CUTE_SMEMFUN(TestEvent, testEventPasses7thStep));
+
+	s.push_back(CUTE_SMEMFUN(TestEvent, testTTbarEventPassesNStep));
+	s.push_back(CUTE_SMEMFUN(TestEvent, testPoorZEventPassesUpToStep));
+	s.push_back(CUTE_SMEMFUN(TestEvent, testPoorZEventDoesntPassUpToStep));
 
 	return s;
 }
