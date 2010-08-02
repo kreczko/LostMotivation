@@ -7,6 +7,7 @@
 
 #include "../../interface/RecoObjects/Particle.h"
 #include "../../interface/DetectorGeometry.h"
+
 namespace BAT {
 
 Particle::Particle() :
@@ -116,35 +117,53 @@ bool Particle::isInEndCapRegion() const {
 	return fabs(eta()) > Detector::EndCap::MinimalAbsoluteEta;
 }
 
-const char* Particle::getEtaRegion() const{
-	if(isInBarrelRegion())
+const char* Particle::getEtaRegion() const {
+	if (isInBarrelRegion())
 		return "barrel";
-	else if(isInCrack())
+	else if (isInCrack())
 		return "crack";
-	else if(isInEndCapRegion())
+	else if (isInEndCapRegion())
 		return "endcap";
 	else
 		return "unknown";
 }
 
-float Particle::deltaEta(const Particle& other) const{
+float Particle::deltaEta(const Particle& other) const {
 	return fabs(eta() - other.eta());
 }
 
-float Particle::deltaPhi(const Particle& other) const{
+float Particle::deltaPhi(const Particle& other) const {
 	return fourvector.DeltaPhi(other.getFourVector());
 }
 
-float Particle::deltaR(const Particle& other) const{
+float Particle::deltaR(const Particle& other) const {
 	return fourvector.DeltaR(other.getFourVector());
 }
 
-bool Particle::isWithinDeltaR(float delta_R, const Particle& particle) const{
+bool Particle::isWithinDeltaR(float delta_R, const Particle& particle) const {
 	return deltaR(particle) < delta_R;
 }
 
-float Particle::invariantMass(const Particle& otherParticle) const{
+float Particle::invariantMass(const Particle& otherParticle) const {
 	TLorentzVector combinedParticle(fourvector + otherParticle.getFourVector());
 	return combinedParticle.M();
+}
+
+float Particle::relativePtTo(const Particle& otherParticle) const {
+	float relativePt = fourvector.Perp(otherParticle.getFourVector().Vect());
+	return fabs(relativePt);
+}
+
+unsigned short Particle::getClosest(const ParticleCollection& particles) const {
+	unsigned short idOfClosest = 999;
+	float closestDR = 999.;
+	for (unsigned short index = 0; index < particles.size(); ++index) {
+		float DR = deltaR(particles.at(index));
+		if (DR < closestDR) {
+			closestDR = DR;
+			idOfClosest = index;
+		}
+	}
+	return idOfClosest;
 }
 }

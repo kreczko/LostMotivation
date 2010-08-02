@@ -151,43 +151,73 @@ public:
 		ASSERT(strcmp("endcap", particleInEndcap.getEtaRegion()) == 0);
 	}
 
-	void testInvarianMassOfTwoParticles(){
+	void testInvarianMassOfTwoParticles() {
 		TLorentzVector combinedParticle(zParticle1.getFourVector() + zParticle2.getFourVector());
 		ASSERT_EQUAL_DELTA(combinedParticle.M(), zParticle1.invariantMass(zParticle2), 0.0001);
 	}
 
-	void testInvarianMassOfOneParticles(){
-		ASSERT_EQUAL_DELTA(2*zParticle1.mass(), zParticle1.invariantMass(zParticle1), 0.0001);
+	void testInvarianMassOfOneParticles() {
+		ASSERT_EQUAL_DELTA(2 * zParticle1.mass(), zParticle1.invariantMass(zParticle1), 0.0001);
+	}
+
+	void testRelativePtParallelParticles() {
+		ASSERT_EQUAL_DELTA(0, particle1.relativePtTo(particle2), 0.001);
+	}
+
+	void testRelativePtOrthogonalParticles() {
+		TVector3 threeVector = particle1.getFourVector().Vect();
+		ASSERT_EQUAL_DELTA(threeVector.Mag(), particle1.relativePtTo(particleInCrack), 0.001);
+	}
+
+	void testGetClosest() {
+		ParticleCollection particles;
+		particles.push_back(particle1);
+		particles.push_back(particleInEndcap);
+		particles.push_back(particle3);
+		ASSERT_EQUAL(0, particle1.getClosest(particles));
+	}
+
+	void testGetClosest2() {
+		ParticleCollection particles;
+		particles.push_back(particleInEndcap);
+		particles.push_back(particle1);
+		particles.push_back(particle3);
+		ASSERT_EQUAL(1, particle1.getClosest(particles));
 	}
 };
 
 extern cute::suite make_suite_TestParticle() {
 	cute::suite s;
-	s.push_back(CUTE_SMEMFUN(TestParticle,testPlusOperatorCorrectFourvector));
-	s.push_back(CUTE_SMEMFUN(TestParticle,testAsignOperator));
-	s.push_back(CUTE_SMEMFUN(TestParticle,testPlusOperatorCorrectMass));
-	s.push_back(CUTE_SMEMFUN(TestParticle,testStandardConstructor));
-	s.push_back(CUTE_SMEMFUN(TestParticle,testFourvectorConstructor));
-	s.push_back(CUTE_SMEMFUN(TestParticle,testSetMass));
-	s.push_back(CUTE_SMEMFUN(TestParticle,testDistanceFromInteractionPointAliasD0));
-	s.push_back(CUTE_SMEMFUN(TestParticle,testGetMassFromEnergyAndMomentumIfEquals0));
-	s.push_back(CUTE_SMEMFUN(TestParticle,testParticleIsInBarrelRegion));
-	s.push_back(CUTE_SMEMFUN(TestParticle,testParticleInEndcap));
-	s.push_back(CUTE_SMEMFUN(TestParticle,testParticleInCrack));
-	s.push_back(CUTE_SMEMFUN(TestParticle,testParticleConstructor));
+	s.push_back(CUTE_SMEMFUN(TestParticle, testPlusOperatorCorrectFourvector));
+	s.push_back(CUTE_SMEMFUN(TestParticle, testAsignOperator));
+	s.push_back(CUTE_SMEMFUN(TestParticle, testPlusOperatorCorrectMass));
+	s.push_back(CUTE_SMEMFUN(TestParticle, testStandardConstructor));
+	s.push_back(CUTE_SMEMFUN(TestParticle, testFourvectorConstructor));
+	s.push_back(CUTE_SMEMFUN(TestParticle, testSetMass));
+	s.push_back(CUTE_SMEMFUN(TestParticle, testDistanceFromInteractionPointAliasD0));
+	s.push_back(CUTE_SMEMFUN(TestParticle, testGetMassFromEnergyAndMomentumIfEquals0));
+	s.push_back(CUTE_SMEMFUN(TestParticle, testParticleIsInBarrelRegion));
+	s.push_back(CUTE_SMEMFUN(TestParticle, testParticleInEndcap));
+	s.push_back(CUTE_SMEMFUN(TestParticle, testParticleInCrack));
+	s.push_back(CUTE_SMEMFUN(TestParticle, testParticleConstructor));
 
-	s.push_back(CUTE_SMEMFUN(TestParticle,testGetEtaRegionCrack));
-	s.push_back(CUTE_SMEMFUN(TestParticle,testGetEtaRegionBarrel));
-	s.push_back(CUTE_SMEMFUN(TestParticle,testGetEtaRegionEndcap));
+	s.push_back(CUTE_SMEMFUN(TestParticle, testGetEtaRegionCrack));
+	s.push_back(CUTE_SMEMFUN(TestParticle, testGetEtaRegionBarrel));
+	s.push_back(CUTE_SMEMFUN(TestParticle, testGetEtaRegionEndcap));
 
-	s.push_back(CUTE_SMEMFUN(TestParticle,testDeltaEta));
-	s.push_back(CUTE_SMEMFUN(TestParticle,testDeltaPhi));
-	s.push_back(CUTE_SMEMFUN(TestParticle,testDeltaR));
+	s.push_back(CUTE_SMEMFUN(TestParticle, testDeltaEta));
+	s.push_back(CUTE_SMEMFUN(TestParticle, testDeltaPhi));
+	s.push_back(CUTE_SMEMFUN(TestParticle, testDeltaR));
 
-	s.push_back(CUTE_SMEMFUN(TestParticle,testIsWithinDR));
-	s.push_back(CUTE_SMEMFUN(TestParticle,testIsNotWithinDR));
+	s.push_back(CUTE_SMEMFUN(TestParticle, testIsWithinDR));
+	s.push_back(CUTE_SMEMFUN(TestParticle, testIsNotWithinDR));
 
-	s.push_back(CUTE_SMEMFUN(TestParticle,testInvarianMassOfTwoParticles));
-	s.push_back(CUTE_SMEMFUN(TestParticle,testInvarianMassOfOneParticles));
+	s.push_back(CUTE_SMEMFUN(TestParticle, testInvarianMassOfTwoParticles));
+	s.push_back(CUTE_SMEMFUN(TestParticle, testInvarianMassOfOneParticles));
+
+	s.push_back(CUTE_SMEMFUN(TestParticle, testRelativePtParallelParticles));
+	s.push_back(CUTE_SMEMFUN(TestParticle, testRelativePtOrthogonalParticles));
+	s.push_back(CUTE_SMEMFUN(TestParticle, testGetClosest));
+	s.push_back(CUTE_SMEMFUN(TestParticle, testGetClosest2));
 	return s;
 }

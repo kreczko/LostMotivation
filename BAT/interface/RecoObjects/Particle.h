@@ -14,6 +14,8 @@
 typedef TLorentzVector FourVector;
 
 namespace BAT {
+class Particle;
+typedef std::vector<Particle> ParticleCollection;
 
 class Particle {
 public:
@@ -38,7 +40,7 @@ public:
 	void setD0(float d0);
 	const FourVector& getFourVector() const;
 	void setFourVector(FourVector fourvector);
-	unsigned int getClosest(const std::vector<Particle>& particles) const;
+	unsigned short getClosest(const ParticleCollection& particles) const;
 
 	bool isInBarrelRegion() const;
 	bool isInCrack() const;
@@ -56,7 +58,6 @@ protected:
 	float distanceFromInteractionPointInMicron;
 	FourVector fourvector;
 };
-
 }
 
 #endif /* PARTICLE_H_ */
