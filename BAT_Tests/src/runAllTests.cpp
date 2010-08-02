@@ -10,6 +10,7 @@
 #include "TestJet.h"
 #include "TestJetReader.h"
 #include "TestMuon.h"
+#include "TestMuonReader.h"
 #include "TestNTupleEventReader.h"
 #include "TestParticle.h"
 #include "TestPrimaryVertex.h"
@@ -34,6 +35,7 @@ void runSuite(){
 	s+= make_suite_TestJet();
 	s+= make_suite_TestJetReader();
 	s+= make_suite_TestMuon();
+	s+= make_suite_TestMuonReader();
 	s+= make_suite_TestNTupleEventReader();
 	s+= make_suite_TestParticle();
 	s+= make_suite_TestPrimaryVertex();
