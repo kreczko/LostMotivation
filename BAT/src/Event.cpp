@@ -11,7 +11,7 @@ namespace BAT {
 
 Event::Event() :
 	HLT_PHOTON15_L1R(false), primaryVertex(), allElectrons(), goodElectrons(), goodIsolatedElectrons(), dataType(DATA),
-			runNumber(0), eventNumber(0), lumiBlock(0), eventWeight(1) {
+			runNumber(0), eventNumber(0), lumiBlock(0), eventWeight(1.), jetCleaningEfficiency(1.) {
 
 }
 
@@ -67,6 +67,47 @@ void Event::selectGoodJets() {
 		if (allJets.at(index).isGood())
 			goodJets.push_back(allJets.at(index));
 	}
+	cleanGoodJets();
+}
+
+void Event::cleanGoodJets() {
+	if (goodIsolatedElectrons.size() > 0)
+		cleanGoodJetsAgainstIsolatedElectrons();
+}
+
+void Event::cleanGoodJetsAgainstIsolatedElectrons() {
+	unsigned int initialGoodJets = goodJets.size();
+	for (unsigned int jetIndex = 0; jetIndex < goodJets.size(); ++jetIndex) {
+		for (unsigned int electronIndex = 0; electronIndex < goodIsolatedElectrons.size(); ++electronIndex) {
+			if (goodJets.at(jetIndex).isWithinDeltaR(0.3, goodIsolatedElectrons.at(electronIndex))) {
+				goodJets.erase(goodJets.begin() + jetIndex);
+			}
+		}
+	}
+	jetCleaningEfficiency = goodJets.size() / initialGoodJets;
+}
+
+void Event::cleanGoodJetsAgainstMostIsolatedElectron() {
+	const Electron mostIsolatedElectron = getMostIsolatedElectron();
+	unsigned int initialGoodJets = goodJets.size();
+	for (unsigned int jetIndex = 0; jetIndex < goodJets.size(); ++jetIndex) {
+		if (goodJets.at(jetIndex).isWithinDeltaR(0.3, mostIsolatedElectron)) {
+			goodJets.erase(goodJets.begin() + jetIndex);
+		}
+	}
+	jetCleaningEfficiency = goodJets.size() / initialGoodJets;
+}
+
+const Electron& Event::getMostIsolatedElectron() const {
+	float bestIsolation = 999;
+	unsigned int bestIsolatedElectron = 990;
+	for (unsigned int index = 0; index < allElectrons.size(); ++index) {
+		if (allElectrons.at(index).relativeIsolation() < bestIsolation) {
+			bestIsolation = allElectrons.at(index).relativeIsolation();
+			bestIsolatedElectron = index;
+		}
+	}
+	return allElectrons.at(bestIsolatedElectron);
 }
 
 void Event::setMuons(MuonCollection muons) {
@@ -93,23 +134,23 @@ void Event::setHLT_Photon15_L1R(bool hltTrigger) {
 	HLT_PHOTON15_L1R = hltTrigger;
 }
 
-void Event::setRunNumber(unsigned long number){
+void Event::setRunNumber(unsigned long number) {
 	runNumber = number;
 }
 
-void Event::setEventNumber(unsigned long number){
+void Event::setEventNumber(unsigned long number) {
 	eventNumber = number;
 }
 
-void Event::setLocalEventNumber(unsigned long number){
+void Event::setLocalEventNumber(unsigned long number) {
 	localEventNumber = number;
 }
 
-void Event::setLumiBlock(unsigned long block){
+void Event::setLumiBlock(unsigned long block) {
 	lumiBlock = block;
 }
 
-void Event::setEventWeight(float weight){
+void Event::setEventWeight(float weight) {
 	eventWeight = weight;
 }
 
@@ -149,23 +190,23 @@ const MuonCollection& Event::getGoodIsolatedMuons() const {
 	return goodIsolatedMuons;
 }
 
-unsigned long Event::runnumber() const{
+unsigned long Event::runnumber() const {
 	return runNumber;
 }
 
-unsigned long Event::eventnumber() const{
+unsigned long Event::eventnumber() const {
 	return eventNumber;
 }
 
-unsigned long Event::localnumber() const{
+unsigned long Event::localnumber() const {
 	return localEventNumber;
 }
 
-unsigned long Event::lumiblock() const{
+unsigned long Event::lumiblock() const {
 	return lumiBlock;
 }
 
-float Event::weight() const{
+float Event::weight() const {
 	return eventWeight;
 }
 
@@ -220,8 +261,22 @@ bool Event::isNotAZBosonEvent() const {
 	return (passesLowerLimit && passesUpperLimit) == false;
 }
 
-bool Event::passesSelectionStep(enum TTbarEPlusJetsSelection::Step step) const{
-	switch(step){
+bool Event::passesFullTTbarEPlusJetSelection() const {
+	unsigned int newstep = (int) TTbarEPlusJetsSelection::NUMBER_OF_SELECTION_STEPS - 1;
+	return passesSelectionStepUpTo((TTbarEPlusJetsSelection::Step) newstep);
+}
+
+bool Event::passesSelectionStepUpTo(enum TTbarEPlusJetsSelection::Step step) const {
+	if (step == TTbarEPlusJetsSelection::HighLevelTrigger)
+		return passesSelectionStep(step);
+	else {
+		unsigned int newstep = (int) step - 1;
+		return passesSelectionStep(step) && passesSelectionStepUpTo((TTbarEPlusJetsSelection::Step) newstep);
+	}
+}
+
+bool Event::passesSelectionStep(enum TTbarEPlusJetsSelection::Step step) const {
+	switch (step) {
 	case TTbarEPlusJetsSelection::HighLevelTrigger:
 		return passesHighLevelTrigger();
 	case TTbarEPlusJetsSelection::GoodPrimaryvertex:
@@ -239,16 +294,6 @@ bool Event::passesSelectionStep(enum TTbarEPlusJetsSelection::Step step) const{
 	default:
 		return false;
 	}
-}
-
-bool Event::passesSelectionStepUpTo(enum TTbarEPlusJetsSelection::Step step) const{
-	if(step == TTbarEPlusJetsSelection::HighLevelTrigger)
-		return passesSelectionStep(step);
-	else{
-		unsigned int newstep = (int)step -1;
-		return passesSelectionStep(step) && passesSelectionStepUpTo((TTbarEPlusJetsSelection::Step)newstep);
-	}
-
 }
 
 }

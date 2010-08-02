@@ -72,6 +72,8 @@ protected:
 	unsigned long lumiBlock;
 	float eventWeight;
 
+	float jetCleaningEfficiency;
+
 public:
 	Event();
 	virtual ~Event();
@@ -98,6 +100,7 @@ public:
 	const MuonCollection& getMuons() const;
 	const MuonCollection& getGoodMuons() const;
 	const MuonCollection& getGoodIsolatedMuons() const;
+	const Electron& getMostIsolatedElectron() const;
 	unsigned long runnumber() const;
 	unsigned long eventnumber() const;
 	unsigned long localnumber() const;
@@ -119,10 +122,14 @@ public:
 	bool hasAtLeastFourGoodJets() const;
 
 	bool isNotAZBosonEvent() const;
+	bool passesFullTTbarEPlusJetSelection() const;
 	bool hasIsolatedElectronInBarrelRegion() const;
 
 private:
 	void selectElectronsByQuality();
+	void cleanGoodJets();
+	void cleanGoodJetsAgainstIsolatedElectrons();
+	void cleanGoodJetsAgainstMostIsolatedElectron();
 	void selectGoodJets();
 	void selectMuonsByQuality();
 };
