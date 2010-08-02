@@ -66,6 +66,12 @@ protected:
 	MuonCollection goodIsolatedMuons;
 
 	DataType dataType;
+	unsigned long runNumber;
+	unsigned long eventNumber;
+	unsigned long localEventNumber;
+	unsigned long lumiBlock;
+	float eventWeight;
+
 public:
 	Event();
 	virtual ~Event();
@@ -77,6 +83,12 @@ public:
 	void setJets(JetCollection electrons);
 	void setMuons(MuonCollection muons);
 	void setHLT_Photon15_L1R(bool hltTrigger);
+	void setRunNumber(unsigned long number);
+	void setEventNumber(unsigned long number);
+	void setLocalEventNumber(unsigned long number);
+	void setLumiBlock(unsigned long block);
+	void setEventWeight(float weight);
+
 	const PrimaryVertex& getPrimaryVertex() const;
 	const ElectronCollection& getElectrons() const;
 	const ElectronCollection& getGoodElectrons() const;
@@ -86,6 +98,11 @@ public:
 	const MuonCollection& getMuons() const;
 	const MuonCollection& getGoodMuons() const;
 	const MuonCollection& getGoodIsolatedMuons() const;
+	unsigned long runnumber() const;
+	unsigned long eventnumber() const;
+	unsigned long localnumber() const;
+	unsigned long lumiblock() const;
+	float weight() const;
 
 	bool passesSelectionStep(Selection::TTbarEPlusJetsSelectionSteps step) const;
 	bool passesSelectionStepUpTo(Selection::TTbarEPlusJetsSelectionSteps upToStep) const;

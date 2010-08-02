@@ -10,7 +10,8 @@
 namespace BAT {
 
 Event::Event() :
-	HLT_PHOTON15_L1R(false), primaryVertex(), allElectrons(), goodElectrons(), goodIsolatedElectrons(), dataType(DATA) {
+	HLT_PHOTON15_L1R(false), primaryVertex(), allElectrons(), goodElectrons(), goodIsolatedElectrons(), dataType(DATA),
+			runNumber(0), eventNumber(0), lumiBlock(0), eventWeight(1) {
 
 }
 
@@ -68,28 +69,48 @@ void Event::selectGoodJets() {
 	}
 }
 
-void Event::setMuons(MuonCollection muons){
+void Event::setMuons(MuonCollection muons) {
 	allMuons.clear();
 	allMuons = muons;
 	selectMuonsByQuality();
 }
 
-void Event::selectMuonsByQuality(){
+void Event::selectMuonsByQuality() {
 	goodMuons.clear();
 	goodIsolatedMuons.clear();
-	for( unsigned int index = 0; index< allMuons.size(); ++index){
+	for (unsigned int index = 0; index < allMuons.size(); ++index) {
 		Muon muon = allMuons.at(index);
 
-		if(muon.isGood())
+		if (muon.isGood())
 			goodMuons.push_back(muon);
 
-		if(muon.isGood() && muon.isIsolated())
+		if (muon.isGood() && muon.isIsolated())
 			goodIsolatedMuons.push_back(muon);
 	}
 }
 
 void Event::setHLT_Photon15_L1R(bool hltTrigger) {
 	HLT_PHOTON15_L1R = hltTrigger;
+}
+
+void Event::setRunNumber(unsigned long number){
+	runNumber = number;
+}
+
+void Event::setEventNumber(unsigned long number){
+	eventNumber = number;
+}
+
+void Event::setLocalEventNumber(unsigned long number){
+	localEventNumber = number;
+}
+
+void Event::setLumiBlock(unsigned long block){
+	lumiBlock = block;
+}
+
+void Event::setEventWeight(float weight){
+	eventWeight = weight;
 }
 
 const PrimaryVertex& Event::getPrimaryVertex() const {
@@ -116,16 +137,36 @@ const JetCollection& Event::getGoodJets() const {
 	return goodJets;
 }
 
-const MuonCollection& Event::getMuons() const{
+const MuonCollection& Event::getMuons() const {
 	return allMuons;
 }
 
-const MuonCollection& Event::getGoodMuons() const{
+const MuonCollection& Event::getGoodMuons() const {
 	return goodMuons;
 }
 
-const MuonCollection& Event::getGoodIsolatedMuons() const{
+const MuonCollection& Event::getGoodIsolatedMuons() const {
 	return goodIsolatedMuons;
+}
+
+unsigned long Event::runnumber() const{
+	return runNumber;
+}
+
+unsigned long Event::eventnumber() const{
+	return eventNumber;
+}
+
+unsigned long Event::localnumber() const{
+	return localEventNumber;
+}
+
+unsigned long Event::lumiblock() const{
+	return lumiBlock;
+}
+
+float Event::weight() const{
+	return eventWeight;
 }
 
 bool Event::passesHighLevelTrigger() const {
@@ -147,7 +188,7 @@ bool Event::isolatedElectronDoesNotComeFromConversion() const {
 		return false;
 }
 
-bool Event::hasNoIsolatedMuon() const{
+bool Event::hasNoIsolatedMuon() const {
 	return goodIsolatedMuons.size() == 0;
 }
 

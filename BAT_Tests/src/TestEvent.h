@@ -317,12 +317,37 @@ public:
 		ASSERT(DiJetEvent.isNotAZBosonEvent());
 	}
 
-	void testTTbarEventPassesMuonVeto(){
+	void testTTbarEventPassesMuonVeto() {
 		ASSERT_EQUAL(true, ttbarEvent.hasNoIsolatedMuon());
 	}
 
-	void testMuonEventDoesnPassMuonVeto(){
+	void testMuonEventDoesnPassMuonVeto() {
 		ASSERT_EQUAL(false, muonEvent.hasNoIsolatedMuon());
+	}
+
+	void testRunNumber() {
+		ttbarEvent.setRunNumber(42);
+		ASSERT_EQUAL(42, ttbarEvent.runnumber());
+	}
+
+	void testEventNumber() {
+		ttbarEvent.setEventNumber(42);
+		ASSERT_EQUAL(42, ttbarEvent.eventnumber());
+	}
+
+	void testLocalEventNumber() {
+		ttbarEvent.setLocalEventNumber(42);
+		ASSERT_EQUAL(42, ttbarEvent.localnumber());
+	}
+
+	void testLumiBlock() {
+		ttbarEvent.setLumiBlock(42);
+		ASSERT_EQUAL(42, ttbarEvent.lumiblock());
+	}
+
+	void testEventWeight() {
+		ttbarEvent.setEventWeight(1.152);
+		ASSERT_EQUAL_DELTA(1.152, ttbarEvent.weight(), 0.001);
 	}
 
 };
@@ -361,6 +386,12 @@ extern cute::suite make_suite_TestEvent() {
 
 	s.push_back(CUTE_SMEMFUN(TestEvent, testTTbarEventPassesMuonVeto));
 	s.push_back(CUTE_SMEMFUN(TestEvent, testMuonEventDoesnPassMuonVeto));
+
+	s.push_back(CUTE_SMEMFUN(TestEvent, testRunNumber));
+	s.push_back(CUTE_SMEMFUN(TestEvent, testEventNumber));
+	s.push_back(CUTE_SMEMFUN(TestEvent, testLocalEventNumber));
+	s.push_back(CUTE_SMEMFUN(TestEvent, testLumiBlock));
+	s.push_back(CUTE_SMEMFUN(TestEvent, testEventWeight));
 
 	return s;
 }
