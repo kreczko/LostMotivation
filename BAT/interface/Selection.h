@@ -1,6 +1,9 @@
+#ifndef SELECTION_H_
+#define SELECTION_H_
+
 namespace BAT {
-namespace Selection {
-enum TTbarEPlusJetsSelectionSteps {
+namespace TTbarEPlusJetsSelection {
+enum Step {
 	HighLevelTrigger,
 	GoodPrimaryvertex,
 	OneIsolatedElectron,
@@ -12,3 +15,4 @@ enum TTbarEPlusJetsSelectionSteps {
 };
 }
 }
+#endif //SELECTION_H_
