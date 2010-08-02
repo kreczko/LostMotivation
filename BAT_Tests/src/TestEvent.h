@@ -25,12 +25,13 @@ struct TestEvent {
 		ttbarEvent(), goodZEvent(), poorZEvent(), DiJetEvent(), DiJetEventWithConversion(), muonEvent(), emptyEvent(),
 				eventFilter(Filter::makeStandardFilter()), goodIsolatedElectron(100., 99., 13., 5.),
 				goodIsolatedElectron2(100., 79., -13., -5.), goodLooseElectron(100., 79., -13., -5.), badElectron(20,
-						14., 15., 0), electronFromConversion(goodIsolatedElectron), goodJet(100, 99, 13, 5), goodBJet(
+						14., 15., 0), electronFromConversion(goodIsolatedElectron), goodJet(100, 13, 99, 5), goodBJet(
 						goodJet), badJet(20, 19, 0, 0), goodVertex(), badVertex(),
 				goodIsolatedMuon(100., 99., 13., 5.), badMuon(100., 99., 13., 5.) {
 		setUpGoodIsolatedElectron();
 		setUpGoodIsolatedElectron2();
 		setUpGoodLooseElectron();
+		setUpBadElectron();
 		setUpGoodIsolatedElectronFromConversion();
 		setUpGoodJet();
 		setUpGoodBJet();
@@ -56,11 +57,17 @@ private:
 	}
 
 	void setUpGoodIsolatedElectron2() {
-		goodIsolatedElectron2.setHcalIsolation(0.5);
+		goodIsolatedElectron2.setHcalIsolation(0.4);
 		goodIsolatedElectron2.setEcalIsolation(0.3);
 		goodIsolatedElectron2.setTrackerIsolation(0.4);
 		goodIsolatedElectron2.setVBTF_W70_ElectronID(true);
 		goodIsolatedElectron2.setNumberOfMissingInnerLayerHits(0);
+	}
+
+	void setUpBadElectron() {
+		badElectron.setHcalIsolation(4);
+		badElectron.setEcalIsolation(44);
+		badElectron.setTrackerIsolation(1);
 	}
 
 	void setUpGoodLooseElectron() {
@@ -390,6 +397,19 @@ public:
 	void testPoorZEventDoesntPassUpToStep() {
 		ASSERT_EQUAL(false, poorZEvent.passesSelectionStepUpTo(TTbarEPlusJetsSelection::Zveto));
 	}
+
+	void testPassesFullTTbarSelection() {
+		ASSERT_EQUAL(true, ttbarEvent.passesFullTTbarEPlusJetSelection());
+	}
+
+	void testFailsFullTTbarSelection() {
+		ASSERT_EQUAL(false, DiJetEvent.passesFullTTbarEPlusJetSelection());
+	}
+
+	void testGetMostIsolatedElectron() {
+		ASSERT_EQUAL_DELTA(goodIsolatedElectron2.relativeIsolation(),
+				goodZEvent.getMostIsolatedElectron().relativeIsolation(), 0.001);
+	}
 };
 
 extern cute::suite make_suite_TestEvent() {
@@ -444,6 +464,10 @@ extern cute::suite make_suite_TestEvent() {
 	s.push_back(CUTE_SMEMFUN(TestEvent, testTTbarEventPassesNStep));
 	s.push_back(CUTE_SMEMFUN(TestEvent, testPoorZEventPassesUpToStep));
 	s.push_back(CUTE_SMEMFUN(TestEvent, testPoorZEventDoesntPassUpToStep));
+	s.push_back(CUTE_SMEMFUN(TestEvent, testPassesFullTTbarSelection));
+	s.push_back(CUTE_SMEMFUN(TestEvent, testFailsFullTTbarSelection));
+
+	s.push_back(CUTE_SMEMFUN(TestEvent, testGetMostIsolatedElectron));
 
 	return s;
 }
