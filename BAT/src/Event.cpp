@@ -10,9 +10,7 @@
 namespace BAT {
 
 Event::Event() :
-	HLT_PHOTON15_L1R(false), primaryVertex(), allElectrons(), goodElectrons(), goodBarrelElectrons(),
-			goodEndcapElectrons(), goodIsolatedElectrons(), goodIsolatedBarrelElectrons(),
-			goodIsolatedEndcapElectrons(), dataType(DATA) {
+	HLT_PHOTON15_L1R(false), primaryVertex(), allElectrons(), goodElectrons(), goodIsolatedElectrons(), dataType(DATA) {
 
 }
 
@@ -40,10 +38,54 @@ void Event::setElectrons(ElectronCollection electrons) {
 	selectElectronsByQuality();
 }
 
+void Event::selectElectronsByQuality() {
+	goodElectrons.clear();
+	goodIsolatedElectrons.clear();
+	for (unsigned int index = 0; index < allElectrons.size(); ++index) {
+		Electron electron = allElectrons.at(index);
+
+		if (electron.isGood())
+			goodElectrons.push_back(electron);
+
+		if (electron.isGood() && electron.isIsolated())
+			goodIsolatedElectrons.push_back(electron);
+		if (electron.isGood() == false && electron.isLoose())
+			looseElectrons.push_back(electron);
+	}
+}
+
 void Event::setJets(JetCollection jets) {
 	allJets.clear();
 	allJets = jets;
 	selectGoodJets();
+}
+
+void Event::selectGoodJets() {
+	goodJets.clear();
+	for (unsigned int index = 0; index < allJets.size(); ++index) {
+		if (allJets.at(index).isGood())
+			goodJets.push_back(allJets.at(index));
+	}
+}
+
+void Event::setMuons(MuonCollection muons){
+	allMuons.clear();
+	allMuons = muons;
+	selectMuonsByQuality();
+}
+
+void Event::selectMuonsByQuality(){
+	goodMuons.clear();
+	goodIsolatedMuons.clear();
+	for( unsigned int index = 0; index< allMuons.size(); ++index){
+		Muon muon = allMuons.at(index);
+
+		if(muon.isGood())
+			goodMuons.push_back(muon);
+
+		if(muon.isGood() && muon.isIsolated())
+			goodIsolatedMuons.push_back(muon);
+	}
 }
 
 void Event::setHLT_Photon15_L1R(bool hltTrigger) {
@@ -74,28 +116,16 @@ const JetCollection& Event::getGoodJets() const {
 	return goodJets;
 }
 
-void Event::selectElectronsByQuality() {
-	goodElectrons.clear();
-	goodIsolatedElectrons.clear();
-	for (unsigned int index = 0; index < allElectrons.size(); ++index) {
-		Electron electron = allElectrons.at(index);
-
-		if (electron.isGood())
-			goodElectrons.push_back(electron);
-
-		if (electron.isGood() && electron.isIsolated())
-			goodIsolatedElectrons.push_back(electron);
-		if(electron.isGood() == false && electron.isLoose())
-			looseElectrons.push_back(electron);
-	}
+const MuonCollection& Event::getMuons() const{
+	return allMuons;
 }
 
-void Event::selectGoodJets() {
-	goodJets.clear();
-	for (unsigned int index = 0; index < allJets.size(); ++index) {
-		if (allJets.at(index).isGood())
-			goodJets.push_back(allJets.at(index));
-	}
+const MuonCollection& Event::getGoodMuons() const{
+	return goodMuons;
+}
+
+const MuonCollection& Event::getGoodIsolatedMuons() const{
+	return goodIsolatedMuons;
 }
 
 bool Event::passesHighLevelTrigger() const {
@@ -115,6 +145,10 @@ bool Event::isolatedElectronDoesNotComeFromConversion() const {
 		return goodIsolatedElectrons.front().isFromConversion() == false;
 	else
 		return false;
+}
+
+bool Event::hasNoIsolatedMuon() const{
+	return goodIsolatedMuons.size() == 0;
 }
 
 bool Event::hasAtLeastOneGoodJet() const {

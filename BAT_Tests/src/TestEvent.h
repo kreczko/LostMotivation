@@ -6,7 +6,7 @@
 using namespace BAT;
 
 struct TestEvent {
-	Event ttbarEvent, goodZEvent, poorZEvent, DiJetEvent, DiJetEventWithConversion;
+	Event ttbarEvent, goodZEvent, poorZEvent, DiJetEvent, DiJetEventWithConversion, muonEvent;
 	Event emptyEvent;
 	boost::scoped_ptr<Filter> eventFilter;
 	Electron goodIsolatedElectron, goodIsolatedElectron2;
@@ -18,12 +18,15 @@ struct TestEvent {
 	Jet badJet;
 	PrimaryVertex goodVertex;
 	PrimaryVertex badVertex;
+	Muon goodIsolatedMuon;
+	Muon badMuon;
 	TestEvent() :
-		ttbarEvent(), goodZEvent(), poorZEvent(), DiJetEvent(), DiJetEventWithConversion(), emptyEvent(), eventFilter(
-				Filter::makeStandardFilter()), goodIsolatedElectron(100., 99., 13., 5.), goodIsolatedElectron2(100.,
-				79., -13., -5.), goodLooseElectron(100., 79., -13., -5.), badElectron(20, 14., 15., 0),
-				electronFromConversion(goodIsolatedElectron), goodJet(100, 99, 13, 5), goodBJet(goodJet), badJet(20,
-						19, 0, 0), goodVertex(), badVertex() {
+		ttbarEvent(), goodZEvent(), poorZEvent(), DiJetEvent(), DiJetEventWithConversion(), muonEvent(), emptyEvent(),
+				eventFilter(Filter::makeStandardFilter()), goodIsolatedElectron(100., 99., 13., 5.),
+				goodIsolatedElectron2(100., 79., -13., -5.), goodLooseElectron(100., 79., -13., -5.), badElectron(20,
+						14., 15., 0), electronFromConversion(goodIsolatedElectron), goodJet(100, 99, 13, 5), goodBJet(
+						goodJet), badJet(20, 19, 0, 0), goodVertex(), badVertex(),
+				goodIsolatedMuon(100., 99., 13., 5.), badMuon(100., 99., 13., 5.) {
 		setUpGoodIsolatedElectron();
 		setUpGoodIsolatedElectron2();
 		setUpGoodLooseElectron();
@@ -32,11 +35,14 @@ struct TestEvent {
 		setUpGoodBJet();
 		setUpGoodVertex();
 		setUpBadVertex();
+		setUpIsolatedGoodMuon();
+		setUpBadMuon();
 
 		setUpTTbarEvent();
 		setUpGoodZEvent();
 		setUpPoorZEvent();
 		setUpDiJetEvent();
+		setUpMuonEvent();
 	}
 
 private:
@@ -87,6 +93,31 @@ private:
 		goodBJet.setDiscriminatorForBtagType(2.5, BJetTagger::SimpleSecondaryVertex);
 	}
 
+	void setUpGoodVertex() {
+		goodVertex.setDegreesOfFreedom(PrimaryVertex::goodVertexMinimalNumberOfDegreesOfFreedom);
+		goodVertex.setFake(false);
+		goodVertex.setRho(PrimaryVertex::goodVertexMaximalAbsoluteRho);
+		goodVertex.setZPosition(PrimaryVertex::goodVertexMaximalAbsoluteZPosition);
+	}
+
+	void setUpBadVertex() {
+		badVertex.setDegreesOfFreedom(PrimaryVertex::goodVertexMinimalNumberOfDegreesOfFreedom);
+		badVertex.setFake(true);
+		badVertex.setRho(PrimaryVertex::goodVertexMaximalAbsoluteRho);
+		badVertex.setZPosition(PrimaryVertex::goodVertexMaximalAbsoluteZPosition);
+	}
+
+	void setUpIsolatedGoodMuon() {
+		goodIsolatedMuon.makeGlobal(true);
+		goodIsolatedMuon.setEcalIsolation(1);
+		goodIsolatedMuon.setHcalIsolation(1);
+		goodIsolatedMuon.setTrackerIsolation(1);
+	}
+
+	void setUpBadMuon() {
+		badMuon.makeGlobal(false);
+	}
+
 	void setUpTTbarEvent() {
 		ElectronCollection electrons;
 		electrons.push_back(goodIsolatedElectron);
@@ -101,6 +132,9 @@ private:
 		ttbarEvent.setJets(jets);
 		ttbarEvent.setHLT_Photon15_L1R(true);
 		ttbarEvent.setPrimaryVertex(goodVertex);
+		MuonCollection muons;
+		muons.push_back(badMuon);
+		ttbarEvent.setMuons(muons);
 	}
 
 	void setUpGoodZEvent() {
@@ -158,18 +192,23 @@ private:
 		DiJetEventWithConversion.setElectrons(electrons);
 	}
 
-	void setUpGoodVertex() {
-		goodVertex.setDegreesOfFreedom(PrimaryVertex::goodVertexMinimalNumberOfDegreesOfFreedom);
-		goodVertex.setFake(false);
-		goodVertex.setRho(PrimaryVertex::goodVertexMaximalAbsoluteRho);
-		goodVertex.setZPosition(PrimaryVertex::goodVertexMaximalAbsoluteZPosition);
-	}
-
-	void setUpBadVertex() {
-		badVertex.setDegreesOfFreedom(PrimaryVertex::goodVertexMinimalNumberOfDegreesOfFreedom);
-		badVertex.setFake(true);
-		badVertex.setRho(PrimaryVertex::goodVertexMaximalAbsoluteRho);
-		badVertex.setZPosition(PrimaryVertex::goodVertexMaximalAbsoluteZPosition);
+	void setUpMuonEvent() {
+		ElectronCollection electrons;
+		electrons.push_back(goodIsolatedElectron);
+		electrons.push_back(badElectron);
+		muonEvent.setElectrons(electrons);
+		JetCollection jets;
+		jets.push_back(goodJet);
+		jets.push_back(goodJet);
+		jets.push_back(goodBJet);
+		jets.push_back(goodBJet);
+		jets.push_back(badJet);
+		muonEvent.setJets(jets);
+		muonEvent.setHLT_Photon15_L1R(true);
+		muonEvent.setPrimaryVertex(goodVertex);
+		MuonCollection muons;
+		muons.push_back(goodIsolatedMuon);
+		muonEvent.setMuons(muons);
 	}
 
 public:
@@ -275,8 +314,16 @@ public:
 	}
 
 	void testDiJetIsNotAZBosonEvent() {
-			ASSERT(DiJetEvent.isNotAZBosonEvent());
-		}
+		ASSERT(DiJetEvent.isNotAZBosonEvent());
+	}
+
+	void testTTbarEventPassesMuonVeto(){
+		ASSERT_EQUAL(true, ttbarEvent.hasNoIsolatedMuon());
+	}
+
+	void testMuonEventDoesnPassMuonVeto(){
+		ASSERT_EQUAL(false, muonEvent.hasNoIsolatedMuon());
+	}
 
 };
 
@@ -311,6 +358,9 @@ extern cute::suite make_suite_TestEvent() {
 	s.push_back(CUTE_SMEMFUN(TestEvent, testGoodZIsAZBosonEvent));
 	s.push_back(CUTE_SMEMFUN(TestEvent, testPoorZIsAZBosonEvent));
 	s.push_back(CUTE_SMEMFUN(TestEvent, testDiJetIsNotAZBosonEvent));
+
+	s.push_back(CUTE_SMEMFUN(TestEvent, testTTbarEventPassesMuonVeto));
+	s.push_back(CUTE_SMEMFUN(TestEvent, testMuonEventDoesnPassMuonVeto));
 
 	return s;
 }

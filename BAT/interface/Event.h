@@ -9,6 +9,7 @@
 #define EVENT_H_
 #include "RecoObjects/Electron.h"
 #include "RecoObjects/Jet.h"
+#include "RecoObjects/Muon.h"
 #include "RecoObjects/PrimaryVertex.h"
 #include "Selection.h"
 
@@ -54,19 +55,15 @@ protected:
 	PrimaryVertex primaryVertex;
 	ElectronCollection allElectrons;
 	ElectronCollection goodElectrons;
-	ElectronCollection goodBarrelElectrons;
-	ElectronCollection goodEndcapElectrons;
-
 	ElectronCollection goodIsolatedElectrons;
-	ElectronCollection goodIsolatedBarrelElectrons;
-	ElectronCollection goodIsolatedEndcapElectrons;
 	ElectronCollection looseElectrons;
 
 	JetCollection allJets;
 	JetCollection goodJets;
-	//	ElectronCollection goodNonIsolatedElectrons;
-	//	ElectronCollection goodNonIsolatedBarrelElectrons;
-	//	ElectronCollection goodNonIsolatedEndcapElectrons;
+
+	MuonCollection allMuons;
+	MuonCollection goodMuons;
+	MuonCollection goodIsolatedMuons;
 
 	DataType dataType;
 public:
@@ -78,6 +75,7 @@ public:
 	void setPrimaryVertex(PrimaryVertex vertex);
 	void setElectrons(ElectronCollection electrons);
 	void setJets(JetCollection electrons);
+	void setMuons(MuonCollection muons);
 	void setHLT_Photon15_L1R(bool hltTrigger);
 	const PrimaryVertex& getPrimaryVertex() const;
 	const ElectronCollection& getElectrons() const;
@@ -85,9 +83,12 @@ public:
 	const ElectronCollection& getGoodIsolatedElectrons() const;
 	const JetCollection& getJets() const;
 	const JetCollection& getGoodJets() const;
+	const MuonCollection& getMuons() const;
+	const MuonCollection& getGoodMuons() const;
+	const MuonCollection& getGoodIsolatedMuons() const;
 
-	bool passesSelectionStep(Selection::SelectionSteps step) const;
-	bool passesSelectionStepUpTo(Selection::SelectionSteps upToStep) const;
+	bool passesSelectionStep(Selection::TTbarEPlusJetsSelectionSteps step) const;
+	bool passesSelectionStepUpTo(Selection::TTbarEPlusJetsSelectionSteps upToStep) const;
 
 	bool passesHighLevelTrigger() const;
 	bool hasOneGoodPrimaryVertex() const;
@@ -106,6 +107,7 @@ public:
 private:
 	void selectElectronsByQuality();
 	void selectGoodJets();
+	void selectMuonsByQuality();
 };
 
 }
