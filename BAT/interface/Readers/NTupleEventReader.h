@@ -15,6 +15,7 @@
 #include "ElectronReader.h"
 #include "JetReader.h"
 #include "MuonReader.h"
+#include "VariableReader.h"
 #include <string>
 
 namespace BAT {
@@ -45,6 +46,10 @@ private:
 	boost::scoped_ptr<ElectronReader> electronReader;
 	boost::scoped_ptr<JetReader> jetReader;
 	boost::scoped_ptr<MuonReader> muonReader;
+
+	boost::scoped_ptr<VariableReader<unsigned int> > runNumberReader;
+	boost::scoped_ptr<VariableReader<unsigned int> > eventNumberReader;
+	boost::scoped_ptr<VariableReader<unsigned int> > lumiBlockReader;
 	bool areReadersSet;
 	Event currentEvent;
 	void selectNextNtupleEvent();

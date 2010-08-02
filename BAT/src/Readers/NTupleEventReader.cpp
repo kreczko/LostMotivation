@@ -21,7 +21,9 @@ NTupleEventReader::NTupleEventReader() :
 	processedEvents(0), maximalNumberOfEvents(999999999), currentEventEntry(0), numberOfFiles(0), input(new TChain(
 			NTupleEventReader::EVENT_CHAIN)), hltTriggerInput(new TChain(NTupleEventReader::HLT_TRIGGER_CHAIN)),
 			electronReader(new ElectronReader(input)), jetReader(new JetReader(input)), muonReader(
-					new MuonReader(input)), areReadersSet(false), currentEvent() {
+					new MuonReader(input)), runNumberReader(new VariableReader<unsigned int> (input, "run")),
+			eventNumberReader(new VariableReader<unsigned int> (input, "event")), lumiBlockReader(new VariableReader<
+					unsigned int> (input, "lumiblock")), areReadersSet(false), currentEvent() {
 	input->AddFriend(hltTriggerInput.get());
 }
 
@@ -41,6 +43,10 @@ const Event& NTupleEventReader::getNextEvent() {
 	currentEvent.setJets(jetReader->getJets());
 	currentEvent.setMuons(muonReader->getMuons());
 	currentEvent.setDataType(getDataType());
+	currentEvent.setRunNumber(runNumberReader->getVariable());
+	currentEvent.setEventNumber(eventNumberReader->getVariable());
+	currentEvent.setLocalEventNumber(currentEventEntry);
+	currentEvent.setLumiBlock(lumiBlockReader->getVariable());
 	return currentEvent;
 }
 
@@ -101,6 +107,9 @@ void NTupleEventReader::initiateReadersIfNotSet() {
 		electronReader->initialise();
 		jetReader->initialise();
 		muonReader->initialise();
+		runNumberReader->initialise();
+		eventNumberReader->initialise();
+		lumiBlockReader->initialise();
 		areReadersSet = true;
 	}
 }
