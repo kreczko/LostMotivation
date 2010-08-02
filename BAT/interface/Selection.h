@@ -1,6 +1,6 @@
 namespace BAT {
 namespace Selection {
-enum SelectionSteps {
+enum TTbarEPlusJetsSelectionSteps {
 	HighLevelTrigger,
 	GoodPrimaryvertex,
 	OneIsolatedElectron,
