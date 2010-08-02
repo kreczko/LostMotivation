@@ -42,6 +42,10 @@ Filter * Filter::makeStandardFilter() {
 
 	filter->setGoodMETMinimalEt(20);
 
+	filter->setGoodMuonMinimalPt(10.);
+	filter->setGoodMuonMaximalAbsoluteEta(2.5);
+	filter->setIsolatedMuonMinimalRelativeIsolation(0.2);
+
 	return filter;
 }
 
@@ -109,5 +113,16 @@ void Filter::setLooseIsolatedElectronMaximalRelativeIsolation(float maximalRelat
 	Electron::looseIsolatedElectronMaximalRelativeIsolation = maximalRelativeIsolation;
 }
 
+void Filter::setGoodMuonMinimalPt(float pt){
+	Muon::goodMuonMinimalPt = pt;
+}
+
+void Filter::setGoodMuonMaximalAbsoluteEta(float maximalAbsoluteEta){
+	Muon::goodMuonMaximalAbsoluteEta = maximalAbsoluteEta;
+}
+
+void Filter::setIsolatedMuonMinimalRelativeIsolation(float isolation){
+	Muon::isolatedMuonMaximalRelativeIsolation = isolation;
+}
 
 }

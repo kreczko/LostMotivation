@@ -9,11 +9,12 @@
 
 using namespace BAT;
 
-struct TestFilter{
+struct TestFilter {
 private:
 	boost::scoped_ptr<Filter> filter;
 public:
-	TestFilter():filter(Filter::makeStandardFilter()){
+	TestFilter() :
+		filter(Filter::makeStandardFilter()) {
 
 	}
 
@@ -111,26 +112,48 @@ public:
 		filter->setGoodMETMinimalEt(30);
 		ASSERT_EQUAL_DELTA(30, MET::goodMETMinimalEt, 0.1);
 	}
+
+	void testSetGoodMuonMinimalPt() {
+		ASSERT_EQUAL_DELTA(10., Muon::goodMuonMinimalPt, 0.001);
+		filter->setGoodMuonMinimalPt(20);
+		ASSERT_EQUAL_DELTA(20., Muon::goodMuonMinimalPt, 0.001);
+	}
+
+	void testSetGoodMuonMaximalAbsoluteEta() {
+		ASSERT_EQUAL_DELTA(2.5, Muon::goodMuonMaximalAbsoluteEta, 0.001);
+		filter->setGoodMuonMaximalAbsoluteEta(20);
+		ASSERT_EQUAL_DELTA(20., Muon::goodMuonMaximalAbsoluteEta, 0.001);
+	}
+
+	void testSetIsolatedMuonMinimalRelativeIsolation() {
+		ASSERT_EQUAL_DELTA(0.2, Muon::isolatedMuonMaximalRelativeIsolation, 0.001);
+		filter->setIsolatedMuonMinimalRelativeIsolation(11);
+		ASSERT_EQUAL_DELTA(11., Muon::isolatedMuonMaximalRelativeIsolation, 0.001);
+	}
 };
 extern cute::suite make_suite_TestFilter() {
 	cute::suite s;
-	s.push_back(CUTE_SMEMFUN(TestFilter,testSetGoodVertexMinimalNumberOfDegreesOfFreedom));
-	s.push_back(CUTE_SMEMFUN(TestFilter,testSetGoodVertexMaximalAbsoluteZPosition));
-	s.push_back(CUTE_SMEMFUN(TestFilter,testSetGoodVertexMaximalRho));
+	s.push_back(CUTE_SMEMFUN(TestFilter, testSetGoodVertexMinimalNumberOfDegreesOfFreedom));
+	s.push_back(CUTE_SMEMFUN(TestFilter, testSetGoodVertexMaximalAbsoluteZPosition));
+	s.push_back(CUTE_SMEMFUN(TestFilter, testSetGoodVertexMaximalRho));
 
-	s.push_back(CUTE_SMEMFUN(TestFilter,testSetGoodJetMinimalPt));
-	s.push_back(CUTE_SMEMFUN(TestFilter,testSetGoodJetMaximalAbsoluteEta));
-	s.push_back(CUTE_SMEMFUN(TestFilter,testSetGoodJetMinimalElectromagneticFraction));
-	s.push_back(CUTE_SMEMFUN(TestFilter,testSetGoodElectronMinimalEt));
-	s.push_back(CUTE_SMEMFUN(TestFilter,testSetGoodElectronMaximalAbsoluteEta));
-	s.push_back(CUTE_SMEMFUN(TestFilter,testSetGoodElectronMaximalRelativeIsolation));
-	s.push_back(CUTE_SMEMFUN(TestFilter,testSetGoodElectronMaximalDistanceFromInteractionPoint));
-	s.push_back(CUTE_SMEMFUN(TestFilter,testSetGoodMETMinimalEt));
-	s.push_back(CUTE_SMEMFUN(TestFilter,testSetLooseElectronMinimalEt));
-	s.push_back(CUTE_SMEMFUN(TestFilter,testSetLooseElectronMaximalRelativeIsolation));
-	s.push_back(CUTE_SMEMFUN(TestFilter,testSetLooseElectronMaximalAbsoluteEta));
-	s.push_back(CUTE_SMEMFUN(TestFilter,testSetGoodJetMinimalNumberOfRecHitsContaining90PercentOfTheJetEnergy));
-	s.push_back(CUTE_SMEMFUN(TestFilter,testSetGoodJetMaximalFractionOfEnergyIntheHottestHPDReadout));
+	s.push_back(CUTE_SMEMFUN(TestFilter, testSetGoodJetMinimalPt));
+	s.push_back(CUTE_SMEMFUN(TestFilter, testSetGoodJetMaximalAbsoluteEta));
+	s.push_back(CUTE_SMEMFUN(TestFilter, testSetGoodJetMinimalElectromagneticFraction));
+	s.push_back(CUTE_SMEMFUN(TestFilter, testSetGoodElectronMinimalEt));
+	s.push_back(CUTE_SMEMFUN(TestFilter, testSetGoodElectronMaximalAbsoluteEta));
+	s.push_back(CUTE_SMEMFUN(TestFilter, testSetGoodElectronMaximalRelativeIsolation));
+	s.push_back(CUTE_SMEMFUN(TestFilter, testSetGoodElectronMaximalDistanceFromInteractionPoint));
+	s.push_back(CUTE_SMEMFUN(TestFilter, testSetGoodMETMinimalEt));
+	s.push_back(CUTE_SMEMFUN(TestFilter, testSetLooseElectronMinimalEt));
+	s.push_back(CUTE_SMEMFUN(TestFilter, testSetLooseElectronMaximalRelativeIsolation));
+	s.push_back(CUTE_SMEMFUN(TestFilter, testSetLooseElectronMaximalAbsoluteEta));
+	s.push_back(CUTE_SMEMFUN(TestFilter, testSetGoodJetMinimalNumberOfRecHitsContaining90PercentOfTheJetEnergy));
+	s.push_back(CUTE_SMEMFUN(TestFilter, testSetGoodJetMaximalFractionOfEnergyIntheHottestHPDReadout));
+
+	s.push_back(CUTE_SMEMFUN(TestFilter, testSetGoodMuonMinimalPt));
+	s.push_back(CUTE_SMEMFUN(TestFilter, testSetGoodMuonMaximalAbsoluteEta));
+	s.push_back(CUTE_SMEMFUN(TestFilter, testSetIsolatedMuonMinimalRelativeIsolation));
 
 	return s;
 }

@@ -11,7 +11,7 @@
 #include "../interface/RecoObjects/Jet.h"
 #include "../interface/RecoObjects/MET.h"
 #include "../interface/RecoObjects/PrimaryVertex.h"
-
+#include "../interface/RecoObjects/Muon.h"
 namespace BAT {
 
 class Filter {
@@ -41,11 +41,16 @@ public:
 
 	void setGoodMETMinimalEt(float minimalEt);
 
+	void setGoodMuonMinimalPt(float pt);
+	void setGoodMuonMaximalAbsoluteEta(float maximalAbsoluteEta);
+	void setIsolatedMuonMinimalRelativeIsolation(float isolation);
+
 	static void resetSelectionValues(){
 		Electron::resetSelectionValues();
 		Jet::resetSelectionValues();
 		MET::resetSelectionValues();
 		PrimaryVertex::resetSelectionValues();
+		Muon::resetSelectionValues();
 	}
 };
 
