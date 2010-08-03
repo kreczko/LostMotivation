@@ -55,7 +55,7 @@ public:
 	void setDiscriminatorForBtagType(float discriminator, BJetTagger::Algorithm type);
 private:
 	Algorithm usedAlgorithm;
-	float electroMagneticFraction;
+	float electromagneticFraction;
 	float numberOfRecHitsContaining90PercentOfTheJetEnergy;
 	float fractionOfEnergyIntheHottestHPDReadout;
 	std::vector<float> btag_discriminators;
