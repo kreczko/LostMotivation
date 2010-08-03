@@ -9,7 +9,6 @@
 #define JET_H_
 #include "../Taggers/BJetTagger.h"
 #include "Particle.h"
-#include "Electron.h"
 #include <vector>
 namespace BAT {
 
