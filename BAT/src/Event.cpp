@@ -71,8 +71,10 @@ void Event::selectGoodJets() {
 }
 
 void Event::cleanGoodJets() {
-	if (goodIsolatedElectrons.size() > 0)
+	if (goodIsolatedElectrons.size() > 0 && goodJets.size() > 0)
 		cleanGoodJetsAgainstIsolatedElectrons();
+	else if (allElectrons.size() > 0 && goodJets.size() > 0)
+		cleanGoodJetsAgainstMostIsolatedElectron();
 }
 
 void Event::cleanGoodJetsAgainstIsolatedElectrons() {
@@ -81,6 +83,8 @@ void Event::cleanGoodJetsAgainstIsolatedElectrons() {
 		for (unsigned int electronIndex = 0; electronIndex < goodIsolatedElectrons.size(); ++electronIndex) {
 			if (goodJets.at(jetIndex).isWithinDeltaR(0.3, goodIsolatedElectrons.at(electronIndex))) {
 				goodJets.erase(goodJets.begin() + jetIndex);
+				--jetIndex;
+				break;
 			}
 		}
 	}
@@ -88,18 +92,20 @@ void Event::cleanGoodJetsAgainstIsolatedElectrons() {
 }
 
 void Event::cleanGoodJetsAgainstMostIsolatedElectron() {
-	const Electron mostIsolatedElectron = getMostIsolatedElectron();
-	unsigned int initialGoodJets = goodJets.size();
-	for (unsigned int jetIndex = 0; jetIndex < goodJets.size(); ++jetIndex) {
-		if (goodJets.at(jetIndex).isWithinDeltaR(0.3, mostIsolatedElectron)) {
-			goodJets.erase(goodJets.begin() + jetIndex);
+	if (allElectrons.size() > 0) {
+		const Electron mostIsolatedElectron = getMostIsolatedElectron();
+		unsigned int initialGoodJets = goodJets.size();
+		for (unsigned int jetIndex = 0; jetIndex < goodJets.size(); ++jetIndex) {
+			if (goodJets.at(jetIndex).isWithinDeltaR(0.3, mostIsolatedElectron)) {
+				goodJets.erase(goodJets.begin() + jetIndex);
+			}
 		}
+		jetCleaningEfficiency = goodJets.size() / initialGoodJets;
 	}
-	jetCleaningEfficiency = goodJets.size() / initialGoodJets;
 }
 
 const Electron& Event::getMostIsolatedElectron() const {
-	float bestIsolation = 999;
+	float bestIsolation = 999999999;
 	unsigned int bestIsolatedElectron = 990;
 	for (unsigned int index = 0; index < allElectrons.size(); ++index) {
 		if (allElectrons.at(index).relativeIsolation() < bestIsolation) {
