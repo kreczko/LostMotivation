@@ -18,14 +18,14 @@ int main(int argc, char **argv) {
 	TStopwatch watch;
 	watch.Start();
 	boost::scoped_ptr<Analysis> myAnalysis(new Analysis());
-
+	myAnalysis->setMaximalNumberOfEvents(10);
 
 	cout << "adding files" << endl;
 	//Input files
-	myAnalysis->addInputFile("/storage/top/data/250nb/EG_Run2010A-Jun14thReReco_v1_RECO/*.root");
-	myAnalysis->addInputFile("/storage/top/data/250nb/EG_Run2010A-Jul16-v4_RECO_139559_140159_withCleanTrig/*.root");
-	myAnalysis->addInputFile("/storage/top/data/250nb/EG_Run2010A-PromptReco-v4_RECO_140160_140399/*.root");
-//	myAnalysis->addInputFile("/storage/top/mc/V4/MG/e20skim_ttjet/*.root");
+//	myAnalysis->addInputFile("/storage/top/data/250nb/EG_Run2010A-Jun14thReReco_v1_RECO/*.root");
+//	myAnalysis->addInputFile("/storage/top/data/250nb/EG_Run2010A-Jul16-v4_RECO_139559_140159_withCleanTrig/*.root");
+//	myAnalysis->addInputFile("/storage/top/data/250nb/EG_Run2010A-PromptReco-v4_RECO_140160_140399/*.root");
+	myAnalysis->addInputFile("/storage/top/mc/spring10_7TeV_v4/MG/e20skim_ttjet/*.root");
 
 	cout << "starting analysis" << endl;
 	myAnalysis->analyze();
