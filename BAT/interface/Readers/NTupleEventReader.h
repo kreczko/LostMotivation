@@ -16,16 +16,19 @@
 #include "JetReader.h"
 #include "MuonReader.h"
 #include "VariableReader.h"
+#include "PrimaryVertexReader.h"
 #include <string>
 
 namespace BAT {
 
 class NTupleEventReader {
+public:
 	static const char * EVENT_CHAIN;
 	static const char * HLT_TRIGGER_CHAIN;
+	static const char * ECAL_SPIKE_CLEANING_CHAIN;
 	static const boost::array<std::string, 12> FileTypes;
 	static const std::string FilePrefix;
-public:
+
 	NTupleEventReader();
 	virtual ~NTupleEventReader();
 	const Event& getNextEvent();
@@ -43,6 +46,9 @@ private:
 	unsigned long numberOfFiles;
 	boost::shared_ptr<TChain> input;
 	boost::shared_ptr<TChain> hltTriggerInput;
+	boost::shared_ptr<TChain> ecalSpikeCleaningInput;
+	boost::scoped_ptr<VariableReader<double> > HLTReader;
+	boost::scoped_ptr<PrimaryVertexReader> primaryReader;
 	boost::scoped_ptr<ElectronReader> electronReader;
 	boost::scoped_ptr<JetReader> jetReader;
 	boost::scoped_ptr<MuonReader> muonReader;
