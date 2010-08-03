@@ -25,14 +25,15 @@ float Electron::MaximalNumberOfMissingInnerLayerHitsBeforeCalledConversion = 500
 float Electron::isolatedElectronMaximalRelativeIsolation = 2;
 
 Electron::Electron() :
-	Particle(), robustLooseId(false), robustTightId(false), VBTF_W70_ElectronID(false), superCluser_Eta(0.),
-			ecal_Isolation(0.), hcal_Isolation(0.), tracker_Isolation(0.), innerLayerMissingHits(0.) {
+	Particle(), usedAlgorithm(Electron::Calo), robustLooseId(false), robustTightId(false), VBTF_W70_ElectronID(false),
+			superCluser_Eta(0.), ecal_Isolation(0.), hcal_Isolation(0.), tracker_Isolation(0.), innerLayerMissingHits(
+					0.) {
 }
 
 Electron::Electron(float energy, float px, float py, float pz) :
-	Particle(energy, px, py, pz), robustLooseId(false), robustTightId(false), VBTF_W70_ElectronID(false),
-			superCluser_Eta(0.), ecal_Isolation(0.), hcal_Isolation(0.), tracker_Isolation(0.), innerLayerMissingHits(
-					0.) {
+	Particle(energy, px, py, pz), usedAlgorithm(Electron::Calo), robustLooseId(false), robustTightId(false),
+			VBTF_W70_ElectronID(false), superCluser_Eta(0.), ecal_Isolation(0.), hcal_Isolation(0.), tracker_Isolation(
+					0.), innerLayerMissingHits(0.) {
 }
 
 Electron::~Electron() {
@@ -125,7 +126,7 @@ void Electron::setNumberOfMissingInnerLayerHits(float missingHits) {
 	innerLayerMissingHits = missingHits;
 }
 
-unsigned short Electron::getClosestJetID(const JetCollection& jets) const{//#TODO fix definition in Particles!!!
+unsigned short Electron::getClosestJetID(const JetCollection& jets) const {//#TODO fix definition in Particles!!!
 	unsigned short idOfClosest = 999;
 	float closestDR = 999.;
 	for (unsigned short index = 0; index < jets.size(); ++index) {
@@ -136,6 +137,10 @@ unsigned short Electron::getClosestJetID(const JetCollection& jets) const{//#TOD
 		}
 	}
 	return idOfClosest;
+}
+
+void Electron::setUsedAlgorithm(Electron::Algorithm algo) {
+	usedAlgorithm = algo;
 }
 
 }

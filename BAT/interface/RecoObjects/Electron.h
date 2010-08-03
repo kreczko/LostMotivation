@@ -21,10 +21,9 @@ namespace BAT {
 class Electron: public Particle {
 public:
 	enum Algorithm {
-			Calo,
-			ParticleFlow,
-			NUMBER_OF_ELECTRONALGORITHMS
-		};
+		Calo, ParticleFlow, NUMBER_OF_ELECTRONALGORITHMS
+	};
+
 	enum ElectronID {
 		loose, tight, robustLoose, robustTight, VBTF_W70, HEEP, NUMBER_OF_ELECTRONIDS
 	};
@@ -43,11 +42,11 @@ public:
 	static float isolatedElectronMaximalRelativeIsolation;
 	static float looseIsolatedElectronMaximalRelativeIsolation;
 
-	static std::string getElectronIDAsString(ElectronID id){
+	static std::string getElectronIDAsString(ElectronID id) {
 		return Electron::ElectronIDNames.at(id);
 	}
 
-	static void resetSelectionValues(){
+	static void resetSelectionValues() {
 		Electron::goodElectronMinimalEt = 0;
 		Electron::goodElectronMaximalAbsoluteEta = 5;
 		Electron::goodElectronMaximalDistanceFromInteractionPoint = 5000;
@@ -84,6 +83,7 @@ public:
 	void setHcalIsolation(float isolation);
 	void setTrackerIsolation(float isolation);
 	void setNumberOfMissingInnerLayerHits(float missingHits);
+	void setUsedAlgorithm(Algorithm algo);
 
 	float relativeIsolation() const;
 
@@ -92,7 +92,7 @@ public:
 	bool isInEndCapRegion() const;
 
 private:
-
+	Algorithm usedAlgorithm;
 	bool robustLooseId, robustTightId, VBTF_W70_ElectronID;
 	float superCluser_Eta;
 	float ecal_Isolation, hcal_Isolation, tracker_Isolation;
