@@ -18,7 +18,7 @@ public:
 	const static std::string algorithmPrefixes[Jet::NUMBER_OF_JETALGORITHMS];
 	
 	JetReader();
-	JetReader(TChainPointer, Jet::Algorithm algo = Jet::DEFAULT);
+	JetReader(TChainPointer, Jet::Algorithm algo = Jet::Calo_AntiKT_Cone05);
 	virtual ~JetReader();
 	const JetCollection& getJets();
 	void initialise();
