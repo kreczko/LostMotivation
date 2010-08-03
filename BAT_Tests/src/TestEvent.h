@@ -17,6 +17,7 @@ struct TestEvent {
 	Jet goodJet;
 	Jet goodBJet;
 	Jet badJet;
+	Jet goodJetCloseToElectron;
 	PrimaryVertex goodVertex;
 	PrimaryVertex badVertex;
 	Muon goodIsolatedMuon;
@@ -26,8 +27,8 @@ struct TestEvent {
 				eventFilter(Filter::makeStandardFilter()), goodIsolatedElectron(100., 99., 13., 5.),
 				goodIsolatedElectron2(100., 79., -13., -5.), goodLooseElectron(100., 79., -13., -5.), badElectron(20,
 						14., 15., 0), electronFromConversion(goodIsolatedElectron), goodJet(100, 13, 99, 5), goodBJet(
-						goodJet), badJet(20, 19, 0, 0), goodVertex(), badVertex(),
-				goodIsolatedMuon(100., 99., 13., 5.), badMuon(100., 99., 13., 5.) {
+						goodJet), badJet(20, 19, 0, 0), goodJetCloseToElectron(100., 98., 13., 5.), goodVertex(),
+				badVertex(), goodIsolatedMuon(100., 99., 13., 5.), badMuon(100., 99., 13., 5.) {
 		setUpGoodIsolatedElectron();
 		setUpGoodIsolatedElectron2();
 		setUpGoodLooseElectron();
@@ -35,6 +36,7 @@ struct TestEvent {
 		setUpGoodIsolatedElectronFromConversion();
 		setUpGoodJet();
 		setUpGoodBJet();
+		setUpGoodJetCloseToElectron();
 		setUpGoodVertex();
 		setUpBadVertex();
 		setUpIsolatedGoodMuon();
@@ -99,6 +101,12 @@ private:
 		goodBJet.setFHPD(0.5);
 		goodBJet.setN90Hits(2);
 		goodBJet.setDiscriminatorForBtagType(2.5, BJetTagger::SimpleSecondaryVertex);
+	}
+
+	void setUpGoodJetCloseToElectron() {
+		goodJetCloseToElectron.setEMF(0.2);
+		goodJetCloseToElectron.setFHPD(0.5);
+		goodJetCloseToElectron.setN90Hits(2);
 	}
 
 	void setUpGoodVertex() {
@@ -410,6 +418,69 @@ public:
 		ASSERT_EQUAL_DELTA(goodIsolatedElectron2.relativeIsolation(),
 				goodZEvent.getMostIsolatedElectron().relativeIsolation(), 0.001);
 	}
+
+	void testGoodJetCleaning() {
+		Event event = Event();
+		ElectronCollection electrons;
+		electrons.push_back(goodIsolatedElectron);
+		electrons.push_back(badElectron);
+		event.setElectrons(electrons);
+		JetCollection jets;
+		jets.push_back(goodJet);
+		jets.push_back(goodJet);
+		jets.push_back(goodBJet);
+		jets.push_back(goodBJet);
+		jets.push_back(goodJetCloseToElectron);
+		event.setJets(jets);
+		ASSERT_EQUAL(5, event.getJets().size());
+		ASSERT_EQUAL(4, event.getGoodJets().size());
+	}
+
+	void testGoodJetCleaningNoGoodElectrons() {
+		Event event = Event();
+		ElectronCollection electrons;
+		goodIsolatedElectron.setVBTF_W70_ElectronID(false);
+		electrons.push_back(goodIsolatedElectron);
+		electrons.push_back(badElectron);
+		event.setElectrons(electrons);
+		JetCollection jets;
+		jets.push_back(goodJet);
+		jets.push_back(goodJet);
+		jets.push_back(goodBJet);
+		jets.push_back(goodBJet);
+		jets.push_back(goodJetCloseToElectron);
+		event.setJets(jets);
+		ASSERT_EQUAL(0, event.getGoodElectrons().size());
+		ASSERT_EQUAL(0, event.getGoodIsolatedElectrons().size());
+		ASSERT_EQUAL(jets.size(), event.getJets().size());
+		ASSERT_EQUAL(jets.size() - 1, event.getGoodJets().size());
+	}
+
+	void testGoodJetCleaningNoElectrons() {
+		Event event = Event();
+		JetCollection jets;
+		jets.push_back(goodJet);
+		jets.push_back(goodJet);
+		jets.push_back(goodBJet);
+		jets.push_back(goodBJet);
+		jets.push_back(goodJetCloseToElectron);
+		event.setJets(jets);
+		ASSERT_EQUAL(jets.size(), event.getJets().size());
+		ASSERT_EQUAL(jets.size(), event.getGoodJets().size());
+	}
+
+	void testGoodJetCleaningNoGoodJets() {
+		Event event = Event();
+		ElectronCollection electrons;
+		electrons.push_back(goodIsolatedElectron);
+		electrons.push_back(badElectron);
+		event.setElectrons(electrons);
+		JetCollection jets;
+		jets.push_back(badJet);
+		event.setJets(jets);
+		ASSERT_EQUAL(jets.size(), event.getJets().size());
+		ASSERT_EQUAL(0, event.getGoodJets().size());
+	}
 };
 
 extern cute::suite make_suite_TestEvent() {
@@ -468,6 +539,11 @@ extern cute::suite make_suite_TestEvent() {
 	s.push_back(CUTE_SMEMFUN(TestEvent, testFailsFullTTbarSelection));
 
 	s.push_back(CUTE_SMEMFUN(TestEvent, testGetMostIsolatedElectron));
+
+	s.push_back(CUTE_SMEMFUN(TestEvent, testGoodJetCleaning));
+	s.push_back(CUTE_SMEMFUN(TestEvent, testGoodJetCleaningNoGoodElectrons));
+	s.push_back(CUTE_SMEMFUN(TestEvent, testGoodJetCleaningNoElectrons));
+	s.push_back(CUTE_SMEMFUN(TestEvent, testGoodJetCleaningNoGoodJets));
 
 	return s;
 }
