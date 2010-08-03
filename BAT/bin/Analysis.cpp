@@ -14,33 +14,7 @@
 using namespace BAT;
 using namespace std;
 
-Analysis::Analysis() :
-	eventReader(new NTupleEventReader()), eventFilter(Filter::makeStandardFilter()), currentEvent(),
-			numberOfGoodElectrons(0), h_et(new TH1F("histname", "histtitle", 100, 0, 100)), h_diElectronMass(new TH1F(
-					"diElectronMass", "diElectronMass", 500, 0, 500)), h_ptRel_vs_DRmin(new TH2F("ptRel_vs_DRmin",
-					"ptRel_vs_DRmin", 100, 0, 1, 300, 0, 300)),
-			outputfile(new TFile("egammaAnalysis.root", "RECREATE")) {
-	for (unsigned int cut = 0; cut < TTbarEPlusJetsSelection::NUMBER_OF_SELECTION_STEPS; ++cut) {
-		cutflow[cut] = 0;
-		singleCuts[cut] = 0;
-	}
-}
-
-Analysis::~Analysis() {
-	h_et->Write();
-	h_diElectronMass->Write();
-	h_ptRel_vs_DRmin->Write();
-	outputfile->Write();
-	outputfile->Close();
-}
-
-void Analysis::addInputFile(const char* fileName) {
-	eventReader->addInputFile(fileName);
-}
-
 void Analysis::analyze() {
-//	eventReader->setMaximumNumberOfEvents(10);
-
 	while (eventReader->hasNextEvent()) {
 		printNumberOfProccessedEventsEvery(10000);
 		currentEvent = eventReader->getNextEvent();
@@ -104,5 +78,35 @@ void Analysis::printSummary() {
 		else
 			cout << "passed events (full selection):" << cutflow.at(cut) << endl;
 		cout << endl;
+	}
+}
+
+Analysis::Analysis() :
+	eventReader(new NTupleEventReader()), eventFilter(Filter::makeStandardFilter()), currentEvent(),
+			numberOfGoodElectrons(0), h_et(new TH1F("histname", "histtitle", 100, 0, 100)), h_diElectronMass(new TH1F(
+					"diElectronMass", "diElectronMass", 500, 0, 500)), h_ptRel_vs_DRmin(new TH2F("ptRel_vs_DRmin",
+					"ptRel_vs_DRmin", 100, 0, 1, 300, 0, 300)),
+			outputfile(new TFile("egammaAnalysis.root", "RECREATE")) {
+	for (unsigned int cut = 0; cut < TTbarEPlusJetsSelection::NUMBER_OF_SELECTION_STEPS; ++cut) {
+		cutflow[cut] = 0;
+		singleCuts[cut] = 0;
+	}
+}
+
+Analysis::~Analysis() {
+	h_et->Write();
+	h_diElectronMass->Write();
+	h_ptRel_vs_DRmin->Write();
+	outputfile->Write();
+	outputfile->Close();
+}
+
+void Analysis::addInputFile(const char* fileName) {
+	eventReader->addInputFile(fileName);
+}
+
+void Analysis::setMaximalNumberOfEvents(long maxEvents){
+	if(maxEvents > 0){
+		eventReader->setMaximumNumberOfEvents(maxEvents);
 	}
 }

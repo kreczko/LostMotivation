@@ -34,6 +34,7 @@ public:
 	virtual ~Analysis();
 	void analyze();
 	void addInputFile(const char * fileName);
+	void setMaximalNumberOfEvents(long maxEvents);
 private:
 	void printNumberOfProccessedEventsEvery(unsigned long printEvery);
 	void doDiElectronAnalysis();
