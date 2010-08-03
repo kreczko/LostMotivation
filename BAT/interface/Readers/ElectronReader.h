@@ -12,10 +12,12 @@
 #include "../VBTF_ElectronID.h"
 
 namespace BAT {
-class ElectronReader{
+class ElectronReader {
 public:
+	const static unsigned short numberOfVariables = 11;
+	const static std::string algorithmPrefixes[Electron::NUMBER_OF_ELECTRONALGORITHMS];
 	ElectronReader();
-	ElectronReader(TChainPointer input);
+	ElectronReader(TChainPointer input, Electron::Algorithm algo = Electron::Calo);
 	virtual ~ElectronReader();
 	const ElectronCollection& getElectrons();
 	void initialise();
@@ -44,7 +46,6 @@ private:
 	void readElectrons();
 	bool getVBTF_W70_ElectronID_Barrel(unsigned int index);
 	bool getVBTF_W70_ElectronID_Endcap(unsigned int index);
-
 
 };
 

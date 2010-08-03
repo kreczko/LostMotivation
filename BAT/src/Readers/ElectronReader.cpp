@@ -8,6 +8,8 @@
 #include "../../interface/Readers/ElectronReader.h"
 namespace BAT {
 
+const std::string ElectronReader::algorithmPrefixes[Electron::NUMBER_OF_ELECTRONALGORITHMS] = { "els", "PFElsAll" };
+
 ElectronReader::ElectronReader() :
 	numberOfElectronsReader(), energyReader(), pxReader(), pyReader(), pzReader(), superClusterEtaReader(), d0Reader(),
 			numberOfInnerLayerMissingHitsReader(), ecalIsolationReader(), hcalIsolationReader(),
@@ -15,15 +17,19 @@ ElectronReader::ElectronReader() :
 			dPhiInReader(), dEtaInReader(), hadOverEmReader(), electrons() {
 
 }
-ElectronReader::ElectronReader(TChainPointer input) :
-	numberOfElectronsReader(input, "Nels"), energyReader(input, "els_energy"), pxReader(input, "els_px"), pyReader(
-			input, "els_py"), pzReader(input, "els_pz"), superClusterEtaReader(input, "els_scEta"), d0Reader(input,
-			"els3_d0_bs"), numberOfInnerLayerMissingHitsReader(input, "els_innerLayerMissingHits"),
-			ecalIsolationReader(input, "els_dr03EcalRecHitSumEt"),
-			hcalIsolationReader(input, "els_dr03HcalTowerSumEt"), trackerIsolationReader(input, "els_dr03TkSumPt"),
-			robustLooseIDReader(input, "els_robustLooseId"), robustTightIDReader(input, "els_robustTightId"),
-			sigmaIEtaIEtaReader(input, "els_sigmaIEtaIEta"), dPhiInReader(input, "els_dPhiIn"), dEtaInReader(input,
-					"els_dEtaIn"), hadOverEmReader(input, "els_hadOverEm"), electrons() {
+ElectronReader::ElectronReader(TChainPointer input, Electron::Algorithm algo) :
+	numberOfElectronsReader(input, "N" + algorithmPrefixes[algo]), energyReader(input, algorithmPrefixes[algo]
+			+ "_energy"), pxReader(input, algorithmPrefixes[algo] + "_px"), pyReader(input, algorithmPrefixes[algo]
+			+ "_py"), pzReader(input, algorithmPrefixes[algo] + "_pz"), superClusterEtaReader(input,
+			algorithmPrefixes[algo] + "_scEta"), d0Reader(input, algorithmPrefixes[algo] + "3_d0_bs"),
+			numberOfInnerLayerMissingHitsReader(input, algorithmPrefixes[algo] + "_innerLayerMissingHits"),
+			ecalIsolationReader(input, algorithmPrefixes[algo] + "_dr03EcalRecHitSumEt"), hcalIsolationReader(input,
+					algorithmPrefixes[algo] + "_dr03HcalTowerSumEt"), trackerIsolationReader(input,
+					algorithmPrefixes[algo] + "_dr03TkSumPt"), robustLooseIDReader(input, algorithmPrefixes[algo]
+					+ "_robustLooseId"), robustTightIDReader(input, algorithmPrefixes[algo] + "_robustTightId"),
+			sigmaIEtaIEtaReader(input, algorithmPrefixes[algo] + "_sigmaIEtaIEta"), dPhiInReader(input,
+					algorithmPrefixes[algo] + "_dPhiIn"), dEtaInReader(input, algorithmPrefixes[algo] + "_dEtaIn"),
+			hadOverEmReader(input, algorithmPrefixes[algo] + "_hadOverEm"), electrons() {
 
 }
 
