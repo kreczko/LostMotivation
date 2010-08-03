@@ -131,7 +131,7 @@ public:
 	}
 
 	void testHasNextEvent() {
-		ASSERT(TTbarReader->hasNextEvent());
+		ASSERT_EQUAL(true, TTbarReader->hasNextEvent());
 	}
 
 	void testHasNotNextEvent() {
@@ -191,6 +191,27 @@ public:
 	void testInitialEventWeigth() {
 		ASSERT_EQUAL(1., TTbarReader->getNextEvent().weight());
 	}
+
+	void testPrimaryVertex(){
+		ASSERT_EQUAL(true, TTbarReader->hasNextEvent());
+		ASSERT_EQUAL(true, TTbarReader->getNextEvent().getPrimaryVertex().isGood());
+	}
+
+	void testHLTTrigger(){
+		ASSERT_EQUAL(true, TTbarReader->getNextEvent().passesHighLevelTrigger());
+	}
+
+	void testEventChainConstant(){
+		ASSERT_EQUAL(0, strcmp("configurableAnalysis/eventB", NTupleEventReader::EVENT_CHAIN));
+	}
+
+	void testHLTChainConstant(){
+			ASSERT_EQUAL(0, strcmp("configurableAnalysis/eventV", NTupleEventReader::HLT_TRIGGER_CHAIN));
+		}
+
+	void testECALCleanlingChainConstant(){
+			ASSERT_EQUAL(0, strcmp("configurableAnalysis/eventA", NTupleEventReader::ECAL_SPIKE_CLEANING_CHAIN));
+		}
 };
 
 extern cute::suite make_suite_TestNTupleEventReader() {
@@ -229,5 +250,10 @@ extern cute::suite make_suite_TestNTupleEventReader() {
 	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader, testMCLumiBlock));
 	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader, testLocalEventNumber));
 	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader, testInitialEventWeigth));
+	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader, testPrimaryVertex));
+	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader, testHLTTrigger));
+	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader, testEventChainConstant));
+	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader, testHLTChainConstant));
+	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader, testECALCleanlingChainConstant));
 	return s;
 }
