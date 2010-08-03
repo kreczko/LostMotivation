@@ -140,15 +140,16 @@ public:
 	}
 
 	void testGetEtaRegionCrack() {
-		ASSERT(strcmp("crack", particleInCrack.getEtaRegion()) == 0);
+		ASSERT_EQUAL(0, strcmp("crack", particleInCrack.getEtaRegion()));
+//		ASSERT(strcmp("crack", particleInCrack.getEtaRegion()) == 0);
 	}
 
 	void testGetEtaRegionBarrel() {
-		ASSERT(strcmp("barrel", particleInBarrelRegion.getEtaRegion()) == 0);
+		ASSERT_EQUAL(0, strcmp("barrel", particleInBarrelRegion.getEtaRegion()));
 	}
 
 	void testGetEtaRegionEndcap() {
-		ASSERT(strcmp("endcap", particleInEndcap.getEtaRegion()) == 0);
+		ASSERT_EQUAL(0, strcmp("endcap", particleInEndcap.getEtaRegion()));
 	}
 
 	void testInvarianMassOfTwoParticles() {
