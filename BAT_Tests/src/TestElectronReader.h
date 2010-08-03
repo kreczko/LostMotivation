@@ -46,9 +46,9 @@ public:
 };
 extern cute::suite make_suite_TestElectronReader() {
 	cute::suite s;
-	s.push_back(CUTE_SMEMFUN(TestElectronReader,testReadElectronsSize));
-	s.push_back(CUTE_SMEMFUN(TestElectronReader,testReadFirstElectronEnergy));
-	s.push_back(CUTE_SMEMFUN(TestElectronReader,testReadFirstElectronIsIsolated));
-	s.push_back(CUTE_SMEMFUN(TestElectronReader,testReadFirstElectronIsIsolatedAfterChangingCut));
+	s.push_back(CUTE_SMEMFUN(TestElectronReader, testReadElectronsSize));
+	s.push_back(CUTE_SMEMFUN(TestElectronReader, testReadFirstElectronEnergy));
+	s.push_back(CUTE_SMEMFUN(TestElectronReader, testReadFirstElectronIsIsolated));
+	s.push_back(CUTE_SMEMFUN(TestElectronReader, testReadFirstElectronIsIsolatedAfterChangingCut));
 	return s;
 }
