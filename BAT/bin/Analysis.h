@@ -8,18 +8,38 @@
 #ifndef ANALYSIS_H_
 #define ANALYSIS_H_
 #include <boost/scoped_ptr.hpp>
+#include <boost/array.hpp>
 #include "../interface/Readers/NTupleEventReader.h"
 #include "../interface/Filter.h"
+#include "TH1F.h"
+#include "TH2F.h"
+#include "TFile.h"
+#include "../interface/Selection.h"
+#include "../interface/Event.h"
 
 class Analysis {
 private:
 	boost::scoped_ptr<BAT::NTupleEventReader> eventReader;
 	boost::scoped_ptr<BAT::Filter> eventFilter;
+	BAT::Event currentEvent;
+	unsigned long numberOfGoodElectrons;
+	boost::scoped_ptr<TH1F> h_et;
+	boost::scoped_ptr<TH1F> h_diElectronMass;
+	boost::scoped_ptr<TH2F> h_ptRel_vs_DRmin;
+	boost::scoped_ptr<TFile> outputfile;
+	boost::array<unsigned long, BAT::TTbarEPlusJetsSelection::NUMBER_OF_SELECTION_STEPS> cutflow;
+	boost::array<unsigned long, BAT::TTbarEPlusJetsSelection::NUMBER_OF_SELECTION_STEPS> singleCuts;
 public:
 	Analysis();
 	virtual ~Analysis();
 	void analyze();
 	void addInputFile(const char * fileName);
+private:
+	void printNumberOfProccessedEventsEvery(unsigned long printEvery);
+	void doDiElectronAnalysis();
+	void doTTBarAnalysis();
+	void doCutFlow();
+	void printSummary();
 };
 
 #endif /* ANALYSIS_H_ */

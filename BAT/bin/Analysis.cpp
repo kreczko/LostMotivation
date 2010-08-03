@@ -7,21 +7,31 @@
 
 #include "Analysis.h"
 #include <iostream>
-#include "TH1F.h"
-#include "TCanvas.h"
-#include "TFile.h"
 #include <boost/scoped_ptr.hpp>
+#include <boost/array.hpp>
+#include "../interface/EventCounter.h"
 
 using namespace BAT;
 using namespace std;
-using namespace boost;
 
 Analysis::Analysis() :
-	eventReader(new NTupleEventReader()), eventFilter(Filter::makeStandardFilter()) {
-
+	eventReader(new NTupleEventReader()), eventFilter(Filter::makeStandardFilter()), currentEvent(),
+			numberOfGoodElectrons(0), h_et(new TH1F("histname", "histtitle", 100, 0, 100)), h_diElectronMass(new TH1F(
+					"diElectronMass", "diElectronMass", 500, 0, 500)), h_ptRel_vs_DRmin(new TH2F("ptRel_vs_DRmin",
+					"ptRel_vs_DRmin", 100, 0, 1, 300, 0, 300)),
+			outputfile(new TFile("egammaAnalysis.root", "RECREATE")) {
+	for (unsigned int cut = 0; cut < TTbarEPlusJetsSelection::NUMBER_OF_SELECTION_STEPS; ++cut) {
+		cutflow[cut] = 0;
+		singleCuts[cut] = 0;
+	}
 }
 
 Analysis::~Analysis() {
+	h_et->Write();
+	h_diElectronMass->Write();
+	h_ptRel_vs_DRmin->Write();
+	outputfile->Write();
+	outputfile->Close();
 }
 
 void Analysis::addInputFile(const char* fileName) {
@@ -29,45 +39,70 @@ void Analysis::addInputFile(const char* fileName) {
 }
 
 void Analysis::analyze() {
-	scoped_ptr<TH1F> h_et(new TH1F("histname", "histtitle", 100, 0, 100));
-	scoped_ptr<TH1F> h_diElectronMass(new TH1F("diElectronMass", "diElectronMass", 500, 0, 500));
-	scoped_ptr<TFile> outputfile(new TFile("egammaAnalysis.root", "RECREATE"));
-	unsigned long numberOfGoodElectrons = 0;
-	eventReader->setMaximumNumberOfEvents(100000);
+//	eventReader->setMaximumNumberOfEvents(10);
+
 	while (eventReader->hasNextEvent()) {
-		unsigned long eventIndex = eventReader->getNumberOfProccessedEvents();
-		if (eventIndex % 10000 == 0)
-			cout << "Analysing event no " << eventIndex << endl;
-		Event event = eventReader->getNextEvent();
-		ElectronCollection electrons = event.getGoodElectrons();
-		if (electrons.size() == 2) {
-			numberOfGoodElectrons += 2;
-			Electron leadingElectron = electrons.front();
-			Electron secondElectron = electrons.at(1);
-			h_et->Fill(leadingElectron.et());
-			h_diElectronMass->Fill(leadingElectron.invariantMass(secondElectron));
+		printNumberOfProccessedEventsEvery(10000);
+		currentEvent = eventReader->getNextEvent();
+
+		doCutFlow();
+		doDiElectronAnalysis();
+		doTTBarAnalysis();
+
+	}
+	printSummary();
+}
+
+void Analysis::printNumberOfProccessedEventsEvery(unsigned long printEvery) {
+	unsigned long eventIndex = eventReader->getNumberOfProccessedEvents();
+	if (eventIndex % printEvery == 0)
+		cout << "Analysing event no " << eventIndex << endl;
+}
+
+void Analysis::doCutFlow() {
+	for (unsigned int cut = 0; cut < TTbarEPlusJetsSelection::NUMBER_OF_SELECTION_STEPS; ++cut) {
+		if (currentEvent.passesSelectionStep((TTbarEPlusJetsSelection::Step) cut)) {
+			singleCuts[cut] += 1;
+		}
+
+		if (currentEvent.passesSelectionStepUpTo((TTbarEPlusJetsSelection::Step) cut)) {
+			cutflow[cut] += 1;
 		}
 	}
-	//	for (unsigned long eventIndex = 0; eventIndex < eventReader->getNumberOfEvents() && eventIndex < 100000; eventIndex++) {
+}
+void Analysis::doDiElectronAnalysis() {
+	ElectronCollection electrons = currentEvent.getGoodElectrons();
+	if (electrons.size() == 2) {
+		numberOfGoodElectrons += 2;
+		Electron leadingElectron = electrons.front();
+		Electron secondElectron = electrons.at(1);
+		h_et->Fill(leadingElectron.et());
+		h_diElectronMass->Fill(leadingElectron.invariantMass(secondElectron));
+	}
+}
 
-	//	}
+void Analysis::doTTBarAnalysis() {
+	if (currentEvent.passesFullTTbarEPlusJetSelection()) {
+		Electron isolatedElectron = currentEvent.getGoodIsolatedElectrons().front();
+		JetCollection jets = currentEvent.getGoodJets();
+		unsigned int closestID = isolatedElectron.getClosestJetID(jets);
+		float minDR = isolatedElectron.deltaR(jets.at(closestID));
+		float ptRel = isolatedElectron.relativePtTo(jets.at(closestID));
+		h_ptRel_vs_DRmin->Fill(minDR, ptRel);
+	}
+}
+
+void Analysis::printSummary() {
 	cout << "finished analysis, number of good leading electrons: " << numberOfGoodElectrons << endl;
 	cout << "total number of processed events: " << eventReader->getNumberOfProccessedEvents() << endl;
-
-	//	TCanvas * c = new TCanvas("name", "title", 800, 600);
-	h_et->Write();
-	h_diElectronMass->Write();
-	outputfile->Write();
-	outputfile->Close();
-	//	c->Update();
-	//	c->Draw();
-	//	c->SaveAs("h_et.png");
-
-	//	c = new TCanvas("invMass", "title", 800, 600);
-	//	h_diElectronMass->Draw();
-	//	c->Update();
-	//	c->Draw();
-	//	c->SaveAs("h_DiElectronInvariantMass.png");
-	//	delete c;
-
+	cout << endl;
+	for (unsigned int cut = 0; cut < TTbarEPlusJetsSelection::NUMBER_OF_SELECTION_STEPS; ++cut) {
+		cout << "Selection step '" << TTbarEPlusJetsSelection::StringSteps[cut] << "'" << endl;
+		cout << "passed events (single cut): " << singleCuts.at(cut) << endl;
+		if (cut < TTbarEPlusJetsSelection::NUMBER_OF_SELECTION_STEPS)
+			cout << "passed events (up to this cut):" << cutflow.at(cut) << endl;
+		else
+			cout << "passed events (full selection):" << cutflow.at(cut) << endl;
+		cout << endl;
+	}
 }
