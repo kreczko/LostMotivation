@@ -16,7 +16,7 @@ namespace BAT {
 class Jet: public Particle {
 public:
 	enum Algorithm {
-		DEFAULT,
+		Calo_AntiKT_Cone05,
 		JPT_AntiKt_ConeDR05,
 		KT_Cone04,
 		KT_Cone06,

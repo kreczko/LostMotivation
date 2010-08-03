@@ -90,7 +90,7 @@ public:
 	}
 
 	void testUsedJetAlgorithm() {
-		ASSERT_EQUAL(Jet::DEFAULT, goodJet.getUsedAlgorithm());
+		ASSERT_EQUAL(Jet::Calo_AntiKT_Cone05, goodJet.getUsedAlgorithm());
 		goodJet.setUsedAlgorithm(Jet::ParticleFlow);
 		ASSERT_EQUAL(Jet::ParticleFlow, goodJet.getUsedAlgorithm());
 	}

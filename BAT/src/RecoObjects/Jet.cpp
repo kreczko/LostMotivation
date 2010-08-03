@@ -15,20 +15,20 @@ float Jet::goodJetMinimalNumberOfRecHitsContaining90PercentOfTheJetEnergy = 0;
 float Jet::goodJetMaximalFractionOfEnergyIntheHottestHPDReadout = 5000.;
 
 Jet::Jet() :
-	Particle(), usedAlgorithm(Jet::DEFAULT), electroMagneticFraction(0.),
+	Particle(), usedAlgorithm(Jet::Calo_AntiKT_Cone05), electroMagneticFraction(0.),
 			numberOfRecHitsContaining90PercentOfTheJetEnergy(0.), fractionOfEnergyIntheHottestHPDReadout(0.),
 			btag_discriminators(BJetTagger::NUMBER_OF_BTAGALGORITHMS) {
 
 }
 
 Jet::Jet(const Particle& particle) :
-	Particle(particle), usedAlgorithm(Jet::DEFAULT), electroMagneticFraction(0.),
+	Particle(particle), usedAlgorithm(Jet::Calo_AntiKT_Cone05), electroMagneticFraction(0.),
 			numberOfRecHitsContaining90PercentOfTheJetEnergy(0.), fractionOfEnergyIntheHottestHPDReadout(0.),
 			btag_discriminators(BJetTagger::NUMBER_OF_BTAGALGORITHMS) {
 
 }
 Jet::Jet(float energy, float px, float py, float pz) :
-	Particle(energy, px, py, pz), usedAlgorithm(Jet::DEFAULT), electroMagneticFraction(0.), btag_discriminators(
+	Particle(energy, px, py, pz), usedAlgorithm(Jet::Calo_AntiKT_Cone05), electroMagneticFraction(0.), btag_discriminators(
 			BJetTagger::NUMBER_OF_BTAGALGORITHMS) {
 
 }
