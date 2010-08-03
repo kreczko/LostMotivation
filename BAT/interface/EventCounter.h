@@ -34,7 +34,7 @@ public:
 	}
 
 	void increase(const unsigned int dimension1, const unsigned int dimension2, const unsigned int dimension3,
-			const double weight) {
+			const double weight = 1.0) {
 		unweightedEntries[dimension1][dimension2][dimension3]++;
 		weightedEntries[dimension1][dimension2][dimension3] += weight;
 	}
