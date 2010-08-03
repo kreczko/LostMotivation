@@ -12,6 +12,7 @@
 #include <string>
 #include <boost/static_assert.hpp>
 #include <boost/array.hpp>
+#include "Jet.h"
 
 namespace BAT {
 //make sure the IDs and their string representations are identical
@@ -19,6 +20,11 @@ namespace BAT {
 
 class Electron: public Particle {
 public:
+	enum Algorithm {
+			Calo,
+			ParticleFlow,
+			NUMBER_OF_ELECTRONALGORITHMS
+		};
 	enum ElectronID {
 		loose, tight, robustLoose, robustTight, VBTF_W70, HEEP, NUMBER_OF_ELECTRONIDS
 	};
@@ -67,6 +73,7 @@ public:
 	float hcalIsolation() const;
 	float trackerIsolation() const;
 	float superClusterEta() const;
+	unsigned short getClosestJetID(const JetCollection& jets) const;
 
 	void setRobustLooseID(bool id);
 	void setRobustTightID(bool id);
