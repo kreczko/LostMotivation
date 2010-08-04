@@ -38,6 +38,7 @@ private:
 	VariableReader<MultiFloatPointer> btagTrackCountingHighEfficiencyReader;
 
 	JetCollection jets;
+	Jet::Algorithm usedAlgorithm;
 	void readJets();
 };
 

@@ -66,6 +66,14 @@ public:
 	void testReadFirstPFJetfHPD() {
 		ASSERT_EQUAL_DELTA(0, firstPFJet.fHPD(), 0.00001);
 	}
+
+	void testUsedAlgorithmDefault(){
+		ASSERT_EQUAL(Jet::Calo_AntiKT_Cone05, firstJet.getUsedAlgorithm());
+	}
+
+	void testUsedAlgorithmPFJet(){
+		ASSERT_EQUAL(Jet::ParticleFlow, firstPFJet.getUsedAlgorithm());
+	}
 };
 extern cute::suite make_suite_TestJetReader() {
 	cute::suite s;
@@ -80,5 +88,8 @@ extern cute::suite make_suite_TestJetReader() {
 	s.push_back(CUTE_SMEMFUN(TestJetReader, testReadFirstPFJetEMF));
 	s.push_back(CUTE_SMEMFUN(TestJetReader, testReadFirstPFJetn90Hits));
 	s.push_back(CUTE_SMEMFUN(TestJetReader, testReadFirstPFJetfHPD));
+
+	s.push_back(CUTE_SMEMFUN(TestJetReader, testUsedAlgorithmDefault));
+	s.push_back(CUTE_SMEMFUN(TestJetReader, testUsedAlgorithmPFJet));
 	return s;
 }
