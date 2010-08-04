@@ -21,7 +21,6 @@ private:
 	boost::scoped_ptr<NTupleEventReader> TWReader;
 	boost::scoped_ptr<NTupleEventReader> TChanReader;
 	boost::scoped_ptr<NTupleEventReader> DataReader;
-	boost::scoped_ptr<TChain> chain;
 
 public:
 	TestNTupleEventReader() :
@@ -30,8 +29,7 @@ public:
 				new NTupleEventReader()), QCDbce2Reader(new NTupleEventReader()),
 				QCDbce3Reader(new NTupleEventReader()), WjetsReader(new NTupleEventReader()), ZJetsReader(
 						new NTupleEventReader()), TWReader(new NTupleEventReader()), TChanReader(
-						new NTupleEventReader()), DataReader(new NTupleEventReader()), chain(new TChain(
-						"configurableAnalysis/eventB")) {
+						new NTupleEventReader()), DataReader(new NTupleEventReader()){
 		TTbarReader->addInputFile("/storage/top/mc/V4/MG/e20skim_ttjet/e20skim_nTuple_ttjet_f_1.root");
 		QCDenri1Reader->addInputFile("/storage/top/mc/V4/pythia/e20skim_enri1/e20skim_nTuple_enri1_f_1_3_aGl.root");
 		QCDenri2Reader->addInputFile("/storage/top/mc/V4/pythia/e20skim_enri2/e20skim_nTuple_enri2_f_999_1_IDK.root");
@@ -47,7 +45,6 @@ public:
 		TChanReader->addInputFile("/storage/top/mc/V4/MG/e20skim_tchan/e20skim_nTuple_tchan_f_9.root");
 		DataReader->addInputFile(
 				"/storage/top/data/200710/EG_Run2010A-Jul16-v4_RECO_139559_140159_withCleanTrig/nTuple_data_1_1_qwM.root");
-		chain->Add("/storage/top/mc/V4/MG/e20skim_ttjet/e20skim_nTuple_ttjet_f_1.root");
 	}
 
 	void testTTbarType() {
@@ -135,7 +132,7 @@ public:
 	}
 
 	void testHasNotNextEvent() {
-		TTbarReader->skipNumberOfEvents(chain->GetEntriesFast());
+		TTbarReader->skipNumberOfEvents(123456789);
 		ASSERT(TTbarReader->hasNextEvent() == false);
 	}
 
@@ -212,6 +209,11 @@ public:
 	void testECALCleanlingChainConstant(){
 			ASSERT_EQUAL(0, strcmp("configurableAnalysis/eventA", NTupleEventReader::ECAL_SPIKE_CLEANING_CHAIN));
 		}
+
+	void testTTbarEventMET(){
+	    Event event =  TTbarReader->getNextEvent();
+	    ASSERT_EQUAL_DELTA(47.9642,event.getMET().et(), 0.001);
+	}
 };
 
 extern cute::suite make_suite_TestNTupleEventReader() {
@@ -255,5 +257,6 @@ extern cute::suite make_suite_TestNTupleEventReader() {
 	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader, testEventChainConstant));
 	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader, testHLTChainConstant));
 	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader, testECALCleanlingChainConstant));
+	s.push_back(CUTE_SMEMFUN(TestNTupleEventReader, testTTbarEventMET));
 	return s;
 }

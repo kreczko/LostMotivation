@@ -17,6 +17,7 @@
 #include "MuonReader.h"
 #include "VariableReader.h"
 #include "PrimaryVertexReader.h"
+#include "METReader.h"
 #include <string>
 
 namespace BAT {
@@ -52,6 +53,7 @@ private:
 	boost::scoped_ptr<ElectronReader> electronReader;
 	boost::scoped_ptr<JetReader> jetReader;
 	boost::scoped_ptr<MuonReader> muonReader;
+	boost::scoped_ptr<METReader> metReader;
 
 	boost::scoped_ptr<VariableReader<unsigned int> > runNumberReader;
 	boost::scoped_ptr<VariableReader<unsigned int> > eventNumberReader;
