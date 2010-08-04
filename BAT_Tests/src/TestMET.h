@@ -7,7 +7,7 @@ private:
 	MET goodMET, badMET;
 public:
 	TestMET() :
-		goodMET(50, 40, 30), badMET(5, 4, 3) {
+		goodMET(40, 30), badMET(4, 3) {
 		MET::goodMETMinimalEt = 20;
 	}
 
