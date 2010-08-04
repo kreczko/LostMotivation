@@ -11,6 +11,7 @@
 #include "RecoObjects/Jet.h"
 #include "RecoObjects/Muon.h"
 #include "RecoObjects/PrimaryVertex.h"
+#include "RecoObjects/MET.h"
 #include "Selection.h"
 
 namespace BAT {
@@ -65,6 +66,8 @@ protected:
 	MuonCollection goodMuons;
 	MuonCollection goodIsolatedMuons;
 
+	MET met;
+
 	DataType dataType;
 	unsigned long runNumber;
 	unsigned long eventNumber;
@@ -84,6 +87,7 @@ public:
 	void setElectrons(ElectronCollection electrons);
 	void setJets(JetCollection electrons);
 	void setMuons(MuonCollection muons);
+	void setMET(const MET& met);
 	void setHLT_Photon15_L1R(bool hltTrigger);
 	void setRunNumber(unsigned long number);
 	void setEventNumber(unsigned long number);
@@ -100,6 +104,7 @@ public:
 	const MuonCollection& getMuons() const;
 	const MuonCollection& getGoodMuons() const;
 	const MuonCollection& getGoodIsolatedMuons() const;
+	const MET& getMET() const;
 	const Electron& getMostIsolatedElectron() const;
 	unsigned long runnumber() const;
 	unsigned long eventnumber() const;

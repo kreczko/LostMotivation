@@ -10,7 +10,7 @@
 namespace BAT {
 
 Event::Event() :
-	HLT_PHOTON15_L1R(false), primaryVertex(), allElectrons(), goodElectrons(), goodIsolatedElectrons(), dataType(DATA),
+	HLT_PHOTON15_L1R(false), primaryVertex(), allElectrons(), goodElectrons(), goodIsolatedElectrons(),met(), dataType(DATA),
 			runNumber(0), eventNumber(0), lumiBlock(0), eventWeight(1.), jetCleaningEfficiency(1.) {
 
 }
@@ -140,6 +140,10 @@ void Event::setHLT_Photon15_L1R(bool hltTrigger) {
 	HLT_PHOTON15_L1R = hltTrigger;
 }
 
+void Event::setMET(const MET& met){
+    this->met = met;
+}
+
 void Event::setRunNumber(unsigned long number) {
 	runNumber = number;
 }
@@ -194,6 +198,10 @@ const MuonCollection& Event::getGoodMuons() const {
 
 const MuonCollection& Event::getGoodIsolatedMuons() const {
 	return goodIsolatedMuons;
+}
+
+const MET& Event::getMET() const{
+    return met;
 }
 
 unsigned long Event::runnumber() const {

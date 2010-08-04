@@ -22,13 +22,14 @@ struct TestEvent {
 	PrimaryVertex badVertex;
 	Muon goodIsolatedMuon;
 	Muon badMuon;
+	MET met;
 	TestEvent() :
 		ttbarEvent(), goodZEvent(), poorZEvent(), DiJetEvent(), DiJetEventWithConversion(), muonEvent(), emptyEvent(),
 				eventFilter(Filter::makeStandardFilter()), goodIsolatedElectron(100., 99., 13., 5.),
 				goodIsolatedElectron2(100., 79., -13., -5.), goodLooseElectron(100., 79., -13., -5.), badElectron(20,
 						14., 15., 0), electronFromConversion(goodIsolatedElectron), goodJet(100, 13, 99, 5), goodBJet(
 						goodJet), badJet(20, 19, 0, 0), goodJetCloseToElectron(100., 98., 13., 5.), goodVertex(),
-				badVertex(), goodIsolatedMuon(100., 99., 13., 5.), badMuon(100., 99., 13., 5.) {
+				badVertex(), goodIsolatedMuon(100., 99., 13., 5.), badMuon(100., 99., 13., 5.), met(40, 30) {
 		setUpGoodIsolatedElectron();
 		setUpGoodIsolatedElectron2();
 		setUpGoodLooseElectron();
@@ -151,6 +152,7 @@ private:
 		MuonCollection muons;
 		muons.push_back(badMuon);
 		ttbarEvent.setMuons(muons);
+		ttbarEvent.setMET(met);
 	}
 
 	void setUpGoodZEvent() {
@@ -481,6 +483,11 @@ public:
 		ASSERT_EQUAL(jets.size(), event.getJets().size());
 		ASSERT_EQUAL(0, event.getGoodJets().size());
 	}
+
+	void testMET(){
+	    ASSERT_EQUAL(50, ttbarEvent.getMET().et());
+	}
+
 };
 
 extern cute::suite make_suite_TestEvent() {
@@ -544,6 +551,7 @@ extern cute::suite make_suite_TestEvent() {
 	s.push_back(CUTE_SMEMFUN(TestEvent, testGoodJetCleaningNoGoodElectrons));
 	s.push_back(CUTE_SMEMFUN(TestEvent, testGoodJetCleaningNoElectrons));
 	s.push_back(CUTE_SMEMFUN(TestEvent, testGoodJetCleaningNoGoodJets));
+	s.push_back(CUTE_SMEMFUN(TestEvent, testMET));
 
 	return s;
 }
