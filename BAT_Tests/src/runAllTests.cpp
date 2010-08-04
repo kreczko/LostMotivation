@@ -9,6 +9,7 @@
 #include "TestFilter.h"
 #include "TestJet.h"
 #include "TestJetReader.h"
+#include "TestMET.h"
 #include "TestMuon.h"
 #include "TestMuonReader.h"
 #include "TestNTupleEventReader.h"
@@ -34,6 +35,7 @@ void runSuite(){
 	s+= make_suite_TestFilter();
 	s+= make_suite_TestJet();
 	s+= make_suite_TestJetReader();
+	s+= make_suite_TestMET();
 	s+= make_suite_TestMuon();
 	s+= make_suite_TestMuonReader();
 	s+= make_suite_TestNTupleEventReader();
