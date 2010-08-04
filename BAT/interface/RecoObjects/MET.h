@@ -23,8 +23,9 @@ public:
 		MET::goodMETMinimalEt = 0;
 	}
 	MET();
+	MET(float energy, float ex, float ey);
 	virtual ~MET();
-	bool isGood();
+	bool isGood() const;
 };
 
 }

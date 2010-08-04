@@ -11,13 +11,20 @@ namespace BAT {
 
 float MET::goodMETMinimalEt = 0;
 
-MET::MET() {
-	// TODO Auto-generated constructor stub
+MET::MET() :
+	Particle() {
+}
+
+MET::MET(float energy, float ex, float ey) :
+	Particle(energy, ex, ey, 0) {
 
 }
 
 MET::~MET() {
-	// TODO Auto-generated destructor stub
+}
+
+bool MET::isGood() const{
+	return et() > MET::goodMETMinimalEt;
 }
 
 }
