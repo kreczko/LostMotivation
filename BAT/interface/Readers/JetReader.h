@@ -14,7 +14,6 @@ namespace BAT {
 
 class JetReader {
 public:
-	const static unsigned short numberOfVariables = 11;
 	const static std::string algorithmPrefixes[Jet::NUMBER_OF_JETALGORITHMS];
 	
 	JetReader();
