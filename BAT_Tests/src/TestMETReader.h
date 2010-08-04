@@ -29,7 +29,7 @@ public:
         TCreader->initialise();
         KT4reader->initialise();
         KT6Reader->initialise();
-        input->GetEntry(1);
+        input->GetEntry(0);
         met = reader->getMET();
         pfmet = PFreader->getMET();
         tcmet = TCreader->getMET();
@@ -38,23 +38,23 @@ public:
     }
 
     void testMET() {
-        ASSERT_EQUAL_DELTA(112.983, met.et(), 0.001);
+        ASSERT_EQUAL_DELTA(47.9642, met.et(), 0.0001);
     }
 
     void testPFMET() {
-        ASSERT_EQUAL_DELTA(95.5825, pfmet.et(), 0.0001);
+        ASSERT_EQUAL_DELTA(54.7453, pfmet.et(), 0.0001);
     }
 
     void testTCMET() {
-        ASSERT_EQUAL_DELTA(87.6731, tcmet.et(), 0.0001);
+        ASSERT_EQUAL_DELTA(40.0313, tcmet.et(), 0.0001);
     }
 
     void testKT4MET() {
-        ASSERT_EQUAL_DELTA(100.038, kt4met.et(), 0.001);
+        ASSERT_EQUAL_DELTA(47.1134, kt4met.et(), 0.001);
     }
 
     void testKT6MET() {
-        ASSERT_EQUAL_DELTA(102.548, kt6met.et(), 0.001);
+        ASSERT_EQUAL_DELTA(48.828, kt6met.et(), 0.001);
     }
 
     void testAreMETsGood(){
