@@ -18,11 +18,9 @@ void Analysis::analyze() {
 	while (eventReader->hasNextEvent()) {
 		printNumberOfProccessedEventsEvery(10000);
 		currentEvent = eventReader->getNextEvent();
-
 		doCutFlow();
 		doDiElectronAnalysis();
 		doTTBarAnalysis();
-
 	}
 	printSummary();
 }
