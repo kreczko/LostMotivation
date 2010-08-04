@@ -30,6 +30,15 @@ public:
 	void testBadMETNoGood(){
 		ASSERT_EQUAL(false, badMET.isGood());
 	}
+
+	void testSetAlgorithm(){
+		goodMET.setUsedAlgorithm(MET::ParticleFlowMET);
+		ASSERT_EQUAL(MET::ParticleFlowMET, goodMET.getUsedAlgorithm());
+	}
+
+	void testStandardAlgorithm(){
+		ASSERT_EQUAL(MET::DEFAULT, goodMET.getUsedAlgorithm());
+	}
 };
 
 extern cute::suite make_suite_TestMET() {
@@ -39,5 +48,7 @@ extern cute::suite make_suite_TestMET() {
 	s.push_back(CUTE_SMEMFUN(TestMET,testStandardConstructorMass));
 	s.push_back(CUTE_SMEMFUN(TestMET,testGoodMETIsGood));
 	s.push_back(CUTE_SMEMFUN(TestMET,testBadMETNoGood));
+	s.push_back(CUTE_SMEMFUN(TestMET,testSetAlgorithm));
+	s.push_back(CUTE_SMEMFUN(TestMET,testStandardAlgorithm));
 	return s;
 }

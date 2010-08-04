@@ -13,7 +13,7 @@ namespace BAT {
 
 class MET: public Particle {
 public:
-	enum Type {
+	enum Algorithm {
 		DEFAULT, CalorimeterMET_mujes, SC5, SC7, KT4, KT6, tcMET, ParticleFlowMET, MCTruth, NUMBER_OF_METALGORITHMS
 	};
 
@@ -26,6 +26,10 @@ public:
 	MET(float energy, float ex, float ey);
 	virtual ~MET();
 	bool isGood() const;
+	void setUsedAlgorithm(MET::Algorithm algo);
+	MET::Algorithm getUsedAlgorithm() const;
+private:
+	MET::Algorithm usedAlgorithm;
 };
 
 }
