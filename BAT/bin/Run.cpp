@@ -18,7 +18,7 @@ int main(int argc, char **argv) {
 	TStopwatch watch;
 	watch.Start();
 	boost::scoped_ptr<Analysis> myAnalysis(new Analysis());
-	myAnalysis->setMaximalNumberOfEvents(10);
+	myAnalysis->setMaximalNumberOfEvents(10000);
 
 	cout << "adding files" << endl;
 	//Input files
