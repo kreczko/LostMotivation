@@ -16,29 +16,47 @@
 
 namespace BAT {
 
-class TopPairEventCandidate {
+class TopPairEventCandidate: public Event {
 
 private:
-	boost::shared_ptr<Event> event;
-	float getLeptonicChi2();
-	float getHadronicChi2();
-	float getGlobalChi2();
-	float getTotalChi2();
+    float getLeptonicChi2();
+    float getHadronicChi2();
+    float getGlobalChi2();
+    float getTotalChi2();
 
 public:
-	TopPairEventCandidate();
-	virtual ~TopPairEventCandidate();
+    TopPairEventCandidate();
+    TopPairEventCandidate(const Event& event);
+    virtual ~TopPairEventCandidate();
 
-	static TopPairEventCandidate* getCandidateByChi2();
-	static TopPairEventCandidate* getCandidateByJetSubstructure();
-	static TopPairEventCandidate* getCandidateByMCTruthMatching();
+    //	static constTopPairEventCandidate* getCandidateByChi2();
+    //	static TopPairEventCandidate* getCandidateByJetSubstructure();
+    //	static TopPairEventCandidate* getCandidateByMCTruthMatching();
 
-	Jet getLeptonicBJet();
-	Jet getHadronicBJet();
-	Jet getJet1FromHadronicW();
-	Jet getJet2FromHadronicW();
-	Electron getElectron();
-	Particle getNeutrino();
+    const Jet& getLeptonicBJet() const;
+    const Jet& getHadronicBJet() const;
+    const Jet& getJet1FromHadronicW() const;
+    const Jet& getJet2FromHadronicW() const;
+    const Electron& getElectronFromWDecay() const;
+    const Particle& getNeutrinoFromWDecay() const;
+
+    bool passesSelectionStep(TTbarEPlusJetsSelection::Step step) const;
+    bool passesSelectionStepUpTo(TTbarEPlusJetsSelection::Step upToStep) const;
+
+    bool passesHighLevelTrigger() const;
+    bool hasOneGoodPrimaryVertex() const;
+    bool hasOnlyOneGoodIsolatedElectron() const;
+    bool isolatedElectronDoesNotComeFromConversion() const;
+    bool hasNoIsolatedMuon() const;
+
+    bool hasAtLeastOneGoodJet() const;
+    bool hasAtLeastTwoGoodJets() const;
+    bool hasAtLeastThreeGoodJets() const;
+    bool hasAtLeastFourGoodJets() const;
+
+    bool isNotAZBosonEvent() const;
+    bool passesFullTTbarEPlusJetSelection() const;
+    bool hasIsolatedElectronInBarrelRegion() const;
 
 };
 
