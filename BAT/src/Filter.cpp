@@ -16,7 +16,7 @@ Filter::Filter() {
 Filter::~Filter() {
 }
 
-Filter * Filter::makeStandardFilter() {
+Filter * Filter::makeTopPairEPlusJetsFilter() {
 	Filter::resetSelectionValues();
 	Filter * filter = new Filter();
 	

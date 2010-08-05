@@ -14,7 +14,7 @@ private:
 	boost::scoped_ptr<Filter> filter;
 public:
 	TestFilter() :
-		filter(Filter::makeStandardFilter()) {
+		filter(Filter::makeTopPairEPlusJetsFilter()) {
 
 	}
 

@@ -18,7 +18,7 @@ class Filter {
 public:
 	Filter();
 	virtual ~Filter();
-	static Filter* makeStandardFilter();
+	static Filter* makeTopPairEPlusJetsFilter();
 
 	void setGoodVertexMinimalNumberOfDegreesOfFreedom(unsigned int minimalNDOF);
 	void setGoodVertexMaximalAbsoluteZPosition(float absoluteZ);
