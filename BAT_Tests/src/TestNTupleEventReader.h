@@ -1,6 +1,7 @@
 #include "cute_suite.h"
 #include "Readers/NTupleEventReader.h"
 #include "Event.h"
+#include "TopPairEventCandidate.h"
 #include <boost/scoped_ptr.hpp>
 
 using namespace BAT;
@@ -195,7 +196,8 @@ public:
 	}
 
 	void testHLTTrigger(){
-		ASSERT_EQUAL(true, TTbarReader->getNextEvent().passesHighLevelTrigger());
+	    TopPairEventCandidate candidate = TopPairEventCandidate(TTbarReader->getNextEvent());
+		ASSERT_EQUAL(true, candidate.passesHighLevelTrigger());
 	}
 
 	void testEventChainConstant(){

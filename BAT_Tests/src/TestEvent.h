@@ -25,7 +25,7 @@ struct TestEvent {
 	MET met;
 	TestEvent() :
 		ttbarEvent(), goodZEvent(), poorZEvent(), DiJetEvent(), DiJetEventWithConversion(), muonEvent(), emptyEvent(),
-				eventFilter(Filter::makeStandardFilter()), goodIsolatedElectron(100., 99., 13., 5.),
+				eventFilter(Filter::makeTopPairEPlusJetsFilter()), goodIsolatedElectron(100., 99., 13., 5.),
 				goodIsolatedElectron2(100., 79., -13., -5.), goodLooseElectron(100., 79., -13., -5.), badElectron(20,
 						14., 15., 0), electronFromConversion(goodIsolatedElectron), goodJet(100, 13, 99, 5), goodBJet(
 						goodJet), badJet(20, 19, 0, 0), goodJetCloseToElectron(100., 98., 13., 5.), goodVertex(),
@@ -250,99 +250,6 @@ public:
 		ASSERT_EQUAL(4, ttbarEvent.getGoodJets().size());
 	}
 
-	void testPassesHLT() {
-		ASSERT(ttbarEvent.passesHighLevelTrigger());
-	}
-
-	void testDoesNotPassHLT() {
-		ASSERT(DiJetEvent.passesHighLevelTrigger() == false);
-	}
-
-	void testDoesHaveGoodPV() {
-		ASSERT(ttbarEvent.hasOneGoodPrimaryVertex());
-	}
-
-	void testDoesntHaveGoodPV() {
-		ASSERT(DiJetEvent.hasOneGoodPrimaryVertex() == false);
-	}
-
-	void testHasOnlyOneGoodIsolatedElectron() {
-		ASSERT(ttbarEvent.hasOnlyOneGoodIsolatedElectron());
-	}
-
-	void testHasNotOnlyOneGoodIsolatedElectron() {
-		ASSERT(goodZEvent.hasOnlyOneGoodIsolatedElectron() == false);
-		ASSERT(DiJetEvent.hasOnlyOneGoodIsolatedElectron() == false);
-	}
-
-	void testIsolatedElectronNotFromConversion() {
-		ASSERT(ttbarEvent.isolatedElectronDoesNotComeFromConversion());
-	}
-
-	void testIsolatedElectronFromConversion() {
-		ASSERT(DiJetEventWithConversion.isolatedElectronDoesNotComeFromConversion() == false);
-	}
-
-	void testNoElectronInEventReturnsFalse() {
-		ASSERT(DiJetEvent.isolatedElectronDoesNotComeFromConversion() == false);
-	}
-
-	void testHasAtLeastOneGoodJet() {
-		ASSERT(ttbarEvent.hasAtLeastOneGoodJet());
-	}
-
-	void testHasNoGoodJets() {
-		ASSERT(emptyEvent.hasAtLeastOneGoodJet() == false);
-	}
-
-	void testHasAtLeastTwoGoodjet() {
-		ASSERT(ttbarEvent.hasAtLeastTwoGoodJets());
-	}
-
-	void testHasNoTwoGoodJets() {
-		ASSERT(emptyEvent.hasAtLeastTwoGoodJets() == false);
-	}
-
-	void testHasAtLeastThreeGoodJets() {
-		ASSERT(ttbarEvent.hasAtLeastThreeGoodJets());
-	}
-
-	void testHasNoThreeGoodJets() {
-		ASSERT(DiJetEvent.hasAtLeastThreeGoodJets() == false);
-	}
-
-	void testHasAtFourThreeGoodJets() {
-		ASSERT(ttbarEvent.hasAtLeastThreeGoodJets());
-	}
-
-	void testHasNoFourThreeGoodJets() {
-		ASSERT(DiJetEvent.hasAtLeastThreeGoodJets() == false);
-	}
-
-	void testTTbarIsNotAZBosonEvent() {
-		ASSERT(ttbarEvent.isNotAZBosonEvent());
-	}
-
-	void testGoodZIsAZBosonEvent() {
-		ASSERT(goodZEvent.isNotAZBosonEvent() == false);
-	}
-
-	void testPoorZIsAZBosonEvent() {
-		ASSERT(poorZEvent.isNotAZBosonEvent() == false);
-	}
-
-	void testDiJetIsNotAZBosonEvent() {
-		ASSERT(DiJetEvent.isNotAZBosonEvent());
-	}
-
-	void testTTbarEventPassesMuonVeto() {
-		ASSERT_EQUAL(true, ttbarEvent.hasNoIsolatedMuon());
-	}
-
-	void testMuonEventDoesnPassMuonVeto() {
-		ASSERT_EQUAL(false, muonEvent.hasNoIsolatedMuon());
-	}
-
 	void testRunNumber() {
 		ttbarEvent.setRunNumber(42);
 		ASSERT_EQUAL(42, ttbarEvent.runnumber());
@@ -366,54 +273,6 @@ public:
 	void testEventWeight() {
 		ttbarEvent.setEventWeight(1.152);
 		ASSERT_EQUAL_DELTA(1.152, ttbarEvent.weight(), 0.001);
-	}
-
-	void testEventPasses1stStep() {
-		ASSERT_EQUAL(true, ttbarEvent.passesSelectionStep(TTbarEPlusJetsSelection::HighLevelTrigger));
-	}
-
-	void testEventPasses2ndStep() {
-		ASSERT_EQUAL(true, ttbarEvent.passesSelectionStep(TTbarEPlusJetsSelection::GoodPrimaryvertex));
-	}
-
-	void testEventPasses3ndStep() {
-		ASSERT_EQUAL(true, ttbarEvent.passesSelectionStep(TTbarEPlusJetsSelection::OneIsolatedElectron));
-	}
-
-	void testEventPasses4thStep() {
-		ASSERT_EQUAL(true, ttbarEvent.passesSelectionStep(TTbarEPlusJetsSelection::ConversionRejection));
-	}
-
-	void testEventPasses5thStep() {
-		ASSERT_EQUAL(true, ttbarEvent.passesSelectionStep(TTbarEPlusJetsSelection::LooseMuonVeto));
-	}
-
-	void testEventPasses6thStep() {
-		ASSERT_EQUAL(true, ttbarEvent.passesSelectionStep(TTbarEPlusJetsSelection::AtLeastFourGoodJets));
-	}
-
-	void testEventPasses7thStep() {
-		ASSERT_EQUAL(true, ttbarEvent.passesSelectionStep(TTbarEPlusJetsSelection::Zveto));
-	}
-
-	void testTTbarEventPassesNStep() {
-		ASSERT_EQUAL(true, ttbarEvent.passesSelectionStepUpTo(TTbarEPlusJetsSelection::Zveto));
-	}
-
-	void testPoorZEventPassesUpToStep() {
-		ASSERT_EQUAL(true, poorZEvent.passesSelectionStepUpTo(TTbarEPlusJetsSelection::AtLeastFourGoodJets));
-	}
-
-	void testPoorZEventDoesntPassUpToStep() {
-		ASSERT_EQUAL(false, poorZEvent.passesSelectionStepUpTo(TTbarEPlusJetsSelection::Zveto));
-	}
-
-	void testPassesFullTTbarSelection() {
-		ASSERT_EQUAL(true, ttbarEvent.passesFullTTbarEPlusJetSelection());
-	}
-
-	void testFailsFullTTbarSelection() {
-		ASSERT_EQUAL(false, DiJetEvent.passesFullTTbarEPlusJetSelection());
 	}
 
 	void testGetMostIsolatedElectron() {
@@ -498,52 +357,11 @@ extern cute::suite make_suite_TestEvent() {
 	s.push_back(CUTE_SMEMFUN(TestEvent, testNumberOfJets));
 	s.push_back(CUTE_SMEMFUN(TestEvent, testNumberOfGoodJets));
 
-	s.push_back(CUTE_SMEMFUN(TestEvent, testPassesHLT));
-	s.push_back(CUTE_SMEMFUN(TestEvent, testDoesNotPassHLT));
-	s.push_back(CUTE_SMEMFUN(TestEvent, testDoesHaveGoodPV));
-	s.push_back(CUTE_SMEMFUN(TestEvent, testDoesntHaveGoodPV));
-	s.push_back(CUTE_SMEMFUN(TestEvent, testHasOnlyOneGoodIsolatedElectron));
-	s.push_back(CUTE_SMEMFUN(TestEvent, testHasNotOnlyOneGoodIsolatedElectron));
-	s.push_back(CUTE_SMEMFUN(TestEvent, testIsolatedElectronNotFromConversion));
-	s.push_back(CUTE_SMEMFUN(TestEvent, testIsolatedElectronFromConversion));
-	s.push_back(CUTE_SMEMFUN(TestEvent, testNoElectronInEventReturnsFalse));
-
-	s.push_back(CUTE_SMEMFUN(TestEvent, testHasAtLeastOneGoodJet));
-	s.push_back(CUTE_SMEMFUN(TestEvent, testHasNoGoodJets));
-	s.push_back(CUTE_SMEMFUN(TestEvent, testHasAtLeastTwoGoodjet));
-	s.push_back(CUTE_SMEMFUN(TestEvent, testHasNoTwoGoodJets));
-	s.push_back(CUTE_SMEMFUN(TestEvent, testHasAtLeastThreeGoodJets));
-	s.push_back(CUTE_SMEMFUN(TestEvent, testHasNoThreeGoodJets));
-	s.push_back(CUTE_SMEMFUN(TestEvent, testHasAtFourThreeGoodJets));
-	s.push_back(CUTE_SMEMFUN(TestEvent, testHasNoFourThreeGoodJets));
-
-	s.push_back(CUTE_SMEMFUN(TestEvent, testTTbarIsNotAZBosonEvent));
-	s.push_back(CUTE_SMEMFUN(TestEvent, testGoodZIsAZBosonEvent));
-	s.push_back(CUTE_SMEMFUN(TestEvent, testPoorZIsAZBosonEvent));
-	s.push_back(CUTE_SMEMFUN(TestEvent, testDiJetIsNotAZBosonEvent));
-
-	s.push_back(CUTE_SMEMFUN(TestEvent, testTTbarEventPassesMuonVeto));
-	s.push_back(CUTE_SMEMFUN(TestEvent, testMuonEventDoesnPassMuonVeto));
-
 	s.push_back(CUTE_SMEMFUN(TestEvent, testRunNumber));
 	s.push_back(CUTE_SMEMFUN(TestEvent, testEventNumber));
 	s.push_back(CUTE_SMEMFUN(TestEvent, testLocalEventNumber));
 	s.push_back(CUTE_SMEMFUN(TestEvent, testLumiBlock));
 	s.push_back(CUTE_SMEMFUN(TestEvent, testEventWeight));
-
-	s.push_back(CUTE_SMEMFUN(TestEvent, testEventPasses1stStep));
-	s.push_back(CUTE_SMEMFUN(TestEvent, testEventPasses2ndStep));
-	s.push_back(CUTE_SMEMFUN(TestEvent, testEventPasses3ndStep));
-	s.push_back(CUTE_SMEMFUN(TestEvent, testEventPasses4thStep));
-	s.push_back(CUTE_SMEMFUN(TestEvent, testEventPasses5thStep));
-	s.push_back(CUTE_SMEMFUN(TestEvent, testEventPasses6thStep));
-	s.push_back(CUTE_SMEMFUN(TestEvent, testEventPasses7thStep));
-
-	s.push_back(CUTE_SMEMFUN(TestEvent, testTTbarEventPassesNStep));
-	s.push_back(CUTE_SMEMFUN(TestEvent, testPoorZEventPassesUpToStep));
-	s.push_back(CUTE_SMEMFUN(TestEvent, testPoorZEventDoesntPassUpToStep));
-	s.push_back(CUTE_SMEMFUN(TestEvent, testPassesFullTTbarSelection));
-	s.push_back(CUTE_SMEMFUN(TestEvent, testFailsFullTTbarSelection));
 
 	s.push_back(CUTE_SMEMFUN(TestEvent, testGetMostIsolatedElectron));
 

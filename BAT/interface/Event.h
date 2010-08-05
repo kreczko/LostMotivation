@@ -112,24 +112,6 @@ public:
 	unsigned long lumiblock() const;
 	float weight() const;
 
-	bool passesSelectionStep(TTbarEPlusJetsSelection::Step step) const;
-	bool passesSelectionStepUpTo(TTbarEPlusJetsSelection::Step upToStep) const;
-
-	bool passesHighLevelTrigger() const;
-	bool hasOneGoodPrimaryVertex() const;
-	bool hasOnlyOneGoodIsolatedElectron() const;
-	bool isolatedElectronDoesNotComeFromConversion() const;
-	bool hasNoIsolatedMuon() const;
-
-	bool hasAtLeastOneGoodJet() const;
-	bool hasAtLeastTwoGoodJets() const;
-	bool hasAtLeastThreeGoodJets() const;
-	bool hasAtLeastFourGoodJets() const;
-
-	bool isNotAZBosonEvent() const;
-	bool passesFullTTbarEPlusJetSelection() const;
-	bool hasIsolatedElectronInBarrelRegion() const;
-
 private:
 	void selectElectronsByQuality();
 	void cleanGoodJets();

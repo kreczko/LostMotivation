@@ -16,12 +16,14 @@
 #include "TFile.h"
 #include "../interface/Selection.h"
 #include "../interface/Event.h"
+#include "../interface/TopPairEventCandidate.h"
 
 class Analysis {
 private:
 	boost::scoped_ptr<BAT::NTupleEventReader> eventReader;
 	boost::scoped_ptr<BAT::Filter> eventFilter;
 	BAT::Event currentEvent;
+	BAT::TopPairEventCandidate ttbarCandidate;
 	unsigned long numberOfGoodElectrons;
 	boost::scoped_ptr<TH1F> h_et;
 	boost::scoped_ptr<TH1F> h_diElectronMass;
@@ -39,7 +41,7 @@ private:
 	void printNumberOfProccessedEventsEvery(unsigned long printEvery);
 	void doDiElectronAnalysis();
 	void doTTBarAnalysis();
-	void doCutFlow();
+	void doTTbarCutFlow();
 	void printSummary();
 };
 
