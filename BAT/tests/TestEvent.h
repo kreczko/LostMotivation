@@ -4,8 +4,8 @@
 #include <boost/scoped_ptr.hpp>
 
 #include "../interface/Event.h"
-#include "Filter.h"
-#include "Selection.h"
+#include "../interface/Filter.h"
+#include "../interface/Selection.h"
 
 using namespace BAT;
 

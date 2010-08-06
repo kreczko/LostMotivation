@@ -1,7 +1,7 @@
 #include "cute/cute.h"
 #include "cute/cute_suite.h"
 
-#include "RecoObjects/Muon.h"
+#include "../interface/RecoObjects/Muon.h"
 
 using namespace BAT;
 

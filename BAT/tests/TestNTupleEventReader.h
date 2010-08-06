@@ -2,9 +2,9 @@
 #include "cute/cute_suite.h"
 #include <boost/scoped_ptr.hpp>
 
-#include "Event.h"
-#include "TopPairEventCandidate.h"
-#include "Readers/NTupleEventReader.h"
+#include "../interface/Event.h"
+#include "../interface/TopPairEventCandidate.h"
+#include "../interface/Readers/NTupleEventReader.h"
 
 using namespace BAT;
 

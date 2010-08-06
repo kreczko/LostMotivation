@@ -1,7 +1,7 @@
 #include "cute/cute.h"
 #include "cute/cute_suite.h"
 
-#include "RecoObjects/Jet.h"
+#include "../interface/RecoObjects/Jet.h"
 using namespace BAT;
 
 struct TestJet {

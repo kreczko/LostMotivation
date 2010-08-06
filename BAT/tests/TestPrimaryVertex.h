@@ -1,7 +1,7 @@
 #include "cute/cute.h"
 #include "cute/cute_suite.h"
 
-#include "RecoObjects/PrimaryVertex.h"
+#include "../interface/RecoObjects/PrimaryVertex.h"
 
 using namespace BAT;
 

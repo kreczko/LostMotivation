@@ -1,7 +1,7 @@
 #include "cute/cute.h"
 #include "cute/cute_suite.h"
 
-#include "RecoObjects/Electron.h"
+#include "../interface/RecoObjects/Electron.h"
 
 using namespace BAT;
 

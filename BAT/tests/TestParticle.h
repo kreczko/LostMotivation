@@ -1,8 +1,8 @@
 #include "cute/cute.h"
 #include "cute/cute_suite.h"
 
-#include "RecoObjects/Particle.h"
-#include "DetectorGeometry.h"
+#include "../interface/RecoObjects/Particle.h"
+#include "../interface/DetectorGeometry.h"
 
 using namespace BAT;
 

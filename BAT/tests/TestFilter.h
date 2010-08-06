@@ -1,12 +1,12 @@
 #include "cute/cute.h"
 #include "cute/cute_suite.h"
 
-#include "Filter.h"
-#include "Taggers/BJetTagger.h"
-#include "RecoObjects/Jet.h"
-#include "RecoObjects/Electron.h"
-#include "RecoObjects/MET.h"
-#include "RecoObjects/PrimaryVertex.h"
+#include "../interface/Filter.h"
+#include "../interface/Taggers/BJetTagger.h"
+#include "../interface/RecoObjects/Jet.h"
+#include "../interface/RecoObjects/Electron.h"
+#include "../interface/RecoObjects/MET.h"
+#include "../interface/RecoObjects/PrimaryVertex.h"
 #include <boost/scoped_ptr.hpp>
 
 using namespace BAT;

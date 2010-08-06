@@ -3,7 +3,7 @@
 
 #include <boost/shared_ptr.hpp>
 
-#include "Readers/PrimaryVertexReader.h"
+#include "../interface/Readers/PrimaryVertexReader.h"
 #include "TChain.h"
 
 using namespace BAT;

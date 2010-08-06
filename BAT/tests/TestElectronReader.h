@@ -4,8 +4,8 @@
 #include <boost/scoped_ptr.hpp>
 #include <boost/shared_ptr.hpp>
 
-#include "RecoObjects/Electron.h"
-#include "Readers/ElectronReader.h"
+#include "../interface/RecoObjects/Electron.h"
+#include "../interface/Readers/ElectronReader.h"
 
 using namespace BAT;
 

@@ -1,7 +1,7 @@
 #include "cute/cute.h"
 #include "cute/cute_suite.h"
 
-#include "EventCounter.h"
+#include "../interface/EventCounter.h"
 
 static const unsigned int dimension1 = 4;
 static const unsigned int dimension2 = 2;

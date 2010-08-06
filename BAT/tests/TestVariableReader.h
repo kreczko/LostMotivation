@@ -7,7 +7,7 @@
 #include "TChain.h"
 #include "TString.h"
 
-#include "Readers/VariableReader.h"
+#include "../interface/Readers/VariableReader.h"
 
 
 

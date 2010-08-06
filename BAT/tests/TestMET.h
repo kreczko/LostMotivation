@@ -1,7 +1,7 @@
 #include "cute/cute.h"
 #include "cute/cute_suite.h"
 
-#include "RecoObjects/MET.h"
+#include "../interface/RecoObjects/MET.h"
 
 using namespace BAT;
 

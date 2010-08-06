@@ -3,10 +3,10 @@
 
 #include <boost/scoped_ptr.hpp>
 
-#include "Event.h"
-#include "Filter.h"
-#include "TopPairEventCandidate.h"
-#include "Selection.h"
+#include "../interface/Event.h"
+#include "../interface/Filter.h"
+#include "../interface/TopPairEventCandidate.h"
+#include "../interface/Selection.h"
 
 using namespace BAT;
 

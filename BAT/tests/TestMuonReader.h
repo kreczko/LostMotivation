@@ -5,7 +5,7 @@
 #include <boost/shared_ptr.hpp>
 
 #include "TChain.h"
-#include "Readers/MuonReader.h"
+#include "../interface/Readers/MuonReader.h"
 
 using namespace BAT;
 
