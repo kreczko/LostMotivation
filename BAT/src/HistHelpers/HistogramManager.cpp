@@ -5,7 +5,7 @@
  *      Author: kreczko
  */
 
-#include "HistogramManager.h"
+#include "../../interface/HistHelpers/HistogramManager.h"
 
 namespace BAT {
 

@@ -18,13 +18,18 @@
 #include "TestPrimaryVertex.h"
 #include "TestPrimaryVertexReader.h"
 #include "TestROOT.h"
+#include "TestStringOperations.h"
+#include "TestTHCollection.h"
 #include "TestTopPairEventCandidate.h"
 #include "TestVariableReader.h"
 
 #include "TROOT.h"
 
 void setUpOnce() {
+    //needed to proper link vector<float> etc.
 	gROOT->ProcessLine("#include <vector>");
+	//prevent automatic ownership of ROOT objects
+	TH1F::AddDirectory(false);
 }
 
 void runSuite(){
@@ -45,6 +50,8 @@ void runSuite(){
 	s+= make_suite_TestPrimaryVertex();
 	s+= make_suite_TestPrimaryVertexReader();
 	s+= make_suite_ROOTLearnTests();
+	s+= make_suite_TestStringOperations();
+	s+= make_suite_TestTHCollection();
 	s+= make_suite_TestTopPairEventCandidate();
 	s+= make_suite_TestVariableReader();
 	cute::ide_listener lis;

@@ -7,7 +7,8 @@
 
 #ifndef HISTOGRAMMANAGER_H_
 #define HISTOGRAMMANAGER_H_
-#include "HistCollection.h"
+#include "THCollection.h"
+//#include "TH2Collection.h"
 #include "TH1F.h"
 #include "TH2F.h"
 #include "../Taggers/BJetTagger.h"
@@ -28,8 +29,8 @@ public:
 	void fillNjetBinnedHistogram(ushort histogram, const float value, const double w);
 	void fillHisto_btag_DataAndMC(BJetTagger::Algorithm btagAlgorithm, ushort histogram, const float value, const double w);
 private:
-	boost::scoped_ptr<HistCollection<TH1F*> > collection;
-	boost::scoped_ptr<HistCollection<TH2F*> > collection2D;
+	TH1Collection collection;
+	TH2Collection collection2D;
 };
 
 }
