@@ -14,7 +14,7 @@
 #include "../Taggers/BJetTagger.h"
 
 namespace BAT {
-
+typedef unsigned short ushort;
 class HistogramManager {
 public:
 	HistogramManager();
