@@ -13,8 +13,16 @@
 #include <boost/scoped_ptr.hpp>
 using namespace ROOT;
 using namespace std;
+
+void setUpOnce() {
+    //needed to proper link vector<float> etc.
+    gROOT->ProcessLine("#include <vector>");
+    //prevent automatic ownership of ROOT objects
+    TH1F::AddDirectory(false);
+}
+
 int main(int argc, char **argv) {
-	gROOT->ProcessLine("#include <vector>");
+    setUpOnce();
 	TStopwatch watch;
 	watch.Start();
 	boost::scoped_ptr<Analysis> myAnalysis(new Analysis());

@@ -6,6 +6,7 @@
  */
 
 #include "Analysis.h"
+#include "TROOT.h"
 #include <iostream>
 #include <boost/scoped_ptr.hpp>
 #include <boost/array.hpp>
@@ -82,10 +83,10 @@ void Analysis::printSummary() {
 
 Analysis::Analysis() :
     eventReader(new NTupleEventReader()), eventFilter(Filter::makeTopPairEPlusJetsFilter()), currentEvent(),
-            ttbarCandidate(), numberOfGoodElectrons(0), h_et(new TH1F("histname", "histtitle", 100, 0, 100)),
-            h_diElectronMass(new TH1F("diElectronMass", "diElectronMass", 500, 0, 500)), h_ptRel_vs_DRmin(new TH2F(
-                    "ptRel_vs_DRmin", "ptRel_vs_DRmin", 100, 0, 1, 300, 0, 300)), outputfile(new TFile(
-                    "egammaAnalysis.root", "RECREATE")) {
+            ttbarCandidate(), numberOfGoodElectrons(0), testingDirectory(gROOT->mkdir("testing")), h_et(new TH1F(
+                    "histname", "histtitle", 100, 0, 100)), h_diElectronMass(new TH1F("diElectronMass",
+                    "diElectronMass", 500, 0, 500)), h_ptRel_vs_DRmin(new TH2F("ptRel_vs_DRmin", "ptRel_vs_DRmin", 100,
+                    0, 1, 300, 0, 300)), outputfile(new TFile("egammaAnalysis.root", "RECREATE")) {
     for (unsigned int cut = 0; cut < TTbarEPlusJetsSelection::NUMBER_OF_SELECTION_STEPS; ++cut) {
         cutflow[cut] = 0;
         singleCuts[cut] = 0;
@@ -93,9 +94,11 @@ Analysis::Analysis() :
 }
 
 Analysis::~Analysis() {
+    outputfile->mkdir(testingDirectory->GetName())->cd();
     h_et->Write();
     h_diElectronMass->Write();
     h_ptRel_vs_DRmin->Write();
+    testingDirectory->Write();
     outputfile->Write();
     outputfile->Close();
 }
