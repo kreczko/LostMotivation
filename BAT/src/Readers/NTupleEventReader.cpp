@@ -105,32 +105,32 @@ void NTupleEventReader::initiateReadersIfNotSet() {
     }
 }
 
-Event::DataType NTupleEventReader::getDataType() {
+DataType::value NTupleEventReader::getDataType() {
     std::string fileType = findCurrentFileType();
     if (fileType == "ttbar" || fileType == "ttjet")
-        return Event::ttbar;
+        return DataType::ttbar;
     else if (fileType == "tchan")
-        return Event::singleTopTChannel;
+        return DataType::singleTopTChannel;
     else if (fileType == "tW")
-        return Event::singleTop_And_W;
+        return DataType::singleTop_And_W;
     else if (fileType == "wj")
-        return Event::Wjets;
+        return DataType::Wjets;
     else if (fileType == "zj")
-        return Event::Zjets;
+        return DataType::Zjets;
     else if (fileType == "bce1")
-        return Event::QCD_BCtoE_Pt20to30;
+        return DataType::QCD_BCtoE_Pt20to30;
     else if (fileType == "bce2")
-        return Event::QCD_BCtoE_Pt30to80;
+        return DataType::QCD_BCtoE_Pt30to80;
     else if (fileType == "bce3")
-        return Event::QCD_BCtoE_Pt80to170;
+        return DataType::QCD_BCtoE_Pt80to170;
     else if (fileType == "enri1")
-        return Event::QCD_EMEnriched_Pt20to30;
+        return DataType::QCD_EMEnriched_Pt20to30;
     else if (fileType == "enri2")
-        return Event::QCD_EMEnriched_Pt30to80;
+        return DataType::QCD_EMEnriched_Pt30to80;
     else if (fileType == "enri3")
-        return Event::QCD_EMEnriched_Pt80to170;
+        return DataType::QCD_EMEnriched_Pt80to170;
     else
-        return Event::DATA;
+        return DataType::DATA;
 }
 
 std::string NTupleEventReader::findCurrentFileType() {

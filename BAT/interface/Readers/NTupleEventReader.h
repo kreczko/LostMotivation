@@ -19,6 +19,7 @@
 #include "PrimaryVertexReader.h"
 #include "METReader.h"
 #include <string>
+#include "../Enumerators.h"
 
 namespace BAT {
 
@@ -35,7 +36,7 @@ public:
 	const Event& getNextEvent();
 	bool hasNextEvent();
 	void addInputFile(const char* fileName);
-	void addInputFile(const char* fileName, Event::DataType type);
+	void addInputFile(const char* fileName, DataType::value type);
 	void skipNumberOfEvents(unsigned long skipNextNEvents);
 	unsigned long getNumberOfProccessedEvents() const;
 	unsigned long getCurrentLocalEventNumber() const;
@@ -62,7 +63,7 @@ private:
 	Event currentEvent;
 	void selectNextNtupleEvent();
 	void initiateReadersIfNotSet();
-	Event::DataType getDataType();
+	DataType::value getDataType();
 	std::string findCurrentFileType();
 };
 }
