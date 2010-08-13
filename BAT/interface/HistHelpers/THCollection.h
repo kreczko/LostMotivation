@@ -10,22 +10,27 @@
 #include <string>
 
 #include "TFile.h"
+#include "TDirectory.h"
 #include "TH1.h"
 #include "TH2.h"
 
 #include <boost/unordered_map.hpp>
 #include <boost/shared_ptr.hpp>
-
+#include <boost/foreach.hpp>
+#include <iostream>
 #include "StringOperations.h"
 
+using namespace boost;
 namespace BAT {
 
 template<class histType>
 class THCollection {
-    typedef boost::unordered_map<std::string, boost::shared_ptr<histType> > map;
+    typedef shared_ptr<histType> histPointer;
+    typedef unordered_map<std::string, histPointer> map;
 
 protected:
     boost::shared_ptr<TFile> histogramFile;
+    std::string path;
     std::vector<std::string> directories;
     map histMap;
 public:
@@ -35,7 +40,7 @@ public:
     }
 
     THCollection(boost::shared_ptr<TFile> histFile, std::string virtualPath = "") :
-        histogramFile(histFile), directories(getDirectoriesFromPath(virtualPath)), histMap() {
+        histogramFile(histFile), path(virtualPath), directories(getDirectoriesFromPath(path)), histMap() {
 
     }
 
@@ -58,7 +63,34 @@ public:
     }
 
     void writeToFile() {
+        histogramFile->cd();
+        writeDirectories();
+        histogramFile->Cd(path.c_str());
+        writeHistograms();
+    }
 
+private:
+
+    void writeDirectories() {
+        std::string currentPath = "";
+        for (unsigned short index = 0; index < directories.size(); ++index) {
+            const std::string dir = directories.at(index);
+            if (index == 0) {
+                histogramFile->mkdir(dir.c_str());
+                currentPath = dir;
+            } else {
+                TDirectory* currentDir = (TDirectory*) histogramFile->Get(currentPath.c_str());
+                assert(currentDir != 0);
+                currentDir->mkdir(dir.c_str());
+                currentPath += "/" + dir;
+            }
+        }
+
+    }
+    void writeHistograms() {
+        for (typename map::const_iterator iter = histMap.begin(); iter != histMap.end(); ++iter) {
+            iter->second->Write();
+        }
     }
 
 };
