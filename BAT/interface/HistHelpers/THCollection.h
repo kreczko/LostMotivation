@@ -56,8 +56,6 @@ public:
         return histMap[name];
     }
 
-    void setSavePath(TString path);
-
     unsigned int size() const {
         return histMap.size();
     }
