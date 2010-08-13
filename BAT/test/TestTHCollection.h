@@ -19,11 +19,11 @@ private:
     boost::shared_ptr<TFile> histFile;
     TH1Collection collection;
     TH1Collection collectionWithPath;
-
+    TH2Collection collection2D;
 public:
     TestTHCollection() :
         histFile(new TFile("testTHCollection.root", "RECREATE")), collection(histFile), collectionWithPath(histFile,
-                "mc/ttbar") {
+                "mc/ttbar"), collection2D(histFile) {
     }
 
     ~TestTHCollection() {
@@ -36,6 +36,11 @@ public:
     void testSize() {
         collection.add("test", "test", 100, 0, 100);
         ASSERT_EQUAL(1, collection.size());
+    }
+
+    void test2DSize(){
+        collection2D.add("test", "test", 100, 0, 100, 50, 0, 50);
+        ASSERT_EQUAL(1, collection2D.size());
     }
 
     void testInterference() {
@@ -88,6 +93,7 @@ extern cute::suite make_suite_TestTHCollection() {
     cute::suite s;
     s.push_back(CUTE_SMEMFUN(TestTHCollection, testInitialSize));
     s.push_back(CUTE_SMEMFUN(TestTHCollection, testSize));
+    s.push_back(CUTE_SMEMFUN(TestTHCollection, test2DSize));
     s.push_back(CUTE_SMEMFUN(TestTHCollection, testInterference));
     s.push_back(CUTE_SMEMFUN(TestTHCollection, testWriteInterference));
     s.push_back(CUTE_SMEMFUN(TestTHCollection, testWriteFileWithoutFolder));
