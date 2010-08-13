@@ -73,8 +73,10 @@ private:
 
     void writeDirectories() {
         std::string currentPath = "";
+
         for (unsigned short index = 0; index < directories.size(); ++index) {
             const std::string dir = directories.at(index);
+
             if (index == 0) {
                 histogramFile->mkdir(dir.c_str());
                 currentPath = dir;
@@ -85,7 +87,6 @@ private:
                 currentPath += "/" + dir;
             }
         }
-
     }
     void writeHistograms() {
         for (typename map::const_iterator iter = histMap.begin(); iter != histMap.end(); ++iter) {
