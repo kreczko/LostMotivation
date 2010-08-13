@@ -31,13 +31,11 @@ public:
 
     void testInitialSize() {
         ASSERT_EQUAL(0, collection.size());
-        //        ASSERT(true);
     }
 
     void testSize() {
         collection.add("test", "test", 100, 0, 100);
         ASSERT_EQUAL(1, collection.size());
-        //        ASSERT(true);
     }
 
     void testInterference() {
@@ -46,6 +44,17 @@ public:
         collection.get("test")->Fill(1);
         collectionWithPath.get("test")->Fill(1);
         ASSERT_EQUAL(1, collectionWithPath.get("test")->GetEntries());
+    }
+
+    void testWriteInterference() {
+        collection.add("test", "test", 100, 0, 100);
+        collectionWithPath.add("test", "test", 100, 0, 100);
+        collection.get("test")->Fill(1);
+        collectionWithPath.get("test")->Fill(1);
+        collection.writeToFile();
+        collectionWithPath.writeToFile();
+        ASSERT(histFile->Get("test") != 0);
+        ASSERT(histFile->Get("mc/ttbar/test") != 0);
     }
 
     void testWriteFileWithoutFolder() {
@@ -80,6 +89,7 @@ extern cute::suite make_suite_TestTHCollection() {
     s.push_back(CUTE_SMEMFUN(TestTHCollection, testInitialSize));
     s.push_back(CUTE_SMEMFUN(TestTHCollection, testSize));
     s.push_back(CUTE_SMEMFUN(TestTHCollection, testInterference));
+    s.push_back(CUTE_SMEMFUN(TestTHCollection, testWriteInterference));
     s.push_back(CUTE_SMEMFUN(TestTHCollection, testWriteFileWithoutFolder));
     s.push_back(CUTE_SMEMFUN(TestTHCollection, testWriteFileWithFolderFirstDirectory));
     s.push_back(CUTE_SMEMFUN(TestTHCollection, testWriteFileWithFolderSubDirectory));
