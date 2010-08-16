@@ -57,12 +57,10 @@ void ElectronReader::readElectrons() {
 		electron.setHcalIsolation(hcalIsolationReader.getVariableAt(index));
 		electron.setTrackerIsolation(trackerIsolationReader.getVariableAt(index));
 		electron.setSuperClusterEta(superClusterEtaReader.getVariableAt(index));
-		if (electron.isInBarrelRegion())
-			electron.setVBTF_W70_ElectronID(getVBTF_W70_ElectronID_Barrel(index));
-		else if (electron.isInEndCapRegion())
-			electron.setVBTF_W70_ElectronID(getVBTF_W70_ElectronID_Endcap(index));
-		else
-			electron.setVBTF_W70_ElectronID(false);
+		electron.setSigmaIEtaIEta(sigmaIEtaIEtaReader.getVariableAt(index));
+		electron.setDPhiIn(dPhiInReader.getVariableAt(index));
+		electron.setDEtaIn(dEtaInReader.getVariableAt(index));
+		electron.setHadOverEm(hadOverEmReader.getVariableAt(index));
 		electron.setRobustLooseID(robustLooseIDReader.getVariableAt(index) == 1);
 		electron.setRobustTightID(robustTightIDReader.getVariableAt(index) == 1);
 		electrons.push_back(electron);
@@ -91,21 +89,21 @@ void ElectronReader::initialise() {
 	hadOverEmReader.initialise();
 }
 
-bool ElectronReader::getVBTF_W70_ElectronID_Barrel(unsigned int index) {
-	bool passesSigmaIEta = sigmaIEtaIEtaReader.getVariableAt(index) < VBTF_W70::MaximalSigmaIEtaIEta_BarrelRegion;
-	bool passesDPhiIn = dPhiInReader.getVariableAt(index) < VBTF_W70::MaximalDPhiIn_BarrelRegion;
-	bool passesDEtaIn = dEtaInReader.getVariableAt(index) < VBTF_W70::MaximalDEtaIn_BarrelRegion;
-	bool passesHadOverEm = hadOverEmReader.getVariableAt(index) < VBTF_W70::MaximalHadOverEm_BarrelRegion;
-	return passesSigmaIEta && passesDPhiIn && passesDEtaIn && passesHadOverEm;
-}
-
-bool ElectronReader::getVBTF_W70_ElectronID_Endcap(unsigned int index) {
-	bool passesSigmaIEta = sigmaIEtaIEtaReader.getVariableAt(index) < VBTF_W70::MaximalSigmaIEtaIEta_EndcapRegion;
-	bool passesDPhiIn = dPhiInReader.getVariableAt(index) < VBTF_W70::MaximalDPhiIn_EndcapRegion;
-	bool passesDEtaIn = dEtaInReader.getVariableAt(index) < VBTF_W70::MaximalDEtaIn_EndcapRegion;
-	bool passesHadOverEm = hadOverEmReader.getVariableAt(index) < VBTF_W70::MaximalHadOverEm_EndcapRegion;
-	return passesSigmaIEta && passesDPhiIn && passesDEtaIn && passesHadOverEm;
-}
+//bool ElectronReader::getVBTF_W70_ElectronID_Barrel(unsigned int index) {
+//	bool passesSigmaIEta = sigmaIEtaIEtaReader.getVariableAt(index) < VBTF_W70::MaximalSigmaIEtaIEta_BarrelRegion;
+//	bool passesDPhiIn = dPhiInReader.getVariableAt(index) < VBTF_W70::MaximalDPhiIn_BarrelRegion;
+//	bool passesDEtaIn = dEtaInReader.getVariableAt(index) < VBTF_W70::MaximalDEtaIn_BarrelRegion;
+//	bool passesHadOverEm = hadOverEmReader.getVariableAt(index) < VBTF_W70::MaximalHadOverEm_BarrelRegion;
+//	return passesSigmaIEta && passesDPhiIn && passesDEtaIn && passesHadOverEm;
+//}
+//
+//bool ElectronReader::getVBTF_W70_ElectronID_Endcap(unsigned int index) {
+//	bool passesSigmaIEta = sigmaIEtaIEtaReader.getVariableAt(index) < VBTF_W70::MaximalSigmaIEtaIEta_EndcapRegion;
+//	bool passesDPhiIn = dPhiInReader.getVariableAt(index) < VBTF_W70::MaximalDPhiIn_EndcapRegion;
+//	bool passesDEtaIn = dEtaInReader.getVariableAt(index) < VBTF_W70::MaximalDEtaIn_EndcapRegion;
+//	bool passesHadOverEm = hadOverEmReader.getVariableAt(index) < VBTF_W70::MaximalHadOverEm_EndcapRegion;
+//	return passesSigmaIEta && passesDPhiIn && passesDEtaIn && passesHadOverEm;
+//}
 
 }
 

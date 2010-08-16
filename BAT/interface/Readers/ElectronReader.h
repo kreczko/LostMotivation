@@ -44,8 +44,6 @@ private:
 
 	ElectronCollection electrons;
 	void readElectrons();
-	bool getVBTF_W70_ElectronID_Barrel(unsigned int index);
-	bool getVBTF_W70_ElectronID_Endcap(unsigned int index);
 
 };
 

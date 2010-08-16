@@ -72,6 +72,11 @@ public:
 	float hcalIsolation() const;
 	float trackerIsolation() const;
 	float superClusterEta() const;
+	float sigmaIEtaIEta() const;
+	float dPhiIn() const;
+	float dEtaIn() const;
+	float HadOverEm() const;
+	bool VBTF_W70_ElectronID() const;
 	unsigned short getClosestJetID(const JetCollection& jets) const;
 
 	void setRobustLooseID(bool id);
@@ -84,6 +89,10 @@ public:
 	void setTrackerIsolation(float isolation);
 	void setNumberOfMissingInnerLayerHits(float missingHits);
 	void setUsedAlgorithm(Algorithm algo);
+	void setSigmaIEtaIEta(float sigma);
+	void setDPhiIn(float dphi);
+	void setDEtaIn(float deta);
+	void setHadOverEm(float HoverE);
 
 	float relativeIsolation() const;
 
@@ -93,10 +102,15 @@ public:
 
 private:
 	Algorithm usedAlgorithm;
-	bool robustLooseId, robustTightId, VBTF_W70_ElectronID;
+	bool robustLooseId, robustTightId, VBTF_W70_Electron_ID;
 	float superCluser_Eta;
 	float ecal_Isolation, hcal_Isolation, tracker_Isolation;
 	float innerLayerMissingHits;
+	//used for HEEP
+	float sigma_IEtaIEta, dPhi_In, dEta_In, hadOverEm;
+
+	bool getVBTF_W70_ElectronID_Barrel() const;
+	bool getVBTF_W70_ElectronID_Endcap() const;
 
 };
 
