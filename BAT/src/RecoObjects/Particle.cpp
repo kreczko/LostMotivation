@@ -11,159 +11,167 @@
 namespace BAT {
 
 Particle::Particle() :
-	particleMass(0), distanceFromInteractionPointInMicron(0.), fourvector(0., 0., 0., 0.) {
+    particleMass(0), distanceFromInteractionPointInMicron(0.), fourvector(0., 0., 0., 0.), particleCharge(0) {
 
 }
 
 Particle::Particle(const Particle& particle) :
-	particleMass(particle.mass()), distanceFromInteractionPointInMicron(particle.d0()), fourvector(
-			particle.getFourVector()) {
+    particleMass(particle.mass()), distanceFromInteractionPointInMicron(particle.d0()), fourvector(
+            particle.getFourVector()), particleCharge(0) {
 
 }
 
 Particle::Particle(float energy, float px, float py, float pz) :
-	particleMass(0), distanceFromInteractionPointInMicron(0.), fourvector(px, py, pz, energy) {
+    particleMass(0), distanceFromInteractionPointInMicron(0.), fourvector(px, py, pz, energy), particleCharge(0) {
 }
 
 Particle::~Particle() {
 }
 
 float Particle::mass() const {
-	if (particleMass == 0)
-		return massFromEnergyAndMomentum();
-	else
-		return particleMass;
+    if (particleMass == 0)
+        return massFromEnergyAndMomentum();
+    else
+        return particleMass;
 }
 
 float Particle::d0() const {
-	return distanceFromInteractionPointInMicron;
+    return distanceFromInteractionPointInMicron;
 }
 
 float Particle::energy() const {
-	return fourvector.Energy();
+    return fourvector.Energy();
 }
 
 float Particle::et() const {
-	return fourvector.Et();
+    return fourvector.Et();
 }
 
 float Particle::px() const {
-	return fourvector.Px();
+    return fourvector.Px();
 }
 
 float Particle::py() const {
-	return fourvector.Py();
+    return fourvector.Py();
 }
 
 float Particle::pz() const {
-	return fourvector.Pz();
+    return fourvector.Pz();
 }
 
 float Particle::pt() const {
-	return fourvector.Pt();
+    return fourvector.Pt();
 }
 
 float Particle::eta() const {
-	return fourvector.Eta();
+    return fourvector.Eta();
 }
 
 float Particle::massFromEnergyAndMomentum() const {
-	return fourvector.M();
+    return fourvector.M();
+}
+
+short Particle::charge() const{
+    return particleCharge;
 }
 
 void Particle::setMass(float mass) {
-	particleMass = mass;
+    particleMass = mass;
 }
 
 void Particle::setD0(float d0) {
-	distanceFromInteractionPointInMicron = d0;
+    distanceFromInteractionPointInMicron = d0;
 }
 
 const FourVector& Particle::getFourVector() const {
-	return fourvector;
+    return fourvector;
 }
 
 void Particle::setFourVector(FourVector vector) {
-	fourvector = vector;
+    fourvector = vector;
+}
+
+void Particle::setCharge(short charge){
+    particleCharge = charge;
 }
 
 Particle & Particle::operator =(const Particle &rightHandSide) {
-	if (this == &rightHandSide)
-		return *this;
-	fourvector = rightHandSide.getFourVector();
-	particleMass = rightHandSide.mass();
-	return *this;
+    if (this == &rightHandSide)
+        return *this;
+    fourvector = rightHandSide.getFourVector();
+    particleMass = rightHandSide.mass();
+    return *this;
 }
 
 const Particle Particle::operator +(const Particle &other) const {
-	Particle result = *this;
-	FourVector vector = result.getFourVector() + other.getFourVector();
-	result.setFourVector(vector);
-	result.setMass(result.massFromEnergyAndMomentum());
-	return result;
+    Particle result = *this;
+    FourVector vector = result.getFourVector() + other.getFourVector();
+    result.setFourVector(vector);
+    result.setMass(result.massFromEnergyAndMomentum());
+    return result;
 }
 
 bool Particle::isInBarrelRegion() const {
-	return fabs(eta()) < Detector::Barrel::MaximalAbsoluteEta;
+    return fabs(eta()) < Detector::Barrel::MaximalAbsoluteEta;
 }
 
 bool Particle::isInCrack() const {
-	bool passesMinimalEta = fabs(eta()) > Detector::Crack::MinimalAbsoluteEta;
-	bool passesMaximalEta = fabs(eta()) < Detector::Crack::MaximalAbsoluteEta;
-	return passesMinimalEta && passesMaximalEta;
+    bool passesMinimalEta = fabs(eta()) > Detector::Crack::MinimalAbsoluteEta;
+    bool passesMaximalEta = fabs(eta()) < Detector::Crack::MaximalAbsoluteEta;
+    return passesMinimalEta && passesMaximalEta;
 }
 
 bool Particle::isInEndCapRegion() const {
-	return fabs(eta()) > Detector::EndCap::MinimalAbsoluteEta;
+    return fabs(eta()) > Detector::EndCap::MinimalAbsoluteEta;
 }
 
 const char* Particle::getEtaRegion() const {
-	if (isInBarrelRegion())
-		return "barrel";
-	else if (isInCrack())
-		return "crack";
-	else if (isInEndCapRegion())
-		return "endcap";
-	else
-		return "unknown";
+    if (isInBarrelRegion())
+        return "barrel";
+    else if (isInCrack())
+        return "crack";
+    else if (isInEndCapRegion())
+        return "endcap";
+    else
+        return "unknown";
 }
 
 float Particle::deltaEta(const Particle& other) const {
-	return fabs(eta() - other.eta());
+    return fabs(eta() - other.eta());
 }
 
 float Particle::deltaPhi(const Particle& other) const {
-	return fourvector.DeltaPhi(other.getFourVector());
+    return fourvector.DeltaPhi(other.getFourVector());
 }
 
 float Particle::deltaR(const Particle& other) const {
-	return fourvector.DeltaR(other.getFourVector());
+    return fourvector.DeltaR(other.getFourVector());
 }
 
 bool Particle::isWithinDeltaR(float delta_R, const Particle& particle) const {
-	return deltaR(particle) < delta_R;
+    return deltaR(particle) < delta_R;
 }
 
 float Particle::invariantMass(const Particle& otherParticle) const {
-	TLorentzVector combinedParticle(fourvector + otherParticle.getFourVector());
-	return combinedParticle.M();
+    TLorentzVector combinedParticle(fourvector + otherParticle.getFourVector());
+    return combinedParticle.M();
 }
 
 float Particle::relativePtTo(const Particle& otherParticle) const {
-	float relativePt = fourvector.Perp(otherParticle.getFourVector().Vect());
-	return fabs(relativePt);
+    float relativePt = fourvector.Perp(otherParticle.getFourVector().Vect());
+    return fabs(relativePt);
 }
 
 unsigned short Particle::getClosest(const ParticleCollection& particles) const {
-	unsigned short idOfClosest = 999;
-	float closestDR = 999.;
-	for (unsigned short index = 0; index < particles.size(); ++index) {
-		float DR = deltaR(particles.at(index));
-		if (DR < closestDR) {
-			closestDR = DR;
-			idOfClosest = index;
-		}
-	}
-	return idOfClosest;
+    unsigned short idOfClosest = 999;
+    float closestDR = 999.;
+    for (unsigned short index = 0; index < particles.size(); ++index) {
+        float DR = deltaR(particles.at(index));
+        if (DR < closestDR) {
+            closestDR = DR;
+            idOfClosest = index;
+        }
+    }
+    return idOfClosest;
 }
 }

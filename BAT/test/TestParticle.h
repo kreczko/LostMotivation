@@ -41,6 +41,8 @@ public:
 
 		zParticle1 = Particle(100., 79., -13., -5.);
 		zParticle2 = Particle(100., 99., 13., 5.);
+		zParticle1.setCharge(-1);
+		zParticle2.setCharge(1);
 	}
 
 	void testAsignOperator() {
@@ -187,6 +189,10 @@ public:
 		particles.push_back(particle3);
 		ASSERT_EQUAL(1, particle1.getClosest(particles));
 	}
+
+	void testCharge(){
+	    ASSERT_EQUAL(-1, zParticle1.charge());
+	}
 };
 
 extern cute::suite make_suite_TestParticle() {
@@ -222,5 +228,6 @@ extern cute::suite make_suite_TestParticle() {
 	s.push_back(CUTE_SMEMFUN(TestParticle, testRelativePtOrthogonalParticles));
 	s.push_back(CUTE_SMEMFUN(TestParticle, testGetClosest));
 	s.push_back(CUTE_SMEMFUN(TestParticle, testGetClosest2));
+	s.push_back(CUTE_SMEMFUN(TestParticle, testCharge));
 	return s;
 }

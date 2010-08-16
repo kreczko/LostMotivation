@@ -37,8 +37,10 @@ public:
 	float eta() const;
 	float phi() const;
 	float massFromEnergyAndMomentum() const;
+	short charge() const;
 	void setMass(float mass);
 	void setD0(float d0);
+	void setCharge(short charge);
 	const FourVector& getFourVector() const;
 	void setFourVector(FourVector fourvector);
 	unsigned short getClosest(const ParticleCollection& particles) const;
@@ -58,6 +60,7 @@ protected:
 	float particleMass;
 	float distanceFromInteractionPointInMicron;
 	FourVector fourvector;
+	short particleCharge;
 };
 }
 
