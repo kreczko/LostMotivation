@@ -52,62 +52,62 @@ public:
 
 	void testTTbarType() {
 		Event currentEvent = TTbarReader->getNextEvent();
-		ASSERT_EQUAL(Event::ttbar, currentEvent.getDataType());
+		ASSERT_EQUAL(DataType::ttbar, currentEvent.getDataType());
 	}
 
 	void testQCD_EMEnriched_80_to_170Type() {
 		Event currentEvent = QCDenri3Reader->getNextEvent();
-		ASSERT_EQUAL(Event::QCD_EMEnriched_Pt80to170, currentEvent.getDataType());
+		ASSERT_EQUAL(DataType::QCD_EMEnriched_Pt80to170, currentEvent.getDataType());
 	}
 
 	void testQCD_EMEnriched_30_to_80Type() {
 		Event currentEvent = QCDenri2Reader->getNextEvent();
-		ASSERT_EQUAL(Event::QCD_EMEnriched_Pt30to80, currentEvent.getDataType());
+		ASSERT_EQUAL(DataType::QCD_EMEnriched_Pt30to80, currentEvent.getDataType());
 	}
 
 	void testQCD_EMEnriched_20_to_30Type() {
 		Event currentEvent = QCDenri1Reader->getNextEvent();
-		ASSERT_EQUAL(Event::QCD_EMEnriched_Pt20to30, currentEvent.getDataType());
+		ASSERT_EQUAL(DataType::QCD_EMEnriched_Pt20to30, currentEvent.getDataType());
 	}
 
 	void testQCD_BCtoE_80_to_170Type() {
 		Event currentEvent = QCDbce3Reader->getNextEvent();
-		ASSERT_EQUAL(Event::QCD_BCtoE_Pt80to170, currentEvent.getDataType());
+		ASSERT_EQUAL(DataType::QCD_BCtoE_Pt80to170, currentEvent.getDataType());
 	}
 
 	void testQCD_BCtoE_30_to_80Type() {
 		Event currentEvent = QCDbce2Reader->getNextEvent();
-		ASSERT_EQUAL(Event::QCD_BCtoE_Pt30to80, currentEvent.getDataType());
+		ASSERT_EQUAL(DataType::QCD_BCtoE_Pt30to80, currentEvent.getDataType());
 	}
 
 	void testQCD_BCtoE_20_to_30Type() {
 		Event currentEvent = QCDbce1Reader->getNextEvent();
-		ASSERT_EQUAL(Event::QCD_BCtoE_Pt20to30, currentEvent.getDataType());
+		ASSERT_EQUAL(DataType::QCD_BCtoE_Pt20to30, currentEvent.getDataType());
 	}
 
 	void testWjetsType() {
 		Event currentEvent = WjetsReader->getNextEvent();
-		ASSERT_EQUAL(Event::Wjets, currentEvent.getDataType());
+		ASSERT_EQUAL(DataType::Wjets, currentEvent.getDataType());
 	}
 
 	void testZjetsType() {
 		Event currentEvent = ZJetsReader->getNextEvent();
-		ASSERT_EQUAL(Event::Zjets, currentEvent.getDataType());
+		ASSERT_EQUAL(DataType::Zjets, currentEvent.getDataType());
 	}
 
 	void testTWType() {
 		Event currentEvent = TWReader->getNextEvent();
-		ASSERT_EQUAL(Event::singleTop_And_W, currentEvent.getDataType());
+		ASSERT_EQUAL(DataType::singleTop_And_W, currentEvent.getDataType());
 	}
 
 	void testTChanType() {
 		Event currentEvent = TChanReader->getNextEvent();
-		ASSERT_EQUAL(Event::singleTopTChannel, currentEvent.getDataType());
+		ASSERT_EQUAL(DataType::singleTopTChannel, currentEvent.getDataType());
 	}
 
 	void testDataType() {
 		Event currentEvent = DataReader->getNextEvent();
-		ASSERT_EQUAL(Event::DATA, currentEvent.getDataType());
+		ASSERT_EQUAL(DataType::DATA, currentEvent.getDataType());
 	}
 
 	void testReadDataType() {
