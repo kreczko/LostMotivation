@@ -67,6 +67,7 @@ public:
     virtual ~Electron();
     bool isGood() const;
     bool isIsolated() const;
+    bool isHEEPIsolated() const;
     bool isFromConversion() const;
     bool isLoose() const;
     bool isEcalDriven() const;
@@ -80,6 +81,7 @@ public:
     float dPhiIn() const;
     float dEtaIn() const;
     float HadOverEm() const;
+    float HEEPet() const;
     bool VBTF_W70_ElectronID() const;
     bool RobustLooseID() const;
     bool RobustTightID() const;

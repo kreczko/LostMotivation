@@ -79,6 +79,17 @@ bool Electron::isIsolated() const {
     return this->relativeIsolation() < Electron::isolatedElectronMaximalRelativeIsolation;
 }
 
+bool Electron::isHEEPIsolated() const{
+    if(isInBarrelRegion())
+        return (ecal_Isolation + hcal_Isolation) < 2+0.03*et();
+    else if(isInEndCapRegion() && et() < 50)
+        return (ecal_Isolation + hcal_Isolation) < 2.5;
+    else if(isInEndCapRegion() && et >= 50)
+        return (ecal_Isolation + hcal_Isolation) < 2.5+0.03*(et()-50);
+    else
+        return false;
+}
+
 Electron::Algorithm Electron::getUsedAlgorithm() const {
     return usedAlgorithm;
 }
@@ -189,6 +200,9 @@ float Electron::HadOverEm() const {
     return hadOverEm;
 }
 
+float Electron::HEEPet() const{
+    return energy()*sin(fourvector.Theta());
+}
 bool Electron::isEcalDriven() const {
     return ecalDriven;
 }
