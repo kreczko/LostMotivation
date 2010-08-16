@@ -13,7 +13,7 @@ private:
 	boost::shared_ptr<TChain> input;
 	boost::scoped_ptr<JetReader> reader, PFreader;
 	JetCollection jets, pfjets;
-	Jet firstJet, firstPFJet;
+	JetPointer firstJet, firstPFJet;
 
 public:
 	TestJetReader() :
@@ -35,19 +35,19 @@ public:
 	}
 
 	void testReadFirstJetEnergy() {
-		ASSERT_EQUAL_DELTA(210.836, firstJet.energy(), 0.001);
+		ASSERT_EQUAL_DELTA(210.836, firstJet->energy(), 0.001);
 	}
 
 	void testReadFirstJetEMF() {
-		ASSERT_EQUAL_DELTA(0.436829, firstJet.emf(), 0.00001);
+		ASSERT_EQUAL_DELTA(0.436829, firstJet->emf(), 0.00001);
 	}
 
 	void testReadFirstJetn90Hits() {
-		ASSERT_EQUAL_DELTA(136, firstJet.n90Hits(), 0.1);
+		ASSERT_EQUAL_DELTA(136, firstJet->n90Hits(), 0.1);
 	}
 
 	void testReadFirstJetfHPD() {
-		ASSERT_EQUAL_DELTA(0.378509, firstJet.fHPD(), 0.00001);
+		ASSERT_EQUAL_DELTA(0.378509, firstJet->fHPD(), 0.00001);
 	}
 
 	void testReadPFJetsSize() {
@@ -55,27 +55,27 @@ public:
 	}
 
 	void testReadFirstPFJetEnergy() {
-		ASSERT_EQUAL_DELTA(197.366, firstPFJet.energy(), 0.001);
+		ASSERT_EQUAL_DELTA(197.366, firstPFJet->energy(), 0.001);
 	}
 
 	void testReadFirstPFJetEMF() {
-		ASSERT_EQUAL_DELTA(0, firstPFJet.emf(), 0.00001);
+		ASSERT_EQUAL_DELTA(0, firstPFJet->emf(), 0.00001);
 	}
 
 	void testReadFirstPFJetn90Hits() {
-		ASSERT_EQUAL_DELTA(0, firstPFJet.n90Hits(), 0.1);
+		ASSERT_EQUAL_DELTA(0, firstPFJet->n90Hits(), 0.1);
 	}
 
 	void testReadFirstPFJetfHPD() {
-		ASSERT_EQUAL_DELTA(0, firstPFJet.fHPD(), 0.00001);
+		ASSERT_EQUAL_DELTA(0, firstPFJet->fHPD(), 0.00001);
 	}
 
 	void testUsedAlgorithmDefault(){
-		ASSERT_EQUAL(Jet::Calo_AntiKT_Cone05, firstJet.getUsedAlgorithm());
+		ASSERT_EQUAL(Jet::Calo_AntiKT_Cone05, firstJet->getUsedAlgorithm());
 	}
 
 	void testUsedAlgorithmPFJet(){
-		ASSERT_EQUAL(Jet::ParticleFlow, firstPFJet.getUsedAlgorithm());
+		ASSERT_EQUAL(Jet::ParticleFlow, firstPFJet->getUsedAlgorithm());
 	}
 };
 extern cute::suite make_suite_TestJetReader() {

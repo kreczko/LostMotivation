@@ -31,15 +31,26 @@ float Electron::MaximalNumberOfMissingInnerLayerHitsBeforeCalledConversion = 500
 float Electron::isolatedElectronMaximalRelativeIsolation = 2;
 
 Electron::Electron() :
-    Particle(), usedAlgorithm(Electron::Calo), robustLooseId(false), robustTightId(false), VBTF_W70_Electron_ID(false),
-            superCluser_Eta(0.), ecal_Isolation(0.), hcal_Isolation(0.), tracker_Isolation(0.), innerLayerMissingHits(
-                    0.), sigma_IEtaIEta(0), dPhi_In(0), dEta_In(0), hadOverEm(0) {
+    Particle(), usedAlgorithm(Electron::Calo), robustLooseId(false), robustTightId(false), superCluser_Eta(0.),
+            ecal_Isolation(0.), hcal_Isolation(0.), tracker_Isolation(0.), innerLayerMissingHits(0.),
+            sigma_IEtaIEta(0), dPhi_In(0), dEta_In(0), hadOverEm(0), ecalDriven(false), trackerDriven(false) {
+}
+
+Electron::Electron(const Electron& other) :
+    Particle((Particle) other), usedAlgorithm(other.getUsedAlgorithm()), robustLooseId(other.RobustLooseID()), robustTightId(
+            other.RobustLooseID()), superCluser_Eta(other.superClusterEta()), ecal_Isolation(other.ecalIsolation()),
+            hcal_Isolation(other.hcalIsolation()), tracker_Isolation(other.trackerIsolation()), innerLayerMissingHits(
+                    other.innerLayerMissingHits), sigma_IEtaIEta(other.sigma_IEtaIEta), dPhi_In(other.dPhi_In),
+            dEta_In(other.dEta_In), hadOverEm(other.hadOverEm), ecalDriven(other.ecalDriven), trackerDriven(
+                    other.trackerDriven) {
+
 }
 
 Electron::Electron(float energy, float px, float py, float pz) :
     Particle(energy, px, py, pz), usedAlgorithm(Electron::Calo), robustLooseId(false), robustTightId(false),
-            VBTF_W70_Electron_ID(false), superCluser_Eta(0.), ecal_Isolation(0.), hcal_Isolation(0.),
-            tracker_Isolation(0.), innerLayerMissingHits(0.), sigma_IEtaIEta(0), dPhi_In(0), dEta_In(0), hadOverEm(0) {
+            superCluser_Eta(0.), ecal_Isolation(0.), hcal_Isolation(0.), tracker_Isolation(0.), innerLayerMissingHits(
+                    0.), sigma_IEtaIEta(0), dPhi_In(0), dEta_In(0), hadOverEm(0), ecalDriven(false), trackerDriven(
+                    false) {
 }
 
 Electron::~Electron() {
@@ -68,6 +79,10 @@ bool Electron::isIsolated() const {
     return this->relativeIsolation() < Electron::isolatedElectronMaximalRelativeIsolation;
 }
 
+Electron::Algorithm Electron::getUsedAlgorithm() const {
+    return usedAlgorithm;
+}
+
 void Electron::setEcalIsolation(float isolation) {
     ecal_Isolation = isolation;
 }
@@ -92,24 +107,28 @@ void Electron::setRobustTightID(bool id) {
     robustTightId = id;
 }
 
-void Electron::setVBTF_W70_ElectronID(bool id) {
-    VBTF_W70_Electron_ID = id;
-}
-
-void Electron::setSigmaIEtaIEta(float sigma){
+void Electron::setSigmaIEtaIEta(float sigma) {
     sigma_IEtaIEta = sigma;
 }
 
-void Electron::setDPhiIn(float dphi){
+void Electron::setDPhiIn(float dphi) {
     dPhi_In = dphi;
 }
 
-void Electron::setDEtaIn(float deta){
+void Electron::setDEtaIn(float deta) {
     dEta_In = deta;
 }
 
-void Electron::setHadOverEm(float HoverE){
+void Electron::setHadOverEm(float HoverE) {
     hadOverEm = HoverE;
+}
+
+void Electron::setIsEcalDriven(bool eDriven) {
+    ecalDriven = eDriven;
+}
+
+void Electron::setIsTrackerDriven(bool tDriven) {
+    trackerDriven = tDriven;
 }
 
 bool Electron::isLoose() const {
@@ -123,7 +142,7 @@ bool Electron::isGood() const {
     bool passesEt = et() > Electron::goodElectronMinimalEt;
     bool passesEta = fabs(superClusterEta()) < goodElectronMaximalAbsoluteEta && !isInCrack();
     bool passesD0 = fabs(d0()) < goodElectronMaximalDistanceFromInteractionPoint;
-    bool passesID = VBTF_W70_Electron_ID;
+    bool passesID = VBTF_W70_ElectronID();
     return passesEt && passesEta && passesD0 && passesID;
 }
 
@@ -146,28 +165,44 @@ bool Electron::isFromConversion() const {
 }
 
 bool Electron::VBTF_W70_ElectronID() const {
-    bool id = false;
     if (isInBarrelRegion())
-        id = getVBTF_W70_ElectronID_Barrel();
+        return getVBTF_W70_ElectronID_Barrel();
     else if (isInEndCapRegion())
-        id = getVBTF_W70_ElectronID_Endcap();
-    return id;
+        return getVBTF_W70_ElectronID_Endcap();
+    else
+        return false;
 }
 
-float Electron::sigmaIEtaIEta() const{
+float Electron::sigmaIEtaIEta() const {
     return sigma_IEtaIEta;
 }
 
-float Electron::dPhiIn() const{
+float Electron::dPhiIn() const {
     return dPhi_In;
 }
 
-float Electron::dEtaIn() const{
+float Electron::dEtaIn() const {
     return dEta_In;
 }
 
-float Electron::HadOverEm() const{
+float Electron::HadOverEm() const {
     return hadOverEm;
+}
+
+bool Electron::isEcalDriven() const {
+    return ecalDriven;
+}
+
+bool Electron::isTrackerDriven() const {
+    return trackerDriven;
+}
+
+bool Electron::RobustLooseID() const {
+    return robustLooseId;
+}
+
+bool Electron::RobustTightID() const {
+    return robustTightId;
 }
 
 void Electron::setNumberOfMissingInnerLayerHits(float missingHits) {

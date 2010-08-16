@@ -12,6 +12,7 @@
 #include <string>
 #include <boost/static_assert.hpp>
 #include <boost/array.hpp>
+#include <boost/shared_ptr.hpp>
 #include "Jet.h"
 
 namespace BAT {
@@ -20,101 +21,110 @@ namespace BAT {
 
 class Electron: public Particle {
 public:
-	enum Algorithm {
-		Calo, ParticleFlow, NUMBER_OF_ELECTRONALGORITHMS
-	};
+    enum Algorithm {
+        Calo, ParticleFlow, NUMBER_OF_ELECTRONALGORITHMS
+    };
 
-	enum ElectronID {
-		loose, tight, robustLoose, robustTight, VBTF_W70, HEEP, NUMBER_OF_ELECTRONIDS
-	};
-	static const boost::array<std::string, NUMBER_OF_ELECTRONIDS> ElectronIDNames;
-	static float goodElectronMinimalEt;
-	static float goodElectronMaximalAbsoluteEta;
-	static float goodElectronMaximalDistanceFromInteractionPoint;
+    enum ElectronID {
+        loose, tight, robustLoose, robustTight, VBTF_W70, HEEP, NUMBER_OF_ELECTRONIDS
+    };
+    static const boost::array<std::string, NUMBER_OF_ELECTRONIDS> ElectronIDNames;
+    static float goodElectronMinimalEt;
+    static float goodElectronMaximalAbsoluteEta;
+    static float goodElectronMaximalDistanceFromInteractionPoint;
 
-	static float looseElectronMinimalEt;
-	static float looseElectronMaximalAbsoluteEta;
+    static float looseElectronMinimalEt;
+    static float looseElectronMaximalAbsoluteEta;
 
-	static float MaximalNumberOfMissingInnerLayerHitsBeforeCalledConversion;
+    static float MaximalNumberOfMissingInnerLayerHitsBeforeCalledConversion;
 
-	static ElectronID goodElectronID;
+    static ElectronID goodElectronID;
 
-	static float isolatedElectronMaximalRelativeIsolation;
-	static float looseIsolatedElectronMaximalRelativeIsolation;
+    static float isolatedElectronMaximalRelativeIsolation;
+    static float looseIsolatedElectronMaximalRelativeIsolation;
 
-	static std::string getElectronIDAsString(ElectronID id) {
-		return Electron::ElectronIDNames.at(id);
-	}
+    static std::string getElectronIDAsString(ElectronID id) {
+        return Electron::ElectronIDNames.at(id);
+    }
 
-	static void resetSelectionValues() {
-		Electron::goodElectronMinimalEt = 0;
-		Electron::goodElectronMaximalAbsoluteEta = 5;
-		Electron::goodElectronMaximalDistanceFromInteractionPoint = 5000;
+    static void resetSelectionValues() {
+        Electron::goodElectronMinimalEt = 0;
+        Electron::goodElectronMaximalAbsoluteEta = 5;
+        Electron::goodElectronMaximalDistanceFromInteractionPoint = 5000;
 
-		Electron::looseElectronMinimalEt = 0;
-		Electron::looseElectronMaximalAbsoluteEta = 5;
-		Electron::looseIsolatedElectronMaximalRelativeIsolation = 5000;
+        Electron::looseElectronMinimalEt = 0;
+        Electron::looseElectronMaximalAbsoluteEta = 5;
+        Electron::looseIsolatedElectronMaximalRelativeIsolation = 5000;
 
-		Electron::MaximalNumberOfMissingInnerLayerHitsBeforeCalledConversion = 500;
+        Electron::MaximalNumberOfMissingInnerLayerHitsBeforeCalledConversion = 500;
 
-		Electron::isolatedElectronMaximalRelativeIsolation = 2;
-	}
+        Electron::isolatedElectronMaximalRelativeIsolation = 2;
+    }
 
-	Electron();
-	Electron(float energy, float px, float py, float pz);
-	virtual ~Electron();
-	bool isGood() const;
-	bool isIsolated() const;
-	bool isFromConversion() const;
-	bool isLoose() const;
+    Electron();
+    Electron(const Electron& other);
+    Electron(float energy, float px, float py, float pz);
+    virtual ~Electron();
+    bool isGood() const;
+    bool isIsolated() const;
+    bool isFromConversion() const;
+    bool isLoose() const;
+    bool isEcalDriven() const;
+    bool isTrackerDriven() const;
 
-	float ecalIsolation() const;
-	float hcalIsolation() const;
-	float trackerIsolation() const;
-	float superClusterEta() const;
-	float sigmaIEtaIEta() const;
-	float dPhiIn() const;
-	float dEtaIn() const;
-	float HadOverEm() const;
-	bool VBTF_W70_ElectronID() const;
-	unsigned short getClosestJetID(const JetCollection& jets) const;
+    float ecalIsolation() const;
+    float hcalIsolation() const;
+    float trackerIsolation() const;
+    float superClusterEta() const;
+    float sigmaIEtaIEta() const;
+    float dPhiIn() const;
+    float dEtaIn() const;
+    float HadOverEm() const;
+    bool VBTF_W70_ElectronID() const;
+    bool RobustLooseID() const;
+    bool RobustTightID() const;
+    unsigned short getClosestJetID(const JetCollection& jets) const;
+    Algorithm getUsedAlgorithm() const;
 
-	void setRobustLooseID(bool id);
-	void setRobustTightID(bool id);
-	void setVBTF_W70_ElectronID(bool id);
+    void setRobustLooseID(bool id);
+    void setRobustTightID(bool id);
 
-	void setSuperClusterEta(float eta);
-	void setEcalIsolation(float isolation);
-	void setHcalIsolation(float isolation);
-	void setTrackerIsolation(float isolation);
-	void setNumberOfMissingInnerLayerHits(float missingHits);
-	void setUsedAlgorithm(Algorithm algo);
-	void setSigmaIEtaIEta(float sigma);
-	void setDPhiIn(float dphi);
-	void setDEtaIn(float deta);
-	void setHadOverEm(float HoverE);
+    void setSuperClusterEta(float eta);
+    void setEcalIsolation(float isolation);
+    void setHcalIsolation(float isolation);
+    void setTrackerIsolation(float isolation);
+    void setNumberOfMissingInnerLayerHits(float missingHits);
+    void setUsedAlgorithm(Algorithm algo);
+    void setSigmaIEtaIEta(float sigma);
+    void setDPhiIn(float dphi);
+    void setDEtaIn(float deta);
+    void setHadOverEm(float HoverE);
+    void setIsEcalDriven(bool eDriven);
+    void setIsTrackerDriven(bool tDriven);
 
-	float relativeIsolation() const;
+    float relativeIsolation() const;
 
-	bool isInBarrelRegion() const;
-	bool isInCrack() const;
-	bool isInEndCapRegion() const;
+    bool isInBarrelRegion() const;
+    bool isInCrack() const;
+    bool isInEndCapRegion() const;
 
 private:
-	Algorithm usedAlgorithm;
-	bool robustLooseId, robustTightId, VBTF_W70_Electron_ID;
-	float superCluser_Eta;
-	float ecal_Isolation, hcal_Isolation, tracker_Isolation;
-	float innerLayerMissingHits;
-	//used for HEEP
-	float sigma_IEtaIEta, dPhi_In, dEta_In, hadOverEm;
+    Algorithm usedAlgorithm;
+    bool robustLooseId, robustTightId;
+    float superCluser_Eta;
+    float ecal_Isolation, hcal_Isolation, tracker_Isolation;
+    float innerLayerMissingHits;
+    //used for HEEP
+    float sigma_IEtaIEta, dPhi_In, dEta_In, hadOverEm;
+    bool ecalDriven, trackerDriven;
 
-	bool getVBTF_W70_ElectronID_Barrel() const;
-	bool getVBTF_W70_ElectronID_Endcap() const;
+    bool getVBTF_W70_ElectronID_Barrel() const;
+    bool getVBTF_W70_ElectronID_Endcap() const;
 
 };
 
-typedef std::vector<Electron> ElectronCollection;
+typedef boost::shared_ptr<Electron> ElectronPointer;
+typedef std::vector<ElectronPointer> ElectronCollection;
 
 }
 

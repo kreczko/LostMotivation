@@ -58,7 +58,6 @@ private:
         goodElectron.setHcalIsolation(0.5);
         goodElectron.setEcalIsolation(0.3);
         goodElectron.setTrackerIsolation(0.4);
-        goodElectron.setVBTF_W70_ElectronID(true);
 
         ASSERT(fabs(goodElectron.eta()) < Electron::goodElectronMaximalAbsoluteEta);
         ASSERT(fabs(goodElectron.d0()) < Electron::goodElectronMaximalDistanceFromInteractionPoint);
@@ -67,7 +66,6 @@ private:
 
     void setBadEtElectron() {
         badEtElectron.setD0(100.);
-        badEtElectron.setVBTF_W70_ElectronID(true);
         ASSERT(fabs(badEtElectron.eta()) < Electron::goodElectronMaximalAbsoluteEta);
         ASSERT(fabs(badEtElectron.d0()) < Electron::goodElectronMaximalDistanceFromInteractionPoint);
         //and fails the selected
@@ -76,7 +74,6 @@ private:
 
     void setBadEtaElectron() {
         badEtaElectron.setSuperClusterEta(2.6);
-        badEtaElectron.setVBTF_W70_ElectronID(true);
         //make sure it passes all other requirements
         ASSERT(badEtaElectron.et() > Electron::goodElectronMinimalEt);
         ASSERT(fabs(badEtaElectron.d0()) < Electron::goodElectronMaximalDistanceFromInteractionPoint);
@@ -86,7 +83,6 @@ private:
 
     void setBadD0Electron() {
         badD0Electron.setD0(300.);
-        badD0Electron.setVBTF_W70_ElectronID(true);
         //make sure it passes all other requirements
         ASSERT(badD0Electron.et() > Electron::goodElectronMinimalEt);
         ASSERT(fabs(badD0Electron.eta()) < Electron::goodElectronMaximalAbsoluteEta);
@@ -95,7 +91,6 @@ private:
     }
 
     void setBadInCrackElectron() {
-        badInCrackElectron.setVBTF_W70_ElectronID(true);
         badInCrackElectron.setSuperClusterEta(1.5);
         //make sure it passes all other requirements
         ASSERT(badInCrackElectron.et() > Electron::goodElectronMinimalEt);
@@ -108,7 +103,6 @@ private:
     void setElectronFromConversion() {
         badElectronFromConversion = Electron(400., 50., 50., 380);
         badElectronFromConversion.setNumberOfMissingInnerLayerHits(1);
-        badElectronFromConversion.setVBTF_W70_ElectronID(true);
     }
 
     void setLooseElectron() {
@@ -128,6 +122,7 @@ private:
         badElectronNoID.setHcalIsolation(0.5);
         badElectronNoID.setEcalIsolation(0.3);
         badElectronNoID.setTrackerIsolation(0.4);
+        badElectronNoID.setSigmaIEtaIEta(VBTF_W70::MaximalDEtaIn_BarrelRegion + 2);
     }
 
 public:
@@ -205,6 +200,36 @@ public:
         ASSERT_EQUAL(true, electron.VBTF_W70_ElectronID());
     }
 
+    void testElectronCharge() {
+        Electron electron = Electron(50, 3, 0, 40);
+        electron.setCharge(2);
+        ASSERT_EQUAL(2, electron.charge());
+    }
+
+    void testElectronChargeInCopy() {
+        Electron electron = Electron(50, 3, 0, 40);
+        electron.setCharge(2);
+        Electron copyElectron(electron);
+        ASSERT_EQUAL(2, copyElectron.charge());
+    }
+
+    void testElectronInCollection() {
+        ElectronCollection coll;
+        ElectronPointer electron(new Electron(50, 3, 0, 40));
+        ElectronPointer electron2(new Electron(50, 3, 0, 40));
+        electron->setCharge(2);
+        electron2->setCharge(2);
+        coll.push_back(electron);
+        coll.push_back(electron2);
+        ASSERT_EQUAL(2, coll.front()->charge());
+    }
+
+    void testElectronSetMass(){
+        Electron electron = Electron(50, 3, 0, 40);
+        electron.setMass(500);
+        ASSERT_EQUAL(500, electron.mass());
+    }
+
 };
 extern cute::suite make_suite_TestElectron() {
     cute::suite s;
@@ -223,5 +248,9 @@ extern cute::suite make_suite_TestElectron() {
     s.push_back(CUTE_SMEMFUN(TestElectron, testBadElectronNoID));
     s.push_back(CUTE_SMEMFUN(TestElectron, testVBTFW70Barrel));
     s.push_back(CUTE_SMEMFUN(TestElectron, testVBTFW70Endcap));
+    s.push_back(CUTE_SMEMFUN(TestElectron, testElectronCharge));
+    s.push_back(CUTE_SMEMFUN(TestElectron, testElectronChargeInCopy));
+    s.push_back(CUTE_SMEMFUN(TestElectron, testElectronInCollection));
+    s.push_back(CUTE_SMEMFUN(TestElectron, testElectronSetMass));
     return s;
 }

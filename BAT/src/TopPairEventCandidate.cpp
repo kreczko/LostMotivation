@@ -35,7 +35,7 @@ bool TopPairEventCandidate::hasOnlyOneGoodIsolatedElectron() const {
 
 bool TopPairEventCandidate::isolatedElectronDoesNotComeFromConversion() const {
     if (goodIsolatedElectrons.size() > 0)
-        return goodIsolatedElectrons.front().isFromConversion() == false;
+        return goodIsolatedElectrons.front()->isFromConversion() == false;
     else
         return false;
 }
@@ -63,9 +63,9 @@ bool TopPairEventCandidate::hasAtLeastFourGoodJets() const {
 bool TopPairEventCandidate::isNotAZBosonEvent() const {
     float invariantMass = 0;
     if (goodIsolatedElectrons.size() == 2)
-        invariantMass = goodIsolatedElectrons.at(0).invariantMass(goodIsolatedElectrons.at(1));
+        invariantMass = goodIsolatedElectrons.at(0)->invariantMass(goodIsolatedElectrons.at(1));
     else if (goodIsolatedElectrons.size() == 1 && looseElectrons.size() > 0)
-        invariantMass = goodIsolatedElectrons.front().invariantMass(looseElectrons.front());
+        invariantMass = goodIsolatedElectrons.front()->invariantMass(looseElectrons.front());
 
     bool passesLowerLimit = invariantMass >= 76;
     bool passesUpperLimit = invariantMass <= 106;

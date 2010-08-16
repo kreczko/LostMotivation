@@ -27,6 +27,7 @@ private:
 	VariableReader<MultiFloatPointer> pxReader;
 	VariableReader<MultiFloatPointer> pyReader;
 	VariableReader<MultiFloatPointer> pzReader;
+	VariableReader<MultiFloatPointer> chargeReader;
 	VariableReader<MultiFloatPointer> superClusterEtaReader;
 	VariableReader<MultiFloatPointer> d0Reader;
 	VariableReader<MultiFloatPointer> numberOfInnerLayerMissingHitsReader;
@@ -41,6 +42,9 @@ private:
 	VariableReader<MultiFloatPointer> dPhiInReader;
 	VariableReader<MultiFloatPointer> dEtaInReader;
 	VariableReader<MultiFloatPointer> hadOverEmReader;
+
+	VariableReader<MultiFloatPointer> isEcalDrivenReader;
+	VariableReader<MultiFloatPointer> isTrackerDrivenReader;
 
 	ElectronCollection electrons;
 	void readElectrons();

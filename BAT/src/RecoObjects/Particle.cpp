@@ -11,18 +11,18 @@
 namespace BAT {
 
 Particle::Particle() :
-    particleMass(0), distanceFromInteractionPointInMicron(0.), fourvector(0., 0., 0., 0.), particleCharge(0) {
+    particleMass(0), particleCharge(0), distanceFromInteractionPointInMicron(0.), fourvector(0., 0., 0., 0.) {
 
 }
 
 Particle::Particle(const Particle& particle) :
-    particleMass(particle.mass()), distanceFromInteractionPointInMicron(particle.d0()), fourvector(
-            particle.getFourVector()), particleCharge(0) {
+    particleMass(particle.mass()), particleCharge(particle.charge()), distanceFromInteractionPointInMicron(particle.d0()), fourvector(
+            particle.getFourVector()) {
 
 }
 
 Particle::Particle(float energy, float px, float py, float pz) :
-    particleMass(0), distanceFromInteractionPointInMicron(0.), fourvector(px, py, pz, energy), particleCharge(0) {
+    particleMass(0), particleCharge(0), distanceFromInteractionPointInMicron(0.), fourvector(px, py, pz, energy) {
 }
 
 Particle::~Particle() {
@@ -71,7 +71,7 @@ float Particle::massFromEnergyAndMomentum() const {
     return fourvector.M();
 }
 
-short Particle::charge() const{
+float Particle::charge() const {
     return particleCharge;
 }
 
@@ -91,7 +91,7 @@ void Particle::setFourVector(FourVector vector) {
     fourvector = vector;
 }
 
-void Particle::setCharge(short charge){
+void Particle::setCharge(float charge) {
     particleCharge = charge;
 }
 
@@ -136,29 +136,29 @@ const char* Particle::getEtaRegion() const {
         return "unknown";
 }
 
-float Particle::deltaEta(const Particle& other) const {
-    return fabs(eta() - other.eta());
+float Particle::deltaEta(const ParticlePointer other) const {
+    return fabs(eta() - other->eta());
 }
 
-float Particle::deltaPhi(const Particle& other) const {
-    return fourvector.DeltaPhi(other.getFourVector());
+float Particle::deltaPhi(const ParticlePointer other) const {
+    return fourvector.DeltaPhi(other->getFourVector());
 }
 
-float Particle::deltaR(const Particle& other) const {
-    return fourvector.DeltaR(other.getFourVector());
+float Particle::deltaR(const ParticlePointer other) const {
+    return fourvector.DeltaR(other->getFourVector());
 }
 
-bool Particle::isWithinDeltaR(float delta_R, const Particle& particle) const {
+bool Particle::isWithinDeltaR(float delta_R, const ParticlePointer particle) const {
     return deltaR(particle) < delta_R;
 }
 
-float Particle::invariantMass(const Particle& otherParticle) const {
-    TLorentzVector combinedParticle(fourvector + otherParticle.getFourVector());
+float Particle::invariantMass(const ParticlePointer otherParticle) const {
+    TLorentzVector combinedParticle(fourvector + otherParticle->getFourVector());
     return combinedParticle.M();
 }
 
-float Particle::relativePtTo(const Particle& otherParticle) const {
-    float relativePt = fourvector.Perp(otherParticle.getFourVector().Vect());
+float Particle::relativePtTo(const ParticlePointer otherParticle) const {
+    float relativePt = fourvector.Perp(otherParticle->getFourVector().Vect());
     return fabs(relativePt);
 }
 

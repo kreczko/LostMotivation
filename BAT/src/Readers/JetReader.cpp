@@ -52,16 +52,16 @@ void JetReader::readJets() {
         float px = pxReader.getVariableAt(jetIndex);
         float py = pyReader.getVariableAt(jetIndex);
         float pz = pzReader.getVariableAt(jetIndex);
-        Jet jet(energy, px, py, pz);
-        jet.setUsedAlgorithm(usedAlgorithm);
-        jet.setEMF(emfReader.getVariableAt(jetIndex));
-        jet.setN90Hits(n90HitsReader.getVariableAt(jetIndex));
-        jet.setFHPD(fHPDReader.getVariableAt(jetIndex));
-        jet.setDiscriminatorForBtagType(btagSimpleSecondaryVertexReader.getVariableAt(jetIndex),
+        JetPointer jet(new Jet(energy, px, py, pz));
+        jet->setUsedAlgorithm(usedAlgorithm);
+        jet->setEMF(emfReader.getVariableAt(jetIndex));
+        jet->setN90Hits(n90HitsReader.getVariableAt(jetIndex));
+        jet->setFHPD(fHPDReader.getVariableAt(jetIndex));
+        jet->setDiscriminatorForBtagType(btagSimpleSecondaryVertexReader.getVariableAt(jetIndex),
                 BJetTagger::SimpleSecondaryVertex);
-        jet.setDiscriminatorForBtagType(btagTrackCountingHighPurityReader.getVariableAt(jetIndex),
+        jet->setDiscriminatorForBtagType(btagTrackCountingHighPurityReader.getVariableAt(jetIndex),
                 BJetTagger::TrackCountingHighPurity);
-        jet.setDiscriminatorForBtagType(btagTrackCountingHighEfficiencyReader.getVariableAt(jetIndex),
+        jet->setDiscriminatorForBtagType(btagTrackCountingHighEfficiencyReader.getVariableAt(jetIndex),
                 BJetTagger::TrackCountingHighEfficiency);
         jets.push_back(jet);
     }

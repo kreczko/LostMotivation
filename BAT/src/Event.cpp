@@ -44,14 +44,14 @@ void Event::selectElectronsByQuality() {
     goodElectrons.clear();
     goodIsolatedElectrons.clear();
     for (unsigned int index = 0; index < allElectrons.size(); ++index) {
-        Electron electron = allElectrons.at(index);
+        ElectronPointer electron = allElectrons.at(index);
 
-        if (electron.isGood())
+        if (electron->isGood())
             goodElectrons.push_back(electron);
 
-        if (electron.isGood() && electron.isIsolated())
+        if (electron->isGood() && electron->isIsolated())
             goodIsolatedElectrons.push_back(electron);
-        if (electron.isGood() == false && electron.isLoose())
+        if (electron->isGood() == false && electron->isLoose())
             looseElectrons.push_back(electron);
     }
 }
@@ -65,7 +65,7 @@ void Event::setJets(JetCollection jets) {
 void Event::selectGoodJets() {
     goodJets.clear();
     for (unsigned int index = 0; index < allJets.size(); ++index) {
-        if (allJets.at(index).isGood())
+        if (allJets.at(index)->isGood())
             goodJets.push_back(allJets.at(index));
     }
     cleanGoodJets();
@@ -82,7 +82,7 @@ void Event::cleanGoodJetsAgainstIsolatedElectrons() {
     unsigned int initialGoodJets = goodJets.size();
     for (unsigned int jetIndex = 0; jetIndex < goodJets.size(); ++jetIndex) {
         for (unsigned int electronIndex = 0; electronIndex < goodIsolatedElectrons.size(); ++electronIndex) {
-            if (goodJets.at(jetIndex).isWithinDeltaR(0.3, goodIsolatedElectrons.at(electronIndex))) {
+            if (goodJets.at(jetIndex)->isWithinDeltaR(0.3, goodIsolatedElectrons.at(electronIndex))) {
                 goodJets.erase(goodJets.begin() + jetIndex);
                 --jetIndex;
                 break;
@@ -94,10 +94,10 @@ void Event::cleanGoodJetsAgainstIsolatedElectrons() {
 
 void Event::cleanGoodJetsAgainstMostIsolatedElectron() {
     if (allElectrons.size() > 0) {
-        const Electron mostIsolatedElectron = getMostIsolatedElectron();
+        const ElectronPointer mostIsolatedElectron = getMostIsolatedElectron();
         unsigned int initialGoodJets = goodJets.size();
         for (unsigned int jetIndex = 0; jetIndex < goodJets.size(); ++jetIndex) {
-            if (goodJets.at(jetIndex).isWithinDeltaR(0.3, mostIsolatedElectron)) {
+            if (goodJets.at(jetIndex)->isWithinDeltaR(0.3, mostIsolatedElectron)) {
                 goodJets.erase(goodJets.begin() + jetIndex);
             }
         }
@@ -105,12 +105,12 @@ void Event::cleanGoodJetsAgainstMostIsolatedElectron() {
     }
 }
 
-const Electron& Event::getMostIsolatedElectron() const {
+const ElectronPointer Event::getMostIsolatedElectron() const {
     float bestIsolation = 999999999;
     unsigned int bestIsolatedElectron = 990;
     for (unsigned int index = 0; index < allElectrons.size(); ++index) {
-        if (allElectrons.at(index).relativeIsolation() < bestIsolation) {
-            bestIsolation = allElectrons.at(index).relativeIsolation();
+        if (allElectrons.at(index)->relativeIsolation() < bestIsolation) {
+            bestIsolation = allElectrons.at(index)->relativeIsolation();
             bestIsolatedElectron = index;
         }
     }

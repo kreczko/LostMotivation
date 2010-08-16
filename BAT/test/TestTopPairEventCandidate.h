@@ -15,14 +15,11 @@ struct TestTopPairEventCandidate {
     TopPairEventCandidate emptyEvent;
     boost::scoped_ptr<Filter> eventFilter;
 
-    Electron goodIsolatedElectron, goodIsolatedElectron2;
-    Electron goodLooseElectron;
-    Electron badElectron;
-    Electron electronFromConversion;
-    Jet goodJet;
-    Jet goodBJet;
-    Jet badJet;
-    Jet goodJetCloseToElectron;
+    ElectronPointer goodIsolatedElectron, goodIsolatedElectron2;
+    ElectronPointer goodLooseElectron;
+    ElectronPointer badElectron;
+    ElectronPointer electronFromConversion;
+    JetPointer goodJet, goodBJet, badJet, goodJetCloseToElectron;
     PrimaryVertex goodVertex;
     PrimaryVertex badVertex;
     Muon goodIsolatedMuon;
@@ -31,11 +28,13 @@ struct TestTopPairEventCandidate {
 
     TestTopPairEventCandidate() :
         ttbarEvent(), goodZEvent(), poorZEvent(), DiJetEvent(), DiJetEventWithConversion(), muonEvent(), emptyEvent(),
-                eventFilter(Filter::makeTopPairEPlusJetsFilter()), goodIsolatedElectron(100., 99., 13., 5.),
-                goodIsolatedElectron2(100., 79., -13., -5.), goodLooseElectron(100., 79., -13., -5.), badElectron(20,
-                        14., 15., 0), electronFromConversion(goodIsolatedElectron), goodJet(100, 13, 99, 5), goodBJet(
-                        goodJet), badJet(20, 19, 0, 0), goodJetCloseToElectron(100., 98., 13., 5.), goodVertex(),
-                badVertex(), goodIsolatedMuon(100., 99., 13., 5.), badMuon(100., 99., 13., 5.), met(40, 30) {
+                eventFilter(Filter::makeTopPairEPlusJetsFilter()), goodIsolatedElectron(
+                        new Electron(100., 99., 13., 5.)), goodIsolatedElectron2(new Electron(100., 79., -13., -5.)),
+                goodLooseElectron(new Electron(100., 79., -13., -5.)), badElectron(new Electron(20, 14., 15., 0)),
+                electronFromConversion(new Electron(*goodIsolatedElectron)), goodJet(new Jet(100, 13, 99, 5)),
+                goodBJet(new Jet(*goodJet)), badJet(new Jet(20, 19, 0, 0)), goodJetCloseToElectron(new Jet(100., 98.,
+                        13., 5.)), goodVertex(), badVertex(), goodIsolatedMuon(100., 99., 13., 5.), badMuon(100., 99.,
+                        13., 5.), met(40, 30) {
         setUpGoodIsolatedElectron();
         setUpGoodIsolatedElectron2();
         setUpGoodLooseElectron();
@@ -58,62 +57,59 @@ struct TestTopPairEventCandidate {
 
 private:
     void setUpGoodIsolatedElectron() {
-        goodIsolatedElectron.setHcalIsolation(0.5);
-        goodIsolatedElectron.setEcalIsolation(0.3);
-        goodIsolatedElectron.setTrackerIsolation(0.4);
-        goodIsolatedElectron.setVBTF_W70_ElectronID(true);
-        goodIsolatedElectron.setNumberOfMissingInnerLayerHits(0);
+        goodIsolatedElectron->setHcalIsolation(0.5);
+        goodIsolatedElectron->setEcalIsolation(0.3);
+        goodIsolatedElectron->setTrackerIsolation(0.4);
+        goodIsolatedElectron->setNumberOfMissingInnerLayerHits(0);
     }
 
     void setUpGoodIsolatedElectron2() {
-        goodIsolatedElectron2.setHcalIsolation(0.4);
-        goodIsolatedElectron2.setEcalIsolation(0.3);
-        goodIsolatedElectron2.setTrackerIsolation(0.4);
-        goodIsolatedElectron2.setVBTF_W70_ElectronID(true);
-        goodIsolatedElectron2.setNumberOfMissingInnerLayerHits(0);
+        goodIsolatedElectron2->setHcalIsolation(0.4);
+        goodIsolatedElectron2->setEcalIsolation(0.3);
+        goodIsolatedElectron2->setTrackerIsolation(0.4);
+        goodIsolatedElectron2->setNumberOfMissingInnerLayerHits(0);
     }
 
     void setUpBadElectron() {
-        badElectron.setHcalIsolation(4);
-        badElectron.setEcalIsolation(44);
-        badElectron.setTrackerIsolation(1);
+        badElectron->setHcalIsolation(4);
+        badElectron->setEcalIsolation(44);
+        badElectron->setTrackerIsolation(1);
     }
 
     void setUpGoodLooseElectron() {
-        goodLooseElectron.setHcalIsolation(5);
-        goodLooseElectron.setEcalIsolation(3);
-        goodLooseElectron.setTrackerIsolation(4);
-        goodLooseElectron.setVBTF_W70_ElectronID(false);
-        goodLooseElectron.setRobustLooseID(true);
-        goodLooseElectron.setNumberOfMissingInnerLayerHits(0);
-        assert(goodLooseElectron.isGood() == false);
-        assert(goodLooseElectron.isLoose());
+        goodLooseElectron->setHcalIsolation(5);
+        goodLooseElectron->setEcalIsolation(3);
+        goodLooseElectron->setTrackerIsolation(4);
+        goodLooseElectron->setSigmaIEtaIEta(VBTF_W70::MaximalDEtaIn_BarrelRegion + 2);
+        goodLooseElectron->setRobustLooseID(true);
+        goodLooseElectron->setNumberOfMissingInnerLayerHits(0);
+        assert(goodLooseElectron->isGood() == false);
+        assert(goodLooseElectron->isLoose());
     }
 
     void setUpGoodIsolatedElectronFromConversion() {
-        electronFromConversion.setHcalIsolation(0.5);
-        electronFromConversion.setEcalIsolation(0.3);
-        electronFromConversion.setTrackerIsolation(0.4);
-        electronFromConversion.setVBTF_W70_ElectronID(true);
-        electronFromConversion.setNumberOfMissingInnerLayerHits(3);
+        electronFromConversion->setHcalIsolation(0.5);
+        electronFromConversion->setEcalIsolation(0.3);
+        electronFromConversion->setTrackerIsolation(0.4);
+        electronFromConversion->setNumberOfMissingInnerLayerHits(3);
     }
     void setUpGoodJet() {
-        goodJet.setEMF(0.2);
-        goodJet.setFHPD(0.5);
-        goodJet.setN90Hits(2);
+        goodJet->setEMF(0.2);
+        goodJet->setFHPD(0.5);
+        goodJet->setN90Hits(2);
     }
 
     void setUpGoodBJet() {
-        goodBJet.setEMF(0.2);
-        goodBJet.setFHPD(0.5);
-        goodBJet.setN90Hits(2);
-        goodBJet.setDiscriminatorForBtagType(2.5, BJetTagger::SimpleSecondaryVertex);
+        goodBJet->setEMF(0.2);
+        goodBJet->setFHPD(0.5);
+        goodBJet->setN90Hits(2);
+        goodBJet->setDiscriminatorForBtagType(2.5, BJetTagger::SimpleSecondaryVertex);
     }
 
     void setUpGoodJetCloseToElectron() {
-        goodJetCloseToElectron.setEMF(0.2);
-        goodJetCloseToElectron.setFHPD(0.5);
-        goodJetCloseToElectron.setN90Hits(2);
+        goodJetCloseToElectron->setEMF(0.2);
+        goodJetCloseToElectron->setFHPD(0.5);
+        goodJetCloseToElectron->setN90Hits(2);
     }
 
     void setUpGoodVertex() {

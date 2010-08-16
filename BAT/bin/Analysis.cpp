@@ -48,20 +48,21 @@ void Analysis::doDiElectronAnalysis() {
     ElectronCollection electrons = currentEvent.getGoodElectrons();
     if (electrons.size() == 2) {
         numberOfGoodElectrons += 2;
-        Electron leadingElectron = electrons.front();
-        Electron secondElectron = electrons.at(1);
-        h_et->Fill(leadingElectron.et());
-        h_diElectronMass->Fill(leadingElectron.invariantMass(secondElectron));
+        ElectronPointer leadingElectron = electrons.front();
+        ElectronPointer secondElectron = electrons.at(1);
+        cout << "charge:" << leadingElectron->charge() << endl;
+        h_et->Fill(leadingElectron->et());
+        h_diElectronMass->Fill(leadingElectron->invariantMass(secondElectron));
     }
 }
 
 void Analysis::doTTBarAnalysis() {
     if (ttbarCandidate.passesFullTTbarEPlusJetSelection()) {
-        Electron isolatedElectron = currentEvent.getGoodIsolatedElectrons().front();
+        ElectronPointer isolatedElectron = currentEvent.getGoodIsolatedElectrons().front();
         JetCollection jets = currentEvent.getGoodJets();
-        unsigned int closestID = isolatedElectron.getClosestJetID(jets);
-        float minDR = isolatedElectron.deltaR(jets.at(closestID));
-        float ptRel = isolatedElectron.relativePtTo(jets.at(closestID));
+        unsigned int closestID = isolatedElectron->getClosestJetID(jets);
+        float minDR = isolatedElectron->deltaR(jets.at(closestID));
+        float ptRel = isolatedElectron->relativePtTo(jets.at(closestID));
         h_ptRel_vs_DRmin->Fill(minDR, ptRel);
     }
 }

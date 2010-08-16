@@ -11,12 +11,15 @@
 #include <vector>
 #include <string>
 #include <math.h>
+#include <boost/shared_ptr.hpp>
 
 typedef TLorentzVector FourVector;
 
 namespace BAT {
 class Particle;
-typedef std::vector<Particle> ParticleCollection;
+typedef boost::shared_ptr<Particle> ParticlePointer;
+typedef std::vector<ParticlePointer> ParticleCollection;
+
 
 class Particle {
 public:
@@ -37,10 +40,10 @@ public:
 	float eta() const;
 	float phi() const;
 	float massFromEnergyAndMomentum() const;
-	short charge() const;
+	float charge() const;
 	void setMass(float mass);
 	void setD0(float d0);
-	void setCharge(short charge);
+	void setCharge(float charge);
 	const FourVector& getFourVector() const;
 	void setFourVector(FourVector fourvector);
 	unsigned short getClosest(const ParticleCollection& particles) const;
@@ -49,19 +52,20 @@ public:
 	bool isInCrack() const;
 	bool isInEndCapRegion() const;
 	const char* getEtaRegion() const;
-	float relativePtTo(const Particle& otherParticle) const;
-	float deltaR(const Particle& otherParticle) const;
-	float deltaPhi(const Particle& otherParticle) const;
-	float deltaEta(const Particle& otherParticle) const;
-	bool isWithinDeltaR(float deltaR, const Particle& particle) const;
-	float invariantMass(const Particle& otherParticle) const;
+	float relativePtTo(const ParticlePointer otherParticle) const;
+	float deltaR(const ParticlePointer otherParticle) const;
+	float deltaPhi(const ParticlePointer otherParticle) const;
+	float deltaEta(const ParticlePointer otherParticle) const;
+	bool isWithinDeltaR(float deltaR, const ParticlePointer particle) const;
+	float invariantMass(const ParticlePointer otherParticle) const;
 
 protected:
-	float particleMass;
+	float particleMass, particleCharge;
 	float distanceFromInteractionPointInMicron;
 	FourVector fourvector;
-	short particleCharge;
+
 };
+
 }
 
 #endif /* PARTICLE_H_ */

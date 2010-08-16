@@ -60,7 +60,8 @@ private:
 	float fractionOfEnergyIntheHottestHPDReadout;
 	std::vector<float> btag_discriminators;
 };
-typedef std::vector<Jet> JetCollection;
+typedef boost::shared_ptr<Jet> JetPointer;
+typedef std::vector<JetPointer> JetCollection;
 }
 
 #endif /* JET_H_ */

@@ -20,6 +20,7 @@
 #include "METReader.h"
 #include <string>
 #include "../Enumerators.h"
+#include "../CrossSections.h"
 
 namespace BAT {
 

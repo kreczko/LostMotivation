@@ -72,7 +72,7 @@ public:
 	const MuonCollection& getGoodMuons() const;
 	const MuonCollection& getGoodIsolatedMuons() const;
 	const MET& getMET() const;
-	const Electron& getMostIsolatedElectron() const;
+	const ElectronPointer getMostIsolatedElectron() const;
 	unsigned long runnumber() const;
 	unsigned long eventnumber() const;
 	unsigned long localnumber() const;

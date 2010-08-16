@@ -14,7 +14,7 @@ private:
     boost::shared_ptr<TChain> input;
     boost::scoped_ptr<ElectronReader> electronReader;
     ElectronCollection electrons;
-    Electron firstElectron;
+    ElectronPointer firstElectron;
 public:
     TestElectronReader() :
         input(new TChain("configurableAnalysis/eventB")), electronReader(new ElectronReader(input)), electrons(),
@@ -33,32 +33,48 @@ public:
     }
 
     void testReadFirstElectronEnergy() {
-        ASSERT_EQUAL_DELTA(38.7786, firstElectron.energy(), 0.0001);
+        ASSERT_EQUAL_DELTA(38.7786, firstElectron->energy(), 0.0001);
     }
 
     void testReadFirstElectronIsIsolated() {
-        ASSERT(firstElectron.isIsolated());
+        ASSERT(firstElectron->isIsolated());
     }
 
     void testReadFirstElectronIsIsolatedAfterChangingCut() {
         Electron::isolatedElectronMaximalRelativeIsolation = 0.00001;
-        ASSERT(firstElectron.isIsolated() == false);
+        ASSERT(firstElectron->isIsolated() == false);
     }
 
     void testFirstElectronSigmaEtaEta() {
-        ASSERT_EQUAL_DELTA(0.00902937, firstElectron.sigmaIEtaIEta(), 0.0000001);
+        ASSERT_EQUAL_DELTA(0.00902937, firstElectron->sigmaIEtaIEta(), 0.0000001);
     }
 
     void testFirstElectronDPhiIn() {
-        ASSERT_EQUAL_DELTA(0.00104798, firstElectron.dPhiIn(), 0.0000001);
+        ASSERT_EQUAL_DELTA(0.00104798, firstElectron->dPhiIn(), 0.0000001);
     }
 
     void testFirstElectronDEtaIn() {
-        ASSERT_EQUAL_DELTA(0.000115712, firstElectron.dEtaIn(), 0.0000001);
+        ASSERT_EQUAL_DELTA(0.000115712, firstElectron->dEtaIn(), 0.0000001);
     }
 
     void testFirstElectronHadOverEm() {
-        ASSERT_EQUAL_DELTA(0., firstElectron.HadOverEm(), 0.0000001);
+        ASSERT_EQUAL_DELTA(0., firstElectron->HadOverEm(), 0.0000001);
+    }
+
+    void testFirstElectronIsEcalDriven(){
+        ASSERT_EQUAL(true, firstElectron->isEcalDriven());
+    }
+
+    void testFirstElectronIsTrackerDriven(){
+        ASSERT_EQUAL(true, firstElectron->isTrackerDriven());
+    }
+
+    void testFirstElectronCharge(){
+        ASSERT_EQUAL(1, fabs(firstElectron->charge()));
+    }
+
+    void testFirstElectronD0(){
+        ASSERT_EQUAL_DELTA(-0.000193891, firstElectron->d0(), 0.000000001);
     }
 };
 extern cute::suite make_suite_TestElectronReader() {
@@ -71,5 +87,9 @@ extern cute::suite make_suite_TestElectronReader() {
     s.push_back(CUTE_SMEMFUN(TestElectronReader, testFirstElectronDPhiIn));
     s.push_back(CUTE_SMEMFUN(TestElectronReader, testFirstElectronDEtaIn));
     s.push_back(CUTE_SMEMFUN(TestElectronReader, testFirstElectronHadOverEm));
+    s.push_back(CUTE_SMEMFUN(TestElectronReader, testFirstElectronIsEcalDriven));
+    s.push_back(CUTE_SMEMFUN(TestElectronReader, testFirstElectronIsTrackerDriven));
+    s.push_back(CUTE_SMEMFUN(TestElectronReader, testFirstElectronCharge));
+    s.push_back(CUTE_SMEMFUN(TestElectronReader, testFirstElectronD0));
     return s;
 }
