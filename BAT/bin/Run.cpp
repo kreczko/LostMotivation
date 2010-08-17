@@ -23,22 +23,25 @@ void setUpOnce() {
 
 int main(int argc, char **argv) {
     setUpOnce();
-	TStopwatch watch;
-	watch.Start();
-	boost::scoped_ptr<Analysis> myAnalysis(new Analysis());
-	myAnalysis->setMaximalNumberOfEvents(20000);
+    TStopwatch watch;
+    watch.Start();
+    boost::scoped_ptr<Analysis> myAnalysis(new Analysis());
+    //	myAnalysis->setMaximalNumberOfEvents(200000);
 
-	cout << "adding files" << endl;
-	//Input files
-//	myAnalysis->addInputFile("/storage/top/data/250nb/EG_Run2010A-Jun14thReReco_v1_RECO/*.root");
-	myAnalysis->addInputFile("/storage/top/data/250nb/EG_Run2010A-Jul16-v4_RECO_139559_140159_withCleanTrig/*.root");
-	myAnalysis->addInputFile("/storage/top/data/250nb/EG_Run2010A-PromptReco-v4_RECO_140160_140399/*.root");
-//	myAnalysis->addInputFile("/storage/top/mc/spring10_7TeV_v4/MG/e20skim_ttjet/*.root");
+    cout << "adding files" << endl;
+    //Input files
+    myAnalysis->addInputFile("/storage/top/data/HCP/EG_Run2010A-Jul16-v4_RECO_139559_140159/*.root");
+    myAnalysis->addInputFile("/storage/top/data/HCP/EG_Run2010A-Jun14thReReco_v1_RECO/*.root");
+    myAnalysis->addInputFile("/storage/top/data/HCP/EG_Run2010A-PromptReco-v4/*.root");
 
-	cout << "starting analysis" << endl;
-	myAnalysis->analyze();
-	watch.Stop();
-	watch.Print();
+//    myAnalysis->addInputFile("/storage/top/data/e20skim/e20skim_EG_Run2010A-Jul16-v4_RECO_139559_140159/*.root");
+//    myAnalysis->addInputFile("/storage/top/data/e20skim/e20skim_EG_Run2010A-Jun14thReReco_v1_RECO/*.root");
+//    myAnalysis->addInputFile("/storage/top/data/e20skim/e20skim_EG_Run2010A-PromptReco-v4/*.root");
 
-	return 0;
+    cout << "starting analysis" << endl;
+    myAnalysis->analyze();
+    watch.Stop();
+    watch.Print();
+
+    return 0;
 }
