@@ -40,7 +40,7 @@ NTupleEventReader::NTupleEventReader() :
                     new JetReader(input)), muonReader(new MuonReader(input)), metReader(new METReader(input)),
             runNumberReader(new VariableReader<unsigned int> (input, "run")), eventNumberReader(new VariableReader<
                     unsigned int> (input, "event")), lumiBlockReader(new VariableReader<unsigned int> (input,
-                    "lumiblock")), areReadersSet(false), currentEvent() {
+                    "lumiblock")), areReadersSet(false), currentEvent(), seenDataTypes() {
     input->AddFriend(hltTriggerInput.get());
     input->AddFriend(ecalSpikeCleaningInput.get());
 }
@@ -53,6 +53,7 @@ void NTupleEventReader::addInputFile(const char * fileName) {
     numberOfFiles += input->Add(fileName);
     hltTriggerInput->Add(fileName);
     ecalSpikeCleaningInput->Add(fileName);
+    seenDataTypes.at(getDataType(fileName)) = true;
 }
 
 const Event& NTupleEventReader::getNextEvent() {
@@ -64,7 +65,7 @@ const Event& NTupleEventReader::getNextEvent() {
     currentEvent.setJets(jetReader->getJets());
     currentEvent.setMuons(muonReader->getMuons());
     currentEvent.setMET(metReader->getMET());
-    currentEvent.setDataType(getDataType());
+    currentEvent.setDataType(getDataType(input->GetCurrentFile()->GetName()));
     currentEvent.setRunNumber(runNumberReader->getVariable());
     currentEvent.setEventNumber(eventNumberReader->getVariable());
     currentEvent.setLocalEventNumber(currentEventEntry);
@@ -105,8 +106,8 @@ void NTupleEventReader::initiateReadersIfNotSet() {
     }
 }
 
-DataType::value NTupleEventReader::getDataType() {
-    std::string fileType = findCurrentFileType();
+DataType::value NTupleEventReader::getDataType(const std::string filename) {
+    std::string fileType = findFileType(filename);
     if (fileType == "ttbar" || fileType == "ttjet")
         return DataType::ttbar;
     else if (fileType == "tchan")
@@ -133,14 +134,14 @@ DataType::value NTupleEventReader::getDataType() {
         return DataType::DATA;
 }
 
-std::string NTupleEventReader::findCurrentFileType() {
+std::string NTupleEventReader::findFileType(const std::string filename) {
     std::string filetype = "";
-    const std::string nameOfCurrentFile(input->GetCurrentFile()->GetName());
+    //    const std::string nameOfCurrentFile(input->GetCurrentFile()->GetName());
 
     for (unsigned int index = 0; index < NTupleEventReader::FileTypes.size(); ++index) {
         const std::string searchString(NTupleEventReader::FilePrefix + NTupleEventReader::FileTypes.at(index));
 
-        if (nameOfCurrentFile.find(searchString) != std::string::npos) {
+        if (filename.find(searchString) != std::string::npos) {
             filetype = NTupleEventReader::FileTypes.at(index);
         }
     }
@@ -161,5 +162,9 @@ void NTupleEventReader::skipNumberOfEvents(unsigned long skipNextNEvents) {
 
 void NTupleEventReader::setMaximumNumberOfEvents(unsigned long maxNumberOfEvents) {
     maximalNumberOfEvents = maxNumberOfEvents;
+}
+
+const boost::array<bool, DataType::NUMBER_OF_DATA_TYPES>& NTupleEventReader::getSeenDatatypes() {
+    return seenDataTypes;
 }
 }

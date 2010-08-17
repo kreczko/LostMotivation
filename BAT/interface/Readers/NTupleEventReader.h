@@ -42,6 +42,7 @@ public:
 	unsigned long getNumberOfProccessedEvents() const;
 	unsigned long getCurrentLocalEventNumber() const;
 	void setMaximumNumberOfEvents(unsigned long maxNumberOfEvents);
+	const boost::array<bool, DataType::NUMBER_OF_DATA_TYPES>& getSeenDatatypes();
 private:
 	unsigned long processedEvents;
 	unsigned long maximalNumberOfEvents;
@@ -62,10 +63,12 @@ private:
 	boost::scoped_ptr<VariableReader<unsigned int> > lumiBlockReader;
 	bool areReadersSet;
 	Event currentEvent;
+	boost::array<bool, DataType::NUMBER_OF_DATA_TYPES> seenDataTypes;
+
 	void selectNextNtupleEvent();
 	void initiateReadersIfNotSet();
-	DataType::value getDataType();
-	std::string findCurrentFileType();
+	DataType::value getDataType(const std::string filename);
+	std::string findFileType(const std::string filename);
 };
 }
 
