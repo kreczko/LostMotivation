@@ -224,7 +224,18 @@ public:
         ASSERT_EQUAL(2, coll.front()->charge());
     }
 
-    void testElectronSetMass(){
+    void testElectronInSTDCollection() {
+        std::vector<Electron> coll;
+        Electron electron(50, 3, 0, 40);
+        Electron electron2(50, 3, 0, 40);
+        electron.setCharge(2);
+        electron2.setCharge(2);
+        coll.push_back(electron);
+        coll.push_back(electron2);
+        ASSERT_EQUAL(2, coll.front().charge());
+    }
+
+    void testElectronSetMass() {
         Electron electron = Electron(50, 3, 0, 40);
         electron.setMass(500);
         ASSERT_EQUAL(500, electron.mass());
@@ -252,5 +263,6 @@ extern cute::suite make_suite_TestElectron() {
     s.push_back(CUTE_SMEMFUN(TestElectron, testElectronChargeInCopy));
     s.push_back(CUTE_SMEMFUN(TestElectron, testElectronInCollection));
     s.push_back(CUTE_SMEMFUN(TestElectron, testElectronSetMass));
+    s.push_back(CUTE_SMEMFUN(TestElectron, testElectronInSTDCollection));
     return s;
 }
