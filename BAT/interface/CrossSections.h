@@ -11,16 +11,33 @@
 
 #include "Enumerators.h"
 #include <vector>
+#include <boost/array.hpp>
+
 namespace BAT {
 namespace sevenTeV {
-extern std::vector<float> getXSections();
+extern boost::array<float, DataType::NUMBER_OF_DATA_TYPES> getXSections();
 }
 
 namespace tenTeV{
-
+extern boost::array<float, DataType::NUMBER_OF_DATA_TYPES> getXSections();
 }
-struct CrossSectionProvider;
 
+struct CrossSectionProvider{
+private:
+    unsigned short tev;
+    bool useSkimEff;
+    boost::array<float, DataType::NUMBER_OF_DATA_TYPES> xsection;
+public:
+
+
+    CrossSectionProvider(unsigned short tev = 7);
+    ~CrossSectionProvider();
+
+    void useSkimEfficiency(bool use);
+
+    float getExpectedNumberOfEvents(DataType::value type, unsigned int lumiInInversePb);
+
+};
 }
 
 #endif /* CROSSSECTIONS_H_ */

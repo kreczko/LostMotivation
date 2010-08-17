@@ -38,8 +38,8 @@ enum value {
     Zprime_M3TeV_W300GeV,
     Zprime_M4TeV_W40GeV,
     Zprime_M4TeV_W400GeV,
-    QCD_ALL,
-    singleTop_ALL,
+//    QCD_ALL,
+//    singleTop_ALL,
     NUMBER_OF_DATA_TYPES
 };
 }
