@@ -84,7 +84,7 @@ bool Electron::isHEEPIsolated() const{
         return (ecal_Isolation + hcal_Isolation) < 2+0.03*et();
     else if(isInEndCapRegion() && et() < 50)
         return (ecal_Isolation + hcal_Isolation) < 2.5;
-    else if(isInEndCapRegion() && et >= 50)
+    else if(isInEndCapRegion() && et() >= 50)
         return (ecal_Isolation + hcal_Isolation) < 2.5+0.03*(et()-50);
     else
         return false;
