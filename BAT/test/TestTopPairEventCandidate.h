@@ -149,7 +149,7 @@ private:
         jets.push_back(goodBJet);
         jets.push_back(badJet);
         ttbarEvent.setJets(jets);
-        ttbarEvent.setHLT_Photon15_L1R(true);
+        ttbarEvent.setHLT_Emulated_Photon15(true);
         ttbarEvent.setPrimaryVertex(goodVertex);
         MuonCollection muons;
         muons.push_back(badMuon);
@@ -170,7 +170,7 @@ private:
         jets.push_back(goodJet);
         jets.push_back(goodBJet);
         goodZEvent.setJets(jets);
-        goodZEvent.setHLT_Photon15_L1R(true);
+        goodZEvent.setHLT_Emulated_Photon15(true);
         goodZEvent.setPrimaryVertex(goodVertex);
     }
 
@@ -187,7 +187,7 @@ private:
         jets.push_back(goodJet);
         jets.push_back(goodBJet);
         poorZEvent.setJets(jets);
-        poorZEvent.setHLT_Photon15_L1R(true);
+        poorZEvent.setHLT_Emulated_Photon15(true);
         poorZEvent.setPrimaryVertex(goodVertex);
     }
 
@@ -196,7 +196,7 @@ private:
         jets.push_back(goodJet);
         jets.push_back(goodJet);
         DiJetEvent.setJets(jets);
-        DiJetEvent.setHLT_Photon15_L1R(false);
+        DiJetEvent.setHLT_Emulated_Photon15(false);
         DiJetEvent.setPrimaryVertex(badVertex);
     }
 
@@ -205,7 +205,7 @@ private:
         jets.push_back(goodJet);
         jets.push_back(goodJet);
         DiJetEventWithConversion.setJets(jets);
-        DiJetEventWithConversion.setHLT_Photon15_L1R(false);
+        DiJetEventWithConversion.setHLT_Emulated_Photon15(false);
         DiJetEventWithConversion.setPrimaryVertex(goodVertex);
         ElectronCollection electrons;
         electrons.push_back(electronFromConversion);
@@ -224,7 +224,7 @@ private:
         jets.push_back(goodBJet);
         jets.push_back(badJet);
         muonEvent.setJets(jets);
-        muonEvent.setHLT_Photon15_L1R(true);
+        muonEvent.setHLT_Emulated_Photon15(true);
         muonEvent.setPrimaryVertex(goodVertex);
         MuonCollection muons;
         muons.push_back(goodIsolatedMuon);

@@ -22,7 +22,10 @@ TopPairEventCandidate::~TopPairEventCandidate() {
 
 
 bool TopPairEventCandidate::passesHighLevelTrigger() const {
-    return HLT_PHOTON15_L1R;
+    if(isRealData() && runNumber >= 137029 )
+        return HLT_Photon15_Cleaned_L1R;
+    else
+        return HLT_Emulated_Photon15;
 }
 
 bool TopPairEventCandidate::hasOneGoodPrimaryVertex() const {

@@ -19,11 +19,8 @@ namespace BAT {
 class TopPairEventCandidate: public Event {
 
 private:
-    float getLeptonicChi2();
-    float getHadronicChi2();
-    float getGlobalChi2();
-    float getTotalChi2();
-
+    JetPointer leptonicBJet, hadronicBJet, jet1FromW, jet2FromW;
+    ParticlePointer neutrino1, neutrino2;
 public:
     TopPairEventCandidate();
     TopPairEventCandidate(const Event& event);
@@ -57,6 +54,16 @@ public:
     bool isNotAZBosonEvent() const;
     bool passesFullTTbarEPlusJetSelection() const;
     bool hasIsolatedElectronInBarrelRegion() const;
+
+    void reconstructUsingChi2() const;
+    void reconstructUsingSubjets() const;
+    void reconstructUsingMCTruth() const;
+
+private:
+    float getLeptonicChi2();
+    float getHadronicChi2();
+    float getGlobalChi2();
+    float getTotalChi2();
 
 };
 

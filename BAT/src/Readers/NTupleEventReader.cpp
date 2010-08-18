@@ -34,9 +34,11 @@ const std::string NTupleEventReader::FilePrefix = "nTuple_";
 NTupleEventReader::NTupleEventReader() :
     processedEvents(0), maximalNumberOfEvents(999999999), currentEventEntry(0), numberOfFiles(0), input(new TChain(
             NTupleEventReader::EVENT_CHAIN)), hltTriggerInput(new TChain(NTupleEventReader::HLT_TRIGGER_CHAIN)),
-            ecalSpikeCleaningInput(new TChain(NTupleEventReader::ECAL_SPIKE_CLEANING_CHAIN)), HLTReader(
-                    new VariableReader<double> (hltTriggerInput, "HLT_Photon15_L1R")), primaryReader(
-                    new PrimaryVertexReader(input)), electronReader(new ElectronReader(input)), jetReader(
+            ecalSpikeCleaningInput(new TChain(NTupleEventReader::ECAL_SPIKE_CLEANING_CHAIN)), HLTPhoton15Reader(
+                    new VariableReader<double> (hltTriggerInput, "HLT_Photon15_L1R")), HLTPhoton15CleanedReader(
+                    new VariableReader<double> (hltTriggerInput, "HLT_Photon15_Cleaned_L1R")),
+            HLTEmulatedPhoton15Reader(new VariableReader<bool> (ecalSpikeCleaningInput, "pass_photon15")),
+            primaryReader(new PrimaryVertexReader(input)), electronReader(new ElectronReader(input)), jetReader(
                     new JetReader(input)), muonReader(new MuonReader(input)), metReader(new METReader(input)),
             runNumberReader(new VariableReader<unsigned int> (input, "run")), eventNumberReader(new VariableReader<
                     unsigned int> (input, "event")), lumiBlockReader(new VariableReader<unsigned int> (input,
@@ -59,7 +61,9 @@ void NTupleEventReader::addInputFile(const char * fileName) {
 const Event& NTupleEventReader::getNextEvent() {
     selectNextNtupleEvent();
     currentEvent = Event();
-    currentEvent.setHLT_Photon15_L1R(HLTReader->getVariable() > 0);
+    currentEvent.setHLT_Photon15_L1R(HLTPhoton15Reader->getVariable() > 0);
+    currentEvent.setHLT_Photon15_Cleaned_L1R(HLTPhoton15CleanedReader->getVariable() > 0);
+    currentEvent.setHLT_Emulated_Photon15(HLTEmulatedPhoton15Reader->getVariable());
     currentEvent.setPrimaryVertex(primaryReader->getVertex());
     currentEvent.setElectrons(electronReader->getElectrons());
     currentEvent.setJets(jetReader->getJets());
@@ -93,7 +97,10 @@ void NTupleEventReader::initiateReadersIfNotSet() {
         input->SetBranchStatus("*", 0);
         hltTriggerInput->SetBranchStatus("*", 0);
         ecalSpikeCleaningInput->SetBranchStatus("*", 0);
-        HLTReader->initialise();
+        HLTPhoton15Reader->initialise();
+        if (HLTPhoton15CleanedReader->doesVariableExist())
+            HLTPhoton15CleanedReader->initialise();
+        HLTEmulatedPhoton15Reader->initialise();
         primaryReader->initialise();
         electronReader->initialise();
         jetReader->initialise();

@@ -51,7 +51,9 @@ private:
 	boost::shared_ptr<TChain> input;
 	boost::shared_ptr<TChain> hltTriggerInput;
 	boost::shared_ptr<TChain> ecalSpikeCleaningInput;
-	boost::scoped_ptr<VariableReader<double> > HLTReader;
+	boost::scoped_ptr<VariableReader<double> > HLTPhoton15Reader;
+	boost::scoped_ptr<VariableReader<double> > HLTPhoton15CleanedReader;
+	boost::scoped_ptr<VariableReader<bool> > HLTEmulatedPhoton15Reader;
 	boost::scoped_ptr<PrimaryVertexReader> primaryReader;
 	boost::scoped_ptr<ElectronReader> electronReader;
 	boost::scoped_ptr<JetReader> jetReader;
