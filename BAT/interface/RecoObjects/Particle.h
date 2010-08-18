@@ -58,6 +58,7 @@ public:
 	float deltaEta(const ParticlePointer otherParticle) const;
 	bool isWithinDeltaR(float deltaR, const ParticlePointer particle) const;
 	float invariantMass(const ParticlePointer otherParticle) const;
+	float angle(const ParticlePointer otherParticle) const;
 
 protected:
 	float particleMass, particleCharge;

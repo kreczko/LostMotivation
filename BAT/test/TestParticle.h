@@ -191,6 +191,10 @@ public:
         particles.push_back(zParticle1);
         ASSERT_EQUAL(-1, particles.front()->charge());
     }
+
+    void testAngle(){
+        ASSERT_EQUAL_DELTA(3.14159, particle1->angle(particle2), 0.00001);
+    }
 };
 
 extern cute::suite make_suite_TestParticle() {
@@ -228,5 +232,6 @@ extern cute::suite make_suite_TestParticle() {
     s.push_back(CUTE_SMEMFUN(TestParticle, testGetClosest2));
     s.push_back(CUTE_SMEMFUN(TestParticle, testCharge));
     s.push_back(CUTE_SMEMFUN(TestParticle, testChargeInCollection));
+    s.push_back(CUTE_SMEMFUN(TestParticle, testAngle));
     return s;
 }

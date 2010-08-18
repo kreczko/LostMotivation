@@ -174,4 +174,8 @@ unsigned short Particle::getClosest(const ParticleCollection& particles) const {
     }
     return idOfClosest;
 }
+
+float Particle::angle(const ParticlePointer otherParticle) const{
+    return fourvector.Angle(otherParticle->getFourVector().Vect());
+}
 }
