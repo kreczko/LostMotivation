@@ -19,7 +19,7 @@ namespace BAT {
 
 class Event {
 protected:
-	bool HLT_PHOTON15_L1R;
+	bool HLT_PHOTON15_L1R, HLT_Photon15_Cleaned_L1R, HLT_Emulated_Photon15;
 	PrimaryVertex primaryVertex;
 	ElectronCollection allElectrons;
 	ElectronCollection goodElectrons;
@@ -56,6 +56,8 @@ public:
 	void setMuons(MuonCollection muons);
 	void setMET(const MET& met);
 	void setHLT_Photon15_L1R(bool hltTrigger);
+	void setHLT_Photon15_Cleaned_L1R(bool hltTrigger);
+	void setHLT_Emulated_Photon15(bool hltTrigger);
 	void setRunNumber(unsigned long number);
 	void setEventNumber(unsigned long number);
 	void setLocalEventNumber(unsigned long number);
