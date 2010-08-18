@@ -17,111 +17,111 @@ typedef std::vector<float>* MultiFloatPointer;
 typedef boost::shared_ptr<TChain> TChainPointer;
 namespace BAT {
 struct VariableNotFoundException: public std::exception {
-	TString msg;
-	VariableNotFoundException(TString message) :
-		msg(message) {
-	}
-	~VariableNotFoundException() throw () {
-	}
+    TString msg;
+    VariableNotFoundException(TString message) :
+        msg(message) {
+    }
+    ~VariableNotFoundException() throw () {
+    }
 
-	const char* what() const throw () {
-		return msg;
-	}
+    const char* what() const throw () {
+        return msg;
+    }
 };
 
 template<typename variableType = unsigned int>
 class VariableReader {
 public:
-	VariableReader() :
-		input(), variable(0), variableName("") {
+    VariableReader() :
+        input(), variable(0), variableName("") {
 
-	}
+    }
 
-	VariableReader(TChainPointer chain, TString varName) :
-		input(chain), variable(0), variableName(varName) {
+    VariableReader(TChainPointer chain, TString varName) :
+        input(chain), variable(0), variableName(varName) {
 
-	}
+    }
 
-	~VariableReader() {
-	}
+    ~VariableReader() {
+    }
 
-	const variableType& getVariable() {
-		return variable;
-	}
+    const variableType& getVariable() {
+        return variable;
+    }
 
-	void initialise() {
-		if (doesVariableExist()) {
-			enableVariable();
-			readVariableFromInput();
-		} else
-			throw VariableNotFoundException("Variable '" + variableName + "' was not found.");
-	}
+    void initialise() {
+        if (doesVariableExist()) {
+            enableVariable();
+            readVariableFromInput();
+        } else
+            throw VariableNotFoundException("Variable '" + variableName + "' was not found.");
+    }
+
+    bool doesVariableExist() {
+        return input->GetBranch(variableName) != NULL;
+    }
 private:
-	TChainPointer input;
-	variableType variable;
-	TString variableName;
+    TChainPointer input;
+    variableType variable;
+    TString variableName;
 
-	void readVariableFromInput() {
-		input->SetBranchAddress(variableName, &variable);
-	}
+    void readVariableFromInput() {
+        input->SetBranchAddress(variableName, &variable);
+    }
 
-	bool doesVariableExist() {
-		return input->GetBranch(variableName) != NULL;
-	}
-
-	void enableVariable() {
-		input->SetBranchStatus(variableName, true);
-	}
+    void enableVariable() {
+        input->SetBranchStatus(variableName, true);
+    }
 };
 
 template<>
-class VariableReader<MultiFloatPointer>{
+class VariableReader<MultiFloatPointer> {
 public:
-	VariableReader() :
-		input(), variable(0), variableName("") {
+    VariableReader() :
+        input(), variable(0), variableName("") {
 
-	}
+    }
 
-	VariableReader(boost::shared_ptr<TChain> chain, TString varName) :
-		input(chain), variable(0), variableName(varName) {
+    VariableReader(boost::shared_ptr<TChain> chain, TString varName) :
+        input(chain), variable(0), variableName(varName) {
 
-	}
+    }
 
-	~VariableReader() {
-		delete variable;
-	}
+    ~VariableReader() {
+        delete variable;
+    }
 
-	unsigned int size() const{
-		return variable->size();
-	}
+    unsigned int size() const {
+        return variable->size();
+    }
 
-	float getVariableAt(unsigned int index){
-		return variable->at(index);
-	}
+    float getVariableAt(unsigned int index) {
+        return variable->at(index);
+    }
 
-	void initialise() {
-		if (doesVariableExist()) {
-			enableVariable();
-			readVariableFromInput();
-		} else
-			throw VariableNotFoundException("Variable '" + variableName + "' was not found.");
-	}
+    void initialise() {
+        if (doesVariableExist()) {
+            enableVariable();
+            readVariableFromInput();
+        } else
+            throw VariableNotFoundException("Variable '" + variableName + "' was not found.");
+    }
+
+    bool doesVariableExist() {
+        return input->GetBranch(variableName) != NULL;
+    }
 private:
-	boost::shared_ptr<TChain> input;
-	MultiFloatPointer variable;
-	TString variableName;
+    boost::shared_ptr<TChain> input;
+    MultiFloatPointer variable;
+    TString variableName;
 
-	void readVariableFromInput() {
-		input->SetBranchAddress(variableName, &variable);
-	}
+    void readVariableFromInput() {
+        input->SetBranchAddress(variableName, &variable);
+    }
 
-	bool doesVariableExist() {
-		return input->GetBranch(variableName) != NULL;
-	}
-
-	void enableVariable() {
-		input->SetBranchStatus(variableName, true);
-	}
+    void enableVariable() {
+        input->SetBranchStatus(variableName, true);
+    }
 };
 }
 
