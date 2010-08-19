@@ -33,6 +33,7 @@ public:
 	void setGoodElectronMinimalEt(float minimalEt);
 	void setGoodElectronMaximalAbsoluteEta(float maximalAbsoluteEta);
 	void setGoodElectronMaximalDistanceFromInteractionPoint(float maximalDistance);
+	void setGoodElectronMaximalSwissCross(float maxSwiss);
 	void setElectronMaximalNumberOfMissingInnerLayerHitsBeforeCalledConversion(float missedHits);
 
 	void setLooseElectronMinimalEt(float minimalEt);

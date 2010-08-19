@@ -33,6 +33,7 @@ Filter * Filter::makeTopPairEPlusJetsFilter() {
 	filter->setGoodElectronMinimalEt(30.0);
 	filter->setGoodElectronMaximalAbsoluteEta(2.5);
 	filter->setGoodElectronMaximalDistanceFromInteractionPoint(0.02);//centimeter
+	filter->setGoodElectronMaximalSwissCross(0.95);
 	filter->setElectronMaximalNumberOfMissingInnerLayerHitsBeforeCalledConversion(0);
 
 	filter->setLooseElectronMinimalEt(20.0);
@@ -92,6 +93,10 @@ void Filter::setGoodElectronMaximalAbsoluteEta(float maximalAbsoluteEta){
 
 void Filter::setGoodElectronMaximalDistanceFromInteractionPoint(float maximalDistance){
 	Electron::goodElectronMaximalDistanceFromInteractionPoint = maximalDistance;
+}
+
+void Filter::setGoodElectronMaximalSwissCross(float maxSwiss){
+    Electron::goodElectronMaximalSwissCross = maxSwiss;
 }
 
 void Filter::setElectronMaximalNumberOfMissingInnerLayerHitsBeforeCalledConversion(float missedHits){

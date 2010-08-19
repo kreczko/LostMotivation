@@ -86,10 +86,16 @@ public:
         ASSERT_EQUAL_DELTA(0.05, Electron::isolatedElectronMaximalRelativeIsolation, 0.005);
     }
 
-    void testElectronConversionVeto(){
+    void testElectronConversionVeto() {
         ASSERT_EQUAL(0, Electron::MaximalNumberOfMissingInnerLayerHitsBeforeCalledConversion);
         filter->setElectronMaximalNumberOfMissingInnerLayerHitsBeforeCalledConversion(2);
         ASSERT_EQUAL(2, Electron::MaximalNumberOfMissingInnerLayerHitsBeforeCalledConversion);
+    }
+
+    void testElectronSwissCross() {
+        ASSERT_EQUAL_DELTA(0.95, Electron::goodElectronMaximalSwissCross, 0.001);
+        filter->setGoodElectronMaximalSwissCross(2);
+        ASSERT_EQUAL_DELTA(2, Electron::goodElectronMaximalSwissCross, 0.001);
     }
 
     void testSetLooseElectronMinimalEt() {
@@ -155,6 +161,7 @@ extern cute::suite make_suite_TestFilter() {
     s.push_back(CUTE_SMEMFUN(TestFilter, testSetGoodElectronMaximalDistanceFromInteractionPoint));
     s.push_back(CUTE_SMEMFUN(TestFilter, testSetGoodMETMinimalEt));
     s.push_back(CUTE_SMEMFUN(TestFilter, testElectronConversionVeto));
+    s.push_back(CUTE_SMEMFUN(TestFilter, testElectronSwissCross));
     s.push_back(CUTE_SMEMFUN(TestFilter, testSetLooseElectronMinimalEt));
     s.push_back(CUTE_SMEMFUN(TestFilter, testSetLooseElectronMaximalRelativeIsolation));
     s.push_back(CUTE_SMEMFUN(TestFilter, testSetLooseElectronMaximalAbsoluteEta));
