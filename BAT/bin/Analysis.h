@@ -19,6 +19,8 @@
 #include "../interface/Selection.h"
 #include "../interface/Event.h"
 #include "../interface/TopPairEventCandidate.h"
+#include <vector>
+#include <utility>
 
 class Analysis {
 private:
@@ -31,9 +33,14 @@ private:
 	boost::shared_ptr<TH1F> h_et;
 	boost::shared_ptr<TH1F> h_diElectronMass;
 	boost::shared_ptr<TH2F> h_ptRel_vs_DRmin;
+	boost::shared_ptr<TH1F> h_mttbar;
+	boost::shared_ptr<TH1F> h_mleptonicTop;
+	boost::shared_ptr<TH1F> h_mhadronicTop;
+	boost::shared_ptr<TH1F> h_mAllTop;
 	boost::shared_ptr<TFile> outputfile;
 	boost::array<unsigned long, BAT::TTbarEPlusJetsSelection::NUMBER_OF_SELECTION_STEPS> cutflow;
 	boost::array<unsigned long, BAT::TTbarEPlusJetsSelection::NUMBER_OF_SELECTION_STEPS> singleCuts;
+	std::vector<std::pair<unsigned long, unsigned long> > interestingEvents;
 public:
 	Analysis();
 	virtual ~Analysis();
@@ -45,6 +52,7 @@ private:
 	void doDiElectronAnalysis();
 	void doTTBarAnalysis();
 	void doTTbarCutFlow();
+	void printInterestingEvents();
 	void printSummary();
 };
 
