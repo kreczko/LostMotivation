@@ -381,6 +381,63 @@ public:
         ASSERT_EQUAL(false, DiJetEvent.passesFullTTbarEPlusJetSelection());
     }
 
+    void testComputeNeutrinoPzsWithoutMETThrowsExpeption() {
+        TopPairEventCandidate cand = TopPairEventCandidate();
+        ElectronPointer electron(new Electron(40, -40, 0, 0));
+        electron->setHcalIsolation(0);
+        electron->setEcalIsolation(0);
+        electron->setTrackerIsolation(0);
+        electron->setNumberOfMissingInnerLayerHits(0);
+        ElectronCollection eCollection;
+        eCollection.push_back(electron);
+        cand.setElectrons(eCollection);
+        ASSERT_THROWS(cand.computeNeutrinoPz(),ReconstructionException);
+    }
+
+    void testComputeNeutrinoPzsIsolatedElectronThrowsExpeption() {
+        TopPairEventCandidate cand = TopPairEventCandidate();
+        ElectronPointer electron(new Electron(40, -40, 0, 0));
+        electron->setHcalIsolation(50);
+        electron->setEcalIsolation(50);
+        electron->setTrackerIsolation(50);
+        electron->setNumberOfMissingInnerLayerHits(0);
+        ElectronCollection eCollection;
+        eCollection.push_back(electron);
+        cand.setElectrons(eCollection);
+        ASSERT_THROWS(cand.computeNeutrinoPz(),ReconstructionException);
+    }
+
+    void testComputeNeutrinoPzs() {
+        MET met(40, 0);
+        ElectronPointer electron(new Electron(40, -40, 0, 0));
+        electron->setHcalIsolation(0);
+        electron->setEcalIsolation(0);
+        electron->setTrackerIsolation(0);
+        electron->setNumberOfMissingInnerLayerHits(0);
+        ElectronCollection eCollection;
+        eCollection.push_back(electron);
+        TopPairEventCandidate cand = TopPairEventCandidate();
+        cand.setMET(met);
+        cand.setElectrons(eCollection);
+        ASSERT_EQUAL(sqrt(80*80-80.389*80.389), cand.computeNeutrinoPz().at(0));
+        ASSERT_EQUAL(sqrt(80*80-80.389*80.389), cand.computeNeutrinoPz().at(1));
+    }
+
+    void testReconstructTopEventUsingChiWithNotEnoughJetsThrowsException() {
+        MET met(40, 0);
+        ElectronPointer electron(new Electron(40, -40, 0, 0));
+        electron->setHcalIsolation(0);
+        electron->setEcalIsolation(0);
+        electron->setTrackerIsolation(0);
+        electron->setNumberOfMissingInnerLayerHits(0);
+        ElectronCollection eCollection;
+        eCollection.push_back(electron);
+        TopPairEventCandidate cand = TopPairEventCandidate();
+        cand.setMET(met);
+        cand.setElectrons(eCollection);
+        ASSERT_THROWS(cand.reconstructUsingChi2(),ReconstructionException);
+    }
+
 };
 
 extern cute::suite make_suite_TestTopPairEventCandidate() {
@@ -427,6 +484,11 @@ extern cute::suite make_suite_TestTopPairEventCandidate() {
     s.push_back(CUTE_SMEMFUN(TestTopPairEventCandidate, testPoorZEventDoesntPassUpToStep));
     s.push_back(CUTE_SMEMFUN(TestTopPairEventCandidate, testPassesFullTTbarSelection));
     s.push_back(CUTE_SMEMFUN(TestTopPairEventCandidate, testFailsFullTTbarSelection));
+    s.push_back(CUTE_SMEMFUN(TestTopPairEventCandidate, testComputeNeutrinoPzsWithoutMETThrowsExpeption));
+    s.push_back(CUTE_SMEMFUN(TestTopPairEventCandidate, testComputeNeutrinoPzsIsolatedElectronThrowsExpeption));
+    s.push_back(CUTE_SMEMFUN(TestTopPairEventCandidate, testComputeNeutrinoPzs));
+    s.push_back(
+            CUTE_SMEMFUN(TestTopPairEventCandidate, testReconstructTopEventUsingChiWithNotEnoughJetsThrowsException));
 
     return s;
 }
