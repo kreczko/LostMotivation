@@ -89,6 +89,7 @@ public:
     bool RobustTightID() const;
     unsigned short getClosestJetID(const JetCollection& jets) const;
     Algorithm getUsedAlgorithm() const;
+    float swissCross() const;
 
     void setRobustLooseID(bool id);
     void setRobustTightID(bool id);
@@ -105,12 +106,15 @@ public:
     void setHadOverEm(float HoverE);
     void setIsEcalDriven(bool eDriven);
     void setIsTrackerDriven(bool tDriven);
+    void setSwissCross(float swiss);
 
     float relativeIsolation() const;
 
     bool isInBarrelRegion() const;
     bool isInCrack() const;
     bool isInEndCapRegion() const;
+
+    bool isEcalSpike() const;
 
 private:
     Algorithm usedAlgorithm;
@@ -121,7 +125,7 @@ private:
     //used for HEEP
     float sigma_IEtaIEta, dPhi_In, dEta_In, hadOverEm;
     bool ecalDriven, trackerDriven;
-    float swissCross;
+    float swiss_Cross;
 
     bool getVBTF_W70_ElectronID_Barrel() const;
     bool getVBTF_W70_ElectronID_Endcap() const;

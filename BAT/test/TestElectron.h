@@ -7,6 +7,7 @@
 using namespace BAT;
 
 struct TestElectron {
+    static const float invalidSwissCross = 2;
 private:
     Electron isolatedElectron;
     Electron goodElectron;
@@ -250,6 +251,30 @@ public:
         ASSERT_EQUAL(500, electron.mass());
     }
 
+    void testSwissCrossBarrel() {
+        goodElectron.setSuperClusterEta(1);
+        goodElectron.setSwissCross(invalidSwissCross);
+        goodElectron.setIsEcalDriven(true);
+        ASSERT_EQUAL(true, goodElectron.isEcalSpike());
+        ASSERT_EQUAL(false, goodElectron.isGood());
+    }
+
+    void testSwissCrossEndcap() {
+        goodElectron.setSuperClusterEta(2);
+        goodElectron.setSwissCross(invalidSwissCross);
+        goodElectron.setIsEcalDriven(true);
+        ASSERT_EQUAL(false, goodElectron.isEcalSpike());
+        ASSERT_EQUAL(true, goodElectron.isGood());
+    }
+
+    void testSwissCrossNotEcalDriven() {
+        goodElectron.setSuperClusterEta(2);
+        goodElectron.setSwissCross(invalidSwissCross);
+        goodElectron.setIsEcalDriven(false);
+        ASSERT_EQUAL(false, goodElectron.isEcalSpike());
+        ASSERT_EQUAL(true, goodElectron.isGood());
+    }
+
 };
 extern cute::suite make_suite_TestElectron() {
     cute::suite s;
@@ -273,5 +298,8 @@ extern cute::suite make_suite_TestElectron() {
     s.push_back(CUTE_SMEMFUN(TestElectron, testElectronInCollection));
     s.push_back(CUTE_SMEMFUN(TestElectron, testElectronSetMass));
     s.push_back(CUTE_SMEMFUN(TestElectron, testElectronInSTDCollection));
+    s.push_back(CUTE_SMEMFUN(TestElectron, testSwissCrossBarrel));
+    s.push_back(CUTE_SMEMFUN(TestElectron, testSwissCrossEndcap));
+    s.push_back(CUTE_SMEMFUN(TestElectron, testSwissCrossNotEcalDriven));
     return s;
 }

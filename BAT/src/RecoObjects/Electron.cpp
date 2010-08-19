@@ -35,7 +35,7 @@ Electron::Electron() :
     Particle(), usedAlgorithm(Electron::Calo), robustLooseId(false), robustTightId(false), superCluser_Eta(
             initialBigValue), ecal_Isolation(initialBigValue), hcal_Isolation(initialBigValue), tracker_Isolation(
             initialBigValue), innerLayerMissingHits(initialBigValue), sigma_IEtaIEta(0), dPhi_In(0), dEta_In(0),
-            hadOverEm(0), ecalDriven(false), trackerDriven(false), swissCross(1) {
+            hadOverEm(0), ecalDriven(false), trackerDriven(false), swiss_Cross(1) {
 }
 
 Electron::Electron(const Electron& other) :
@@ -44,7 +44,7 @@ Electron::Electron(const Electron& other) :
                     other.ecalIsolation()), hcal_Isolation(other.hcalIsolation()), tracker_Isolation(
                     other.trackerIsolation()), innerLayerMissingHits(other.innerLayerMissingHits), sigma_IEtaIEta(
                     other.sigma_IEtaIEta), dPhi_In(other.dPhi_In), dEta_In(other.dEta_In), hadOverEm(other.hadOverEm),
-            ecalDriven(other.ecalDriven), trackerDriven(other.trackerDriven), swissCross(other.swissCross) {
+            ecalDriven(other.ecalDriven), trackerDriven(other.trackerDriven), swiss_Cross(other.swiss_Cross) {
 
 }
 
@@ -52,7 +52,7 @@ Electron::Electron(float energy, float px, float py, float pz) :
     Particle(energy, px, py, pz), usedAlgorithm(Electron::Calo), robustLooseId(false), robustTightId(false),
             superCluser_Eta(initialBigValue), ecal_Isolation(initialBigValue), hcal_Isolation(initialBigValue),
             tracker_Isolation(initialBigValue), innerLayerMissingHits(initialBigValue), sigma_IEtaIEta(0), dPhi_In(0),
-            dEta_In(0), hadOverEm(0), ecalDriven(false), trackerDriven(false), swissCross(1) {
+            dEta_In(0), hadOverEm(0), ecalDriven(false), trackerDriven(false), swiss_Cross(1) {
 }
 
 Electron::~Electron() {
@@ -96,6 +96,9 @@ Electron::Algorithm Electron::getUsedAlgorithm() const {
     return usedAlgorithm;
 }
 
+float Electron::swissCross() const{
+    return swiss_Cross;
+}
 void Electron::setEcalIsolation(float isolation) {
     ecal_Isolation = isolation;
 }
@@ -144,6 +147,10 @@ void Electron::setIsTrackerDriven(bool tDriven) {
     trackerDriven = tDriven;
 }
 
+void Electron::setSwissCross(float swiss){
+    swiss_Cross = swiss;
+}
+
 bool Electron::isLoose() const {
     bool passesEt = et() > Electron::looseElectronMinimalEt;
     bool passesEta = fabs(eta()) < Electron::looseElectronMaximalAbsoluteEta;
@@ -156,7 +163,8 @@ bool Electron::isGood() const {
     bool passesEta = fabs(superClusterEta()) < goodElectronMaximalAbsoluteEta && !isInCrack();
     bool passesD0 = fabs(d0()) < goodElectronMaximalDistanceFromInteractionPoint;
     bool passesID = VBTF_W70_ElectronID();
-    return passesEt && passesEta && passesD0 && passesID;
+    bool isNotEcalSpike = isEcalSpike() == false;
+    return passesEt && passesEta && passesD0 && passesID && isNotEcalSpike;
 }
 
 bool Electron::isInBarrelRegion() const {
@@ -256,6 +264,10 @@ bool Electron::getVBTF_W70_ElectronID_Endcap() const {
     bool passesDEtaIn = dEta_In < VBTF_W70::MaximalDEtaIn_EndcapRegion;
     bool passesHadOverEm = hadOverEm < VBTF_W70::MaximalHadOverEm_EndcapRegion;
     return passesSigmaIEta && passesDPhiIn && passesDEtaIn && passesHadOverEm;
+}
+
+bool Electron::isEcalSpike() const{
+    return isEcalDriven() && isInBarrelRegion() && swiss_Cross > Electron::goodElectronMaximalSwissCross;
 }
 
 }
