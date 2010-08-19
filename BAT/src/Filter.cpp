@@ -32,7 +32,7 @@ Filter * Filter::makeTopPairEPlusJetsFilter() {
 
 	filter->setGoodElectronMinimalEt(30.0);
 	filter->setGoodElectronMaximalAbsoluteEta(2.5);
-	filter->setGoodElectronMaximalDistanceFromInteractionPoint(200);//micro meter
+	filter->setGoodElectronMaximalDistanceFromInteractionPoint(0.02);//centimeter
 
 	filter->setLooseElectronMinimalEt(20.0);
 	filter->setLooseElectronMaximalAbsoluteEta(2.5);
