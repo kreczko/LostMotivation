@@ -7,8 +7,8 @@
 using namespace BAT;
 
 struct TestElectron {
-    static const float invalidSwissCross = 2;
 private:
+    float invalidSwissCross;
     Electron isolatedElectron;
     Electron goodElectron;
     Electron badEtElectron;
@@ -21,10 +21,10 @@ private:
     Electron badElectronNoID;
 public:
     TestElectron() :
-        isolatedElectron(30., 10., 0., 0.), goodElectron(30., 20., 5., 2.), badEtElectron(20., 10., 0., 5.),
-                badEtaElectron(400., 50., 50., 380), badInCrackElectron(400., 50., 50., 380), badD0Electron(40., 5.,
-                        5., 0.), badElectronFromConversion(400., 50., 50., 380), looseElectron(40., 20., 20., 0.),
-                badLooseElectronNoID(30., 20., 5., 2.), badElectronNoID(30., 20., 5., 2.) {
+        invalidSwissCross(2), isolatedElectron(30., 10., 0., 0.), goodElectron(30., 20., 5., 2.), badEtElectron(20.,
+                10., 0., 5.), badEtaElectron(400., 50., 50., 380), badInCrackElectron(400., 50., 50., 380),
+                badD0Electron(40., 5., 5., 0.), badElectronFromConversion(400., 50., 50., 380), looseElectron(40., 20.,
+                        20., 0.), badLooseElectronNoID(30., 20., 5., 2.), badElectronNoID(30., 20., 5., 2.) {
         setElectronConditions();
         setIsolatedElectron();
         setGoodElectron();
