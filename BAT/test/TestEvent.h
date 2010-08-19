@@ -59,6 +59,8 @@ private:
         goodIsolatedElectron->setEcalIsolation(0.3);
         goodIsolatedElectron->setTrackerIsolation(0.4);
         goodIsolatedElectron->setNumberOfMissingInnerLayerHits(0);
+        goodIsolatedElectron->setD0(0);
+        goodIsolatedElectron->setSuperClusterEta(1);
     }
 
     void setUpGoodIsolatedElectron2() {
@@ -66,6 +68,8 @@ private:
         goodIsolatedElectron2->setEcalIsolation(0.3);
         goodIsolatedElectron2->setTrackerIsolation(0.4);
         goodIsolatedElectron2->setNumberOfMissingInnerLayerHits(0);
+        goodIsolatedElectron2->setD0(0);
+        goodIsolatedElectron2->setSuperClusterEta(1);
     }
 
     void setUpBadElectron() {
@@ -81,6 +85,7 @@ private:
         goodLooseElectron->setSigmaIEtaIEta(VBTF_W70::MaximalDEtaIn_BarrelRegion + 2);
         goodLooseElectron->setRobustLooseID(true);
         goodLooseElectron->setNumberOfMissingInnerLayerHits(0);
+        goodLooseElectron->setD0(0);
         assert(goodLooseElectron->isGood() == false);
         assert(goodLooseElectron->isLoose());
     }

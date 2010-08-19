@@ -61,6 +61,8 @@ private:
         goodIsolatedElectron->setEcalIsolation(0.3);
         goodIsolatedElectron->setTrackerIsolation(0.4);
         goodIsolatedElectron->setNumberOfMissingInnerLayerHits(0);
+        goodIsolatedElectron->setD0(0);
+        goodIsolatedElectron->setSuperClusterEta(0);
     }
 
     void setUpGoodIsolatedElectron2() {
@@ -68,6 +70,8 @@ private:
         goodIsolatedElectron2->setEcalIsolation(0.3);
         goodIsolatedElectron2->setTrackerIsolation(0.4);
         goodIsolatedElectron2->setNumberOfMissingInnerLayerHits(0);
+        goodIsolatedElectron2->setD0(0);
+        goodIsolatedElectron2->setSuperClusterEta(0);
     }
 
     void setUpBadElectron() {
@@ -414,6 +418,8 @@ public:
         electron->setEcalIsolation(0);
         electron->setTrackerIsolation(0);
         electron->setNumberOfMissingInnerLayerHits(0);
+        electron->setD0(0);
+        electron->setSuperClusterEta(0);
         ElectronCollection eCollection;
         eCollection.push_back(electron);
         TopPairEventCandidate cand = TopPairEventCandidate();
