@@ -32,20 +32,20 @@ struct ReconstructionException: public std::exception {
 class TopPairEventCandidate: public Event {
 
 private:
-    static const double matched_angle = 0.945666;
-    static const double matched_angle_sigma = 0.311091;
-    static const double matched_leptonic_top_mass = 178.377;
-    static const double matched_leptonic_top_mass_sigma = 31.050;
-    static const double matched_hadronic_W_mass = 89.9153;
-    static const double matched_hadronic_W_mass_sigma = 13.8711;
-    static const double matched_hadronic_top_mass = 182.191;
-    static const double matched_hadronic_top_mass_sigma = 22.1484;
-    static const double matched_ptratio = 0.18552;
-    static const double matched_ptratio_sigma = 0.401973;
-    static const double matched_pt_ttbarSystem = 0.0760939;
-    static const double matched_pt_ttbarSystem_sigma = 0.0700391;
-    static const double matched_HTSystem = 1;
-    static const double matched_HTSystem_sigma = 0.1;
+    static double const matched_angle;// = 0.945666;
+    static double const matched_angle_sigma;// = 0.311091;
+    static double const matched_leptonic_top_mass;// = 178.377;
+    static double const matched_leptonic_top_mass_sigma;// = 31.050;
+    static double const matched_hadronic_W_mass;// = 89.9153;
+    static double const matched_hadronic_W_mass_sigma;// = 13.8711;
+    static double const matched_hadronic_top_mass;// = 182.191;
+    static double const matched_hadronic_top_mass_sigma;// = 22.1484;
+    static double const matched_ptratio;// = 0.18552;
+    static double const matched_ptratio_sigma;// = 0.401973;
+    static double const matched_pt_ttbarSystem;// = 0.0760939;
+    static double const matched_pt_ttbarSystem_sigma;// = 0.0700391;
+    static double const matched_HTSystem;// = 1;
+    static double const matched_HTSystem_sigma;// = 0.1;
 
     JetPointer leptonicBJet, hadronicBJet, jet1FromW, jet2FromW;
     ParticlePointer neutrino1, neutrino2, leptonicW1, leptonicW2, hadronicW, leptonicTop1, leptonicTop2, hadronicTop,
@@ -107,6 +107,7 @@ public:
     void reconstructNeutrinos();
     bool hasNextJetCombination();
     void selectNextJetCombination();
+    void inspectEvent() const;
 
 };
 

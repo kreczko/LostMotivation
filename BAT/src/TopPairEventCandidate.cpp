@@ -9,6 +9,21 @@
 
 namespace BAT {
 
+    double const TopPairEventCandidate::matched_angle = 0.945666;
+    double const TopPairEventCandidate::matched_angle_sigma = 0.311091;
+    double const TopPairEventCandidate::matched_leptonic_top_mass = 178.377;
+    double const TopPairEventCandidate::matched_leptonic_top_mass_sigma = 31.050;
+    double const TopPairEventCandidate::matched_hadronic_W_mass = 89.9153;
+    double const TopPairEventCandidate::matched_hadronic_W_mass_sigma = 13.8711;
+    double const TopPairEventCandidate::matched_hadronic_top_mass = 182.191;
+    double const TopPairEventCandidate::matched_hadronic_top_mass_sigma = 22.1484;
+    double const TopPairEventCandidate::matched_ptratio = 0.18552;
+    double const TopPairEventCandidate::matched_ptratio_sigma = 0.401973;
+    double const TopPairEventCandidate::matched_pt_ttbarSystem = 0.0760939;
+    double const TopPairEventCandidate::matched_pt_ttbarSystem_sigma = 0.0700391;
+    double const TopPairEventCandidate::matched_HTSystem = 1;
+    double const TopPairEventCandidate::matched_HTSystem_sigma = 0.1;
+
 TopPairEventCandidate::TopPairEventCandidate() :
     Event(), leptonicBJet(), hadronicBJet(), jet1FromW(), jet2FromW(), neutrino1(), neutrino2(), leptonicW1(),
             leptonicW2(), hadronicW(), leptonicTop1(), leptonicTop2(), hadronicTop(), selectedNeutrino(0),
@@ -328,4 +343,7 @@ double TopPairEventCandidate::mttbar() const {
     return ttbarResonance->mass();
 }
 
+void TopPairEventCandidate::inspectEvent() const{
+//    for(goodJets)
+}
 }
