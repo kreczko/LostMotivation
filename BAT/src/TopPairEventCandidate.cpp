@@ -9,20 +9,20 @@
 
 namespace BAT {
 
-    double const TopPairEventCandidate::matched_angle = 0.945666;
-    double const TopPairEventCandidate::matched_angle_sigma = 0.311091;
-    double const TopPairEventCandidate::matched_leptonic_top_mass = 178.377;
-    double const TopPairEventCandidate::matched_leptonic_top_mass_sigma = 31.050;
-    double const TopPairEventCandidate::matched_hadronic_W_mass = 89.9153;
-    double const TopPairEventCandidate::matched_hadronic_W_mass_sigma = 13.8711;
-    double const TopPairEventCandidate::matched_hadronic_top_mass = 182.191;
-    double const TopPairEventCandidate::matched_hadronic_top_mass_sigma = 22.1484;
-    double const TopPairEventCandidate::matched_ptratio = 0.18552;
-    double const TopPairEventCandidate::matched_ptratio_sigma = 0.401973;
-    double const TopPairEventCandidate::matched_pt_ttbarSystem = 0.0760939;
-    double const TopPairEventCandidate::matched_pt_ttbarSystem_sigma = 0.0700391;
-    double const TopPairEventCandidate::matched_HTSystem = 1;
-    double const TopPairEventCandidate::matched_HTSystem_sigma = 0.1;
+double const TopPairEventCandidate::matched_angle = 0.945666;
+double const TopPairEventCandidate::matched_angle_sigma = 0.311091;
+double const TopPairEventCandidate::matched_leptonic_top_mass = 178.377;
+double const TopPairEventCandidate::matched_leptonic_top_mass_sigma = 31.050;
+double const TopPairEventCandidate::matched_hadronic_W_mass = 89.9153;
+double const TopPairEventCandidate::matched_hadronic_W_mass_sigma = 13.8711;
+double const TopPairEventCandidate::matched_hadronic_top_mass = 182.191;
+double const TopPairEventCandidate::matched_hadronic_top_mass_sigma = 22.1484;
+double const TopPairEventCandidate::matched_ptratio = 0.18552;
+double const TopPairEventCandidate::matched_ptratio_sigma = 0.401973;
+double const TopPairEventCandidate::matched_pt_ttbarSystem = 0.0760939;
+double const TopPairEventCandidate::matched_pt_ttbarSystem_sigma = 0.0700391;
+double const TopPairEventCandidate::matched_HTSystem = 1;
+double const TopPairEventCandidate::matched_HTSystem_sigma = 0.1;
 
 TopPairEventCandidate::TopPairEventCandidate() :
     Event(), leptonicBJet(), hadronicBJet(), jet1FromW(), jet2FromW(), neutrino1(), neutrino2(), leptonicW1(),
@@ -184,6 +184,7 @@ void TopPairEventCandidate::reconstructUsingChi2() {
     else
         ttbarResonance = ParticlePointer(new Particle(*leptonicTop2 + *hadronicTop));
 
+    doneReconstruction = true;
 }
 
 void TopPairEventCandidate::reconstructNeutrinos() {
@@ -340,10 +341,26 @@ const ParticlePointer TopPairEventCandidate::getHadronicTop() const {
 }
 
 double TopPairEventCandidate::mttbar() const {
+    if (doneReconstruction == false)
+        throw ReconstructionException("Can't access reconstructed particles before reconstruction.");
     return ttbarResonance->mass();
 }
 
-void TopPairEventCandidate::inspectEvent() const{
-//    for(goodJets)
+void TopPairEventCandidate::inspectEvent() const {
+    cout << "number of jets: " << allJets.size() << endl;
+    cout << "number of good jets: " << goodJets.size() << endl;
+    for (unsigned short index = 0; index < goodJets.size(); ++index) {
+        const JetPointer jet = goodJets.at(index);
+        cout << "Jet No " << index << endl;
+        cout << "pt\t px\t py\t pz" << endl;
+        cout << jet->pt() << "\t" << jet->px() << "\t" << jet->py() << "\t" << jet->pz() << endl;
+        cout << "emf\t eta\t n90Hits\t fHPD" << endl;
+        cout << jet->emf() << "\t" << jet->eta() << "\t" << jet->n90Hits() << "\t" << jet->fHPD() << endl;
+    }
+
+    cout << "number of electrons: " << allElectrons.size() << endl;
+    cout << "number of good electrons: " << goodElectrons.size() << endl;
+    cout << "number of good isolated electrons: " << goodIsolatedElectrons.size() << endl;
+
 }
 }
