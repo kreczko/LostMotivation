@@ -15,7 +15,7 @@ ElectronReader::ElectronReader() :
             superClusterEtaReader(), d0Reader(), numberOfInnerLayerMissingHitsReader(), ecalIsolationReader(),
             hcalIsolationReader(), trackerIsolationReader(), robustLooseIDReader(), robustTightIDReader(),
             sigmaIEtaIEtaReader(), dPhiInReader(), dEtaInReader(), hadOverEmReader(), isEcalDrivenReader(),
-            isTrackerDrivenReader(), electrons() {
+            isTrackerDrivenReader(), swissCrossReader(), electrons() {
 
 }
 ElectronReader::ElectronReader(TChainPointer input, Electron::Algorithm algo) :
@@ -32,7 +32,7 @@ ElectronReader::ElectronReader(TChainPointer input, Electron::Algorithm algo) :
                     algorithmPrefixes[algo] + "_dPhiIn"), dEtaInReader(input, algorithmPrefixes[algo] + "_dEtaIn"),
             hadOverEmReader(input, algorithmPrefixes[algo] + "_hadOverEm"), isEcalDrivenReader(input,
                     algorithmPrefixes[algo] + "_isEcalDriven"), isTrackerDrivenReader(input, algorithmPrefixes[algo]
-                    + "_isTrackerDriven"), electrons() {
+                    + "_isTrackerDriven"), swissCrossReader(input, "e_swissCross"), electrons() {
 
 }
 
@@ -70,6 +70,7 @@ void ElectronReader::readElectrons() {
 
         electron->setIsEcalDriven(isEcalDrivenReader.getVariableAt(index) == 1);
         electron->setIsTrackerDriven(isTrackerDrivenReader.getVariableAt(index) == 1);
+        electron->setSwissCross(swissCrossReader.getVariableAt(index));
 
         electrons.push_back(electron);
     }
@@ -99,6 +100,7 @@ void ElectronReader::initialise() {
 
     isEcalDrivenReader.initialise();
     isTrackerDrivenReader.initialise();
+    swissCrossReader.initialise();
 }
 
 }

@@ -45,6 +45,7 @@ private:
 
 	VariableReader<MultiFloatPointer> isEcalDrivenReader;
 	VariableReader<MultiFloatPointer> isTrackerDrivenReader;
+	VariableReader<MultiFloatPointer> swissCrossReader;
 
 	ElectronCollection electrons;
 	void readElectrons();

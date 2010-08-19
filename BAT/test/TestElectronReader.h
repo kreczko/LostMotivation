@@ -6,20 +6,26 @@
 
 #include "../interface/RecoObjects/Electron.h"
 #include "../interface/Readers/ElectronReader.h"
+#include "../interface/Readers/NTupleEventReader.h"
 
 using namespace BAT;
 
 struct TestElectronReader {
 private:
-    boost::shared_ptr<TChain> input;
+    boost::shared_ptr<TChain> input, input2, input3;
     boost::scoped_ptr<ElectronReader> electronReader;
     ElectronCollection electrons;
     ElectronPointer firstElectron;
 public:
     TestElectronReader() :
-        input(new TChain("configurableAnalysis/eventB")), electronReader(new ElectronReader(input)), electrons(),
-                firstElectron() {
+        input(new TChain(NTupleEventReader::EVENT_CHAIN)), input2(new TChain(NTupleEventReader::HLT_TRIGGER_CHAIN)),
+                input3(new TChain(NTupleEventReader::ECAL_SPIKE_CLEANING_CHAIN)), electronReader(new ElectronReader(
+                        input)), electrons(), firstElectron() {
+        input->AddFriend(input2.get());
+        input->AddFriend(input3.get());
         input->Add("/storage/top/mc/V4/MG/e20skim_ttjet/e20skim_nTuple_ttjet_f_1.root");
+        input2->Add("/storage/top/mc/V4/MG/e20skim_ttjet/e20skim_nTuple_ttjet_f_1.root");
+        input3->Add("/storage/top/mc/V4/MG/e20skim_ttjet/e20skim_nTuple_ttjet_f_1.root");
         input->LoadTree(1);
         input->SetBranchStatus("*", 0);
         electronReader->initialise();
@@ -61,20 +67,24 @@ public:
         ASSERT_EQUAL_DELTA(0., firstElectron->HadOverEm(), 0.0000001);
     }
 
-    void testFirstElectronIsEcalDriven(){
+    void testFirstElectronIsEcalDriven() {
         ASSERT_EQUAL(true, firstElectron->isEcalDriven());
     }
 
-    void testFirstElectronIsTrackerDriven(){
+    void testFirstElectronIsTrackerDriven() {
         ASSERT_EQUAL(true, firstElectron->isTrackerDriven());
     }
 
-    void testFirstElectronCharge(){
+    void testFirstElectronCharge() {
         ASSERT_EQUAL(1, fabs(firstElectron->charge()));
     }
 
-    void testFirstElectronD0(){
+    void testFirstElectronD0() {
         ASSERT_EQUAL_DELTA(-0.000193891, firstElectron->d0(), 0.000000001);
+    }
+
+    void testFirstElectronSwissCross() {
+        ASSERT_EQUAL_DELTA(1.60136e-13, firstElectron->swissCross(),  1.0e-17);
     }
 };
 extern cute::suite make_suite_TestElectronReader() {
@@ -91,5 +101,6 @@ extern cute::suite make_suite_TestElectronReader() {
     s.push_back(CUTE_SMEMFUN(TestElectronReader, testFirstElectronIsTrackerDriven));
     s.push_back(CUTE_SMEMFUN(TestElectronReader, testFirstElectronCharge));
     s.push_back(CUTE_SMEMFUN(TestElectronReader, testFirstElectronD0));
+    s.push_back(CUTE_SMEMFUN(TestElectronReader, testFirstElectronSwissCross));
     return s;
 }
