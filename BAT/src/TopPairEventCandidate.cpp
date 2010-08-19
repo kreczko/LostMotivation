@@ -6,7 +6,9 @@
  */
 
 #include "../interface/TopPairEventCandidate.h"
+#include <iostream>
 
+using namespace std;
 namespace BAT {
 
 double const TopPairEventCandidate::matched_angle = 0.945666;
