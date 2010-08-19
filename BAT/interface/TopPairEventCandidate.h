@@ -16,26 +16,57 @@
 
 namespace BAT {
 
+struct ReconstructionException: public std::exception {
+    TString msg;
+    ReconstructionException(TString message) :
+        msg(message) {
+    }
+    ~ReconstructionException() throw () {
+    }
+
+    const char* what() const throw () {
+        return msg;
+    }
+};
+
 class TopPairEventCandidate: public Event {
 
 private:
+    static const double matched_angle = 0.945666;
+    static const double matched_angle_sigma = 0.311091;
+    static const double matched_leptonic_top_mass = 178.377;
+    static const double matched_leptonic_top_mass_sigma = 31.050;
+    static const double matched_hadronic_W_mass = 89.9153;
+    static const double matched_hadronic_W_mass_sigma = 13.8711;
+    static const double matched_hadronic_top_mass = 182.191;
+    static const double matched_hadronic_top_mass_sigma = 22.1484;
+    static const double matched_ptratio = 0.18552;
+    static const double matched_ptratio_sigma = 0.401973;
+    static const double matched_pt_ttbarSystem = 0.0760939;
+    static const double matched_pt_ttbarSystem_sigma = 0.0700391;
+    static const double matched_HTSystem = 1;
+    static const double matched_HTSystem_sigma = 0.1;
+
     JetPointer leptonicBJet, hadronicBJet, jet1FromW, jet2FromW;
-    ParticlePointer neutrino1, neutrino2;
+    ParticlePointer neutrino1, neutrino2, leptonicW1, leptonicW2, hadronicW, leptonicTop1, leptonicTop2, hadronicTop,
+            ttbarResonance;
+    unsigned short selectedNeutrino, hadronicBIndex, leptonicBIndex, jet1FromWIndex, jet2FromWIndex;
+    bool doneReconstruction;
 public:
     TopPairEventCandidate();
     TopPairEventCandidate(const Event& event);
     virtual ~TopPairEventCandidate();
 
-    //	static constTopPairEventCandidate* getCandidateByChi2();
-    //	static TopPairEventCandidate* getCandidateByJetSubstructure();
-    //	static TopPairEventCandidate* getCandidateByMCTruthMatching();
-
-    const Jet& getLeptonicBJet() const;
-    const Jet& getHadronicBJet() const;
-    const Jet& getJet1FromHadronicW() const;
-    const Jet& getJet2FromHadronicW() const;
-    const Electron& getElectronFromWDecay() const;
-    const Particle& getNeutrinoFromWDecay() const;
+    const JetPointer getLeptonicBJet() const;
+    const JetPointer getHadronicBJet() const;
+    const JetPointer getJet1FromHadronicW() const;
+    const JetPointer getJet2FromHadronicW() const;
+    const ElectronPointer getElectronFromWDecay() const;
+    const ParticlePointer getNeutrinoFromWDecay() const;
+    const ParticlePointer getLeptonicW() const;
+    const ParticlePointer getHadronicW() const;
+    const ParticlePointer getLeptonicTop() const;
+    const ParticlePointer getHadronicTop() const;
 
     bool passesSelectionStep(TTbarEPlusJetsSelection::Step step) const;
     bool passesSelectionStepUpTo(TTbarEPlusJetsSelection::Step upToStep) const;
@@ -55,15 +86,27 @@ public:
     bool passesFullTTbarEPlusJetSelection() const;
     bool hasIsolatedElectronInBarrelRegion() const;
 
-    void reconstructUsingChi2() const;
-    void reconstructUsingSubjets() const;
-    void reconstructUsingMCTruth() const;
+    void reconstructUsingChi2();
+    void reconstructUsingSubjets();
+    void reconstructUsingMCTruth();
 
-private:
-    float getLeptonicChi2();
-    float getHadronicChi2();
-    float getGlobalChi2();
-    float getTotalChi2();
+    double getLeptonicChi2(unsigned short neutrinoSolution) const;
+    double getLeptonicChi2(double topMass, double angle) const;
+    double getHadronicChi2() const;
+    double getGlobalChi2(unsigned short neutrinoSolution) const;
+    double getTotalChi2(unsigned short neutrinoSolution) const;
+    double getTotalChi2();
+
+    double mttbar() const;
+    double sumPt() const;
+    double HT(unsigned short jetLimit) const;
+    double HTSystem() const;
+    double PtRatio() const;
+    double PtTtbarSystem(unsigned short neutrinoSolution) const;
+    const boost::array<double, 2> computeNeutrinoPz();
+    void reconstructNeutrinos();
+    bool hasNextJetCombination();
+    void selectNextJetCombination();
 
 };
 
