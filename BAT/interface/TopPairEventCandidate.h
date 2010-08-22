@@ -67,6 +67,7 @@ public:
     const ParticlePointer getHadronicW() const;
     const ParticlePointer getLeptonicTop() const;
     const ParticlePointer getHadronicTop() const;
+    const ParticlePointer getRessonance() const;
 
     bool passesSelectionStep(TTbarEPlusJetsSelection::Step step) const;
     bool passesSelectionStepUpTo(TTbarEPlusJetsSelection::Step upToStep) const;
@@ -108,6 +109,16 @@ public:
     bool hasNextJetCombination();
     void selectNextJetCombination();
     void inspectEvent() const;
+    void inspectReconstructedEvent() const;
+private:
+    void throwExpeptionIfNotReconstructed() const;
+    void inspectGoodJets() const;
+    void inspectJets(const JetCollection jets) const;
+    void inspectElectrons(const ElectronCollection electrons) const;
+
+    void inspectJet(const JetPointer jet) const;
+    void inspectElectron(const ElectronPointer electron) const;
+    void inspectParticle(const ParticlePointer particle) const;
 
 };
 

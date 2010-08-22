@@ -6,8 +6,9 @@
  */
 
 #include "../interface/TopPairEventCandidate.h"
+#include "../interface/Taggers/BJetTagger.h"
 #include <iostream>
-
+#include <iomanip>
 using namespace std;
 namespace BAT {
 
@@ -43,8 +44,10 @@ TopPairEventCandidate::~TopPairEventCandidate() {
 }
 
 bool TopPairEventCandidate::passesHighLevelTrigger() const {
-    if (isRealData() && runNumber >= 137029)
+    if (isRealData() && runNumber >= 137029 && runNumber < 141900)
         return HLT_Photon15_Cleaned_L1R;
+    else if (isRealData() && runNumber >= 141900)
+        return HLT_Photon20_Cleaned_L1R;
     else
         return HLT_Emulated_Photon15;
 }
@@ -191,31 +194,60 @@ void TopPairEventCandidate::reconstructUsingChi2() {
 
 void TopPairEventCandidate::reconstructNeutrinos() {
     boost::array<double, 2> neutrinoPzs = computeNeutrinoPz();
-    double energy1 = sqrt(met.et() * met.et() + neutrinoPzs.at(0) * neutrinoPzs.at(0));
-    double energy2 = sqrt(met.et() * met.et() + neutrinoPzs.at(0) * neutrinoPzs.at(1));
-    neutrino1 = ParticlePointer(new Particle(energy1, met.px(), met.py(), neutrinoPzs.at(0)));
-    neutrino2 = ParticlePointer(new Particle(energy2, met.px(), met.py(), neutrinoPzs.at(1)));
+    double energy1 = sqrt(met->et() * met->et() + neutrinoPzs.at(0) * neutrinoPzs.at(0));
+    double energy2 = sqrt(met->et() * met->et() + neutrinoPzs.at(0) * neutrinoPzs.at(1));
+    neutrino1 = ParticlePointer(new Particle(energy1, met->px(), met->py(), neutrinoPzs.at(0)));
+    neutrino2 = ParticlePointer(new Particle(energy2, met->px(), met->py(), neutrinoPzs.at(1)));
+
+    if(isnan(neutrino1->energy()) && isnan(neutrino2->energy()))
+            throw ReconstructionException("No physical neutrino solution found");
+        else if(isnan(neutrino1->energy()))
+            neutrino1 = neutrino2;
+        else if(isnan(neutrino2->energy()))
+            neutrino2 = neutrino1;
 }
 
 const boost::array<double, 2> TopPairEventCandidate::computeNeutrinoPz() {
     if (goodIsolatedElectrons.size() == 0)
         throw ReconstructionException("Could not reconstruct neutrinos: no isolated electrons found");
-    if (met.energy() == 0)
+    if (met->energy() == 0)
         throw ReconstructionException("Could not reconstruct neutrinos: no MET found");
     boost::array<double, 2> neutrinoPzs;
     const ElectronPointer electron = goodIsolatedElectrons.front();
+
     double pz1(0), pz2(0);
-    double Wmass = 80.389;
-    double k = Wmass * Wmass * 0.5 + (electron->px() * met.px() + electron->py() * met.py());
-    double l = electron->energy() * electron->energy() - electron->pz() * electron->pz();
-    double b = electron->pz() * k / l;
-    double q = (k * k - electron->energy() * electron->energy() * met.et() * met.et()) / l;
-    double root = b * b + q;
-    if (root >= 0) {
-        pz1 = b + sqrt(root);
-        pz2 = b - sqrt(root);
+    double M_W = 80.389;
+    double M_e = 0.0005;
+    double ee = electron->energy();
+    double pxe = electron->px();
+    double pye = electron->py();
+    double pze = electron->pz();
+    double pxnu = met->px();
+    double pynu = met->py();
+
+    double a = M_W * M_W - M_e * M_e + 2.0 * pxe * pxnu + 2.0 * pye * pynu;
+    double A = 4.0 * (ee * ee - pze * pze);
+    double B = -4.0 * a * pze;
+    double C = 4.0 * ee * ee * (pxnu * pxnu + pynu * pynu) - a * a;
+
+    double tmproot = B * B - 4.0 * A * C;
+    //    double k = Wmass * Wmass * 0.5 + (electron->px() * met->px() + electron->py() * met->py());
+    //    double l = electron->energy() * electron->energy() - electron->pz() * electron->pz();
+    //    double b = electron->pz() * k / l;
+    //    double q = (k * k - electron->energy() * electron->energy() * met->et() * met->et()) / l;
+    //    double root = b * b + q;
+    //    if (root >= 0) {
+    //        pz1 = b + sqrt(root);
+    //        pz2 = b - sqrt(root);
+    //    } else {
+    //        pz1 = pz2 = b;
+    //    }
+    if (tmproot < 0) {
+        pz1 = pz2 = -B / (2 * A);
     } else {
-        pz1 = pz2 = b;
+        pz1 = (-B + TMath::Sqrt(tmproot)) / (2.0 * A);
+        pz2 = (-B - TMath::Sqrt(tmproot)) / (2.0 * A);
+
     }
     neutrinoPzs[0] = pz1;
     neutrinoPzs[1] = pz2;
@@ -331,7 +363,86 @@ double TopPairEventCandidate::sumPt() const {
     return leptonicBJet->pt() + hadronicBJet->pt() + jet1FromW->pt() + jet2FromW->pt();
 }
 
+void TopPairEventCandidate::inspectEvent() const {
+    cout << "number of jets: " << allJets.size() << endl;
+    cout << "number of good jets: " << goodJets.size() << endl;
+    inspectJets(goodJets);
+
+    cout << "number of good isolated electrons: " << goodIsolatedElectrons.size() << endl;
+    inspectElectrons(goodIsolatedElectrons);
+
+    cout << "number of good electrons: " << goodElectrons.size() << endl;
+    inspectElectrons(goodElectrons);
+
+    cout << "number of electrons: " << allElectrons.size() << endl;
+    inspectElectrons(allElectrons);
+
+}
+
+void TopPairEventCandidate::inspectJets(const JetCollection jets) const {
+    for (unsigned short index = 0; index < jets.size(); ++index) {
+        const JetPointer jet = jets.at(index);
+        cout << "Jet " << index + 1 << endl;
+        inspectJet(jet);
+    }
+}
+
+void TopPairEventCandidate::inspectElectrons(const ElectronCollection electrons) const {
+    for (unsigned short index = 0; index < electrons.size(); ++index) {
+        const ElectronPointer electron = electrons.at(index);
+        cout << "Electron " << index + 1 << endl;
+        inspectElectron(electron);
+    }
+}
+
+void TopPairEventCandidate::inspectParticle(const ParticlePointer particle) const {
+    cout << setw(30) << "pt" << setw(30) << "px" << setw(30) << "py" << setw(30) << "pz" << endl;
+    cout << setw(30) << particle->pt() << setw(30) << particle->px() << setw(30) << particle->py() << setw(30)
+            << particle->pz() << endl;
+
+    cout << setw(30) << "energy" << setw(30) << "et" << setw(30) << "eta" << setw(30) << "phi" << endl;
+    cout << setw(30) << particle->energy() << setw(30) << particle->et() << setw(30) << particle->eta() << setw(30)
+            << particle->phi() << endl;
+
+    cout << setw(30) << "d0" << setw(30) << "dyn. mass" << setw(30) << "fix. mass" << setw(30) << "charge" << endl;
+    cout << setw(30) << particle->d0() << setw(30) << particle->massFromEnergyAndMomentum() << setw(30)
+            << particle->mass() << setw(30) << particle->charge() << endl;
+}
+
+void TopPairEventCandidate::throwExpeptionIfNotReconstructed() const {
+    if (doneReconstruction == false)
+        throw ReconstructionException("Can't access reconstructed particles before reconstruction.");
+}
+
+const ElectronPointer TopPairEventCandidate::getElectronFromWDecay() const {
+    return goodIsolatedElectrons.front();
+}
+
+const ParticlePointer TopPairEventCandidate::getNeutrinoFromWDecay() const {
+    throwExpeptionIfNotReconstructed();
+    if (selectedNeutrino == 1)
+        return neutrino1;
+    else
+        return neutrino2;
+}
+
+const JetPointer TopPairEventCandidate::getHadronicBJet() const {
+    throwExpeptionIfNotReconstructed();
+    return hadronicBJet;
+}
+
+const JetPointer TopPairEventCandidate::getLeptonicBJet() const {
+    throwExpeptionIfNotReconstructed();
+    return leptonicBJet;
+}
+
+const JetPointer TopPairEventCandidate::getJet1FromHadronicW() const {
+    throwExpeptionIfNotReconstructed();
+    return jet1FromW;
+}
+
 const ParticlePointer TopPairEventCandidate::getLeptonicTop() const {
+    throwExpeptionIfNotReconstructed();
     if (selectedNeutrino == 1)
         return leptonicTop1;
     else
@@ -339,30 +450,95 @@ const ParticlePointer TopPairEventCandidate::getLeptonicTop() const {
 }
 
 const ParticlePointer TopPairEventCandidate::getHadronicTop() const {
+    throwExpeptionIfNotReconstructed();
     return hadronicTop;
 }
 
-double TopPairEventCandidate::mttbar() const {
-    if (doneReconstruction == false)
-        throw ReconstructionException("Can't access reconstructed particles before reconstruction.");
-    return ttbarResonance->mass();
+const ParticlePointer TopPairEventCandidate::getRessonance() const {
+    throwExpeptionIfNotReconstructed();
+    return ttbarResonance;
 }
 
-void TopPairEventCandidate::inspectEvent() const {
-    cout << "number of jets: " << allJets.size() << endl;
-    cout << "number of good jets: " << goodJets.size() << endl;
-    for (unsigned short index = 0; index < goodJets.size(); ++index) {
-        const JetPointer jet = goodJets.at(index);
-        cout << "Jet No " << index << endl;
-        cout << "pt\t px\t py\t pz" << endl;
-        cout << jet->pt() << "\t" << jet->px() << "\t" << jet->py() << "\t" << jet->pz() << endl;
-        cout << "emf\t eta\t n90Hits\t fHPD" << endl;
-        cout << jet->emf() << "\t" << jet->eta() << "\t" << jet->n90Hits() << "\t" << jet->fHPD() << endl;
-    }
+double TopPairEventCandidate::mttbar() const {
+    return getRessonance()->mass();
+}
 
-    cout << "number of electrons: " << allElectrons.size() << endl;
-    cout << "number of good electrons: " << goodElectrons.size() << endl;
-    cout << "number of good isolated electrons: " << goodIsolatedElectrons.size() << endl;
+void TopPairEventCandidate::inspectReconstructedEvent() const {
+    cout << "leptonic b jet, goodJet index " << leptonicBIndex << endl;
+    inspectJet(leptonicBJet);
+
+    cout << "electron from W" << endl;
+    inspectElectron(goodIsolatedElectrons.front());
+
+    cout << "MET" << endl;
+    inspectParticle(met);
+    cout << endl;
+
+    cout << "reconstructed neutrino 1(selected: " << selectedNeutrino << ")" << endl;
+    inspectParticle(neutrino1);
+    cout << endl;
+
+    cout << "reconstructed neutrino 1(selected: " << selectedNeutrino << ")" << endl;
+    inspectParticle(neutrino2);
+    cout << endl;
+
+    cout << "leptonic W 1 (selected: " << selectedNeutrino << ")" << endl;
+    inspectParticle(leptonicW1);
+    cout << endl;
+
+    cout << "leptonic W 2 (selected: " << selectedNeutrino << ")" << endl;
+    inspectParticle(leptonicW2);
+    cout << endl;
+
+    cout << "leptonic top 1 (selected: " << selectedNeutrino << ")" << endl;
+    inspectParticle(leptonicTop1);
+    cout << endl;
+
+    cout << "leptonic top 2 (selected: " << selectedNeutrino << ")" << endl;
+    inspectParticle(leptonicTop2);
+    cout << endl;
+
+    cout << "hadronic b jet, goodJet index " << hadronicBIndex << endl;
+    inspectJet(hadronicBJet);
+
+    cout << "jet1 from W, goodJet index " << jet1FromWIndex << endl;
+    inspectJet(jet1FromW);
+
+    cout << "jet 2 from W, goodJet index " << jet2FromWIndex << endl;
+    inspectJet(jet2FromW);
+
+    cout << "hadronic W" << endl;
+    inspectParticle(hadronicW);
+    cout << endl;
+
+    cout << "hadronic top" << endl;
+    inspectParticle(hadronicTop);
+    cout << endl;
+}
+
+void TopPairEventCandidate::inspectJet(const JetPointer jet) const {
+    inspectParticle(jet);
+    cout << setw(30) << "emf" << setw(30) << "n90Hits" << setw(30) << "fHPD" << setw(30) << "B tag(SSV)" << endl;
+    cout << setw(30) << jet->emf() << setw(30) << jet->n90Hits() << setw(30) << jet->fHPD() << setw(30)
+            << jet->isBJetAccordingToBtagAlgorithm(BJetTagger::SimpleSecondaryVertex) << endl << endl;
+}
+
+void TopPairEventCandidate::inspectElectron(const ElectronPointer electron) const {
+    inspectParticle(electron);
+    cout << setw(30) << "VBTF70" << setw(30) << "VBTF85" << setw(30) << "robust loose" << setw(30) << "robust tight"
+            << endl;
+    cout << setw(30) << electron->VBTF_W70_ElectronID() << setw(30) << "" << setw(30) << electron->RobustLooseID()
+            << setw(30) << electron->RobustTightID() << endl;
+
+    cout << setw(30) << "sigma_{ieta ieta}" << setw(30) << "|Delta phi_{in}|" << setw(30) << "|Delta eta_{in}|"
+            << setw(30) << "HadOverEm" << endl;
+    cout << setw(30) << electron->sigmaIEtaIEta() << setw(30) << fabs(electron->dPhiIn()) << setw(30) << fabs(
+            electron->dEtaIn()) << setw(30) << electron->HadOverEm() << endl;
+
+    cout << setw(30) << "isSpike" << setw(30) << "rel. iso." << setw(30) << "isFromConversion" << setw(30)
+            << "superClusterEta" << endl;
+    cout << setw(30) << electron->isEcalSpike() << setw(30) << electron->relativeIsolation() << setw(30)
+            << electron->isFromConversion() << setw(30) << electron->superClusterEta() << endl << endl;
 
 }
 }
