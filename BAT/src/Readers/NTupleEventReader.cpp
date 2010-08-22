@@ -37,6 +37,7 @@ NTupleEventReader::NTupleEventReader() :
             ecalSpikeCleaningInput(new TChain(NTupleEventReader::ECAL_SPIKE_CLEANING_CHAIN)), HLTPhoton15Reader(
                     new VariableReader<double> (hltTriggerInput, "HLT_Photon15_L1R")), HLTPhoton15CleanedReader(
                     new VariableReader<double> (hltTriggerInput, "HLT_Photon15_Cleaned_L1R")),
+            HLTPhoton20CleanedReader(new VariableReader<double> (hltTriggerInput, "HLT_Photon20_Cleaned_L1R")),
             HLTEmulatedPhoton15Reader(new VariableReader<bool> (ecalSpikeCleaningInput, "pass_photon15")),
             primaryReader(new PrimaryVertexReader(input)), electronReader(new ElectronReader(input)), jetReader(
                     new JetReader(input)), muonReader(new MuonReader(input)), metReader(new METReader(input)),
@@ -63,13 +64,14 @@ const Event& NTupleEventReader::getNextEvent() {
     currentEvent = Event();
     currentEvent.setHLT_Photon15_L1R(HLTPhoton15Reader->getVariable() > 0);
     currentEvent.setHLT_Photon15_Cleaned_L1R(HLTPhoton15CleanedReader->getVariable() > 0);
+    currentEvent.setHLT_Photon20_Cleaned_L1R(HLTPhoton20CleanedReader->getVariable() > 0);
     currentEvent.setHLT_Emulated_Photon15(HLTEmulatedPhoton15Reader->getVariable());
     currentEvent.setPrimaryVertex(primaryReader->getVertex());
     currentEvent.setElectrons(electronReader->getElectrons());
     currentEvent.setJets(jetReader->getJets());
     currentEvent.setMuons(muonReader->getMuons());
     currentEvent.setMET(metReader->getMET());
-    currentEvent.setDataType(getDataType(input->GetCurrentFile()->GetName()));
+    currentEvent.setDataType(getDataType(getCurrentFile()));
     currentEvent.setRunNumber(runNumberReader->getVariable());
     currentEvent.setEventNumber(eventNumberReader->getVariable());
     currentEvent.setLocalEventNumber(currentEventEntry);
@@ -100,6 +102,8 @@ void NTupleEventReader::initiateReadersIfNotSet() {
         HLTPhoton15Reader->initialise();
         if (HLTPhoton15CleanedReader->doesVariableExist())
             HLTPhoton15CleanedReader->initialise();
+        if(HLTPhoton20CleanedReader->doesVariableExist())
+            HLTPhoton20CleanedReader->initialise();
         HLTEmulatedPhoton15Reader->initialise();
         primaryReader->initialise();
         electronReader->initialise();
@@ -173,5 +177,9 @@ void NTupleEventReader::setMaximumNumberOfEvents(unsigned long maxNumberOfEvents
 
 const boost::array<bool, DataType::NUMBER_OF_DATA_TYPES>& NTupleEventReader::getSeenDatatypes() {
     return seenDataTypes;
+}
+
+const char* NTupleEventReader::getCurrentFile() const{
+    return input->GetCurrentFile()->GetName();
 }
 }

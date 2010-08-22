@@ -43,6 +43,7 @@ public:
 	unsigned long getCurrentLocalEventNumber() const;
 	void setMaximumNumberOfEvents(unsigned long maxNumberOfEvents);
 	const boost::array<bool, DataType::NUMBER_OF_DATA_TYPES>& getSeenDatatypes();
+	const char* getCurrentFile() const;
 private:
 	unsigned long processedEvents;
 	unsigned long maximalNumberOfEvents;
@@ -53,6 +54,7 @@ private:
 	boost::shared_ptr<TChain> ecalSpikeCleaningInput;
 	boost::scoped_ptr<VariableReader<double> > HLTPhoton15Reader;
 	boost::scoped_ptr<VariableReader<double> > HLTPhoton15CleanedReader;
+	boost::scoped_ptr<VariableReader<double> > HLTPhoton20CleanedReader;
 	boost::scoped_ptr<VariableReader<bool> > HLTEmulatedPhoton15Reader;
 	boost::scoped_ptr<PrimaryVertexReader> primaryReader;
 	boost::scoped_ptr<ElectronReader> electronReader;
