@@ -18,13 +18,13 @@ public:
 
     METReader();
     METReader(TChainPointer input, MET::Algorithm algo = MET::DEFAULT);
-    const MET& getMET();
+    const METPointer getMET();
     virtual ~METReader();
     void initialise();
 private:
     VariableReader<MultiFloatPointer> exReader;
     VariableReader<MultiFloatPointer> eyReader;
-    MET met;
+    METPointer met;
     MET::Algorithm usedAlgorithm;
     void readMET();
 };

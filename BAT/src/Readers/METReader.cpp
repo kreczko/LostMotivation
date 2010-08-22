@@ -33,12 +33,12 @@ void METReader::initialise() {
     eyReader.initialise();
 }
 
-const MET& METReader::getMET() {
+const METPointer METReader::getMET() {
     readMET();
     return met;
 }
 
 void METReader::readMET() {
-    met = MET(exReader.getVariableAt(0), eyReader.getVariableAt(0));
+    met = METPointer(new MET(exReader.getVariableAt(0), eyReader.getVariableAt(0)));
 }
 }
