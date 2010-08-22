@@ -10,9 +10,10 @@
 namespace BAT {
 
 Event::Event() :
-    HLT_PHOTON15_L1R(false), HLT_Photon15_Cleaned_L1R(false), HLT_Emulated_Photon15(false), primaryVertex(),
-            allElectrons(), goodElectrons(), goodIsolatedElectrons(), met(), dataType(DataType::DATA), runNumber(0),
-            eventNumber(0), lumiBlock(0), eventWeight(1.), jetCleaningEfficiency(1.) {
+    HLT_PHOTON15_L1R(false), HLT_Photon15_Cleaned_L1R(false), HLT_Emulated_Photon15(false), HLT_Photon20_Cleaned_L1R(
+            false), HLT_Emulated_Photon20(false), primaryVertex(), allElectrons(), goodElectrons(),
+            goodIsolatedElectrons(), met(), dataType(DataType::DATA), runNumber(0), eventNumber(0), lumiBlock(0),
+            eventWeight(1.), jetCleaningEfficiency(1.) {
 
 }
 
@@ -141,15 +142,23 @@ void Event::setHLT_Photon15_L1R(bool hltTrigger) {
     HLT_PHOTON15_L1R = hltTrigger;
 }
 
-void Event::setHLT_Photon15_Cleaned_L1R(bool hltTrigger){
+void Event::setHLT_Photon15_Cleaned_L1R(bool hltTrigger) {
     HLT_Photon15_Cleaned_L1R = hltTrigger;
 }
 
-void Event::setHLT_Emulated_Photon15(bool hltTrigger){
+void Event::setHLT_Emulated_Photon15(bool hltTrigger) {
     HLT_Emulated_Photon15 = hltTrigger;
 }
 
-void Event::setMET(const MET& met) {
+void Event::setHLT_Photon20_Cleaned_L1R(bool hltTrigger) {
+    HLT_Photon20_Cleaned_L1R = hltTrigger;
+}
+
+void Event::setHLT_Emulated_Photon20(bool hltTrigger) {
+    HLT_Emulated_Photon20 = hltTrigger;
+}
+
+void Event::setMET(const METPointer met) {
     this->met = met;
 }
 
@@ -209,7 +218,7 @@ const MuonCollection& Event::getGoodIsolatedMuons() const {
     return goodIsolatedMuons;
 }
 
-const MET& Event::getMET() const {
+const METPointer Event::getMET() const {
     return met;
 }
 
