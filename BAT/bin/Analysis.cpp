@@ -11,6 +11,7 @@
 #include <boost/scoped_ptr.hpp>
 #include <boost/array.hpp>
 #include "../interface/EventCounter.h"
+#include <cmath>
 
 using namespace BAT;
 using namespace std;
@@ -23,16 +24,19 @@ void Analysis::analyze() {
         doTTbarCutFlow();
         doDiElectronAnalysis();
         doTTBarAnalysis();
+        if (ttbarCandidate.runnumber() == 142191 && ttbarCandidate.eventnumber() == 58391574)
+            ttbarCandidate.inspectEvent();
+
+        if (ttbarCandidate.runnumber() == 142038 && ttbarCandidate.eventnumber() == 210965064)
+            ttbarCandidate.inspectEvent();
     }
     printInterestingEvents();
     printSummary();
 }
 
-void Analysis::printInterestingEvents(){
-    for(unsigned int index = 0; index < interestingEvents.size(); ++ index){
-        pair<unsigned long, unsigned long> iEvent = interestingEvents.at(index);
-        cout << "run number: " << iEvent.first << ", event: " << iEvent.second << endl;
-
+void Analysis::printInterestingEvents() {
+    for (unsigned int index = 0; index < interestingEvents.size(); ++index) {
+        interestingEvents.at(index).print();
     }
 }
 
@@ -46,6 +50,11 @@ void Analysis::doTTbarCutFlow() {
     for (unsigned int cut = 0; cut < TTbarEPlusJetsSelection::NUMBER_OF_SELECTION_STEPS; ++cut) {
         if (ttbarCandidate.passesSelectionStep((TTbarEPlusJetsSelection::Step) cut)) {
             singleCuts[cut] += 1;
+            if (ttbarCandidate.runnumber() == 142191 && ttbarCandidate.eventnumber() == 58391574)
+                cout << "142191, 58391574 passes cut" << cut << endl;
+
+            if (ttbarCandidate.runnumber() == 142038 && ttbarCandidate.eventnumber() == 210965064)
+                cout << "142038, 210965064 passes cut" << cut << endl;
         }
 
         if (ttbarCandidate.passesSelectionStepUpTo((TTbarEPlusJetsSelection::Step) cut)) {
@@ -78,10 +87,20 @@ void Analysis::doTTBarAnalysis() {
         h_mhadronicTop->Fill(ttbarCandidate.getHadronicTop()->mass());
         h_mAllTop->Fill(ttbarCandidate.getLeptonicTop()->mass());
         h_mAllTop->Fill(ttbarCandidate.getHadronicTop()->mass());
-        h_mttbar->Fill(ttbarCandidate.mttbar());
-        interestingEvents.push_back(pair<unsigned long, unsigned long> (ttbarCandidate.runnumber(),
-                ttbarCandidate.eventnumber()));
-//        cout << "run number: " << ttbarCandidate.runnumber() << ", event: " << ttbarCandidate.eventnumber() << endl;
+        double mttbar = ttbarCandidate.mttbar();
+        h_mttbar->Fill(mttbar);
+        const ParticlePointer ressonance = ttbarCandidate.getRessonance();
+        if (std::isnan(mttbar)) {
+            ttbarCandidate.inspectReconstructedEvent();
+        }
+        if(mttbar > 700 ){
+            cout << "run " << ttbarCandidate.runnumber() << ", event " << ttbarCandidate.eventnumber() << endl;
+            cout << "top pair invariant mass=" << mttbar << endl;
+        }
+
+
+        interestingEvents .push_back(InterestingEvent(ttbarCandidate.runnumber(), ttbarCandidate.eventnumber(),
+                eventReader->getCurrentFile()));
     }
 }
 
@@ -108,7 +127,8 @@ Analysis::Analysis() :
                     0, 1, 300, 0, 300)), h_mttbar(new TH1F("mttbar", "mttbar", 5000, 0, 5000)), h_mleptonicTop(
                     new TH1F("mLeptonicTop", "mLeptonicTop", 500, 0, 500)), h_mhadronicTop(new TH1F("mHadronicTop",
                     "mHadronicTop", 500, 0, 500)), h_mAllTop(new TH1F("mAllTop", "mAllTop", 500, 0, 500)), outputfile(
-                    new TFile("egammaAnalysis.root", "RECREATE")) {
+                    new TFile("egammaAnalysis.root", "RECREATE")), cutflow(), singleCuts(), interestingEvents(),
+            xSections() {
     for (unsigned int cut = 0; cut < TTbarEPlusJetsSelection::NUMBER_OF_SELECTION_STEPS; ++cut) {
         cutflow[cut] = 0;
         singleCuts[cut] = 0;
