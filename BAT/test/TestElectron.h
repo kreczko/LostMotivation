@@ -190,10 +190,119 @@ public:
 
     void testVBTFW70Barrel() {
         Electron electron = Electron(50, 40, 30, 0);
-        electron.setSigmaIEtaIEta(VBTF_W70::MaximalSigmaIEtaIEta_BarrelRegion - 0.01);
-        electron.setDPhiIn(VBTF_W70::MaximalDPhiIn_BarrelRegion - 0.01);
-        electron.setDEtaIn(VBTF_W70::MaximalDEtaIn_BarrelRegion - 0.01);
-        electron.setHadOverEm(VBTF_W70::MaximalHadOverEm_BarrelRegion - 0.01);
+        electron.setSigmaIEtaIEta(VBTF_W70::MaximalSigmaIEtaIEta_BarrelRegion - 0.01
+                * VBTF_W70::MaximalSigmaIEtaIEta_BarrelRegion);
+        electron.setDPhiIn(VBTF_W70::MaximalDPhiIn_BarrelRegion - 0.01 * VBTF_W70::MaximalDPhiIn_BarrelRegion);
+        electron.setDEtaIn(VBTF_W70::MaximalDEtaIn_BarrelRegion - 0.01 * VBTF_W70::MaximalDEtaIn_BarrelRegion);
+        electron.setHadOverEm(VBTF_W70::MaximalHadOverEm_BarrelRegion - 0.01 * VBTF_W70::MaximalHadOverEm_BarrelRegion);
+        electron.setSuperClusterEta(0);
+        assert(electron.isInBarrelRegion());
+        ASSERT_EQUAL(true, electron.VBTF_W70_ElectronID());
+    }
+
+    void testVBTFW70BarrelNegativeValues() {
+        Electron electron = Electron(50, 40, 30, 0);
+        electron.setSigmaIEtaIEta(-VBTF_W70::MaximalSigmaIEtaIEta_BarrelRegion + 0.01
+                * VBTF_W70::MaximalSigmaIEtaIEta_BarrelRegion);
+        electron.setDPhiIn(-VBTF_W70::MaximalDPhiIn_BarrelRegion + 0.01 * VBTF_W70::MaximalDPhiIn_BarrelRegion);
+        electron.setDEtaIn(-VBTF_W70::MaximalDEtaIn_BarrelRegion + 0.01 * VBTF_W70::MaximalDEtaIn_BarrelRegion);
+        electron.setHadOverEm(-VBTF_W70::MaximalHadOverEm_BarrelRegion + 0.01 * VBTF_W70::MaximalHadOverEm_BarrelRegion);
+        electron.setSuperClusterEta(0);
+        assert(electron.isInBarrelRegion());
+        ASSERT_EQUAL(true, electron.VBTF_W70_ElectronID());
+    }
+
+    void testVBTFW70BarrelFailSigmaIEtaIEta() {
+        Electron electron = Electron(50, 3, 0, 40);
+        electron.setSigmaIEtaIEta(VBTF_W70::MaximalSigmaIEtaIEta_BarrelRegion + 0.01
+                * VBTF_W70::MaximalSigmaIEtaIEta_BarrelRegion);
+        electron.setDPhiIn(-VBTF_W70::MaximalDPhiIn_BarrelRegion + 0.01 * VBTF_W70::MaximalDPhiIn_BarrelRegion);
+        electron.setDEtaIn(-VBTF_W70::MaximalDEtaIn_BarrelRegion + 0.01 * VBTF_W70::MaximalDEtaIn_BarrelRegion);
+        electron.setHadOverEm(-VBTF_W70::MaximalHadOverEm_BarrelRegion + 0.01 * VBTF_W70::MaximalHadOverEm_BarrelRegion);
+        electron.setSuperClusterEta(0);
+        assert(electron.isInBarrelRegion());
+        ASSERT_EQUAL(false, electron.VBTF_W70_ElectronID());
+    }
+
+    void testVBTFW70BarrelNegativeSigmaIEtaIEta() {
+        Electron electron = Electron(50, 3, 0, 40);
+        electron.setSigmaIEtaIEta(-VBTF_W70::MaximalSigmaIEtaIEta_BarrelRegion - 0.01
+                * VBTF_W70::MaximalSigmaIEtaIEta_BarrelRegion);
+        electron.setDPhiIn(-VBTF_W70::MaximalDPhiIn_BarrelRegion + 0.01 * VBTF_W70::MaximalDPhiIn_BarrelRegion);
+        electron.setDEtaIn(-VBTF_W70::MaximalDEtaIn_BarrelRegion + 0.01 * VBTF_W70::MaximalDEtaIn_BarrelRegion);
+        electron.setHadOverEm(-VBTF_W70::MaximalHadOverEm_BarrelRegion + 0.01 * VBTF_W70::MaximalHadOverEm_BarrelRegion);
+        electron.setSuperClusterEta(0);
+        assert(electron.isInBarrelRegion());
+        ASSERT_EQUAL(true, electron.VBTF_W70_ElectronID());
+    }
+
+    void testVBTFW70BarrelFailDPhiIn() {
+        Electron electron = Electron(50, 3, 0, 40);
+        electron.setSigmaIEtaIEta(-VBTF_W70::MaximalSigmaIEtaIEta_BarrelRegion + 0.01
+                * VBTF_W70::MaximalSigmaIEtaIEta_BarrelRegion);
+        electron.setDPhiIn(VBTF_W70::MaximalDPhiIn_BarrelRegion + 0.01 * VBTF_W70::MaximalDPhiIn_BarrelRegion);
+        electron.setDEtaIn(-VBTF_W70::MaximalDEtaIn_BarrelRegion + 0.01 * VBTF_W70::MaximalDEtaIn_BarrelRegion);
+        electron.setHadOverEm(-VBTF_W70::MaximalHadOverEm_BarrelRegion + 0.01 * VBTF_W70::MaximalHadOverEm_BarrelRegion);
+        electron.setSuperClusterEta(0);
+        assert(electron.isInBarrelRegion());
+        ASSERT_EQUAL(false, electron.VBTF_W70_ElectronID());
+    }
+
+    void testVBTFW70BarrelFailNegativeDPhiIn() {
+        Electron electron = Electron(50, 3, 0, 40);
+        electron.setSigmaIEtaIEta(-VBTF_W70::MaximalSigmaIEtaIEta_BarrelRegion + 0.01
+                * VBTF_W70::MaximalSigmaIEtaIEta_BarrelRegion);
+        electron.setDPhiIn(-VBTF_W70::MaximalDPhiIn_BarrelRegion - 0.01 * VBTF_W70::MaximalDPhiIn_BarrelRegion);
+        electron.setDEtaIn(-VBTF_W70::MaximalDEtaIn_BarrelRegion + 0.01 * VBTF_W70::MaximalDEtaIn_BarrelRegion);
+        electron.setHadOverEm(-VBTF_W70::MaximalHadOverEm_BarrelRegion + 0.01 * VBTF_W70::MaximalHadOverEm_BarrelRegion);
+        electron.setSuperClusterEta(0);
+        assert(electron.isInBarrelRegion());
+        ASSERT_EQUAL(false, electron.VBTF_W70_ElectronID());
+    }
+
+    void testVBTFW70BarrelFailDEtaIn() {
+        Electron electron = Electron(50, 3, 0, 40);
+        electron.setSigmaIEtaIEta(-VBTF_W70::MaximalSigmaIEtaIEta_BarrelRegion + 0.01
+                * VBTF_W70::MaximalSigmaIEtaIEta_BarrelRegion);
+        electron.setDPhiIn(-VBTF_W70::MaximalDPhiIn_BarrelRegion + 0.01 * VBTF_W70::MaximalDPhiIn_BarrelRegion);
+        electron.setDEtaIn(VBTF_W70::MaximalDEtaIn_BarrelRegion + 0.01 * VBTF_W70::MaximalDEtaIn_BarrelRegion);
+        electron.setHadOverEm(-VBTF_W70::MaximalHadOverEm_BarrelRegion + 0.01 * VBTF_W70::MaximalHadOverEm_BarrelRegion);
+        electron.setSuperClusterEta(0);
+        assert(electron.isInBarrelRegion());
+        ASSERT_EQUAL(false, electron.VBTF_W70_ElectronID());
+    }
+
+    void testVBTFW70BarrelFailNegativeDEtaIn() {
+        Electron electron = Electron(50, 3, 0, 40);
+        electron.setSigmaIEtaIEta(-VBTF_W70::MaximalSigmaIEtaIEta_BarrelRegion + 0.01
+                * VBTF_W70::MaximalSigmaIEtaIEta_BarrelRegion);
+        electron.setDPhiIn(-VBTF_W70::MaximalDPhiIn_BarrelRegion + 0.01 * VBTF_W70::MaximalDPhiIn_BarrelRegion);
+        electron.setDEtaIn(-VBTF_W70::MaximalDEtaIn_BarrelRegion - 0.01 * VBTF_W70::MaximalDEtaIn_BarrelRegion);
+        electron.setHadOverEm(-VBTF_W70::MaximalHadOverEm_BarrelRegion + 0.01 * VBTF_W70::MaximalHadOverEm_BarrelRegion);
+        electron.setSuperClusterEta(0);
+        assert(electron.isInBarrelRegion());
+        ASSERT_EQUAL(false, electron.VBTF_W70_ElectronID());
+    }
+
+    void testVBTFW70BarrelFailHadOverEm() {
+        Electron electron = Electron(50, 3, 0, 40);
+        electron.setSigmaIEtaIEta(-VBTF_W70::MaximalSigmaIEtaIEta_BarrelRegion + 0.01
+                * VBTF_W70::MaximalSigmaIEtaIEta_BarrelRegion);
+        electron.setDPhiIn(-VBTF_W70::MaximalDPhiIn_BarrelRegion + 0.01 * VBTF_W70::MaximalDPhiIn_BarrelRegion);
+        electron.setDEtaIn(-VBTF_W70::MaximalDEtaIn_BarrelRegion + 0.01 * VBTF_W70::MaximalDEtaIn_BarrelRegion);
+        electron.setHadOverEm(VBTF_W70::MaximalHadOverEm_BarrelRegion + 0.01 * VBTF_W70::MaximalHadOverEm_BarrelRegion);
+        electron.setSuperClusterEta(0);
+        assert(electron.isInBarrelRegion());
+        ASSERT_EQUAL(false, electron.VBTF_W70_ElectronID());
+    }
+
+    void testVBTFW70BarrelNegativeHadOverEm() {
+        Electron electron = Electron(50, 3, 0, 40);
+        electron.setSigmaIEtaIEta(-VBTF_W70::MaximalSigmaIEtaIEta_BarrelRegion + 0.01
+                * VBTF_W70::MaximalSigmaIEtaIEta_BarrelRegion);
+        electron.setDPhiIn(-VBTF_W70::MaximalDPhiIn_BarrelRegion + 0.01 * VBTF_W70::MaximalDPhiIn_BarrelRegion);
+        electron.setDEtaIn(-VBTF_W70::MaximalDEtaIn_BarrelRegion + 0.01 * VBTF_W70::MaximalDEtaIn_BarrelRegion);
+        electron.setHadOverEm(-VBTF_W70::MaximalHadOverEm_BarrelRegion - 0.01 * VBTF_W70::MaximalHadOverEm_BarrelRegion);
         electron.setSuperClusterEta(0);
         assert(electron.isInBarrelRegion());
         ASSERT_EQUAL(true, electron.VBTF_W70_ElectronID());
@@ -201,10 +310,119 @@ public:
 
     void testVBTFW70Endcap() {
         Electron electron = Electron(50, 3, 0, 40);
-        electron.setSigmaIEtaIEta(VBTF_W70::MaximalSigmaIEtaIEta_EndcapRegion - 0.01);
-        electron.setDPhiIn(VBTF_W70::MaximalDPhiIn_EndcapRegion - 0.01);
-        electron.setDEtaIn(VBTF_W70::MaximalDEtaIn_EndcapRegion - 0.01);
-        electron.setHadOverEm(VBTF_W70::MaximalHadOverEm_EndcapRegion - 0.01);
+        electron.setSigmaIEtaIEta(VBTF_W70::MaximalSigmaIEtaIEta_EndcapRegion - 0.01
+                * VBTF_W70::MaximalSigmaIEtaIEta_EndcapRegion);
+        electron.setDPhiIn(VBTF_W70::MaximalDPhiIn_EndcapRegion - 0.01 * VBTF_W70::MaximalDPhiIn_EndcapRegion);
+        electron.setDEtaIn(VBTF_W70::MaximalDEtaIn_EndcapRegion - 0.01 * VBTF_W70::MaximalDEtaIn_EndcapRegion);
+        electron.setHadOverEm(VBTF_W70::MaximalHadOverEm_EndcapRegion - 0.01 * VBTF_W70::MaximalHadOverEm_EndcapRegion);
+        electron.setSuperClusterEta(2.6);
+        assert(electron.isInEndCapRegion());
+        ASSERT_EQUAL(true, electron.VBTF_W70_ElectronID());
+    }
+
+    void testVBTFW70EndcapNegativeValues() {
+        Electron electron = Electron(50, 3, 0, 40);
+        electron.setSigmaIEtaIEta(-VBTF_W70::MaximalSigmaIEtaIEta_EndcapRegion + 0.01
+                * VBTF_W70::MaximalSigmaIEtaIEta_EndcapRegion);
+        electron.setDPhiIn(-VBTF_W70::MaximalDPhiIn_EndcapRegion + 0.01 * VBTF_W70::MaximalDPhiIn_EndcapRegion);
+        electron.setDEtaIn(-VBTF_W70::MaximalDEtaIn_EndcapRegion + 0.01 * VBTF_W70::MaximalDEtaIn_EndcapRegion);
+        electron.setHadOverEm(-VBTF_W70::MaximalHadOverEm_EndcapRegion + 0.01 * VBTF_W70::MaximalHadOverEm_EndcapRegion);
+        electron.setSuperClusterEta(2.6);
+        assert(electron.isInEndCapRegion());
+        ASSERT_EQUAL(true, electron.VBTF_W70_ElectronID());
+    }
+
+    void testVBTFW70EndcapFailSigmaIEtaIEta() {
+        Electron electron = Electron(50, 3, 0, 40);
+        electron.setSigmaIEtaIEta(VBTF_W70::MaximalSigmaIEtaIEta_EndcapRegion + 0.01
+                * VBTF_W70::MaximalSigmaIEtaIEta_EndcapRegion);
+        electron.setDPhiIn(-VBTF_W70::MaximalDPhiIn_EndcapRegion + 0.01 * VBTF_W70::MaximalDPhiIn_EndcapRegion);
+        electron.setDEtaIn(-VBTF_W70::MaximalDEtaIn_EndcapRegion + 0.01 * VBTF_W70::MaximalDEtaIn_EndcapRegion);
+        electron.setHadOverEm(-VBTF_W70::MaximalHadOverEm_EndcapRegion + 0.01 * VBTF_W70::MaximalHadOverEm_EndcapRegion);
+        electron.setSuperClusterEta(2.6);
+        assert(electron.isInEndCapRegion());
+        ASSERT_EQUAL(false, electron.VBTF_W70_ElectronID());
+    }
+
+    void testVBTFW70EndcapNegativeSigmaIEtaIEta() {
+        Electron electron = Electron(50, 3, 0, 40);
+        electron.setSigmaIEtaIEta(-VBTF_W70::MaximalSigmaIEtaIEta_EndcapRegion - 0.01
+                * VBTF_W70::MaximalSigmaIEtaIEta_EndcapRegion);
+        electron.setDPhiIn(-VBTF_W70::MaximalDPhiIn_EndcapRegion + 0.01 * VBTF_W70::MaximalDPhiIn_EndcapRegion);
+        electron.setDEtaIn(-VBTF_W70::MaximalDEtaIn_EndcapRegion + 0.01 * VBTF_W70::MaximalDEtaIn_EndcapRegion);
+        electron.setHadOverEm(-VBTF_W70::MaximalHadOverEm_EndcapRegion + 0.01 * VBTF_W70::MaximalHadOverEm_EndcapRegion);
+        electron.setSuperClusterEta(2.6);
+        assert(electron.isInEndCapRegion());
+        ASSERT_EQUAL(true, electron.VBTF_W70_ElectronID());
+    }
+
+    void testVBTFW70EndcapFailDPhiIn() {
+        Electron electron = Electron(50, 3, 0, 40);
+        electron.setSigmaIEtaIEta(-VBTF_W70::MaximalSigmaIEtaIEta_EndcapRegion + 0.01
+                * VBTF_W70::MaximalSigmaIEtaIEta_EndcapRegion);
+        electron.setDPhiIn(VBTF_W70::MaximalDPhiIn_EndcapRegion + 0.01 * VBTF_W70::MaximalDPhiIn_EndcapRegion);
+        electron.setDEtaIn(-VBTF_W70::MaximalDEtaIn_EndcapRegion + 0.01 * VBTF_W70::MaximalDEtaIn_EndcapRegion);
+        electron.setHadOverEm(-VBTF_W70::MaximalHadOverEm_EndcapRegion + 0.01 * VBTF_W70::MaximalHadOverEm_EndcapRegion);
+        electron.setSuperClusterEta(2.6);
+        assert(electron.isInEndCapRegion());
+        ASSERT_EQUAL(false, electron.VBTF_W70_ElectronID());
+    }
+
+    void testVBTFW70EndcapFailNegativeDPhiIn() {
+        Electron electron = Electron(50, 3, 0, 40);
+        electron.setSigmaIEtaIEta(-VBTF_W70::MaximalSigmaIEtaIEta_EndcapRegion + 0.01
+                * VBTF_W70::MaximalSigmaIEtaIEta_EndcapRegion);
+        electron.setDPhiIn(-VBTF_W70::MaximalDPhiIn_EndcapRegion - 0.01 * VBTF_W70::MaximalDPhiIn_EndcapRegion);
+        electron.setDEtaIn(-VBTF_W70::MaximalDEtaIn_EndcapRegion + 0.01 * VBTF_W70::MaximalDEtaIn_EndcapRegion);
+        electron.setHadOverEm(-VBTF_W70::MaximalHadOverEm_EndcapRegion + 0.01 * VBTF_W70::MaximalHadOverEm_EndcapRegion);
+        electron.setSuperClusterEta(2.6);
+        assert(electron.isInEndCapRegion());
+        ASSERT_EQUAL(false, electron.VBTF_W70_ElectronID());
+    }
+
+    void testVBTFW70EndcapFailDEtaIn() {
+        Electron electron = Electron(50, 3, 0, 40);
+        electron.setSigmaIEtaIEta(-VBTF_W70::MaximalSigmaIEtaIEta_EndcapRegion + 0.01
+                * VBTF_W70::MaximalSigmaIEtaIEta_EndcapRegion);
+        electron.setDPhiIn(-VBTF_W70::MaximalDPhiIn_EndcapRegion + 0.01 * VBTF_W70::MaximalDPhiIn_EndcapRegion);
+        electron.setDEtaIn(VBTF_W70::MaximalDEtaIn_EndcapRegion + 0.01 * VBTF_W70::MaximalDEtaIn_EndcapRegion);
+        electron.setHadOverEm(-VBTF_W70::MaximalHadOverEm_EndcapRegion + 0.01 * VBTF_W70::MaximalHadOverEm_EndcapRegion);
+        electron.setSuperClusterEta(2.6);
+        assert(electron.isInEndCapRegion());
+        ASSERT_EQUAL(false, electron.VBTF_W70_ElectronID());
+    }
+
+    void testVBTFW70EndcapFailNegativeDEtaIn() {
+        Electron electron = Electron(50, 3, 0, 40);
+        electron.setSigmaIEtaIEta(-VBTF_W70::MaximalSigmaIEtaIEta_EndcapRegion + 0.01
+                * VBTF_W70::MaximalSigmaIEtaIEta_EndcapRegion);
+        electron.setDPhiIn(-VBTF_W70::MaximalDPhiIn_EndcapRegion + 0.01 * VBTF_W70::MaximalDPhiIn_EndcapRegion);
+        electron.setDEtaIn(-VBTF_W70::MaximalDEtaIn_EndcapRegion - 0.01 * VBTF_W70::MaximalDEtaIn_EndcapRegion);
+        electron.setHadOverEm(-VBTF_W70::MaximalHadOverEm_EndcapRegion + 0.01 * VBTF_W70::MaximalHadOverEm_EndcapRegion);
+        electron.setSuperClusterEta(2.6);
+        assert(electron.isInEndCapRegion());
+        ASSERT_EQUAL(false, electron.VBTF_W70_ElectronID());
+    }
+
+    void testVBTFW70EndcapFailHadOverEm() {
+        Electron electron = Electron(50, 3, 0, 40);
+        electron.setSigmaIEtaIEta(-VBTF_W70::MaximalSigmaIEtaIEta_EndcapRegion + 0.01
+                * VBTF_W70::MaximalSigmaIEtaIEta_EndcapRegion);
+        electron.setDPhiIn(-VBTF_W70::MaximalDPhiIn_EndcapRegion + 0.01 * VBTF_W70::MaximalDPhiIn_EndcapRegion);
+        electron.setDEtaIn(-VBTF_W70::MaximalDEtaIn_EndcapRegion + 0.01 * VBTF_W70::MaximalDEtaIn_EndcapRegion);
+        electron.setHadOverEm(VBTF_W70::MaximalHadOverEm_EndcapRegion + 0.01 * VBTF_W70::MaximalHadOverEm_EndcapRegion);
+        electron.setSuperClusterEta(2.6);
+        assert(electron.isInEndCapRegion());
+        ASSERT_EQUAL(false, electron.VBTF_W70_ElectronID());
+    }
+
+    void testVBTFW70EndcapNegativeHadOverEm() {
+        Electron electron = Electron(50, 3, 0, 40);
+        electron.setSigmaIEtaIEta(-VBTF_W70::MaximalSigmaIEtaIEta_EndcapRegion + 0.01
+                * VBTF_W70::MaximalSigmaIEtaIEta_EndcapRegion);
+        electron.setDPhiIn(-VBTF_W70::MaximalDPhiIn_EndcapRegion + 0.01 * VBTF_W70::MaximalDPhiIn_EndcapRegion);
+        electron.setDEtaIn(-VBTF_W70::MaximalDEtaIn_EndcapRegion + 0.01 * VBTF_W70::MaximalDEtaIn_EndcapRegion);
+        electron.setHadOverEm(-VBTF_W70::MaximalHadOverEm_EndcapRegion - 0.01 * VBTF_W70::MaximalHadOverEm_EndcapRegion);
         electron.setSuperClusterEta(2.6);
         assert(electron.isInEndCapRegion());
         ASSERT_EQUAL(true, electron.VBTF_W70_ElectronID());
@@ -292,7 +510,25 @@ extern cute::suite make_suite_TestElectron() {
     s.push_back(CUTE_SMEMFUN(TestElectron, testBadLooseElectronNoID));
     s.push_back(CUTE_SMEMFUN(TestElectron, testBadElectronNoID));
     s.push_back(CUTE_SMEMFUN(TestElectron, testVBTFW70Barrel));
+    s.push_back(CUTE_SMEMFUN(TestElectron, testVBTFW70BarrelNegativeValues));
+    s.push_back(CUTE_SMEMFUN(TestElectron, testVBTFW70BarrelFailSigmaIEtaIEta));
+    s.push_back(CUTE_SMEMFUN(TestElectron, testVBTFW70BarrelNegativeSigmaIEtaIEta));
+    s.push_back(CUTE_SMEMFUN(TestElectron, testVBTFW70BarrelFailDPhiIn));
+    s.push_back(CUTE_SMEMFUN(TestElectron, testVBTFW70BarrelFailNegativeDPhiIn));
+    s.push_back(CUTE_SMEMFUN(TestElectron, testVBTFW70BarrelFailDEtaIn));
+    s.push_back(CUTE_SMEMFUN(TestElectron, testVBTFW70BarrelFailNegativeDEtaIn));
+    s.push_back(CUTE_SMEMFUN(TestElectron, testVBTFW70BarrelFailHadOverEm));
+    s.push_back(CUTE_SMEMFUN(TestElectron, testVBTFW70BarrelNegativeHadOverEm));
     s.push_back(CUTE_SMEMFUN(TestElectron, testVBTFW70Endcap));
+    s.push_back(CUTE_SMEMFUN(TestElectron, testVBTFW70EndcapNegativeValues));
+    s.push_back(CUTE_SMEMFUN(TestElectron, testVBTFW70EndcapFailSigmaIEtaIEta));
+    s.push_back(CUTE_SMEMFUN(TestElectron, testVBTFW70EndcapNegativeSigmaIEtaIEta));
+    s.push_back(CUTE_SMEMFUN(TestElectron, testVBTFW70EndcapFailDPhiIn));
+    s.push_back(CUTE_SMEMFUN(TestElectron, testVBTFW70EndcapFailNegativeDPhiIn));
+    s.push_back(CUTE_SMEMFUN(TestElectron, testVBTFW70EndcapFailDEtaIn));
+    s.push_back(CUTE_SMEMFUN(TestElectron, testVBTFW70EndcapFailNegativeDEtaIn));
+    s.push_back(CUTE_SMEMFUN(TestElectron, testVBTFW70EndcapFailHadOverEm));
+    s.push_back(CUTE_SMEMFUN(TestElectron, testVBTFW70EndcapNegativeHadOverEm));
     s.push_back(CUTE_SMEMFUN(TestElectron, testElectronCharge));
     s.push_back(CUTE_SMEMFUN(TestElectron, testElectronChargeInCopy));
     s.push_back(CUTE_SMEMFUN(TestElectron, testElectronInCollection));
