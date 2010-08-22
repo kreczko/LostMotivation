@@ -252,16 +252,16 @@ void Electron::setUsedAlgorithm(Electron::Algorithm algo) {
 
 bool Electron::getVBTF_W70_ElectronID_Barrel() const {
     bool passesSigmaIEta = sigma_IEtaIEta < VBTF_W70::MaximalSigmaIEtaIEta_BarrelRegion;
-    bool passesDPhiIn = dPhi_In < VBTF_W70::MaximalDPhiIn_BarrelRegion;
-    bool passesDEtaIn = dEta_In < VBTF_W70::MaximalDEtaIn_BarrelRegion;
+    bool passesDPhiIn = fabs(dPhi_In) < VBTF_W70::MaximalDPhiIn_BarrelRegion;
+    bool passesDEtaIn = fabs(dEta_In) < VBTF_W70::MaximalDEtaIn_BarrelRegion;
     bool passesHadOverEm = hadOverEm < VBTF_W70::MaximalHadOverEm_BarrelRegion;
     return passesSigmaIEta && passesDPhiIn && passesDEtaIn && passesHadOverEm;
 }
 
 bool Electron::getVBTF_W70_ElectronID_Endcap() const {
     bool passesSigmaIEta = sigma_IEtaIEta < VBTF_W70::MaximalSigmaIEtaIEta_EndcapRegion;
-    bool passesDPhiIn = dPhi_In < VBTF_W70::MaximalDPhiIn_EndcapRegion;
-    bool passesDEtaIn = dEta_In < VBTF_W70::MaximalDEtaIn_EndcapRegion;
+    bool passesDPhiIn = fabs(dPhi_In) < VBTF_W70::MaximalDPhiIn_EndcapRegion;
+    bool passesDEtaIn = fabs(dEta_In) < VBTF_W70::MaximalDEtaIn_EndcapRegion;
     bool passesHadOverEm = hadOverEm < VBTF_W70::MaximalHadOverEm_EndcapRegion;
     return passesSigmaIEta && passesDPhiIn && passesDEtaIn && passesHadOverEm;
 }
