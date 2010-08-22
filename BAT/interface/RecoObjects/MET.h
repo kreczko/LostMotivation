@@ -8,6 +8,7 @@
 #ifndef MET_H_
 #define MET_H_
 #include "Particle.h"
+#include <boost/shared_ptr.hpp>
 
 namespace BAT {
 
@@ -31,6 +32,8 @@ public:
 private:
 	MET::Algorithm usedAlgorithm;
 };
+
+typedef boost::shared_ptr<MET> METPointer;
 
 }
 
