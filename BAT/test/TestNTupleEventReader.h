@@ -230,7 +230,7 @@ public:
 
     void testTTbarEventMET() {
         Event event = TTbarReader->getNextEvent();
-        ASSERT_EQUAL_DELTA(47.9642,event.getMET().et(), 0.001);
+        ASSERT_EQUAL_DELTA(47.9642,event.getMET()->et(), 0.001);
     }
 
     void testSeenTTbar() {

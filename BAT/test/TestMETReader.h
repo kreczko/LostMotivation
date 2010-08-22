@@ -10,7 +10,7 @@ struct TestMETReader {
 private:
     boost::shared_ptr<TChain> input;
     boost::scoped_ptr<METReader> reader, PFreader, TCreader, KT4reader, KT6Reader;
-    MET met, pfmet, tcmet, kt4met, kt6met;
+    METPointer met, pfmet, tcmet, kt4met, kt6met;
 public:
     TestMETReader() :
         input(new TChain("configurableAnalysis/eventB")), reader(new METReader(input)), PFreader(new METReader(input,
@@ -33,31 +33,31 @@ public:
     }
 
     void testMET() {
-        ASSERT_EQUAL_DELTA(47.9642, met.et(), 0.0001);
+        ASSERT_EQUAL_DELTA(47.9642, met->et(), 0.0001);
     }
 
     void testPFMET() {
-        ASSERT_EQUAL_DELTA(54.7453, pfmet.et(), 0.0001);
+        ASSERT_EQUAL_DELTA(54.7453, pfmet->et(), 0.0001);
     }
 
     void testTCMET() {
-        ASSERT_EQUAL_DELTA(40.0313, tcmet.et(), 0.0001);
+        ASSERT_EQUAL_DELTA(40.0313, tcmet->et(), 0.0001);
     }
 
     void testKT4MET() {
-        ASSERT_EQUAL_DELTA(47.1134, kt4met.et(), 0.001);
+        ASSERT_EQUAL_DELTA(47.1134, kt4met->et(), 0.001);
     }
 
     void testKT6MET() {
-        ASSERT_EQUAL_DELTA(48.828, kt6met.et(), 0.001);
+        ASSERT_EQUAL_DELTA(48.828, kt6met->et(), 0.001);
     }
 
     void testAreMETsGood(){
-        ASSERT_EQUAL(true, met.isGood());
-        ASSERT_EQUAL(true, pfmet.isGood());
-        ASSERT_EQUAL(true, tcmet.isGood());
-        ASSERT_EQUAL(true, kt4met.isGood());
-        ASSERT_EQUAL(true, kt6met.isGood());
+        ASSERT_EQUAL(true, met->isGood());
+        ASSERT_EQUAL(true, pfmet->isGood());
+        ASSERT_EQUAL(true, tcmet->isGood());
+        ASSERT_EQUAL(true, kt4met->isGood());
+        ASSERT_EQUAL(true, kt6met->isGood());
     }
 
 };

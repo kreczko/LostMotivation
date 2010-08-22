@@ -23,7 +23,7 @@ struct TestEvent {
     PrimaryVertex badVertex;
     Muon goodIsolatedMuon;
     Muon badMuon;
-    MET met;
+    METPointer met;
     TestEvent() :
         ttbarEvent(), goodZEvent(), poorZEvent(), DiJetEvent(), DiJetEventWithConversion(), muonEvent(), emptyEvent(),
                 eventFilter(Filter::makeTopPairEPlusJetsFilter()), goodIsolatedElectron(
@@ -32,7 +32,7 @@ struct TestEvent {
                 electronFromConversion(new Electron(*goodIsolatedElectron)), goodJet(new Jet(100, 13, 99, 5)),
                 goodBJet(new Jet(*goodJet)), badJet(new Jet(20, 19, 0, 0)), goodJetCloseToElectron(new Jet(100., 98.,
                         13., 5.)), goodVertex(), badVertex(), goodIsolatedMuon(100., 99., 13., 5.), badMuon(100., 99.,
-                        13., 5.), met(40, 30) {
+                        13., 5.), met(new MET(40, 30)) {
         setUpGoodIsolatedElectron();
         setUpGoodIsolatedElectron2();
         setUpGoodLooseElectron();
@@ -349,7 +349,7 @@ public:
     }
 
     void testMET() {
-        ASSERT_EQUAL(50, ttbarEvent.getMET().et());
+        ASSERT_EQUAL(50, ttbarEvent.getMET()->et());
     }
 
 };

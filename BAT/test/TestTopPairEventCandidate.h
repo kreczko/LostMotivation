@@ -24,7 +24,7 @@ struct TestTopPairEventCandidate {
     PrimaryVertex badVertex;
     Muon goodIsolatedMuon;
     Muon badMuon;
-    MET met;
+    METPointer met;
 
     TestTopPairEventCandidate() :
         ttbarEvent(), goodZEvent(), poorZEvent(), DiJetEvent(), DiJetEventWithConversion(), muonEvent(), emptyEvent(),
@@ -34,7 +34,7 @@ struct TestTopPairEventCandidate {
                 electronFromConversion(new Electron(*goodIsolatedElectron)), goodJet(new Jet(100, 13, 99, 5)),
                 goodBJet(new Jet(*goodJet)), badJet(new Jet(20, 19, 0, 0)), goodJetCloseToElectron(new Jet(100., 98.,
                         13., 5.)), goodVertex(), badVertex(), goodIsolatedMuon(100., 99., 13., 5.), badMuon(100., 99.,
-                        13., 5.), met(40, 30) {
+                        13., 5.), met(new MET(40, 30)) {
         setUpGoodIsolatedElectron();
         setUpGoodIsolatedElectron2();
         setUpGoodLooseElectron();
@@ -412,7 +412,7 @@ public:
     }
 
     void testComputeNeutrinoPzs() {
-        MET met(40, 0);
+        METPointer met(new MET(40, 0));
         ElectronPointer electron(new Electron(40, -40, 0, 0));
         electron->setHcalIsolation(0);
         electron->setEcalIsolation(0);
@@ -430,7 +430,7 @@ public:
     }
 
     void testReconstructTopEventUsingChiWithNotEnoughJetsThrowsException() {
-        MET met(40, 0);
+        METPointer met(new MET(40, 0));
         ElectronPointer electron(new Electron(40, -40, 0, 0));
         electron->setHcalIsolation(0);
         electron->setEcalIsolation(0);
