@@ -7,51 +7,65 @@ using namespace BAT;
 
 struct TestMET {
 private:
-	MET goodMET, badMET;
+    MET goodMET, badMET;
 public:
-	TestMET() :
-		goodMET(40, 30), badMET(4, 3) {
-		MET::goodMETMinimalEt = 20;
-	}
+    TestMET() :
+        goodMET(40, 30), badMET(4, 3) {
+        MET::goodMETMinimalEt = 20;
+    }
 
-	void testStandardConstructorEt() {
-		ASSERT_EQUAL(50, goodMET.et());
-	}
+    void testStandardConstructorEt() {
+        ASSERT_EQUAL(50, goodMET.et());
+    }
 
-	void testStandardConstructorEz() {
-		ASSERT_EQUAL(0, goodMET.pz());
-	}
+    void testStandardConstructorPt() {
+        ASSERT_EQUAL(50, goodMET.pt());
+    }
 
-	void testStandardConstructorMass() {
-		ASSERT_EQUAL(0, goodMET.mass());
-	}
+    void testStandardConstructorPx() {
+        ASSERT_EQUAL(40, goodMET.px());
+    }
+    void testStandardConstructorPy() {
+        ASSERT_EQUAL(30, goodMET.py());
+    }
 
-	void testGoodMETIsGood(){
-		ASSERT_EQUAL(true, goodMET.isGood());
-	}
+    void testStandardConstructorPz() {
+        ASSERT_EQUAL(0, goodMET.pz());
+    }
 
-	void testBadMETNoGood(){
-		ASSERT_EQUAL(false, badMET.isGood());
-	}
+    void testStandardConstructorMass() {
+        ASSERT_EQUAL(0, goodMET.mass());
+    }
 
-	void testSetAlgorithm(){
-		goodMET.setUsedAlgorithm(MET::ParticleFlowMET);
-		ASSERT_EQUAL(MET::ParticleFlowMET, goodMET.getUsedAlgorithm());
-	}
+    void testGoodMETIsGood() {
+        ASSERT_EQUAL(true, goodMET.isGood());
+    }
 
-	void testStandardAlgorithm(){
-		ASSERT_EQUAL(MET::DEFAULT, goodMET.getUsedAlgorithm());
-	}
+    void testBadMETNoGood() {
+        ASSERT_EQUAL(false, badMET.isGood());
+    }
+
+    void testSetAlgorithm() {
+        goodMET.setUsedAlgorithm(MET::ParticleFlowMET);
+        ASSERT_EQUAL(MET::ParticleFlowMET, goodMET.getUsedAlgorithm());
+    }
+
+    void testStandardAlgorithm() {
+        ASSERT_EQUAL(MET::DEFAULT, goodMET.getUsedAlgorithm());
+    }
 };
 
 extern cute::suite make_suite_TestMET() {
-	cute::suite s;
-	s.push_back(CUTE_SMEMFUN(TestMET,testStandardConstructorEt));
-	s.push_back(CUTE_SMEMFUN(TestMET,testStandardConstructorEz));
-	s.push_back(CUTE_SMEMFUN(TestMET,testStandardConstructorMass));
-	s.push_back(CUTE_SMEMFUN(TestMET,testGoodMETIsGood));
-	s.push_back(CUTE_SMEMFUN(TestMET,testBadMETNoGood));
-	s.push_back(CUTE_SMEMFUN(TestMET,testSetAlgorithm));
-	s.push_back(CUTE_SMEMFUN(TestMET,testStandardAlgorithm));
-	return s;
+    cute::suite s;
+    s.push_back(CUTE_SMEMFUN(TestMET,testStandardConstructorEt));
+    s.push_back(CUTE_SMEMFUN(TestMET,testStandardConstructorPt));
+    s.push_back(CUTE_SMEMFUN(TestMET,testStandardConstructorPx));
+    s.push_back(CUTE_SMEMFUN(TestMET,testStandardConstructorPy));
+    s.push_back(CUTE_SMEMFUN(TestMET,testStandardConstructorPz));
+    s.push_back(CUTE_SMEMFUN(TestMET,testStandardConstructorMass));
+    s.push_back(CUTE_SMEMFUN(TestMET,testGoodMETIsGood));
+    s.push_back(CUTE_SMEMFUN(TestMET,testBadMETNoGood));
+    s.push_back(CUTE_SMEMFUN(TestMET,testSetAlgorithm));
+    s.push_back(CUTE_SMEMFUN(TestMET,testStandardAlgorithm));
+    return s;
 }
