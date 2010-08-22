@@ -236,7 +236,7 @@ public:
     void testSeenTTbar() {
         const boost::array<bool, DataType::NUMBER_OF_DATA_TYPES> seenTypes = TTbarReader->getSeenDatatypes();
 
-        for (unsigned short index; index < DataType::NUMBER_OF_DATA_TYPES; ++index) {
+        for (unsigned short index = 0; index < DataType::NUMBER_OF_DATA_TYPES; ++index) {
             if (index == DataType::ttbar)
                 ASSERT_EQUAL(true, seenTypes.at(index));
                 else
@@ -247,17 +247,17 @@ public:
     void testSeenAllMC() {
         const boost::array<bool, DataType::NUMBER_OF_DATA_TYPES> seenTypes = AllMCReader->getSeenDatatypes();
 
-        for (unsigned short index; index < DataType::NUMBER_OF_DATA_TYPES; ++index) {
+        for (unsigned short index = 0; index < DataType::NUMBER_OF_DATA_TYPES; ++index) {
             if (index == DataType::DATA || index >= DataType::Zprime_M500GeV_W5GeV || index
                     == DataType::singleTopSChannel || index == DataType::VQQ)
                 ASSERT_EQUAL(false, seenTypes.at(index));
-                else{
-                    std::string msg("index ");
-                    std::stringstream stream;
-                    stream << index;
-                    msg += stream.str();
-                    ASSERT_EQUALM(msg.c_str(), true, seenTypes.at(index));
-                }
+            else {
+                std::string msg("index ");
+                std::stringstream stream;
+                stream << index;
+                msg += stream.str();
+                ASSERT_EQUALM(msg.c_str(), true, seenTypes.at(index));
+            }
 
         }
     }
