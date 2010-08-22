@@ -8,11 +8,11 @@
 #ifndef HISTOGRAMMANAGER_H_
 #define HISTOGRAMMANAGER_H_
 #include "THCollection.h"
-//#include "TH2Collection.h"
 #include "TH1F.h"
 #include "TH2F.h"
 #include "../Taggers/BJetTagger.h"
-
+#include "../../interface/Enumerators.h"
+#include <boost/shared_ptr.hpp>
 namespace BAT {
 typedef unsigned short ushort;
 class HistogramManager {
