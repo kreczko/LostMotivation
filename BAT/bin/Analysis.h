@@ -57,6 +57,7 @@ private:
     boost::shared_ptr<TH1F> h_mleptonicTop;
     boost::shared_ptr<TH1F> h_mhadronicTop;
     boost::shared_ptr<TH1F> h_mAllTop;
+    boost::shared_ptr<TH1F> h_swissCrossAllEle;
     boost::shared_ptr<TFile> outputfile;
     boost::array<unsigned long, BAT::TTbarEPlusJetsSelection::NUMBER_OF_SELECTION_STEPS> cutflow;
     boost::array<unsigned long, BAT::TTbarEPlusJetsSelection::NUMBER_OF_SELECTION_STEPS> singleCuts;
@@ -70,11 +71,13 @@ public:
     void setMaximalNumberOfEvents(long maxEvents);
 private:
     void printNumberOfProccessedEventsEvery(unsigned long printEvery);
+    void doEcalSpikeAnalysis();
     void doDiElectronAnalysis();
     void doTTBarAnalysis();
     void doTTbarCutFlow();
     void printInterestingEvents();
     void printSummary();
+    void inspectEvents();
 };
 
 #endif /* ANALYSIS_H_ */

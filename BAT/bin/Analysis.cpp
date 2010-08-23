@@ -21,23 +21,15 @@ void Analysis::analyze() {
         printNumberOfProccessedEventsEvery(10000);
         currentEvent = eventReader->getNextEvent();
         ttbarCandidate = TopPairEventCandidate(currentEvent);
+        inspectEvents();
+        doEcalSpikeAnalysis();
         doTTbarCutFlow();
         doDiElectronAnalysis();
         doTTBarAnalysis();
-        if (ttbarCandidate.runnumber() == 142191 && ttbarCandidate.eventnumber() == 58391574)
-            ttbarCandidate.inspect();
 
-        if (ttbarCandidate.runnumber() == 142038 && ttbarCandidate.eventnumber() == 210965064)
-            ttbarCandidate.inspect();
     }
     printInterestingEvents();
     printSummary();
-}
-
-void Analysis::printInterestingEvents() {
-    for (unsigned int index = 0; index < interestingEvents.size(); ++index) {
-        interestingEvents.at(index).print();
-    }
 }
 
 void Analysis::printNumberOfProccessedEventsEvery(unsigned long printEvery) {
@@ -46,15 +38,28 @@ void Analysis::printNumberOfProccessedEventsEvery(unsigned long printEvery) {
         cout << "Analysing event no " << eventIndex << endl;
 }
 
+void Analysis::inspectEvents() {
+    if ((ttbarCandidate.runnumber() == 142558 && ttbarCandidate.eventnumber() == 99024502)) {
+        cout << "file: " << eventReader->getCurrentFile() << endl;
+        ttbarCandidate.inspect();
+    }
+
+}
+
+void Analysis::doEcalSpikeAnalysis(){
+    const ElectronCollection electrons = currentEvent.getElectrons();
+    for(unsigned short index = 0; index < electrons.size(); ++index){
+        const ElectronPointer electron = electrons.at(index);
+        h_swissCrossAllEle->Fill(electron->swissCross());
+    }
+}
+
 void Analysis::doTTbarCutFlow() {
     for (unsigned int cut = 0; cut < TTbarEPlusJetsSelection::NUMBER_OF_SELECTION_STEPS; ++cut) {
         if (ttbarCandidate.passesSelectionStep((TTbarEPlusJetsSelection::Step) cut)) {
             singleCuts[cut] += 1;
-            if (ttbarCandidate.runnumber() == 142191 && ttbarCandidate.eventnumber() == 58391574)
-                cout << "142191, 58391574 passes cut" << cut << endl;
-
-            if (ttbarCandidate.runnumber() == 142038 && ttbarCandidate.eventnumber() == 210965064)
-                cout << "142038, 210965064 passes cut" << cut << endl;
+            if ((ttbarCandidate.runnumber() == 142558 && ttbarCandidate.eventnumber() == 99024502))
+                cout << "passes cut " << cut << endl;
         }
 
         if (ttbarCandidate.passesSelectionStepUpTo((TTbarEPlusJetsSelection::Step) cut)) {
@@ -93,14 +98,19 @@ void Analysis::doTTBarAnalysis() {
         if (std::isnan(mttbar)) {
             ttbarCandidate.inspectReconstructedEvent();
         }
-        if(mttbar > 700 ){
+        if (mttbar > 700) {
             cout << "run " << ttbarCandidate.runnumber() << ", event " << ttbarCandidate.eventnumber() << endl;
             cout << "top pair invariant mass=" << mttbar << endl;
         }
 
-
         interestingEvents .push_back(InterestingEvent(ttbarCandidate.runnumber(), ttbarCandidate.eventnumber(),
                 eventReader->getCurrentFile()));
+    }
+}
+
+void Analysis::printInterestingEvents() {
+    for (unsigned int index = 0; index < interestingEvents.size(); ++index) {
+        interestingEvents.at(index).print();
     }
 }
 
@@ -126,9 +136,9 @@ Analysis::Analysis() :
                     "diElectronMass", 500, 0, 500)), h_ptRel_vs_DRmin(new TH2F("ptRel_vs_DRmin", "ptRel_vs_DRmin", 100,
                     0, 1, 300, 0, 300)), h_mttbar(new TH1F("mttbar", "mttbar", 5000, 0, 5000)), h_mleptonicTop(
                     new TH1F("mLeptonicTop", "mLeptonicTop", 500, 0, 500)), h_mhadronicTop(new TH1F("mHadronicTop",
-                    "mHadronicTop", 500, 0, 500)), h_mAllTop(new TH1F("mAllTop", "mAllTop", 500, 0, 500)), outputfile(
-                    new TFile("egammaAnalysis.root", "RECREATE")), cutflow(), singleCuts(), interestingEvents(),
-            xSections() {
+                    "mHadronicTop", 500, 0, 500)), h_mAllTop(new TH1F("mAllTop", "mAllTop", 500, 0, 500)),
+            h_swissCrossAllEle(new TH1F("swissCross", "swissCross", 200, -1, 1)), outputfile(new TFile(
+                    "egammaAnalysis.root", "RECREATE")), cutflow(), singleCuts(), interestingEvents(), xSections() {
     for (unsigned int cut = 0; cut < TTbarEPlusJetsSelection::NUMBER_OF_SELECTION_STEPS; ++cut) {
         cutflow[cut] = 0;
         singleCuts[cut] = 0;
@@ -144,6 +154,7 @@ Analysis::~Analysis() {
     h_mleptonicTop->Write();
     h_mhadronicTop->Write();
     h_mAllTop->Write();
+    h_swissCrossAllEle->Write();
     testingDirectory->Write();
     outputfile->Write();
     outputfile->Close();
