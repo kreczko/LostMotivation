@@ -38,7 +38,7 @@ extern void printElectrons(const ElectronCollection electrons) {
 
 extern void printElectron(const ElectronPointer electron) {
     printParticle(electron);
-    cout << setw(30) << "VBTF70" << setw(30) << "VBTF85" << setw(30) << "robust loose" << setw(30) << "robust tight"
+    cout << setw(30) << "VBTF70" << setw(30) << "VBTF95" << setw(30) << "robust loose" << setw(30) << "robust tight"
             << endl;
     cout << setw(30) << electron->VBTF_W70_ElectronID() << setw(30) << "" << setw(30) << electron->RobustLooseID()
             << setw(30) << electron->RobustTightID() << endl;
@@ -52,6 +52,11 @@ extern void printElectron(const ElectronPointer electron) {
             << "superClusterEta" << endl;
     cout << setw(30) << electron->isEcalSpike() << setw(30) << electron->relativeIsolation() << setw(30)
             << electron->isFromConversion() << setw(30) << electron->superClusterEta() << endl << endl;
+
+    cout << setw(30) << "isTrackerDriven" << setw(30) << "swiss_cross" << setw(30) << "isLoose" << setw(30)
+            << "isEcalDriven" << endl;
+    cout << setw(30) << electron->isTrackerDriven() << setw(30) << electron->swissCross() << setw(30)
+            << electron->isLoose() << setw(30) << electron->isEcalDriven() << endl << endl;
 }
 
 extern void printParticle(const ParticlePointer particle) {
