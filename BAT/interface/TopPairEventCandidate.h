@@ -108,17 +108,16 @@ public:
     void reconstructNeutrinos();
     bool hasNextJetCombination();
     void selectNextJetCombination();
-    void inspectEvent() const;
+//    void inspectEvent() const;
     void inspectReconstructedEvent() const;
 private:
     void throwExpeptionIfNotReconstructed() const;
-    void inspectGoodJets() const;
-    void inspectJets(const JetCollection jets) const;
-    void inspectElectrons(const ElectronCollection electrons) const;
-
-    void inspectJet(const JetPointer jet) const;
-    void inspectElectron(const ElectronPointer electron) const;
-    void inspectParticle(const ParticlePointer particle) const;
+//    void inspectJets(const JetCollection jets) const;
+//    void inspectElectrons(const ElectronCollection electrons) const;
+//
+//    void inspectJet(const JetPointer jet) const;
+//    void inspectElectron(const ElectronPointer electron) const;
+//    void inspectParticle(const ParticlePointer particle) const;
 
 };
 

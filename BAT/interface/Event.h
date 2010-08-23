@@ -14,6 +14,7 @@
 #include "RecoObjects/MET.h"
 #include "Selection.h"
 #include "Enumerators.h"
+#include "Printers/EventPrinter.h"
 
 namespace BAT {
 
@@ -83,6 +84,7 @@ public:
     unsigned long localnumber() const;
     unsigned long lumiblock() const;
     float weight() const;
+    void inspect() const;
 
 private:
     void selectElectronsByQuality();

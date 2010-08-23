@@ -363,51 +363,51 @@ double TopPairEventCandidate::sumPt() const {
     return leptonicBJet->pt() + hadronicBJet->pt() + jet1FromW->pt() + jet2FromW->pt();
 }
 
-void TopPairEventCandidate::inspectEvent() const {
-    cout << "number of jets: " << allJets.size() << endl;
-    cout << "number of good jets: " << goodJets.size() << endl;
-    inspectJets(goodJets);
+//void TopPairEventCandidate::inspectEvent() const {
+//    cout << "number of jets: " << allJets.size() << endl;
+//    cout << "number of good jets: " << goodJets.size() << endl;
+//    inspectJets(goodJets);
+//
+//    cout << "number of good isolated electrons: " << goodIsolatedElectrons.size() << endl;
+//    inspectElectrons(goodIsolatedElectrons);
+//
+//    cout << "number of good electrons: " << goodElectrons.size() << endl;
+//    inspectElectrons(goodElectrons);
+//
+//    cout << "number of electrons: " << allElectrons.size() << endl;
+//    inspectElectrons(allElectrons);
+//
+//}
 
-    cout << "number of good isolated electrons: " << goodIsolatedElectrons.size() << endl;
-    inspectElectrons(goodIsolatedElectrons);
-
-    cout << "number of good electrons: " << goodElectrons.size() << endl;
-    inspectElectrons(goodElectrons);
-
-    cout << "number of electrons: " << allElectrons.size() << endl;
-    inspectElectrons(allElectrons);
-
-}
-
-void TopPairEventCandidate::inspectJets(const JetCollection jets) const {
-    for (unsigned short index = 0; index < jets.size(); ++index) {
-        const JetPointer jet = jets.at(index);
-        cout << "Jet " << index + 1 << endl;
-        inspectJet(jet);
-    }
-}
-
-void TopPairEventCandidate::inspectElectrons(const ElectronCollection electrons) const {
-    for (unsigned short index = 0; index < electrons.size(); ++index) {
-        const ElectronPointer electron = electrons.at(index);
-        cout << "Electron " << index + 1 << endl;
-        inspectElectron(electron);
-    }
-}
-
-void TopPairEventCandidate::inspectParticle(const ParticlePointer particle) const {
-    cout << setw(30) << "pt" << setw(30) << "px" << setw(30) << "py" << setw(30) << "pz" << endl;
-    cout << setw(30) << particle->pt() << setw(30) << particle->px() << setw(30) << particle->py() << setw(30)
-            << particle->pz() << endl;
-
-    cout << setw(30) << "energy" << setw(30) << "et" << setw(30) << "eta" << setw(30) << "phi" << endl;
-    cout << setw(30) << particle->energy() << setw(30) << particle->et() << setw(30) << particle->eta() << setw(30)
-            << particle->phi() << endl;
-
-    cout << setw(30) << "d0" << setw(30) << "dyn. mass" << setw(30) << "fix. mass" << setw(30) << "charge" << endl;
-    cout << setw(30) << particle->d0() << setw(30) << particle->massFromEnergyAndMomentum() << setw(30)
-            << particle->mass() << setw(30) << particle->charge() << endl;
-}
+//void TopPairEventCandidate::inspectJets(const JetCollection jets) const {
+//    for (unsigned short index = 0; index < jets.size(); ++index) {
+//        const JetPointer jet = jets.at(index);
+//        cout << "Jet " << index + 1 << endl;
+//        inspectJet(jet);
+//    }
+//}
+//
+//void TopPairEventCandidate::inspectElectrons(const ElectronCollection electrons) const {
+//    for (unsigned short index = 0; index < electrons.size(); ++index) {
+//        const ElectronPointer electron = electrons.at(index);
+//        cout << "Electron " << index + 1 << endl;
+//        inspectElectron(electron);
+//    }
+//}
+//
+//void TopPairEventCandidate::inspectParticle(const ParticlePointer particle) const {
+//    cout << setw(30) << "pt" << setw(30) << "px" << setw(30) << "py" << setw(30) << "pz" << endl;
+//    cout << setw(30) << particle->pt() << setw(30) << particle->px() << setw(30) << particle->py() << setw(30)
+//            << particle->pz() << endl;
+//
+//    cout << setw(30) << "energy" << setw(30) << "et" << setw(30) << "eta" << setw(30) << "phi" << endl;
+//    cout << setw(30) << particle->energy() << setw(30) << particle->et() << setw(30) << particle->eta() << setw(30)
+//            << particle->phi() << endl;
+//
+//    cout << setw(30) << "d0" << setw(30) << "dyn. mass" << setw(30) << "fix. mass" << setw(30) << "charge" << endl;
+//    cout << setw(30) << particle->d0() << setw(30) << particle->massFromEnergyAndMomentum() << setw(30)
+//            << particle->mass() << setw(30) << particle->charge() << endl;
+//}
 
 void TopPairEventCandidate::throwExpeptionIfNotReconstructed() const {
     if (doneReconstruction == false)
@@ -465,80 +465,80 @@ double TopPairEventCandidate::mttbar() const {
 
 void TopPairEventCandidate::inspectReconstructedEvent() const {
     cout << "leptonic b jet, goodJet index " << leptonicBIndex << endl;
-    inspectJet(leptonicBJet);
+    EventPrinter::printJet(leptonicBJet);
 
     cout << "electron from W" << endl;
-    inspectElectron(goodIsolatedElectrons.front());
+    EventPrinter::printElectron(goodIsolatedElectrons.front());
 
     cout << "MET" << endl;
-    inspectParticle(met);
+    EventPrinter::printParticle(met);
     cout << endl;
 
     cout << "reconstructed neutrino 1(selected: " << selectedNeutrino << ")" << endl;
-    inspectParticle(neutrino1);
+    EventPrinter::printParticle(neutrino1);
     cout << endl;
 
     cout << "reconstructed neutrino 1(selected: " << selectedNeutrino << ")" << endl;
-    inspectParticle(neutrino2);
+    EventPrinter::printParticle(neutrino2);
     cout << endl;
 
     cout << "leptonic W 1 (selected: " << selectedNeutrino << ")" << endl;
-    inspectParticle(leptonicW1);
+    EventPrinter::printParticle(leptonicW1);
     cout << endl;
 
     cout << "leptonic W 2 (selected: " << selectedNeutrino << ")" << endl;
-    inspectParticle(leptonicW2);
+    EventPrinter::printParticle(leptonicW2);
     cout << endl;
 
     cout << "leptonic top 1 (selected: " << selectedNeutrino << ")" << endl;
-    inspectParticle(leptonicTop1);
+    EventPrinter::printParticle(leptonicTop1);
     cout << endl;
 
     cout << "leptonic top 2 (selected: " << selectedNeutrino << ")" << endl;
-    inspectParticle(leptonicTop2);
+    EventPrinter::printParticle(leptonicTop2);
     cout << endl;
 
     cout << "hadronic b jet, goodJet index " << hadronicBIndex << endl;
-    inspectJet(hadronicBJet);
+    EventPrinter::printJet(hadronicBJet);
 
     cout << "jet1 from W, goodJet index " << jet1FromWIndex << endl;
-    inspectJet(jet1FromW);
+    EventPrinter::printJet(jet1FromW);
 
     cout << "jet 2 from W, goodJet index " << jet2FromWIndex << endl;
-    inspectJet(jet2FromW);
+    EventPrinter::printJet(jet2FromW);
 
     cout << "hadronic W" << endl;
-    inspectParticle(hadronicW);
+    EventPrinter::printParticle(hadronicW);
     cout << endl;
 
     cout << "hadronic top" << endl;
-    inspectParticle(hadronicTop);
+    EventPrinter::printParticle(hadronicTop);
     cout << endl;
 }
 
-void TopPairEventCandidate::inspectJet(const JetPointer jet) const {
-    inspectParticle(jet);
-    cout << setw(30) << "emf" << setw(30) << "n90Hits" << setw(30) << "fHPD" << setw(30) << "B tag(SSV)" << endl;
-    cout << setw(30) << jet->emf() << setw(30) << jet->n90Hits() << setw(30) << jet->fHPD() << setw(30)
-            << jet->isBJetAccordingToBtagAlgorithm(BJetTagger::SimpleSecondaryVertex) << endl << endl;
-}
-
-void TopPairEventCandidate::inspectElectron(const ElectronPointer electron) const {
-    inspectParticle(electron);
-    cout << setw(30) << "VBTF70" << setw(30) << "VBTF85" << setw(30) << "robust loose" << setw(30) << "robust tight"
-            << endl;
-    cout << setw(30) << electron->VBTF_W70_ElectronID() << setw(30) << "" << setw(30) << electron->RobustLooseID()
-            << setw(30) << electron->RobustTightID() << endl;
-
-    cout << setw(30) << "sigma_{ieta ieta}" << setw(30) << "|Delta phi_{in}|" << setw(30) << "|Delta eta_{in}|"
-            << setw(30) << "HadOverEm" << endl;
-    cout << setw(30) << electron->sigmaIEtaIEta() << setw(30) << fabs(electron->dPhiIn()) << setw(30) << fabs(
-            electron->dEtaIn()) << setw(30) << electron->HadOverEm() << endl;
-
-    cout << setw(30) << "isSpike" << setw(30) << "rel. iso." << setw(30) << "isFromConversion" << setw(30)
-            << "superClusterEta" << endl;
-    cout << setw(30) << electron->isEcalSpike() << setw(30) << electron->relativeIsolation() << setw(30)
-            << electron->isFromConversion() << setw(30) << electron->superClusterEta() << endl << endl;
-
-}
+//void TopPairEventCandidate::inspectJet(const JetPointer jet) const {
+//    inspectParticle(jet);
+//    cout << setw(30) << "emf" << setw(30) << "n90Hits" << setw(30) << "fHPD" << setw(30) << "B tag(SSV)" << endl;
+//    cout << setw(30) << jet->emf() << setw(30) << jet->n90Hits() << setw(30) << jet->fHPD() << setw(30)
+//            << jet->isBJetAccordingToBtagAlgorithm(BJetTagger::SimpleSecondaryVertex) << endl << endl;
+//}
+//
+//void TopPairEventCandidate::inspectElectron(const ElectronPointer electron) const {
+//    inspectParticle(electron);
+//    cout << setw(30) << "VBTF70" << setw(30) << "VBTF85" << setw(30) << "robust loose" << setw(30) << "robust tight"
+//            << endl;
+//    cout << setw(30) << electron->VBTF_W70_ElectronID() << setw(30) << "" << setw(30) << electron->RobustLooseID()
+//            << setw(30) << electron->RobustTightID() << endl;
+//
+//    cout << setw(30) << "sigma_{ieta ieta}" << setw(30) << "|Delta phi_{in}|" << setw(30) << "|Delta eta_{in}|"
+//            << setw(30) << "HadOverEm" << endl;
+//    cout << setw(30) << electron->sigmaIEtaIEta() << setw(30) << fabs(electron->dPhiIn()) << setw(30) << fabs(
+//            electron->dEtaIn()) << setw(30) << electron->HadOverEm() << endl;
+//
+//    cout << setw(30) << "isSpike" << setw(30) << "rel. iso." << setw(30) << "isFromConversion" << setw(30)
+//            << "superClusterEta" << endl;
+//    cout << setw(30) << electron->isEcalSpike() << setw(30) << electron->relativeIsolation() << setw(30)
+//            << electron->isFromConversion() << setw(30) << electron->superClusterEta() << endl << endl;
+//
+//}
 }

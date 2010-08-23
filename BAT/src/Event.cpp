@@ -6,6 +6,8 @@
  */
 
 #include "../interface/Event.h"
+#include <iostream>
+using namespace std;
 
 namespace BAT {
 
@@ -240,6 +242,21 @@ unsigned long Event::lumiblock() const {
 
 float Event::weight() const {
     return eventWeight;
+}
+
+void Event::inspect() const {
+    cout << "number of jets: " << allJets.size() << endl;
+    cout << "number of good jets: " << goodJets.size() << endl;
+    EventPrinter::printJets(goodJets);
+
+    cout << "number of good isolated electrons: " << goodIsolatedElectrons.size() << endl;
+    EventPrinter::printElectrons(goodIsolatedElectrons);
+
+    cout << "number of good electrons: " << goodElectrons.size() << endl;
+    EventPrinter::printElectrons(goodElectrons);
+
+    cout << "number of electrons: " << allElectrons.size() << endl;
+    EventPrinter::printElectrons(allElectrons);
 }
 
 }
