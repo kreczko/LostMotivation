@@ -35,7 +35,7 @@ Electron::Electron() :
     Particle(), usedAlgorithm(Electron::Calo), robustLooseId(false), robustTightId(false), superCluser_Eta(
             initialBigValue), ecal_Isolation(initialBigValue), hcal_Isolation(initialBigValue), tracker_Isolation(
             initialBigValue), innerLayerMissingHits(initialBigValue), sigma_IEtaIEta(0), dPhi_In(0), dEta_In(0),
-            hadOverEm(0), ecalDriven(false), trackerDriven(false), swiss_Cross(initialBigValue) {
+            hadOverEm(0), ecalDriven(false), trackerDriven(false), swiss_Cross(1) {
 }
 
 Electron::Electron(const Electron& other) :
@@ -52,7 +52,7 @@ Electron::Electron(float energy, float px, float py, float pz) :
     Particle(energy, px, py, pz), usedAlgorithm(Electron::Calo), robustLooseId(false), robustTightId(false),
             superCluser_Eta(initialBigValue), ecal_Isolation(initialBigValue), hcal_Isolation(initialBigValue),
             tracker_Isolation(initialBigValue), innerLayerMissingHits(initialBigValue), sigma_IEtaIEta(0), dPhi_In(0),
-            dEta_In(0), hadOverEm(0), ecalDriven(false), trackerDriven(false), swiss_Cross(initialBigValue) {
+            dEta_In(0), hadOverEm(0), ecalDriven(false), trackerDriven(false), swiss_Cross(1) {
 }
 
 Electron::~Electron() {
@@ -96,7 +96,7 @@ Electron::Algorithm Electron::getUsedAlgorithm() const {
     return usedAlgorithm;
 }
 
-float Electron::swissCross() const{
+float Electron::swissCross() const {
     return swiss_Cross;
 }
 void Electron::setEcalIsolation(float isolation) {
@@ -147,7 +147,7 @@ void Electron::setIsTrackerDriven(bool tDriven) {
     trackerDriven = tDriven;
 }
 
-void Electron::setSwissCross(float swiss){
+void Electron::setSwissCross(float swiss) {
     swiss_Cross = swiss;
 }
 
@@ -155,7 +155,7 @@ bool Electron::isLoose() const {
     bool passesEt = et() > Electron::looseElectronMinimalEt;
     bool passesEta = fabs(eta()) < Electron::looseElectronMaximalAbsoluteEta;
     bool passesIsolation = relativeIsolation() < Electron::looseIsolatedElectronMaximalRelativeIsolation;
-    return passesEt && passesEta && passesIsolation && robustLooseId;
+    return passesEt && passesEta && passesIsolation && VBTF_W95_ElectronID();
 }
 
 bool Electron::isGood() const {
@@ -192,6 +192,47 @@ bool Electron::VBTF_W70_ElectronID() const {
         return getVBTF_W70_ElectronID_Endcap();
     else
         return false;
+}
+
+bool Electron::getVBTF_W70_ElectronID_Barrel() const {
+    bool passesSigmaIEta = sigma_IEtaIEta < VBTF_W70::MaximalSigmaIEtaIEta_BarrelRegion;
+    bool passesDPhiIn = fabs(dPhi_In) < VBTF_W70::MaximalDPhiIn_BarrelRegion;
+    bool passesDEtaIn = fabs(dEta_In) < VBTF_W70::MaximalDEtaIn_BarrelRegion;
+    bool passesHadOverEm = hadOverEm < VBTF_W70::MaximalHadOverEm_BarrelRegion;
+    return passesSigmaIEta && passesDPhiIn && passesDEtaIn && passesHadOverEm;
+}
+
+bool Electron::getVBTF_W70_ElectronID_Endcap() const {
+    bool passesSigmaIEta = sigma_IEtaIEta < VBTF_W70::MaximalSigmaIEtaIEta_EndcapRegion;
+    bool passesDPhiIn = fabs(dPhi_In) < VBTF_W70::MaximalDPhiIn_EndcapRegion;
+    bool passesDEtaIn = true;//fabs(dEta_In) < VBTF_W70::MaximalDEtaIn_EndcapRegion;
+    bool passesHadOverEm = hadOverEm < VBTF_W70::MaximalHadOverEm_EndcapRegion;
+    return passesSigmaIEta && passesDPhiIn && passesDEtaIn && passesHadOverEm;
+}
+
+bool Electron::VBTF_W95_ElectronID() const {
+    if (isInBarrelRegion())
+        return getVBTF_W95_ElectronID_Barrel();
+    else if (isInEndCapRegion())
+        return getVBTF_W95_ElectronID_Endcap();
+    else
+        return false;
+}
+
+bool Electron::getVBTF_W95_ElectronID_Barrel() const {
+    bool passesSigmaIEta = sigma_IEtaIEta < VBTF_W95::MaximalSigmaIEtaIEta_BarrelRegion;
+    bool passesDPhiIn = fabs(dPhi_In) < VBTF_W95::MaximalDPhiIn_BarrelRegion;
+    bool passesDEtaIn = fabs(dEta_In) < VBTF_W95::MaximalDEtaIn_BarrelRegion;
+    bool passesHadOverEm = hadOverEm < VBTF_W95::MaximalHadOverEm_BarrelRegion;
+    return passesSigmaIEta && passesDPhiIn && passesDEtaIn && passesHadOverEm;
+}
+
+bool Electron::getVBTF_W95_ElectronID_Endcap() const {
+    bool passesSigmaIEta = sigma_IEtaIEta < VBTF_W95::MaximalSigmaIEtaIEta_EndcapRegion;
+    bool passesDPhiIn = fabs(dPhi_In) < VBTF_W95::MaximalDPhiIn_EndcapRegion;
+    bool passesDEtaIn = true;//fabs(dEta_In) < VBTF_W70::MaximalDEtaIn_EndcapRegion;
+    bool passesHadOverEm = hadOverEm < VBTF_W95::MaximalHadOverEm_EndcapRegion;
+    return passesSigmaIEta && passesDPhiIn && passesDEtaIn && passesHadOverEm;
 }
 
 float Electron::sigmaIEtaIEta() const {
@@ -250,23 +291,7 @@ void Electron::setUsedAlgorithm(Electron::Algorithm algo) {
     usedAlgorithm = algo;
 }
 
-bool Electron::getVBTF_W70_ElectronID_Barrel() const {
-    bool passesSigmaIEta = sigma_IEtaIEta < VBTF_W70::MaximalSigmaIEtaIEta_BarrelRegion;
-    bool passesDPhiIn = fabs(dPhi_In) < VBTF_W70::MaximalDPhiIn_BarrelRegion;
-    bool passesDEtaIn = fabs(dEta_In) < VBTF_W70::MaximalDEtaIn_BarrelRegion;
-    bool passesHadOverEm = hadOverEm < VBTF_W70::MaximalHadOverEm_BarrelRegion;
-    return passesSigmaIEta && passesDPhiIn && passesDEtaIn && passesHadOverEm;
-}
-
-bool Electron::getVBTF_W70_ElectronID_Endcap() const {
-    bool passesSigmaIEta = sigma_IEtaIEta < VBTF_W70::MaximalSigmaIEtaIEta_EndcapRegion;
-    bool passesDPhiIn = fabs(dPhi_In) < VBTF_W70::MaximalDPhiIn_EndcapRegion;
-    bool passesDEtaIn = fabs(dEta_In) < VBTF_W70::MaximalDEtaIn_EndcapRegion;
-    bool passesHadOverEm = hadOverEm < VBTF_W70::MaximalHadOverEm_EndcapRegion;
-    return passesSigmaIEta && passesDPhiIn && passesDEtaIn && passesHadOverEm;
-}
-
-bool Electron::isEcalSpike() const{
+bool Electron::isEcalSpike() const {
     return isEcalDriven() && isInBarrelRegion() && swiss_Cross > Electron::goodElectronMaximalSwissCross;
 }
 
