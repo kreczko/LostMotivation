@@ -25,10 +25,10 @@ void Analysis::analyze() {
         doDiElectronAnalysis();
         doTTBarAnalysis();
         if (ttbarCandidate.runnumber() == 142191 && ttbarCandidate.eventnumber() == 58391574)
-            ttbarCandidate.inspectEvent();
+            ttbarCandidate.inspect();
 
         if (ttbarCandidate.runnumber() == 142038 && ttbarCandidate.eventnumber() == 210965064)
-            ttbarCandidate.inspectEvent();
+            ttbarCandidate.inspect();
     }
     printInterestingEvents();
     printSummary();
