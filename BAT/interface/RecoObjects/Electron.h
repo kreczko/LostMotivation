@@ -39,8 +39,6 @@ public:
 
     static float MaximalNumberOfMissingInnerLayerHitsBeforeCalledConversion;
 
-    static ElectronID goodElectronID;
-
     static float isolatedElectronMaximalRelativeIsolation;
     static float looseIsolatedElectronMaximalRelativeIsolation;
 
@@ -85,6 +83,7 @@ public:
     float HadOverEm() const;
     float HEEPet() const;
     bool VBTF_W70_ElectronID() const;
+    bool VBTF_W95_ElectronID() const;
     bool RobustLooseID() const;
     bool RobustTightID() const;
     unsigned short getClosestJetID(const JetCollection& jets) const;
@@ -129,6 +128,8 @@ private:
 
     bool getVBTF_W70_ElectronID_Barrel() const;
     bool getVBTF_W70_ElectronID_Endcap() const;
+    bool getVBTF_W95_ElectronID_Barrel() const;
+    bool getVBTF_W95_ElectronID_Endcap() const;
 
 };
 
