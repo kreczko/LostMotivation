@@ -84,9 +84,15 @@ private:
         goodLooseElectron->setHcalIsolation(5);
         goodLooseElectron->setEcalIsolation(3);
         goodLooseElectron->setTrackerIsolation(4);
-        goodLooseElectron->setSigmaIEtaIEta(VBTF_W70::MaximalDEtaIn_BarrelRegion + 2);
+        goodLooseElectron->setSigmaIEtaIEta(VBTF_W95::MaximalSigmaIEtaIEta_BarrelRegion - 0.1
+                * VBTF_W95::MaximalSigmaIEtaIEta_BarrelRegion);
+        goodLooseElectron->setDPhiIn(VBTF_W95::MaximalDPhiIn_BarrelRegion - 0.1 * VBTF_W95::MaximalDPhiIn_BarrelRegion);
+        goodLooseElectron->setDEtaIn(VBTF_W95::MaximalDEtaIn_BarrelRegion - 0.1 * VBTF_W95::MaximalDEtaIn_BarrelRegion);
+        goodLooseElectron->setHadOverEm(VBTF_W95::MaximalHadOverEm_BarrelRegion - 0.1
+                * VBTF_W95::MaximalHadOverEm_BarrelRegion);
         goodLooseElectron->setRobustLooseID(true);
         goodLooseElectron->setNumberOfMissingInnerLayerHits(0);
+        goodLooseElectron->setSuperClusterEta(0);
         assert(goodLooseElectron->isGood() == false);
         assert(goodLooseElectron->isLoose());
     }
