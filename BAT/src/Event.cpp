@@ -245,6 +245,7 @@ float Event::weight() const {
 }
 
 void Event::inspect() const {
+    cout << "run " << runNumber << ", event number " << eventNumber << endl;
     cout << "number of jets: " << allJets.size() << endl;
     cout << "number of good jets: " << goodJets.size() << endl;
     EventPrinter::printJets(goodJets);
