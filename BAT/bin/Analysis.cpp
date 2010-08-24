@@ -103,6 +103,10 @@ void Analysis::doTTBarAnalysis() {
             cout << "top pair invariant mass=" << mttbar << endl;
         }
 
+        if(ttbarCandidate.getLeptonicTop()->mass() <= 0 || ttbarCandidate.getHadronicTop()->mass() <=0){
+            ttbarCandidate.inspectReconstructedEvent();
+        }
+
         interestingEvents .push_back(InterestingEvent(ttbarCandidate.runnumber(), ttbarCandidate.eventnumber(),
                 eventReader->getCurrentFile()));
     }
@@ -132,7 +136,7 @@ void Analysis::printSummary() {
 Analysis::Analysis() :
     eventReader(new NTupleEventReader()), eventFilter(Filter::makeTopPairEPlusJetsFilter()), currentEvent(),
             ttbarCandidate(), numberOfGoodElectrons(0), testingDirectory(gROOT->mkdir("testing")), h_et(new TH1F(
-                    "histname", "histtitle", 100, 0, 100)), h_diElectronMass(new TH1F("diElectronMass",
+                    "electron_et", "electron_et", 100, 0, 100)), h_diElectronMass(new TH1F("diElectronMass",
                     "diElectronMass", 500, 0, 500)), h_ptRel_vs_DRmin(new TH2F("ptRel_vs_DRmin", "ptRel_vs_DRmin", 100,
                     0, 1, 300, 0, 300)), h_mttbar(new TH1F("mttbar", "mttbar", 5000, 0, 5000)), h_mleptonicTop(
                     new TH1F("mLeptonicTop", "mLeptonicTop", 500, 0, 500)), h_mhadronicTop(new TH1F("mHadronicTop",
