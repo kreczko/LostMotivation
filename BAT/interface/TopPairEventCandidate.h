@@ -10,6 +10,7 @@
 
 #include <boost/shared_ptr.hpp>
 #include "Event.h"
+#include "Enumerators.h"
 #include "RecoObjects/Particle.h"
 #include "RecoObjects/Electron.h"
 #include "RecoObjects/Jet.h"
@@ -46,13 +47,17 @@ private:
     static double const matched_pt_ttbarSystem_sigma;// = 0.0700391;
     static double const matched_HTSystem;// = 1;
     static double const matched_HTSystem_sigma;// = 0.1;
+    static double const W_mass;
 
+    ElectronPointer electronFromW;
     JetPointer leptonicBJet, hadronicBJet, jet1FromW, jet2FromW;
     ParticlePointer neutrino1, neutrino2, leptonicW1, leptonicW2, hadronicW, leptonicTop1, leptonicTop2, hadronicTop,
             ttbarResonance;
-    unsigned short selectedNeutrino, hadronicBIndex, leptonicBIndex, jet1FromWIndex, jet2FromWIndex;
+    unsigned short selectedNeutrino, currentSelectedNeutrino, hadronicBIndex, leptonicBIndex, jet1FromWIndex,
+            jet2FromWIndex;
     bool doneReconstruction;
 public:
+    static NeutrinoSelectionCriterion::value usedNeutrinoSelection;
     TopPairEventCandidate();
     TopPairEventCandidate(const Event& event);
     virtual ~TopPairEventCandidate();
@@ -108,16 +113,10 @@ public:
     void reconstructNeutrinos();
     bool hasNextJetCombination();
     void selectNextJetCombination();
-//    void inspectEvent() const;
     void inspectReconstructedEvent() const;
 private:
     void throwExpeptionIfNotReconstructed() const;
-//    void inspectJets(const JetCollection jets) const;
-//    void inspectElectrons(const ElectronCollection electrons) const;
-//
-//    void inspectJet(const JetPointer jet) const;
-//    void inspectElectron(const ElectronPointer electron) const;
-//    void inspectParticle(const ParticlePointer particle) const;
+    void selectNeutrinoSolution();
 
 };
 
