@@ -464,6 +464,7 @@ double TopPairEventCandidate::mttbar() const {
 }
 
 void TopPairEventCandidate::inspectReconstructedEvent() const {
+    cout << "run " << runNumber << ", event " << eventNumber << endl;
     cout << "leptonic b jet, goodJet index " << leptonicBIndex << endl;
     EventPrinter::printJet(leptonicBJet);
 
