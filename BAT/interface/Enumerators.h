@@ -43,6 +43,16 @@ enum value {
     NUMBER_OF_DATA_TYPES
 };
 }
+
+namespace NeutrinoSelectionCriterion{
+enum value{
+    pzClosestToLepton,
+    mostCentral,
+    pzClosestToLeptonOrMostcentralIfAbove300,
+    largestValueOfCosine,
+    chi2
+};
+}
 }
 
 #endif /* ENUMERATORS_H_ */
