@@ -28,9 +28,11 @@ public:
 			const float weight);
 	void fillNjetBinnedHistogram(ushort histogram, const float value, const double w);
 	void fillHisto_btag_DataAndMC(BJetTagger::Algorithm btagAlgorithm, ushort histogram, const float value, const double w);
+	void setCurrentDataType(DataType::value type) const;
 private:
 	TH1Collection collection;
 	TH2Collection collection2D;
+	DataType::value currentDataType;
 };
 
 }

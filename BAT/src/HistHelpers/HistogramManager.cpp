@@ -9,11 +9,16 @@
 
 namespace BAT {
 
-HistogramManager::HistogramManager() {
+HistogramManager::HistogramManager() :
+    collection(), collection2D(), currentDataType(DataType::DATA) {
 
 }
 
 HistogramManager::~HistogramManager() {
+}
+
+void HistogramManager::setCurrentDataType(DataType::value type) {
+    currentDataType = type;
 }
 
 }
