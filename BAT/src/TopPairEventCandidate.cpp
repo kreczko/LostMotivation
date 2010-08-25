@@ -26,17 +26,22 @@ double const TopPairEventCandidate::matched_pt_ttbarSystem = 0.0760939;
 double const TopPairEventCandidate::matched_pt_ttbarSystem_sigma = 0.0700391;
 double const TopPairEventCandidate::matched_HTSystem = 1;
 double const TopPairEventCandidate::matched_HTSystem_sigma = 0.1;
+double const TopPairEventCandidate::W_mass = 80.389;
+
+NeutrinoSelectionCriterion::value TopPairEventCandidate::usedNeutrinoSelection = NeutrinoSelectionCriterion::chi2;
 
 TopPairEventCandidate::TopPairEventCandidate() :
-    Event(), leptonicBJet(), hadronicBJet(), jet1FromW(), jet2FromW(), neutrino1(), neutrino2(), leptonicW1(),
-            leptonicW2(), hadronicW(), leptonicTop1(), leptonicTop2(), hadronicTop(), selectedNeutrino(0),
-            hadronicBIndex(0), leptonicBIndex(0), jet1FromWIndex(0), jet2FromWIndex(0), doneReconstruction(false) {
+    Event(), electronFromW(), leptonicBJet(), hadronicBJet(), jet1FromW(), jet2FromW(), neutrino1(), neutrino2(),
+            leptonicW1(), leptonicW2(), hadronicW(), leptonicTop1(), leptonicTop2(), hadronicTop(),
+            selectedNeutrino(0), currentSelectedNeutrino(0), hadronicBIndex(0), leptonicBIndex(0), jet1FromWIndex(0),
+            jet2FromWIndex(0), doneReconstruction(false) {
 }
 
 TopPairEventCandidate::TopPairEventCandidate(const Event& event) :
-    Event(event), leptonicBJet(), hadronicBJet(), jet1FromW(), jet2FromW(), neutrino1(), neutrino2(), leptonicW1(),
-            leptonicW2(), hadronicW(), leptonicTop1(), leptonicTop2(), hadronicTop(), selectedNeutrino(0),
-            hadronicBIndex(0), leptonicBIndex(0), jet1FromWIndex(0), jet2FromWIndex(0), doneReconstruction(false) {
+    Event(event), electronFromW(), leptonicBJet(), hadronicBJet(), jet1FromW(), jet2FromW(), neutrino1(), neutrino2(),
+            leptonicW1(), leptonicW2(), hadronicW(), leptonicTop1(), leptonicTop2(), hadronicTop(),
+            selectedNeutrino(0), currentSelectedNeutrino(0), hadronicBIndex(0), leptonicBIndex(0), jet1FromWIndex(0),
+            jet2FromWIndex(0), doneReconstruction(false) {
 
 }
 
@@ -137,6 +142,7 @@ bool TopPairEventCandidate::passesSelectionStep(enum TTbarEPlusJetsSelection::St
 void TopPairEventCandidate::reconstructUsingChi2() {
     if (goodJets.size() < 4)
         throw ReconstructionException("Not enough jets available to reconstruct top event using Chi2 method.");
+    electronFromW = goodIsolatedElectrons.front();
     reconstructNeutrinos();
 
     double chosen_Chi2Total(9999999.);
@@ -155,19 +161,23 @@ void TopPairEventCandidate::reconstructUsingChi2() {
                     leptonicBJet = goodJets.at(lepBindex);
                     jet1FromW = goodJets.at(jet1Index);
                     jet2FromW = goodJets.at(jet2Index);
+
                     leptonicW1 = ParticlePointer(new Particle(*neutrino1 + *goodIsolatedElectrons.front()));
                     leptonicW2 = ParticlePointer(new Particle(*neutrino2 + *goodIsolatedElectrons.front()));
                     hadronicW = ParticlePointer(new Particle(*jet1FromW + *jet2FromW));
                     leptonicTop1 = ParticlePointer(new Particle(*leptonicBJet + *leptonicW1));
                     leptonicTop2 = ParticlePointer(new Particle(*leptonicBJet + *leptonicW2));
                     hadronicTop = ParticlePointer(new Particle(*hadronicBJet + *hadronicW));
-                    double chi2 = getTotalChi2();
+
+                    selectNeutrinoSolution();
+                    double chi2 = getTotalChi2(currentSelectedNeutrino);
                     if (chi2 < chosen_Chi2Total) {
                         hadronicBIndex = hadBindex;
                         leptonicBIndex = lepBindex;
                         jet1FromWIndex = jet1Index;
                         jet2FromWIndex = jet2Index;
                         chosen_Chi2Total = chi2;
+                        selectedNeutrino = currentSelectedNeutrino;
                     }
                 }
             }
@@ -199,49 +209,38 @@ void TopPairEventCandidate::reconstructNeutrinos() {
     neutrino1 = ParticlePointer(new Particle(energy1, met->px(), met->py(), neutrinoPzs.at(0)));
     neutrino2 = ParticlePointer(new Particle(energy2, met->px(), met->py(), neutrinoPzs.at(1)));
 
-    if(isnan(neutrino1->energy()) && isnan(neutrino2->energy()))
-            throw ReconstructionException("No physical neutrino solution found");
-        else if(isnan(neutrino1->energy()))
-            neutrino1 = neutrino2;
-        else if(isnan(neutrino2->energy()))
-            neutrino2 = neutrino1;
+    if (isnan(neutrino1->energy()) && isnan(neutrino2->energy()))
+        throw ReconstructionException("No physical neutrino solution found");
+    else if (isnan(neutrino1->energy()))
+        neutrino1 = neutrino2;
+    else if (isnan(neutrino2->energy()))
+        neutrino2 = neutrino1;
 }
 
 const boost::array<double, 2> TopPairEventCandidate::computeNeutrinoPz() {
-    if (goodIsolatedElectrons.size() == 0)
+    if (electronFromW == 0)
         throw ReconstructionException("Could not reconstruct neutrinos: no isolated electrons found");
     if (met->energy() == 0)
         throw ReconstructionException("Could not reconstruct neutrinos: no MET found");
     boost::array<double, 2> neutrinoPzs;
-    const ElectronPointer electron = goodIsolatedElectrons.front();
+    //    const ElectronPointer electron = goodIsolatedElectrons.front();
 
     double pz1(0), pz2(0);
-    double M_W = 80.389;
+    //    double M_W = 80.389;
     double M_e = 0.0005;
-    double ee = electron->energy();
-    double pxe = electron->px();
-    double pye = electron->py();
-    double pze = electron->pz();
+    double ee = electronFromW->energy();
+    double pxe = electronFromW->px();
+    double pye = electronFromW->py();
+    double pze = electronFromW->pz();
     double pxnu = met->px();
     double pynu = met->py();
 
-    double a = M_W * M_W - M_e * M_e + 2.0 * pxe * pxnu + 2.0 * pye * pynu;
+    double a = W_mass * W_mass - M_e * M_e + 2.0 * pxe * pxnu + 2.0 * pye * pynu;
     double A = 4.0 * (ee * ee - pze * pze);
     double B = -4.0 * a * pze;
     double C = 4.0 * ee * ee * (pxnu * pxnu + pynu * pynu) - a * a;
 
     double tmproot = B * B - 4.0 * A * C;
-    //    double k = Wmass * Wmass * 0.5 + (electron->px() * met->px() + electron->py() * met->py());
-    //    double l = electron->energy() * electron->energy() - electron->pz() * electron->pz();
-    //    double b = electron->pz() * k / l;
-    //    double q = (k * k - electron->energy() * electron->energy() * met->et() * met->et()) / l;
-    //    double root = b * b + q;
-    //    if (root >= 0) {
-    //        pz1 = b + sqrt(root);
-    //        pz2 = b - sqrt(root);
-    //    } else {
-    //        pz1 = pz2 = b;
-    //    }
     if (tmproot < 0) {
         pz1 = pz2 = -B / (2 * A);
     } else {
@@ -263,18 +262,69 @@ const boost::array<double, 2> TopPairEventCandidate::computeNeutrinoPz() {
 //
 //}
 
+void TopPairEventCandidate::selectNeutrinoSolution() {
+
+    if (leptonicTop1->mass() < 0 && leptonicTop2->mass() < 0) {
+        inspectReconstructedEvent();
+        throw ReconstructionException("No valid neutrino solution found");
+    } else if (leptonicTop1->mass() < 0 && leptonicTop2->mass() > 0) {
+        currentSelectedNeutrino = 2;
+    } else if (leptonicTop1->mass() > 0 && leptonicTop2->mass() < 0) {
+        currentSelectedNeutrino = 1;
+    } else {// both solutions give positive mass
+        switch (usedNeutrinoSelection) {
+        case NeutrinoSelectionCriterion::chi2:
+            getTotalChi2(1) < getTotalChi2(2) ? currentSelectedNeutrino = 1 : currentSelectedNeutrino = 2;
+            break;
+
+        case NeutrinoSelectionCriterion::pzClosestToLepton:
+            fabs(neutrino1->pz() - goodIsolatedElectrons.front()->pz()) < fabs(neutrino2->pz()
+                    - goodIsolatedElectrons.front()->pz()) ? currentSelectedNeutrino = 1 : currentSelectedNeutrino = 2;
+            break;
+
+        case NeutrinoSelectionCriterion::mostCentral:
+            fabs(neutrino1->pz()) < fabs(neutrino2->pz()) ? currentSelectedNeutrino = 1 : currentSelectedNeutrino = 2;
+            break;
+
+        case NeutrinoSelectionCriterion::pzClosestToLeptonOrMostcentralIfAbove300:
+            fabs(neutrino1->pz() - goodIsolatedElectrons.front()->pz()) < fabs(neutrino2->pz()
+                    - goodIsolatedElectrons.front()->pz()) ? currentSelectedNeutrino = 1 : currentSelectedNeutrino = 2;
+            if (fabs(neutrino1->pz()) > 300 || fabs(neutrino2->pz()) > 300)
+                fabs(neutrino1->pz()) < fabs(neutrino2->pz()) ? currentSelectedNeutrino = 1 : currentSelectedNeutrino = 2;
+            break;
+
+        case NeutrinoSelectionCriterion::largestValueOfCosine:
+            TVector3 p3W, p3e;
+            //TODO clean up
+            p3W = leptonicW1->getFourVector().Vect();
+            p3e = electronFromW->getFourVector().Vect();
+
+            double sinthcm1 = 2. * (p3e.Perp(p3W)) / W_mass;
+            p3W = leptonicW2->getFourVector().Vect();
+            double sinthcm2 = 2. * (p3e.Perp(p3W)) / W_mass;
+
+            double costhcm1 = TMath::Sqrt(1. - sinthcm1 * sinthcm1);
+            double costhcm2 = TMath::Sqrt(1. - sinthcm2 * sinthcm2);
+            costhcm1 > costhcm2 ? currentSelectedNeutrino = 1 : currentSelectedNeutrino = 2;
+            break;
+
+        }
+    }
+
+}
+
 double TopPairEventCandidate::getTotalChi2() {
     double totalChi2(9999999);
     double firstTotalChi2 = getTotalChi2(1);
     double secondTotalChi2 = getTotalChi2(2);
-
-    if (firstTotalChi2 < secondTotalChi2) {
-        selectedNeutrino = 1;
-        totalChi2 = firstTotalChi2;
-    } else {
-        selectedNeutrino = 2;
-        totalChi2 = secondTotalChi2;
-    }
+    selectedNeutrino == 1 ? totalChi2 = firstTotalChi2 : totalChi2 = secondTotalChi2;
+    //    if (firstTotalChi2 < secondTotalChi2) {
+    //        selectedNeutrino = 1;
+    //        totalChi2 = firstTotalChi2;
+    //    } else {
+    //        selectedNeutrino = 2;
+    //        totalChi2 = secondTotalChi2;
+    //    }
     return totalChi2;
 }
 
@@ -363,52 +413,6 @@ double TopPairEventCandidate::sumPt() const {
     return leptonicBJet->pt() + hadronicBJet->pt() + jet1FromW->pt() + jet2FromW->pt();
 }
 
-//void TopPairEventCandidate::inspectEvent() const {
-//    cout << "number of jets: " << allJets.size() << endl;
-//    cout << "number of good jets: " << goodJets.size() << endl;
-//    inspectJets(goodJets);
-//
-//    cout << "number of good isolated electrons: " << goodIsolatedElectrons.size() << endl;
-//    inspectElectrons(goodIsolatedElectrons);
-//
-//    cout << "number of good electrons: " << goodElectrons.size() << endl;
-//    inspectElectrons(goodElectrons);
-//
-//    cout << "number of electrons: " << allElectrons.size() << endl;
-//    inspectElectrons(allElectrons);
-//
-//}
-
-//void TopPairEventCandidate::inspectJets(const JetCollection jets) const {
-//    for (unsigned short index = 0; index < jets.size(); ++index) {
-//        const JetPointer jet = jets.at(index);
-//        cout << "Jet " << index + 1 << endl;
-//        inspectJet(jet);
-//    }
-//}
-//
-//void TopPairEventCandidate::inspectElectrons(const ElectronCollection electrons) const {
-//    for (unsigned short index = 0; index < electrons.size(); ++index) {
-//        const ElectronPointer electron = electrons.at(index);
-//        cout << "Electron " << index + 1 << endl;
-//        inspectElectron(electron);
-//    }
-//}
-//
-//void TopPairEventCandidate::inspectParticle(const ParticlePointer particle) const {
-//    cout << setw(30) << "pt" << setw(30) << "px" << setw(30) << "py" << setw(30) << "pz" << endl;
-//    cout << setw(30) << particle->pt() << setw(30) << particle->px() << setw(30) << particle->py() << setw(30)
-//            << particle->pz() << endl;
-//
-//    cout << setw(30) << "energy" << setw(30) << "et" << setw(30) << "eta" << setw(30) << "phi" << endl;
-//    cout << setw(30) << particle->energy() << setw(30) << particle->et() << setw(30) << particle->eta() << setw(30)
-//            << particle->phi() << endl;
-//
-//    cout << setw(30) << "d0" << setw(30) << "dyn. mass" << setw(30) << "fix. mass" << setw(30) << "charge" << endl;
-//    cout << setw(30) << particle->d0() << setw(30) << particle->massFromEnergyAndMomentum() << setw(30)
-//            << particle->mass() << setw(30) << particle->charge() << endl;
-//}
-
 void TopPairEventCandidate::throwExpeptionIfNotReconstructed() const {
     if (doneReconstruction == false)
         throw ReconstructionException("Can't access reconstructed particles before reconstruction.");
@@ -479,7 +483,7 @@ void TopPairEventCandidate::inspectReconstructedEvent() const {
     EventPrinter::printParticle(neutrino1);
     cout << endl;
 
-    cout << "reconstructed neutrino 1(selected: " << selectedNeutrino << ")" << endl;
+    cout << "reconstructed neutrino 2(selected: " << selectedNeutrino << ")" << endl;
     EventPrinter::printParticle(neutrino2);
     cout << endl;
 
@@ -517,29 +521,4 @@ void TopPairEventCandidate::inspectReconstructedEvent() const {
     cout << endl;
 }
 
-//void TopPairEventCandidate::inspectJet(const JetPointer jet) const {
-//    inspectParticle(jet);
-//    cout << setw(30) << "emf" << setw(30) << "n90Hits" << setw(30) << "fHPD" << setw(30) << "B tag(SSV)" << endl;
-//    cout << setw(30) << jet->emf() << setw(30) << jet->n90Hits() << setw(30) << jet->fHPD() << setw(30)
-//            << jet->isBJetAccordingToBtagAlgorithm(BJetTagger::SimpleSecondaryVertex) << endl << endl;
-//}
-//
-//void TopPairEventCandidate::inspectElectron(const ElectronPointer electron) const {
-//    inspectParticle(electron);
-//    cout << setw(30) << "VBTF70" << setw(30) << "VBTF85" << setw(30) << "robust loose" << setw(30) << "robust tight"
-//            << endl;
-//    cout << setw(30) << electron->VBTF_W70_ElectronID() << setw(30) << "" << setw(30) << electron->RobustLooseID()
-//            << setw(30) << electron->RobustTightID() << endl;
-//
-//    cout << setw(30) << "sigma_{ieta ieta}" << setw(30) << "|Delta phi_{in}|" << setw(30) << "|Delta eta_{in}|"
-//            << setw(30) << "HadOverEm" << endl;
-//    cout << setw(30) << electron->sigmaIEtaIEta() << setw(30) << fabs(electron->dPhiIn()) << setw(30) << fabs(
-//            electron->dEtaIn()) << setw(30) << electron->HadOverEm() << endl;
-//
-//    cout << setw(30) << "isSpike" << setw(30) << "rel. iso." << setw(30) << "isFromConversion" << setw(30)
-//            << "superClusterEta" << endl;
-//    cout << setw(30) << electron->isEcalSpike() << setw(30) << electron->relativeIsolation() << setw(30)
-//            << electron->isFromConversion() << setw(30) << electron->superClusterEta() << endl << endl;
-//
-//}
 }
