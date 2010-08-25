@@ -74,6 +74,8 @@ void Jet::setDiscriminatorForBtagType(float discriminator, BJetTagger::Algorithm
 bool Jet::isGood() const {
 	bool passesEt = et() > Jet::goodJetMinimalEt;
 	bool passesEta = fabs(eta()) < Jet::goodJetMaximalAbsoluteEta;
+	if(usedAlgorithm == ParticleFlow)
+	    return passesEt && passesEta;
 	bool passesEMF = emf() > Jet::goodJetMinimalElectromagneticFraction;
 	bool passesN90Hits = n90Hits() > Jet::goodJetMinimalNumberOfRecHitsContaining90PercentOfTheJetEnergy;
 	bool passesFHPD = fHPD() < Jet::goodJetMaximalFractionOfEnergyIntheHottestHPDReadout;
