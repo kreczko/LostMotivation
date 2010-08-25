@@ -13,6 +13,7 @@
 #include <boost/scoped_ptr.hpp>
 using namespace ROOT;
 using namespace std;
+using namespace BAT;
 
 void setUpOnce() {
     //needed to proper link vector<float> etc.
@@ -27,12 +28,16 @@ int main(int argc, char **argv) {
     watch.Start();
     boost::scoped_ptr<Analysis> myAnalysis(new Analysis());
     //    myAnalysis->setMaximalNumberOfEvents(10000);
+    myAnalysis->setUsedNeutrinoSelectionForTopPairReconstruction(
+            NeutrinoSelectionCriterion::chi2);
 
     cout << "adding files" << endl;
     //Input files
     myAnalysis->addInputFile("/storage/top/data/e20skim/e20skim_EG_Run2010A-Jul16-v4_RECO_139559_140159/*.root");
     myAnalysis->addInputFile("/storage/top/data/e20skim/e20skim_EG_Run2010A-Jun14thReReco_v1_RECO/*.root");
     myAnalysis->addInputFile("/storage/top/data/e20skim/e20skim_EG_Run2010A-PromptReco-v4/*.root");
+//    myAnalysis->addInputFile("/storage/top/mc/spring10_7TeV_v4/MG/e20skim_ttjet/*_1.root");
+
 
     cout << "starting analysis" << endl;
     myAnalysis->analyze();
