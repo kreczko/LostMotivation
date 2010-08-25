@@ -24,6 +24,7 @@
 #include "../interface/CrossSections.h"
 #include <iostream>
 #include <string>
+#include "../interface/Enumerators.h"
 
 struct InterestingEvent {
     InterestingEvent(unsigned long run, unsigned long event, std::string file) :
@@ -69,6 +70,7 @@ public:
     void analyze();
     void addInputFile(const char * fileName);
     void setMaximalNumberOfEvents(long maxEvents);
+    void setUsedNeutrinoSelectionForTopPairReconstruction(BAT::NeutrinoSelectionCriterion::value selection);
 private:
     void printNumberOfProccessedEventsEvery(unsigned long printEvery);
     void doEcalSpikeAnalysis();

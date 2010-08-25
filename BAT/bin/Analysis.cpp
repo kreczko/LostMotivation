@@ -39,16 +39,29 @@ void Analysis::printNumberOfProccessedEventsEvery(unsigned long printEvery) {
 }
 
 void Analysis::inspectEvents() {
-    if ((ttbarCandidate.runnumber() == 142558 && ttbarCandidate.eventnumber() == 99024502)) {
-        cout << "file: " << eventReader->getCurrentFile() << endl;
-        ttbarCandidate.inspect();
+    std::vector<InterestingEvent> eventsToInspect;
+    eventsToInspect.push_back(InterestingEvent(142035, 134667277, ""));
+    eventsToInspect.push_back(InterestingEvent(139195, 69244083, ""));
+    eventsToInspect.push_back(InterestingEvent(142265, 123865753, ""));
+    eventsToInspect.push_back(InterestingEvent(142528, 76601807, ""));
+    eventsToInspect.push_back(InterestingEvent(140331, 440601613, ""));
+    eventsToInspect.push_back(InterestingEvent(142038, 210965064, ""));
+    eventsToInspect.push_back(InterestingEvent(142311, 338800668, ""));
+    eventsToInspect.push_back(InterestingEvent(140059, 200726415, ""));
+
+    for (unsigned int index = 0; index < eventsToInspect.size(); ++index) {
+        if ((ttbarCandidate.runnumber() == eventsToInspect.at(index).runNumber && ttbarCandidate.eventnumber()
+                == eventsToInspect.at(index).eventNumber)) {
+            cout << "file: " << eventReader->getCurrentFile() << endl;
+            ttbarCandidate.inspect();
+        }
     }
 
 }
 
-void Analysis::doEcalSpikeAnalysis(){
+void Analysis::doEcalSpikeAnalysis() {
     const ElectronCollection electrons = currentEvent.getElectrons();
-    for(unsigned short index = 0; index < electrons.size(); ++index){
+    for (unsigned short index = 0; index < electrons.size(); ++index) {
         const ElectronPointer electron = electrons.at(index);
         h_swissCrossAllEle->Fill(electron->swissCross());
     }
@@ -98,15 +111,12 @@ void Analysis::doTTBarAnalysis() {
         if (std::isnan(mttbar)) {
             ttbarCandidate.inspectReconstructedEvent();
         }
-        if (mttbar > 700) {
+        if (mttbar > 700 && ttbarCandidate.isRealData()) {
             cout << "run " << ttbarCandidate.runnumber() << ", event " << ttbarCandidate.eventnumber() << endl;
             cout << "top pair invariant mass=" << mttbar << endl;
         }
 
-        if(ttbarCandidate.getLeptonicTop()->mass() <= 0 || ttbarCandidate.getHadronicTop()->mass() <=0){
-            ttbarCandidate.inspectReconstructedEvent();
-        }
-
+        if(ttbarCandidate.isRealData())
         interestingEvents .push_back(InterestingEvent(ttbarCandidate.runnumber(), ttbarCandidate.eventnumber(),
                 eventReader->getCurrentFile()));
     }
@@ -119,7 +129,7 @@ void Analysis::printInterestingEvents() {
 }
 
 void Analysis::printSummary() {
-    cout << "finished analysis, number of good leading electrons: " << numberOfGoodElectrons << endl;
+//    cout << "finished analysis, number of good leading electrons: " << numberOfGoodElectrons << endl;
     cout << "total number of processed events: " << eventReader->getNumberOfProccessedEvents() << endl;
     cout << endl;
     for (unsigned int cut = 0; cut < TTbarEPlusJetsSelection::NUMBER_OF_SELECTION_STEPS; ++cut) {
@@ -150,6 +160,14 @@ Analysis::Analysis() :
 }
 
 Analysis::~Analysis() {
+    boost::shared_ptr<TH1F> h_mttbar_rebinned((TH1F*) h_mttbar->Clone("mttbar_rebinned"));
+    boost::shared_ptr<TH1F> h_mleptonicTop_rebinned((TH1F*) h_mleptonicTop->Clone("mleptonicTop_rebinned"));
+    boost::shared_ptr<TH1F> h_mhadronicTop_rebinned((TH1F*) h_mhadronicTop->Clone("mhadronicTop_rebinned"));
+    boost::shared_ptr<TH1F> h_mAllTop_rebinned((TH1F*) h_mAllTop->Clone("mAllTop_rebinned"));
+    h_mttbar_rebinned->Rebin(50);
+    h_mleptonicTop_rebinned->Rebin(20);
+    h_mhadronicTop_rebinned->Rebin(20);
+    h_mAllTop_rebinned->Rebin(20);
     outputfile->mkdir(testingDirectory->GetName())->cd();
     h_et->Write();
     h_diElectronMass->Write();
@@ -158,6 +176,12 @@ Analysis::~Analysis() {
     h_mleptonicTop->Write();
     h_mhadronicTop->Write();
     h_mAllTop->Write();
+
+    h_mttbar_rebinned->Write();
+    h_mleptonicTop_rebinned->Write();
+    h_mhadronicTop_rebinned->Write();
+    h_mAllTop_rebinned->Write();
+
     h_swissCrossAllEle->Write();
     testingDirectory->Write();
     outputfile->Write();
@@ -172,4 +196,8 @@ void Analysis::setMaximalNumberOfEvents(long maxEvents) {
     if (maxEvents > 0) {
         eventReader->setMaximumNumberOfEvents(maxEvents);
     }
+}
+
+void Analysis::setUsedNeutrinoSelectionForTopPairReconstruction(NeutrinoSelectionCriterion::value selection) {
+    TopPairEventCandidate::usedNeutrinoSelection = selection;
 }
