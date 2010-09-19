@@ -39,6 +39,7 @@ public:
 	float pt() const;
 	float eta() const;
 	float phi() const;
+	float theta() const;
 	float massFromEnergyAndMomentum() const;
 	float charge() const;
 	void setMass(float mass);

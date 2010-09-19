@@ -71,6 +71,10 @@ float Particle::phi() const{
     return fourvector.Phi();
 }
 
+float Particle::theta() const{
+    return fourvector.Theta();
+}
+
 float Particle::massFromEnergyAndMomentum() const {
     return fourvector.M();
 }
