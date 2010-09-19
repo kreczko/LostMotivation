@@ -5,14 +5,14 @@
 
 #include "../interface/Event.h"
 #include "../interface/Filter.h"
-#include "../interface/TopPairEventCandidate.h"
+#include "../interface/OnlyForTests/DummyTTbarEvent.h"
 #include "../interface/Selection.h"
 
 using namespace BAT;
 
 struct TestTopPairEventCandidate {
-    TopPairEventCandidate ttbarEvent, goodZEvent, poorZEvent, DiJetEvent, DiJetEventWithConversion, muonEvent;
-    TopPairEventCandidate emptyEvent;
+    DummyTTbarEvent ttbarEvent, goodZEvent, poorZEvent, DiJetEvent, DiJetEventWithConversion, muonEvent;
+    DummyTTbarEvent emptyEvent;
     boost::scoped_ptr<Filter> eventFilter;
 
     ElectronPointer goodIsolatedElectron, goodIsolatedElectron2;
@@ -426,11 +426,14 @@ public:
         electron->setNumberOfMissingInnerLayerHits(0);
         electron->setD0(0);
         electron->setSuperClusterEta(0);
-        ElectronCollection eCollection;
-        eCollection.push_back(electron);
-        TopPairEventCandidate cand = TopPairEventCandidate();
+        electron->setDEtaIn(0);
+        electron->setDPhiIn(0);
+        electron->setSigmaIEtaIEta(0);
+        electron->setHadOverEm(0);
+
+        DummyTTbarEvent cand = DummyTTbarEvent();
         cand.setMET(met);
-        cand.setElectrons(eCollection);
+        cand.setElectronFromW(electron);
         ASSERT_EQUAL(sqrt(80*80-80.389*80.389), cand.computeNeutrinoPz().at(0));
         ASSERT_EQUAL(sqrt(80*80-80.389*80.389), cand.computeNeutrinoPz().at(1));
     }
