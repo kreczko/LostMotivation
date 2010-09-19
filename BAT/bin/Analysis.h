@@ -71,6 +71,15 @@ public:
     void addInputFile(const char * fileName);
     void setMaximalNumberOfEvents(long maxEvents);
     void setUsedNeutrinoSelectionForTopPairReconstruction(BAT::NeutrinoSelectionCriterion::value selection);
+    static void useJetAlgorithm(BAT::Jet::Algorithm algo){
+        BAT::NTupleEventReader::jetAlgorithm = algo;
+    }
+    static void useElectronAlgorithm(BAT::Electron::Algorithm algo){
+        BAT::NTupleEventReader::electronAlgorithm = algo;
+    }
+    static void useMETAlgorithm(BAT::MET::Algorithm algo){
+        BAT::NTupleEventReader::metAlgorithm = algo;
+    }
 private:
     void printNumberOfProccessedEventsEvery(unsigned long printEvery);
     void doEcalSpikeAnalysis();
