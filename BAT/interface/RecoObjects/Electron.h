@@ -14,6 +14,7 @@
 #include <boost/array.hpp>
 #include <boost/shared_ptr.hpp>
 #include "Jet.h"
+#include "Track.h"
 
 namespace BAT {
 //make sure the IDs and their string representations are identical
@@ -125,6 +126,7 @@ private:
     float sigma_IEtaIEta, dPhi_In, dEta_In, hadOverEm;
     bool ecalDriven, trackerDriven;
     float swiss_Cross;
+    TrackPointer gsfTrack;
 
     bool getVBTF_W70_ElectronID_Barrel() const;
     bool getVBTF_W70_ElectronID_Endcap() const;
