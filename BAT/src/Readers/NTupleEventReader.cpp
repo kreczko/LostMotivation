@@ -15,7 +15,11 @@ const char * NTupleEventReader::EVENT_CHAIN = "configurableAnalysis/eventB";
 const char * NTupleEventReader::HLT_TRIGGER_CHAIN = "configurableAnalysis/eventV";
 const char * NTupleEventReader::ECAL_SPIKE_CLEANING_CHAIN = "configurableAnalysis/eventA";
 
-const boost::array<std::string, 12> NTupleEventReader::FileTypes = { {
+Jet::Algorithm NTupleEventReader::jetAlgorithm = Jet::Calo_AntiKT_Cone05;
+Electron::Algorithm NTupleEventReader::electronAlgorithm = Electron::Calo;
+MET::Algorithm NTupleEventReader::metAlgorithm = MET::DEFAULT;
+
+const boost::array<std::string, 27> NTupleEventReader::FileTypes = { {
         "ttbar",
         "ttjet",
         "tchan",
@@ -27,30 +31,54 @@ const boost::array<std::string, 12> NTupleEventReader::FileTypes = { {
         "bce3",
         "enri1",
         "enri2",
-        "enri3" } };
+        "enri3",
+        "VqqJets",
+        "Zprime_M500GeV_W5GeV",
+        "Zprime_M500GeV_W50GeV",
+        "Zprime_M750GeV_W7500MeV",
+        "Zprime_M1TeV_W10GeV",
+        "Zprime_M1TeV_W100GeV",
+        "Zprime_M1250GeV_W12500MeV",
+        "Zprime_M1500GeV_W15GeV",
+        "Zprime_M1500GeV_W150GeV",
+        "Zprime_M2TeV_W20GeV",
+        "Zprime_M2TeV_W200GeV",
+        "Zprime_M3TeV_W30GeV",
+        "Zprime_M3TeV_W300GeV",
+        "Zprime_M4TeV_W40GeV",
+        "Zprime_M4TeV_W400GeV" } };
 
 const std::string NTupleEventReader::FilePrefix = "nTuple_";
 
 NTupleEventReader::NTupleEventReader() :
-    processedEvents(0), maximalNumberOfEvents(999999999), currentEventEntry(0), numberOfFiles(0), input(new TChain(
-            NTupleEventReader::EVENT_CHAIN)), hltTriggerInput(new TChain(NTupleEventReader::HLT_TRIGGER_CHAIN)),
-            ecalSpikeCleaningInput(new TChain(NTupleEventReader::ECAL_SPIKE_CLEANING_CHAIN)), HLTPhoton15Reader(
-                    new VariableReader<double> (hltTriggerInput, "HLT_Photon15_L1R")), HLTPhoton15CleanedReader(
-                    new VariableReader<double> (hltTriggerInput, "HLT_Photon15_Cleaned_L1R")),
-            HLTPhoton20CleanedReader(new VariableReader<double> (hltTriggerInput, "HLT_Photon20_Cleaned_L1R")),
-            HLTEmulatedPhoton15Reader(new VariableReader<bool> (ecalSpikeCleaningInput, "pass_photon15")),
-            primaryReader(new PrimaryVertexReader(input)), electronReader(new ElectronReader(input)), jetReader(
-                    new JetReader(input)), muonReader(new MuonReader(input)), metReader(new METReader(input)),
-            runNumberReader(new VariableReader<unsigned int> (input, "run")), eventNumberReader(new VariableReader<
-                    unsigned int> (input, "event")), lumiBlockReader(new VariableReader<unsigned int> (input,
-                    "lumiblock")), areReadersSet(false), currentEvent(), seenDataTypes() {
+    processedEvents(0),
+    maximalNumberOfEvents(999999999),
+    currentEventEntry(0),
+    numberOfFiles(0),
+    input(new TChain(NTupleEventReader::EVENT_CHAIN)),
+    hltTriggerInput(new TChain(NTupleEventReader::HLT_TRIGGER_CHAIN)),
+    ecalSpikeCleaningInput(new TChain(NTupleEventReader::ECAL_SPIKE_CLEANING_CHAIN)),
+    HLTPhoton15Reader(new VariableReader<double> (hltTriggerInput, "HLT_Photon15_L1R")),
+    HLTPhoton15CleanedReader(new VariableReader<double> (hltTriggerInput, "HLT_Photon15_Cleaned_L1R")),
+    HLTPhoton20CleanedReader(new VariableReader<double> (hltTriggerInput, "HLT_Photon20_Cleaned_L1R")),
+    HLTEmulatedPhoton15Reader(new VariableReader<bool> (ecalSpikeCleaningInput, "pass_photon15")),
+    primaryReader(new PrimaryVertexReader(input)),
+    electronReader(new ElectronReader(input, NTupleEventReader::electronAlgorithm)),
+    jetReader(new JetReader(input, NTupleEventReader::jetAlgorithm)),
+    muonReader(new MuonReader(input)),
+    metReader(new METReader(input, NTupleEventReader::metAlgorithm)),
+    runNumberReader(new VariableReader<unsigned int> (input, "run")),
+    eventNumberReader(new VariableReader<unsigned int> (input, "event")),
+    lumiBlockReader(new VariableReader<unsigned int> (input, "lumiblock")),
+    areReadersSet(false),
+    currentEvent(),
+    seenDataTypes() {
     input->AddFriend(hltTriggerInput.get());
     input->AddFriend(ecalSpikeCleaningInput.get());
 }
 
 NTupleEventReader::~NTupleEventReader() {
 }
-//TODO: implement algorithms, throw exception if they are set AFTER initialisation of readers
 
 void NTupleEventReader::addInputFile(const char * fileName) {
     numberOfFiles += input->Add(fileName);
