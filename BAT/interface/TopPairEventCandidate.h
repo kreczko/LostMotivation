@@ -32,7 +32,7 @@ struct ReconstructionException: public std::exception {
 
 class TopPairEventCandidate: public Event {
 
-private:
+protected:
     static double const matched_angle;// = 0.945666;
     static double const matched_angle_sigma;// = 0.311091;
     static double const matched_leptonic_top_mass;// = 178.377;
@@ -76,6 +76,7 @@ public:
 
     bool passesSelectionStep(TTbarEPlusJetsSelection::Step step) const;
     bool passesSelectionStepUpTo(TTbarEPlusJetsSelection::Step upToStep) const;
+    bool passesNMinus1(TTbarEPlusJetsSelection::Step omittedStep) const;
 
     bool passesHighLevelTrigger() const;
     bool hasOneGoodPrimaryVertex() const;
@@ -114,7 +115,7 @@ public:
     bool hasNextJetCombination();
     void selectNextJetCombination();
     void inspectReconstructedEvent() const;
-private:
+protected:
     void throwExpeptionIfNotReconstructed() const;
     void selectNeutrinoSolution();
 
