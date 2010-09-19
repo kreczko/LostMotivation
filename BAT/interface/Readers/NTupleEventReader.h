@@ -29,8 +29,12 @@ public:
 	static const char * EVENT_CHAIN;
 	static const char * HLT_TRIGGER_CHAIN;
 	static const char * ECAL_SPIKE_CLEANING_CHAIN;
-	static const boost::array<std::string, 12> FileTypes;
+	static const boost::array<std::string, 27> FileTypes;
 	static const std::string FilePrefix;
+
+	static Jet::Algorithm jetAlgorithm;
+	static Electron::Algorithm electronAlgorithm;
+	static MET::Algorithm metAlgorithm;
 
 	NTupleEventReader();
 	virtual ~NTupleEventReader();
