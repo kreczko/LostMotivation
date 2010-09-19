@@ -13,6 +13,7 @@
 #include "../Taggers/BJetTagger.h"
 #include "../../interface/Enumerators.h"
 #include <boost/shared_ptr.hpp>
+#include <boost/array.hpp>
 namespace BAT {
 typedef unsigned short ushort;
 class HistogramManager {
@@ -29,6 +30,7 @@ public:
 	void fillNjetBinnedHistogram(ushort histogram, const float value, const double w);
 	void fillHisto_btag_DataAndMC(BJetTagger::Algorithm btagAlgorithm, ushort histogram, const float value, const double w);
 	void setCurrentDataType(DataType::value type);
+	void prepairForSeenDataTypes(const boost::array<bool, DataType::NUMBER_OF_DATA_TYPES>& seenDataTypes);
 private:
 	TH1Collection collection;
 	TH2Collection collection2D;
