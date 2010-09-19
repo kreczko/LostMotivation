@@ -7,13 +7,29 @@
 
 #ifndef TRACK_H_
 #define TRACK_H_
+#include "Particle.h"
+#include <boost/shared_ptr.hpp>
+#include <vector>
 
 namespace BAT {
+class Track;
+typedef boost::shared_ptr<Track> TrackPointer;
+typedef std::vector<TrackPointer> TrackCollection;
 
-class Track {
+class Track: public Particle {
+private:
+    static const double BFIELD = 3.8;
 public:
-	Track();
-	virtual ~Track();
+    Track();
+    Track(const Track& other);
+    Track(float energy, float px, float py, float pz);
+    virtual ~Track();
+    double curvature(double Bfield = BFIELD) const;
+    double distance(const TrackPointer otherTrack, double Bfield = BFIELD) const;
+    double deltaCotTheta(const TrackPointer otherTrack) const;
+    double x(double Bfield = BFIELD) const;
+    double y(double Bfield = BFIELD) const;
+    double radius(double Bfield = BFIELD) const;
 };
 
 }
