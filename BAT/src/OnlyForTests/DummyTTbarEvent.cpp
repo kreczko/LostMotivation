@@ -9,13 +9,15 @@
 
 namespace BAT {
 
-DummyTTbarEvent::DummyTTbarEvent() {
-    // TODO Auto-generated constructor stub
+DummyTTbarEvent::DummyTTbarEvent():BAT::TopPairEventCandidate() {
 
 }
 
 DummyTTbarEvent::~DummyTTbarEvent() {
-    // TODO Auto-generated destructor stub
+}
+
+void DummyTTbarEvent::setElectronFromW(ElectronPointer electron){
+    electronFromW = electron;
 }
 
 }

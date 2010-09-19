@@ -12,10 +12,12 @@
 
 namespace BAT {
 
-class DummyTTbarEvent: public BAT::TopPairEventCandidate {
+class DummyTTbarEvent: public TopPairEventCandidate {
 public:
     DummyTTbarEvent();
     virtual ~DummyTTbarEvent();
+    void setElectronFromW(const ElectronPointer electron);
+
 };
 
 }
