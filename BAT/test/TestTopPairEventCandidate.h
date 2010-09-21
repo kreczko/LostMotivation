@@ -25,6 +25,11 @@ struct TestTopPairEventCandidate {
     Muon goodIsolatedMuon;
     Muon badMuon;
     METPointer met;
+    TrackCollection lessThan10Tracks;
+    TrackCollection moreThan10TracksHighPurity;
+    TrackCollection moreThan10TracksLowPurity;
+    TrackCollection moreThan10TracksMixedPurity_H;
+    TrackCollection moreThan10TracksMixedPurity_L;
 
     TestTopPairEventCandidate() :
         ttbarEvent(), goodZEvent(), poorZEvent(), DiJetEvent(), DiJetEventWithConversion(), muonEvent(), emptyEvent(),
@@ -47,12 +52,14 @@ struct TestTopPairEventCandidate {
         setUpBadVertex();
         setUpIsolatedGoodMuon();
         setUpBadMuon();
+        setUpTracks();
 
         setUpTTbarEvent();
         setUpGoodZEvent();
         setUpPoorZEvent();
         setUpDiJetEvent();
         setUpMuonEvent();
+
     }
 
 private:
@@ -165,6 +172,8 @@ private:
         muons.push_back(badMuon);
         ttbarEvent.setMuons(muons);
         ttbarEvent.setMET(met);
+        ttbarEvent.setDataType(DataType::ttbar);
+        ttbarEvent.setTracks(moreThan10TracksHighPurity);
     }
 
     void setUpGoodZEvent() {
@@ -182,6 +191,7 @@ private:
         goodZEvent.setJets(jets);
         goodZEvent.setHLT_Emulated_Photon15(true);
         goodZEvent.setPrimaryVertex(goodVertex);
+        goodZEvent.setDataType(DataType::Zjets);
     }
 
     void setUpPoorZEvent() {
@@ -199,6 +209,7 @@ private:
         poorZEvent.setJets(jets);
         poorZEvent.setHLT_Emulated_Photon15(true);
         poorZEvent.setPrimaryVertex(goodVertex);
+        poorZEvent.setDataType(DataType::Zjets);
     }
 
     void setUpDiJetEvent() {
@@ -208,6 +219,7 @@ private:
         DiJetEvent.setJets(jets);
         DiJetEvent.setHLT_Emulated_Photon15(false);
         DiJetEvent.setPrimaryVertex(badVertex);
+        DiJetEvent.setDataType(DataType::QCD_BCtoE_Pt80to170);
     }
 
     void setUpDiJetEventWithConversion() {
@@ -220,6 +232,7 @@ private:
         ElectronCollection electrons;
         electrons.push_back(electronFromConversion);
         DiJetEventWithConversion.setElectrons(electrons);
+        DiJetEventWithConversion.setDataType(DataType::QCD_EMEnriched_Pt20to30);
     }
 
     void setUpMuonEvent() {
@@ -239,6 +252,28 @@ private:
         MuonCollection muons;
         muons.push_back(goodIsolatedMuon);
         muonEvent.setMuons(muons);
+        muonEvent.setDataType(DataType::Zjets);
+    }
+
+    void setUpTracks() {
+        TrackPointer trackHighPurity = TrackPointer(new Track(40, 40, 0, 0));
+        TrackPointer trackLowPurity = TrackPointer(new Track(40, 40, 0, 0));
+        trackHighPurity->setHighPurity(true);
+        trackLowPurity->setHighPurity(false);
+        for (unsigned int index = 0; index < 20; ++index) {
+            if (index < 8)
+                lessThan10Tracks.push_back(trackHighPurity);
+            if (index < 2) {
+                moreThan10TracksMixedPurity_H.push_back(trackLowPurity);
+                moreThan10TracksMixedPurity_L.push_back(trackHighPurity);
+            } else {
+                moreThan10TracksMixedPurity_H.push_back(trackHighPurity);
+                moreThan10TracksMixedPurity_L.push_back(trackLowPurity);
+            }
+
+            moreThan10TracksHighPurity.push_back(trackHighPurity);
+            moreThan10TracksLowPurity.push_back(trackLowPurity);
+        }
     }
 
 public:
@@ -255,7 +290,7 @@ public:
     }
 
     void testDoesNotPassHLT() {
-        ASSERT(DiJetEvent.passesHighLevelTrigger() == false);
+        ASSERT_EQUAL(false, DiJetEvent.passesHighLevelTrigger());
     }
 
     void testDoesHaveGoodPV() {
@@ -343,11 +378,42 @@ public:
         ASSERT_EQUAL(false, muonEvent.hasNoIsolatedMuon());
     }
 
+    void testEventPasses0Step() {
+        ASSERT_EQUAL(true, ttbarEvent.passesSelectionStep(TTbarEPlusJetsSelection::FilterOutScraping));
+    }
+
+    void testEventPasses0StepWithLowNumberOfTracks() {
+        ttbarEvent.setTracks(lessThan10Tracks);
+        ASSERT_EQUAL(true, ttbarEvent.passesSelectionStep(TTbarEPlusJetsSelection::FilterOutScraping));
+    }
+
+    void testEventPasses0StepWithMixedTracks_H() {
+        ttbarEvent.setTracks(moreThan10TracksMixedPurity_H);
+        ASSERT_EQUAL(true, ttbarEvent.passesSelectionStep(TTbarEPlusJetsSelection::FilterOutScraping));
+    }
+
+    void testEventPasses0StepWithMixedTracks_L() {
+        ttbarEvent.setTracks(moreThan10TracksMixedPurity_L);
+        ASSERT_EQUAL(false, ttbarEvent.passesSelectionStep(TTbarEPlusJetsSelection::FilterOutScraping));
+    }
+
+    void testEventFails0StepWithLowPurityTracks() {
+        ttbarEvent.setTracks(moreThan10TracksLowPurity);
+        ASSERT_EQUAL(false, ttbarEvent.passesSelectionStep(TTbarEPlusJetsSelection::FilterOutScraping));
+    }
+
     void testEventPasses1stStep() {
         ASSERT_EQUAL(true, ttbarEvent.passesSelectionStep(TTbarEPlusJetsSelection::HighLevelTrigger));
     }
 
     void testEventPasses2ndStep() {
+        ASSERT_EQUAL(true, ttbarEvent.passesSelectionStep(TTbarEPlusJetsSelection::GoodPrimaryvertex));
+    }
+
+    void testEventPasses2ndStepInRealData() {
+        goodVertex.setZPosition(23);
+        ttbarEvent.setPrimaryVertex(goodVertex);
+        ttbarEvent.setDataType(DataType::DATA);
         ASSERT_EQUAL(true, ttbarEvent.passesSelectionStep(TTbarEPlusJetsSelection::GoodPrimaryvertex));
     }
 
@@ -376,7 +442,12 @@ public:
     }
 
     void testPoorZEventPassesUpToStep() {
-        ASSERT_EQUAL(true, poorZEvent.passesSelectionStepUpTo(TTbarEPlusJetsSelection::AtLeastFourGoodJets));
+        assert(poorZEvent.passesScrapingFilter());
+        assert(poorZEvent.passesHighLevelTrigger());
+        assert(poorZEvent.hasOneGoodPrimaryVertex());
+        assert(poorZEvent.hasOnlyOneGoodIsolatedElectron());
+        assert(poorZEvent.isolatedElectronDoesNotComeFromConversion());
+        ASSERT_EQUAL(true, poorZEvent.passesSelectionStepUpTo(TTbarEPlusJetsSelection::LooseMuonVeto));
     }
 
     void testPoorZEventDoesntPassUpToStep() {
@@ -486,8 +557,14 @@ extern cute::suite make_suite_TestTopPairEventCandidate() {
     s.push_back(CUTE_SMEMFUN(TestTopPairEventCandidate, testTTbarEventPassesMuonVeto));
     s.push_back(CUTE_SMEMFUN(TestTopPairEventCandidate, testMuonEventDoesnPassMuonVeto));
 
+    s.push_back(CUTE_SMEMFUN(TestTopPairEventCandidate, testEventPasses0Step));
+    s.push_back(CUTE_SMEMFUN(TestTopPairEventCandidate, testEventPasses0StepWithLowNumberOfTracks));
+    s.push_back(CUTE_SMEMFUN(TestTopPairEventCandidate, testEventFails0StepWithLowPurityTracks));
+    s.push_back(CUTE_SMEMFUN(TestTopPairEventCandidate, testEventPasses0StepWithMixedTracks_H));
+    s.push_back(CUTE_SMEMFUN(TestTopPairEventCandidate, testEventPasses0StepWithMixedTracks_L));
     s.push_back(CUTE_SMEMFUN(TestTopPairEventCandidate, testEventPasses1stStep));
     s.push_back(CUTE_SMEMFUN(TestTopPairEventCandidate, testEventPasses2ndStep));
+    s.push_back(CUTE_SMEMFUN(TestTopPairEventCandidate, testEventPasses2ndStepInRealData));
     s.push_back(CUTE_SMEMFUN(TestTopPairEventCandidate, testEventPasses3ndStep));
     s.push_back(CUTE_SMEMFUN(TestTopPairEventCandidate, testEventPasses4thStep));
     s.push_back(CUTE_SMEMFUN(TestTopPairEventCandidate, testEventPasses5thStep));

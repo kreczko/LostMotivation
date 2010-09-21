@@ -48,17 +48,37 @@ TopPairEventCandidate::TopPairEventCandidate(const Event& event) :
 TopPairEventCandidate::~TopPairEventCandidate() {
 }
 
+bool TopPairEventCandidate::passesScrapingFilter() const {
+    if (tracks.size() > 10) {
+        if (numberOfHighPurityTracks / (1.0 * tracks.size()) > 0.25)
+            return true;
+        else
+            return false;
+    } else
+        return true;
+}
+
 bool TopPairEventCandidate::passesHighLevelTrigger() const {
-    if (isRealData() && runNumber >= 137029 && runNumber < 141900)
-        return HLT_Photon15_Cleaned_L1R;
-    else if (isRealData() && runNumber >= 141900)
-        return HLT_Photon20_Cleaned_L1R;
-    else
+    if (isRealData()) {
+        if (runNumber < 137029)
+            return HLT_Photon10_TO20;
+        else if (runNumber >= 137029 && runNumber < 140042)
+            return HLT_Photon15_TO20;
+        else if (runNumber >= 140042 && runNumber < 141900)
+            return HLT_Photon15_Cleaned_TO20;
+        else if (runNumber >= 141900)
+            return HLT_Photon20_Cleaned_L1R;
+        else
+            return false;
+    } else
         return HLT_Emulated_Photon15;
 }
 
 bool TopPairEventCandidate::hasOneGoodPrimaryVertex() const {
-    return primaryVertex.isGood();
+    if (isRealData())
+        return primaryVertex.isGoodInRealData();
+    else
+        return primaryVertex.isGood();
 }
 
 bool TopPairEventCandidate::hasOnlyOneGoodIsolatedElectron() const {
@@ -110,7 +130,7 @@ bool TopPairEventCandidate::passesFullTTbarEPlusJetSelection() const {
 }
 
 bool TopPairEventCandidate::passesSelectionStepUpTo(enum TTbarEPlusJetsSelection::Step step) const {
-    if (step == TTbarEPlusJetsSelection::HighLevelTrigger)
+    if (step == TTbarEPlusJetsSelection::FilterOutScraping)
         return passesSelectionStep(step);
     else {
         unsigned int newstep = (int) step - 1;
@@ -120,6 +140,8 @@ bool TopPairEventCandidate::passesSelectionStepUpTo(enum TTbarEPlusJetsSelection
 
 bool TopPairEventCandidate::passesSelectionStep(enum TTbarEPlusJetsSelection::Step step) const {
     switch (step) {
+    case TTbarEPlusJetsSelection::FilterOutScraping:
+        return passesScrapingFilter();
     case TTbarEPlusJetsSelection::HighLevelTrigger:
         return passesHighLevelTrigger();
     case TTbarEPlusJetsSelection::GoodPrimaryvertex:
@@ -290,7 +312,8 @@ void TopPairEventCandidate::selectNeutrinoSolution() {
             fabs(neutrino1->pz() - goodIsolatedElectrons.front()->pz()) < fabs(neutrino2->pz()
                     - goodIsolatedElectrons.front()->pz()) ? currentSelectedNeutrino = 1 : currentSelectedNeutrino = 2;
             if (fabs(neutrino1->pz()) > 300 || fabs(neutrino2->pz()) > 300)
-                fabs(neutrino1->pz()) < fabs(neutrino2->pz()) ? currentSelectedNeutrino = 1 : currentSelectedNeutrino = 2;
+                fabs(neutrino1->pz()) < fabs(neutrino2->pz()) ? currentSelectedNeutrino = 1 : currentSelectedNeutrino
+                        = 2;
             break;
 
         case NeutrinoSelectionCriterion::largestValueOfCosine:

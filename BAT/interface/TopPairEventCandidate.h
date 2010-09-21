@@ -78,6 +78,7 @@ public:
     bool passesSelectionStepUpTo(TTbarEPlusJetsSelection::Step upToStep) const;
     bool passesNMinus1(TTbarEPlusJetsSelection::Step omittedStep) const;
 
+    bool passesScrapingFilter() const;
     bool passesHighLevelTrigger() const;
     bool hasOneGoodPrimaryVertex() const;
     bool hasOnlyOneGoodIsolatedElectron() const;
