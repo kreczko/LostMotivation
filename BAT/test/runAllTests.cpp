@@ -23,6 +23,7 @@
 #include "TestTHCollection.h"
 #include "TestTopPairEventCandidate.h"
 #include "TestTrack.h"
+#include "TestTrackReader.h"
 #include "TestVariableReader.h"
 
 #include "TROOT.h"
@@ -57,6 +58,7 @@ void runSuite() {
     s += make_suite_TestTHCollection();
     s += make_suite_TestTopPairEventCandidate();
     s += make_suite_TestTrack();
+    s += make_suite_TestTrackReader();
     s += make_suite_TestVariableReader();
     cute::ide_listener lis;
     cute::makeRunner(lis)(s, "Testing BristolAnalysis Tools");
