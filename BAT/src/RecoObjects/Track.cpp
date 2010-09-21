@@ -10,17 +10,17 @@
 namespace BAT {
 
 Track::Track() :
-    Particle() {
+    Particle(), highPurity(false) {
 
 }
 
 Track::Track(const Track& track) :
-    Particle((Particle) track) {
+    Particle((Particle) track), highPurity(false) {
 
 }
 
 Track::Track(float energy, float px, float py, float pz) :
-    Particle(energy, px, py, pz) {
+    Particle(energy, px, py, pz), highPurity(false) {
 
 }
 
@@ -52,6 +52,14 @@ double Track::distance(const TrackPointer otherTrack, double BField) const{
     double dy = y(BField) - otherTrack->y(BField);
     double dist = sqrt(pow(dx, 2) + pow(dy,2));
     return fabs(dist - (radius(BField) + otherTrack->radius(BField)));
+}
+
+void Track::setHighPurity(bool isPure){
+    highPurity = isPure;
+}
+
+bool Track::isHighPurity() const{
+    return highPurity;
 }
 
 }
