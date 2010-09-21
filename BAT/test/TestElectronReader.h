@@ -22,8 +22,8 @@ private:
 public:
     TestElectronReader() :
         input(new TChain(NTupleEventReader::EVENT_CHAIN)), input2(new TChain(NTupleEventReader::HLT_TRIGGER_CHAIN)),
-                input3(new TChain(NTupleEventReader::ECAL_SPIKE_CLEANING_CHAIN)), electronReader(new ElectronReader(
-                        input)), swissCrossReader(new VariableReader<MultiFloatPointer> (input, "e_swissCross")),
+                input3(new TChain(NTupleEventReader::ADDITIONAL_CHAIN)), electronReader(new ElectronReader(input,
+                        input3)), swissCrossReader(new VariableReader<MultiFloatPointer> (input, "e_swissCross")),
                 numberOfElectronsReader(new VariableReader<unsigned int> (input, "e_num")), electrons(),
                 firstElectron() {
         input->AddFriend(input2.get());

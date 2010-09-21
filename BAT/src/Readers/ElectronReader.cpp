@@ -18,7 +18,7 @@ ElectronReader::ElectronReader() :
             isTrackerDrivenReader(), swissCrossReader(), electrons() {
 
 }
-ElectronReader::ElectronReader(TChainPointer input, Electron::Algorithm algo) :
+ElectronReader::ElectronReader(TChainPointer input,TChainPointer input2,  Electron::Algorithm algo) :
     numberOfElectronsReader(input, "N" + algorithmPrefixes[algo]), energyReader(input, algorithmPrefixes[algo]
             + "_energy"), pxReader(input, algorithmPrefixes[algo] + "_px"), pyReader(input, algorithmPrefixes[algo]
             + "_py"), pzReader(input, algorithmPrefixes[algo] + "_pz"), chargeReader(input, algorithmPrefixes[algo]
@@ -32,7 +32,7 @@ ElectronReader::ElectronReader(TChainPointer input, Electron::Algorithm algo) :
                     algorithmPrefixes[algo] + "_dPhiIn"), dEtaInReader(input, algorithmPrefixes[algo] + "_dEtaIn"),
             hadOverEmReader(input, algorithmPrefixes[algo] + "_hadOverEm"), isEcalDrivenReader(input,
                     algorithmPrefixes[algo] + "_isEcalDriven"), isTrackerDrivenReader(input, algorithmPrefixes[algo]
-                    + "_isTrackerDriven"), swissCrossReader(input, "e_swissCross"), electrons() {
+                    + "_isTrackerDriven"), swissCrossReader(input2, "e_swissCross"), electrons() {
 
 }
 

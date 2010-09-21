@@ -17,7 +17,7 @@ public:
 	const static unsigned short numberOfVariables = 11;
 	const static std::string algorithmPrefixes[Electron::NUMBER_OF_ELECTRONALGORITHMS];
 	ElectronReader();
-	ElectronReader(TChainPointer input, Electron::Algorithm algo = Electron::Calo);
+	ElectronReader(TChainPointer input, TChainPointer input2,  Electron::Algorithm algo = Electron::Calo);
 	virtual ~ElectronReader();
 	const ElectronCollection& getElectrons();
 	void initialise();
