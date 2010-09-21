@@ -32,6 +32,12 @@ public:
         ASSERT_EQUAL(20, PrimaryVertex::goodVertexMaximalAbsoluteZPosition);
     }
 
+    void testSetGoodVertexMaximalAbsoluteZPositionInRealData() {
+            ASSERT_EQUAL(25, PrimaryVertex::goodVertexMaximalAbsoluteZPositionForRealData);
+            filter->setGoodVertexMaximalAbsoluteZPositionForRealData(20);
+            ASSERT_EQUAL(20, PrimaryVertex::goodVertexMaximalAbsoluteZPositionForRealData);
+        }
+
     void testSetGoodVertexMaximalRho() {
         ASSERT_EQUAL(2.0, PrimaryVertex::goodVertexMaximalAbsoluteRho);
         filter->setGoodVertexMaximalRho(2.5);
@@ -150,6 +156,7 @@ extern cute::suite make_suite_TestFilter() {
     cute::suite s;
     s.push_back(CUTE_SMEMFUN(TestFilter, testSetGoodVertexMinimalNumberOfDegreesOfFreedom));
     s.push_back(CUTE_SMEMFUN(TestFilter, testSetGoodVertexMaximalAbsoluteZPosition));
+    s.push_back(CUTE_SMEMFUN(TestFilter, testSetGoodVertexMaximalAbsoluteZPositionInRealData));
     s.push_back(CUTE_SMEMFUN(TestFilter, testSetGoodVertexMaximalRho));
 
     s.push_back(CUTE_SMEMFUN(TestFilter, testSetGoodJetMinimalPt));

@@ -10,7 +10,9 @@
 namespace BAT {
 unsigned int PrimaryVertex::goodVertexMinimalNumberOfDegreesOfFreedom = 0;
 float PrimaryVertex::goodVertexMaximalAbsoluteZPosition = 5000;
+float PrimaryVertex::goodVertexMaximalAbsoluteZPositionForRealData = 5000;
 float PrimaryVertex::goodVertexMaximalAbsoluteRho = 5000;
+
 
 PrimaryVertex::PrimaryVertex() :
 	is_fake(false), degreesOfFreedom(0), z_position(0), rho(0) {
@@ -58,5 +60,13 @@ bool PrimaryVertex::isGood() const {
 	bool passesRho = absoluteRho() <= PrimaryVertex::goodVertexMaximalAbsoluteRho;
 	bool isNotFake = isFake() == false;
 	return passesNDOF && passesZ && passesRho && isNotFake;
+}
+
+bool PrimaryVertex::isGoodInRealData() const {
+    bool passesNDOF = ndof() >= PrimaryVertex::goodVertexMinimalNumberOfDegreesOfFreedom;
+    bool passesZ = absoluteZPosition() <= PrimaryVertex::goodVertexMaximalAbsoluteZPositionForRealData;
+    bool passesRho = absoluteRho() <= PrimaryVertex::goodVertexMaximalAbsoluteRho;
+    bool isNotFake = isFake() == false;
+    return passesNDOF && passesZ && passesRho && isNotFake;
 }
 }

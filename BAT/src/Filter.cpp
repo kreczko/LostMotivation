@@ -22,6 +22,7 @@ Filter * Filter::makeTopPairEPlusJetsFilter() {
 	
 	filter->setGoodVertexMinimalNumberOfDegreesOfFreedom(4);
 	filter->setGoodVertexMaximalAbsoluteZPosition(15);
+	filter->setGoodVertexMaximalAbsoluteZPositionForRealData(25);
 	filter->setGoodVertexMaximalRho(2.0);
 
 	filter->setGoodJetMinimalEt(30.0);
@@ -57,6 +58,10 @@ void Filter::setGoodVertexMinimalNumberOfDegreesOfFreedom(unsigned int minimalND
 
 void Filter::setGoodVertexMaximalAbsoluteZPosition(float absoluteZ){
 	PrimaryVertex::goodVertexMaximalAbsoluteZPosition = absoluteZ;
+}
+
+void Filter::setGoodVertexMaximalAbsoluteZPositionForRealData(float absoluteZ){
+    PrimaryVertex::goodVertexMaximalAbsoluteZPositionForRealData = absoluteZ;
 }
 
 void Filter::setGoodVertexMaximalRho(float rho){

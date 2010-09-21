@@ -22,6 +22,7 @@ public:
 
 	void setGoodVertexMinimalNumberOfDegreesOfFreedom(unsigned int minimalNDOF);
 	void setGoodVertexMaximalAbsoluteZPosition(float absoluteZ);
+	void setGoodVertexMaximalAbsoluteZPositionForRealData(float absoluteZ);
 	void setGoodVertexMaximalRho(float rho);
 
 	void setGoodJetMinimalEt(float minimalEt);

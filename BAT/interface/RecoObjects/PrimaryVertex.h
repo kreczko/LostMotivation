@@ -14,17 +14,20 @@ class PrimaryVertex {
 public:
 	static unsigned int goodVertexMinimalNumberOfDegreesOfFreedom;
 	static float goodVertexMaximalAbsoluteZPosition;
+	static float goodVertexMaximalAbsoluteZPositionForRealData;
 	static float goodVertexMaximalAbsoluteRho;
 
 	static void resetSelectionValues() {
 		PrimaryVertex::goodVertexMinimalNumberOfDegreesOfFreedom = 0;
 		PrimaryVertex::goodVertexMaximalAbsoluteZPosition = 5000;
+		PrimaryVertex::goodVertexMaximalAbsoluteZPositionForRealData = 5000;
 		PrimaryVertex::goodVertexMaximalAbsoluteRho = 5000;
 	}
 
 	PrimaryVertex();
 	virtual ~PrimaryVertex();
 	bool isGood() const;
+	bool isGoodInRealData() const;
 	bool isFake() const;
 	unsigned int ndof() const;
 	float absoluteZPosition() const;
