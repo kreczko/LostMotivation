@@ -18,17 +18,30 @@
 #include "VariableReader.h"
 #include "PrimaryVertexReader.h"
 #include "METReader.h"
+#include "TrackReader.h"
 #include <string>
 #include "../Enumerators.h"
 #include "../CrossSections.h"
 
 namespace BAT {
+struct NoFileFoundException: public std::exception {
+    TString msg;
+    NoFileFoundException(TString message) :
+        msg(message) {
+    }
+    ~NoFileFoundException() throw () {
+    }
+
+    const char* what() const throw () {
+        return msg;
+    }
+};
 
 class NTupleEventReader {
 public:
 	static const char * EVENT_CHAIN;
 	static const char * HLT_TRIGGER_CHAIN;
-	static const char * ECAL_SPIKE_CLEANING_CHAIN;
+	static const char * ADDITIONAL_CHAIN;
 	static const boost::array<std::string, 27> FileTypes;
 	static const std::string FilePrefix;
 
@@ -41,6 +54,8 @@ public:
 	const Event& getNextEvent();
 	bool hasNextEvent();
 	void addInputFile(const char* fileName);
+	// without check for unit tests -> faster to start, no difference in long analysis
+	void addInputFileWithoutCheck(const char* fileName);
 	void addInputFile(const char* fileName, DataType::value type);
 	void skipNumberOfEvents(unsigned long skipNextNEvents);
 	unsigned long getNumberOfProccessedEvents() const;
@@ -48,6 +63,7 @@ public:
 	void setMaximumNumberOfEvents(unsigned long maxNumberOfEvents);
 	const boost::array<bool, DataType::NUMBER_OF_DATA_TYPES>& getSeenDatatypes();
 	const char* getCurrentFile() const;
+	Double_t test;
 private:
 	unsigned long processedEvents;
 	unsigned long maximalNumberOfEvents;
@@ -55,12 +71,14 @@ private:
 	unsigned long numberOfFiles;
 	boost::shared_ptr<TChain> input;
 	boost::shared_ptr<TChain> hltTriggerInput;
-	boost::shared_ptr<TChain> ecalSpikeCleaningInput;
-	boost::scoped_ptr<VariableReader<double> > HLTPhoton15Reader;
-	boost::scoped_ptr<VariableReader<double> > HLTPhoton15CleanedReader;
+	boost::shared_ptr<TChain> additionalInput;
+	boost::scoped_ptr<VariableReader<bool> > HLTPhoton10_TO20Reader;
+	boost::scoped_ptr<VariableReader<bool> > HLTPhoton15_TO20Reader;
+	boost::scoped_ptr<VariableReader<bool> > HLTPhoton15_TO20CleanedReader;
 	boost::scoped_ptr<VariableReader<double> > HLTPhoton20CleanedReader;
 	boost::scoped_ptr<VariableReader<bool> > HLTEmulatedPhoton15Reader;
 	boost::scoped_ptr<PrimaryVertexReader> primaryReader;
+	boost::scoped_ptr<TrackReader> trackReader;
 	boost::scoped_ptr<ElectronReader> electronReader;
 	boost::scoped_ptr<JetReader> jetReader;
 	boost::scoped_ptr<MuonReader> muonReader;

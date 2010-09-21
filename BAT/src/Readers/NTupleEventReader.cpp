@@ -13,7 +13,7 @@ namespace BAT {
 
 const char * NTupleEventReader::EVENT_CHAIN = "configurableAnalysis/eventB";
 const char * NTupleEventReader::HLT_TRIGGER_CHAIN = "configurableAnalysis/eventV";
-const char * NTupleEventReader::ECAL_SPIKE_CLEANING_CHAIN = "configurableAnalysis/eventA";
+const char * NTupleEventReader::ADDITIONAL_CHAIN = "configurableAnalysis/eventA";
 
 Jet::Algorithm NTupleEventReader::jetAlgorithm = Jet::Calo_AntiKT_Cone05;
 Electron::Algorithm NTupleEventReader::electronAlgorithm = Electron::Calo;
@@ -57,13 +57,15 @@ NTupleEventReader::NTupleEventReader() :
     numberOfFiles(0),
     input(new TChain(NTupleEventReader::EVENT_CHAIN)),
     hltTriggerInput(new TChain(NTupleEventReader::HLT_TRIGGER_CHAIN)),
-    ecalSpikeCleaningInput(new TChain(NTupleEventReader::ECAL_SPIKE_CLEANING_CHAIN)),
-    HLTPhoton15Reader(new VariableReader<double> (hltTriggerInput, "HLT_Photon15_L1R")),
-    HLTPhoton15CleanedReader(new VariableReader<double> (hltTriggerInput, "HLT_Photon15_Cleaned_L1R")),
+    additionalInput(new TChain(NTupleEventReader::ADDITIONAL_CHAIN)),
+    HLTPhoton10_TO20Reader(new VariableReader<bool> (additionalInput, "pass_photon10_TO20")),
+    HLTPhoton15_TO20Reader(new VariableReader<bool> (additionalInput, "pass_photon15_TO20")),
+    HLTPhoton15_TO20CleanedReader(new VariableReader<bool> (additionalInput, "pass_photon15clean_TO20")),
     HLTPhoton20CleanedReader(new VariableReader<double> (hltTriggerInput, "HLT_Photon20_Cleaned_L1R")),
-    HLTEmulatedPhoton15Reader(new VariableReader<bool> (ecalSpikeCleaningInput, "pass_photon15")),
+    HLTEmulatedPhoton15Reader(new VariableReader<bool> (additionalInput, "pass_photon15")),
     primaryReader(new PrimaryVertexReader(input)),
-    electronReader(new ElectronReader(input, NTupleEventReader::electronAlgorithm)),
+    trackReader(new TrackReader(input)),
+    electronReader(new ElectronReader(input, additionalInput, NTupleEventReader::electronAlgorithm)),
     jetReader(new JetReader(input, NTupleEventReader::jetAlgorithm)),
     muonReader(new MuonReader(input)),
     metReader(new METReader(input, NTupleEventReader::metAlgorithm)),
@@ -73,28 +75,40 @@ NTupleEventReader::NTupleEventReader() :
     areReadersSet(false),
     currentEvent(),
     seenDataTypes() {
-    input->AddFriend(hltTriggerInput.get());
-    input->AddFriend(ecalSpikeCleaningInput.get());
+//    input->AddFriend(hltTriggerInput.get());
+//    input->AddFriend(additionalInput.get());
 }
 
 NTupleEventReader::~NTupleEventReader() {
 }
 
 void NTupleEventReader::addInputFile(const char * fileName) {
+    unsigned long filesAdded = input->Add(fileName, -1);
+    if(filesAdded <= 0)
+        throw NoFileFoundException("No file found in '" + TString(fileName) + "'");
+    numberOfFiles += filesAdded;
+    hltTriggerInput->Add(fileName);
+    additionalInput->Add(fileName);
+    seenDataTypes.at(getDataType(fileName)) = true;
+}
+
+void NTupleEventReader::addInputFileWithoutCheck(const char * fileName) {
     numberOfFiles += input->Add(fileName);
     hltTriggerInput->Add(fileName);
-    ecalSpikeCleaningInput->Add(fileName);
+    additionalInput->Add(fileName);
     seenDataTypes.at(getDataType(fileName)) = true;
 }
 
 const Event& NTupleEventReader::getNextEvent() {
     selectNextNtupleEvent();
     currentEvent = Event();
-    currentEvent.setHLT_Photon15_L1R(HLTPhoton15Reader->getVariable() > 0);
-    currentEvent.setHLT_Photon15_Cleaned_L1R(HLTPhoton15CleanedReader->getVariable() > 0);
-    currentEvent.setHLT_Photon20_Cleaned_L1R(HLTPhoton20CleanedReader->getVariable() > 0);
+    currentEvent.setHLT_Photon10_TO20(HLTPhoton10_TO20Reader->getVariable());
+    currentEvent.setHLT_Photon15_TO20(HLTPhoton15_TO20Reader->getVariable());
+    currentEvent.setHLT_Photon15_Cleaned_TO20(HLTPhoton15_TO20CleanedReader->getVariable());
+    currentEvent.setHLT_Photon20_Cleaned_L1R(HLTPhoton20CleanedReader->getVariable() >0.5);
     currentEvent.setHLT_Emulated_Photon15(HLTEmulatedPhoton15Reader->getVariable());
     currentEvent.setPrimaryVertex(primaryReader->getVertex());
+    currentEvent.setTracks(trackReader->getTracks());
     currentEvent.setElectrons(electronReader->getElectrons());
     currentEvent.setJets(jetReader->getJets());
     currentEvent.setMuons(muonReader->getMuons());
@@ -111,6 +125,8 @@ void NTupleEventReader::selectNextNtupleEvent() {
     if (hasNextEvent()) {
         initiateReadersIfNotSet();
         input->GetEntry(currentEventEntry);
+        hltTriggerInput->GetEntry(currentEventEntry);
+        additionalInput->GetEntry(currentEventEntry);
         currentEventEntry++;
         processedEvents++;
     }
@@ -126,14 +142,19 @@ void NTupleEventReader::initiateReadersIfNotSet() {
     if (areReadersSet == false) {
         input->SetBranchStatus("*", 0);
         hltTriggerInput->SetBranchStatus("*", 0);
-        ecalSpikeCleaningInput->SetBranchStatus("*", 0);
-        HLTPhoton15Reader->initialise();
-        if (HLTPhoton15CleanedReader->doesVariableExist())
-            HLTPhoton15CleanedReader->initialise();
-        if(HLTPhoton20CleanedReader->doesVariableExist())
+        additionalInput->SetBranchStatus("*", 0);
+        if (HLTPhoton10_TO20Reader->doesVariableExist())
+            HLTPhoton10_TO20Reader->initialise();
+        if (HLTPhoton15_TO20Reader->doesVariableExist())
+            HLTPhoton15_TO20Reader->initialise();
+        if (HLTPhoton15_TO20CleanedReader->doesVariableExist())
+            HLTPhoton15_TO20CleanedReader->initialise();
+        if (HLTPhoton20CleanedReader->doesVariableExist())
             HLTPhoton20CleanedReader->initialise();
+        if (HLTEmulatedPhoton15Reader->doesVariableExist())
         HLTEmulatedPhoton15Reader->initialise();
         primaryReader->initialise();
+        trackReader->initialise();
         electronReader->initialise();
         jetReader->initialise();
         muonReader->initialise();
@@ -207,7 +228,7 @@ const boost::array<bool, DataType::NUMBER_OF_DATA_TYPES>& NTupleEventReader::get
     return seenDataTypes;
 }
 
-const char* NTupleEventReader::getCurrentFile() const{
+const char* NTupleEventReader::getCurrentFile() const {
     return input->GetCurrentFile()->GetName();
 }
 }
