@@ -12,10 +12,10 @@ using namespace std;
 namespace BAT {
 
 Event::Event() :
-    HLT_PHOTON15_L1R(false), HLT_Photon15_Cleaned_L1R(false), HLT_Emulated_Photon15(false), HLT_Photon20_Cleaned_L1R(
-            false), HLT_Emulated_Photon20(false), primaryVertex(), allElectrons(), goodElectrons(),
-            goodIsolatedElectrons(), met(), dataType(DataType::DATA), runNumber(0), eventNumber(0), lumiBlock(0),
-            eventWeight(1.), jetCleaningEfficiency(1.) {
+    HLT_Photon10_TO20(false), HLT_Photon15_TO20(false), HLT_Photon15_Cleaned_TO20(false), HLT_Emulated_Photon15(false),
+            HLT_Photon20_Cleaned_L1R(false), HLT_Emulated_Photon20(false), primaryVertex(), tracks(), allElectrons(),
+            goodElectrons(), goodIsolatedElectrons(), met(), dataType(DataType::DATA), runNumber(0), eventNumber(0),
+            lumiBlock(0), eventWeight(1.), jetCleaningEfficiency(1.), numberOfHighPurityTracks(0) {
 
 }
 
@@ -37,6 +37,16 @@ void Event::setDataType(DataType::value type) {
 void Event::setPrimaryVertex(PrimaryVertex vertex) {
     primaryVertex = vertex;
 }
+
+void Event::setTracks(TrackCollection tracks) {
+    this->tracks = tracks;
+    numberOfHighPurityTracks = 0;
+    for (unsigned int index = 0; index < tracks.size(); ++index) {
+        if (tracks.at(index)->isHighPurity())
+            numberOfHighPurityTracks++;
+    }
+}
+
 void Event::setElectrons(ElectronCollection electrons) {
     allElectrons.clear();
     allElectrons = electrons;
@@ -140,12 +150,16 @@ void Event::selectMuonsByQuality() {
     }
 }
 
-void Event::setHLT_Photon15_L1R(bool hltTrigger) {
-    HLT_PHOTON15_L1R = hltTrigger;
+void Event::setHLT_Photon10_TO20(bool hltTrigger) {
+    HLT_Photon10_TO20 = hltTrigger;
 }
 
-void Event::setHLT_Photon15_Cleaned_L1R(bool hltTrigger) {
-    HLT_Photon15_Cleaned_L1R = hltTrigger;
+void Event::setHLT_Photon15_TO20(bool hltTrigger) {
+    HLT_Photon15_TO20 = hltTrigger;
+}
+
+void Event::setHLT_Photon15_Cleaned_TO20(bool hltTrigger) {
+    HLT_Photon15_Cleaned_TO20 = hltTrigger;
 }
 
 void Event::setHLT_Emulated_Photon15(bool hltTrigger) {
@@ -186,6 +200,10 @@ void Event::setEventWeight(float weight) {
 
 const PrimaryVertex& Event::getPrimaryVertex() const {
     return primaryVertex;
+}
+
+const TrackCollection& Event::getTracks() const {
+    return tracks;
 }
 
 const ElectronCollection& Event::getElectrons() const {
@@ -246,6 +264,10 @@ float Event::weight() const {
 
 void Event::inspect() const {
     cout << "run " << runNumber << ", event number " << eventNumber << endl;
+
+    cout << "number of tracks: " << tracks.size() << endl;
+    cout << "number of high purity tracks: " << numberOfHighPurityTracks << endl;
+
     cout << "number of jets: " << allJets.size() << endl;
     EventPrinter::printJets(allJets);
     cout << "number of good jets: " << goodJets.size() << endl;

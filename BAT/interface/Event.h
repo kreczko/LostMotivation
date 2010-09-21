@@ -20,9 +20,10 @@ namespace BAT {
 
 class Event {
 protected:
-    bool HLT_PHOTON15_L1R, HLT_Photon15_Cleaned_L1R, HLT_Emulated_Photon15, HLT_Photon20_Cleaned_L1R,
-            HLT_Emulated_Photon20;
+    bool HLT_Photon10_TO20, HLT_Photon15_TO20, HLT_Photon15_Cleaned_TO20, HLT_Emulated_Photon15,
+            HLT_Photon20_Cleaned_L1R, HLT_Emulated_Photon20;
     PrimaryVertex primaryVertex;
+    TrackCollection tracks;
     ElectronCollection allElectrons;
     ElectronCollection goodElectrons;
     ElectronCollection goodIsolatedElectrons;
@@ -45,6 +46,7 @@ protected:
     float eventWeight;
 
     float jetCleaningEfficiency;
+    unsigned int numberOfHighPurityTracks;
 
 public:
     Event();
@@ -53,12 +55,14 @@ public:
     const DataType::value getDataType() const;
     void setDataType(DataType::value type);
     void setPrimaryVertex(PrimaryVertex vertex);
+    void setTracks(TrackCollection tracks);
     void setElectrons(ElectronCollection electrons);
     void setJets(JetCollection electrons);
     void setMuons(MuonCollection muons);
     void setMET(const METPointer met);
-    void setHLT_Photon15_L1R(bool hltTrigger);
-    void setHLT_Photon15_Cleaned_L1R(bool hltTrigger);
+    void setHLT_Photon10_TO20(bool hltTrigger);
+    void setHLT_Photon15_TO20(bool hltTrigger);
+    void setHLT_Photon15_Cleaned_TO20(bool hltTrigger);
     void setHLT_Emulated_Photon15(bool hltTrigger);
     void setHLT_Photon20_Cleaned_L1R(bool hltTrigger);
     void setHLT_Emulated_Photon20(bool hltTrigger);
@@ -69,6 +73,7 @@ public:
     void setEventWeight(float weight);
 
     const PrimaryVertex& getPrimaryVertex() const;
+    const TrackCollection& getTracks() const;
     const ElectronCollection& getElectrons() const;
     const ElectronCollection& getGoodElectrons() const;
     const ElectronCollection& getGoodIsolatedElectrons() const;
