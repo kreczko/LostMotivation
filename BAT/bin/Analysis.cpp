@@ -18,7 +18,7 @@ using namespace std;
 
 void Analysis::analyze() {
     while (eventReader->hasNextEvent()) {
-        printNumberOfProccessedEventsEvery(10000);
+        printNumberOfProccessedEventsEvery(100000);
         currentEvent = eventReader->getNextEvent();
         ttbarCandidate = TopPairEventCandidate(currentEvent);
         inspectEvents();
@@ -40,14 +40,14 @@ void Analysis::printNumberOfProccessedEventsEvery(unsigned long printEvery) {
 
 void Analysis::inspectEvents() {
     std::vector<InterestingEvent> eventsToInspect;
-    eventsToInspect.push_back(InterestingEvent(142035, 134667277, ""));
-    eventsToInspect.push_back(InterestingEvent(139195, 69244083, ""));
-    eventsToInspect.push_back(InterestingEvent(142265, 123865753, ""));
-    eventsToInspect.push_back(InterestingEvent(142528, 76601807, ""));
-    eventsToInspect.push_back(InterestingEvent(140331, 440601613, ""));
-    eventsToInspect.push_back(InterestingEvent(142038, 210965064, ""));
-    eventsToInspect.push_back(InterestingEvent(142311, 338800668, ""));
-    eventsToInspect.push_back(InterestingEvent(140059, 200726415, ""));
+//    eventsToInspect.push_back(InterestingEvent(142035, 134667277, ""));
+    //    eventsToInspect.push_back(InterestingEvent(139195, 69244083, ""));
+    //    eventsToInspect.push_back(InterestingEvent(142265, 123865753, ""));
+    //    eventsToInspect.push_back(InterestingEvent(142528, 76601807, ""));
+    //    eventsToInspect.push_back(InterestingEvent(140331, 440601613, ""));
+    //    eventsToInspect.push_back(InterestingEvent(142038, 210965064, ""));
+    //    eventsToInspect.push_back(InterestingEvent(142311, 338800668, ""));
+    //    eventsToInspect.push_back(InterestingEvent(140059, 200726415, ""));
 
     for (unsigned int index = 0; index < eventsToInspect.size(); ++index) {
         if ((ttbarCandidate.runnumber() == eventsToInspect.at(index).runNumber && ttbarCandidate.eventnumber()
@@ -70,13 +70,13 @@ void Analysis::doEcalSpikeAnalysis() {
 void Analysis::doTTbarCutFlow() {
     for (unsigned int cut = 0; cut < TTbarEPlusJetsSelection::NUMBER_OF_SELECTION_STEPS; ++cut) {
         if (ttbarCandidate.passesSelectionStep((TTbarEPlusJetsSelection::Step) cut)) {
-            singleCuts[cut] += 1;
-            if ((ttbarCandidate.runnumber() == 142558 && ttbarCandidate.eventnumber() == 99024502))
-                cout << "passes cut " << cut << endl;
+            ++singleCuts[cut];
+            singleCutsPerFile[eventReader->getCurrentFile()][cut]++;
         }
 
         if (ttbarCandidate.passesSelectionStepUpTo((TTbarEPlusJetsSelection::Step) cut)) {
             cutflow[cut] += 1;
+            cutflowPerFile[eventReader->getCurrentFile()][cut]++;
         }
     }
 }
@@ -111,14 +111,12 @@ void Analysis::doTTBarAnalysis() {
         if (std::isnan(mttbar)) {
             ttbarCandidate.inspectReconstructedEvent();
         }
-        if (mttbar > 700 && ttbarCandidate.isRealData()) {
+        if (ttbarCandidate.isRealData()) {
             cout << "run " << ttbarCandidate.runnumber() << ", event " << ttbarCandidate.eventnumber() << endl;
             cout << "top pair invariant mass=" << mttbar << endl;
+            interestingEvents .push_back(InterestingEvent(ttbarCandidate,
+                    eventReader->getCurrentFile()));
         }
-
-        if(ttbarCandidate.isRealData())
-        interestingEvents .push_back(InterestingEvent(ttbarCandidate.runnumber(), ttbarCandidate.eventnumber(),
-                eventReader->getCurrentFile()));
     }
 }
 
@@ -129,7 +127,6 @@ void Analysis::printInterestingEvents() {
 }
 
 void Analysis::printSummary() {
-//    cout << "finished analysis, number of good leading electrons: " << numberOfGoodElectrons << endl;
     cout << "total number of processed events: " << eventReader->getNumberOfProccessedEvents() << endl;
     cout << endl;
     for (unsigned int cut = 0; cut < TTbarEPlusJetsSelection::NUMBER_OF_SELECTION_STEPS; ++cut) {
@@ -152,7 +149,8 @@ Analysis::Analysis() :
                     new TH1F("mLeptonicTop", "mLeptonicTop", 500, 0, 500)), h_mhadronicTop(new TH1F("mHadronicTop",
                     "mHadronicTop", 500, 0, 500)), h_mAllTop(new TH1F("mAllTop", "mAllTop", 500, 0, 500)),
             h_swissCrossAllEle(new TH1F("swissCross", "swissCross", 200, -1, 1)), outputfile(new TFile(
-                    "egammaAnalysis.root", "RECREATE")), cutflow(), singleCuts(), interestingEvents(), xSections() {
+                    "egammaAnalysis.root", "RECREATE")), cutflow(), singleCuts(), cutflowPerFile(),
+            singleCutsPerFile(), interestingEvents(), xSections() {
     for (unsigned int cut = 0; cut < TTbarEPlusJetsSelection::NUMBER_OF_SELECTION_STEPS; ++cut) {
         cutflow[cut] = 0;
         singleCuts[cut] = 0;

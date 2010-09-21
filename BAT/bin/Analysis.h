@@ -10,6 +10,7 @@
 #include <boost/scoped_ptr.hpp>
 #include <boost/shared_ptr.hpp>
 #include <boost/array.hpp>
+#include <boost/unordered_map.hpp>
 #include "../interface/Readers/NTupleEventReader.h"
 #include "../interface/Filter.h"
 #include "TH1F.h"
@@ -28,20 +29,29 @@
 
 struct InterestingEvent {
     InterestingEvent(unsigned long run, unsigned long event, std::string file) :
-        runNumber(run), eventNumber(event), fileName(file) {
+        candidate(), runNumber(run), eventNumber(event), fileName(file) {
 
     }
-    ~InterestingEvent(){
+
+    InterestingEvent(BAT::TopPairEventCandidate cand, std::string file) :
+        candidate(cand), runNumber(cand.runnumber()), eventNumber(cand.eventnumber()), fileName(file) {
 
     }
+    ~InterestingEvent() {
+
+    }
+    BAT::TopPairEventCandidate candidate;
     unsigned long runNumber, eventNumber;
     std::string fileName;
 
-    void print(){
-        std::cout << "run " << runNumber << ", event " << eventNumber << std::endl;
+    void print() {
+        std::cout << "run " << candidate.runnumber() << ", event " << candidate.eventnumber() << std::endl;
+        std::cout << "Mttbar " << candidate.mttbar() << std::endl;
         std::cout << "located in: " << fileName << std::endl << std::endl;
     }
 };
+typedef boost::array<unsigned long, BAT::TTbarEPlusJetsSelection::NUMBER_OF_SELECTION_STEPS> cutarray;
+typedef boost::unordered_map<std::string, cutarray> cutmap;
 
 class Analysis {
 private:
@@ -60,8 +70,10 @@ private:
     boost::shared_ptr<TH1F> h_mAllTop;
     boost::shared_ptr<TH1F> h_swissCrossAllEle;
     boost::shared_ptr<TFile> outputfile;
-    boost::array<unsigned long, BAT::TTbarEPlusJetsSelection::NUMBER_OF_SELECTION_STEPS> cutflow;
-    boost::array<unsigned long, BAT::TTbarEPlusJetsSelection::NUMBER_OF_SELECTION_STEPS> singleCuts;
+    cutarray cutflow;
+    cutarray singleCuts;
+    cutmap cutflowPerFile;
+    cutmap singleCutsPerFile;
     std::vector<InterestingEvent> interestingEvents;
     BAT::CrossSectionProvider xSections;
 public:
@@ -71,13 +83,13 @@ public:
     void addInputFile(const char * fileName);
     void setMaximalNumberOfEvents(long maxEvents);
     void setUsedNeutrinoSelectionForTopPairReconstruction(BAT::NeutrinoSelectionCriterion::value selection);
-    static void useJetAlgorithm(BAT::Jet::Algorithm algo){
+    static void useJetAlgorithm(BAT::Jet::Algorithm algo) {
         BAT::NTupleEventReader::jetAlgorithm = algo;
     }
-    static void useElectronAlgorithm(BAT::Electron::Algorithm algo){
+    static void useElectronAlgorithm(BAT::Electron::Algorithm algo) {
         BAT::NTupleEventReader::electronAlgorithm = algo;
     }
-    static void useMETAlgorithm(BAT::MET::Algorithm algo){
+    static void useMETAlgorithm(BAT::MET::Algorithm algo) {
         BAT::NTupleEventReader::metAlgorithm = algo;
     }
 private:
