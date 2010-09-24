@@ -72,6 +72,7 @@ bool TopPairEventCandidate::passesHighLevelTrigger() const {
             return false;
     } else
         return HLT_Emulated_Photon15;
+    //    return true;
 }
 
 bool TopPairEventCandidate::hasOneGoodPrimaryVertex() const {
@@ -136,6 +137,17 @@ bool TopPairEventCandidate::passesSelectionStepUpTo(enum TTbarEPlusJetsSelection
         unsigned int newstep = (int) step - 1;
         return passesSelectionStep(step) && passesSelectionStepUpTo((TTbarEPlusJetsSelection::Step) newstep);
     }
+}
+
+bool TopPairEventCandidate::passesNMinus1(enum TTbarEPlusJetsSelection::Step omitted) const {
+    bool passes(true);
+
+    for (unsigned int cut = 0; cut < TTbarEPlusJetsSelection::NUMBER_OF_SELECTION_STEPS; ++cut) {
+        if (cut == (unsigned int) omitted)
+            continue;
+        passes = passes && passesSelectionStep((TTbarEPlusJetsSelection::Step) cut);
+    }
+    return passes;
 }
 
 bool TopPairEventCandidate::passesSelectionStep(enum TTbarEPlusJetsSelection::Step step) const {
@@ -486,6 +498,27 @@ const ParticlePointer TopPairEventCandidate::getRessonance() const {
     return ttbarResonance;
 }
 
+double TopPairEventCandidate::M3() const {
+    double m3(0), max_pt(0);
+    if (goodJets.size() >= 3) {
+        for (unsigned int index1 = 0; index1 < goodJets.size() - 2; ++index1) {
+            for (unsigned int index2 = index1 + 1; index2 < goodJets.size() - 1; ++index2) {
+                for (unsigned int index3 = index2 + 1; index3 < goodJets.size(); ++index3) {
+                    FourVector m3Vector(goodJets.at(index1)->getFourVector() + goodJets.at(index2)->getFourVector()
+                            + goodJets.at(index3)->getFourVector());
+                    double currentPt = m3Vector.Pt();
+                    if (currentPt > max_pt) {
+                        max_pt = currentPt;
+                        m3 = m3Vector.M();
+                    }
+                }
+            }
+        }
+    }
+
+    return m3;
+}
+
 double TopPairEventCandidate::mttbar() const {
     return getRessonance()->mass();
 }
@@ -542,6 +575,35 @@ void TopPairEventCandidate::inspectReconstructedEvent() const {
     cout << "hadronic top" << endl;
     EventPrinter::printParticle(hadronicTop);
     cout << endl;
+}
+
+double TopPairEventCandidate::fullHT() const {
+    double ht(met->pt());
+
+    for (unsigned int index = 0; index < goodIsolatedElectrons.size(); ++index) {
+        ht += goodIsolatedElectrons.at(index)->pt();
+    }
+
+    for (unsigned int index = 0; index < goodIsolatedMuons.size(); ++index) {
+        ht += goodIsolatedMuons.at(index).pt();
+    }
+
+    for (unsigned int index = 0; index < goodJets.size(); ++index) {
+        ht += goodJets.at(index)->pt();
+    }
+    return ht;
+}
+
+double TopPairEventCandidate::transverseWmass() const{
+    const ElectronPointer electron = goodIsolatedElectrons.front();
+    double energySquared = pow(electron->et() + met->et(), 2);
+    double momentumSquared = pow(electron->px() + met->px(), 2) + pow(electron->py() + met->py(), 2);
+    double tMassSquared = energySquared - momentumSquared;
+
+    if(tMassSquared > 0)
+        return sqrt(tMassSquared);
+    else
+        return -1;
 }
 
 }

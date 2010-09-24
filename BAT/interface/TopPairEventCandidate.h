@@ -105,9 +105,12 @@ public:
     double getTotalChi2(unsigned short neutrinoSolution) const;
     double getTotalChi2();
 
+    double M3() const;
     double mttbar() const;
     double sumPt() const;
     double HT(unsigned short jetLimit) const;
+    double fullHT() const;
+    double transverseWmass() const;
     double HTSystem() const;
     double PtRatio() const;
     double PtTtbarSystem(unsigned short neutrinoSolution) const;
