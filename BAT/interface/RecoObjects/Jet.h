@@ -44,6 +44,7 @@ public:
 	virtual ~Jet();
 	bool isGood() const;
 	bool isBJetAccordingToBtagAlgorithm(BJetTagger::Algorithm btag) const;
+	bool isBJetInData() const;
 	Algorithm getUsedAlgorithm() const;
 	float emf() const;
 	float n90Hits() const;
@@ -53,12 +54,14 @@ public:
 	void setN90Hits(float n90Hits);
 	void setFHPD(float fHPD);
 	void setDiscriminatorForBtagType(float discriminator, BJetTagger::Algorithm type);
+	void setBtagForData(float btag);
 private:
 	Algorithm usedAlgorithm;
 	float electromagneticFraction;
 	float numberOfRecHitsContaining90PercentOfTheJetEnergy;
 	float fractionOfEnergyIntheHottestHPDReadout;
 	std::vector<float> btag_discriminators;
+	float btagInData;
 };
 typedef boost::shared_ptr<Jet> JetPointer;
 typedef std::vector<JetPointer> JetCollection;
