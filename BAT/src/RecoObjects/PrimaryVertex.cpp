@@ -8,10 +8,10 @@
 #include "../../interface/RecoObjects/PrimaryVertex.h"
 #include <math.h>
 namespace BAT {
-unsigned int PrimaryVertex::goodVertexMinimalNumberOfDegreesOfFreedom = 0;
-float PrimaryVertex::goodVertexMaximalAbsoluteZPosition = 5000;
-float PrimaryVertex::goodVertexMaximalAbsoluteZPositionForRealData = 5000;
-float PrimaryVertex::goodVertexMaximalAbsoluteRho = 5000;
+unsigned int PrimaryVertex::goodVertexMinimalNumberOfDegreesOfFreedom = 4;
+float PrimaryVertex::goodVertexMaximalAbsoluteZPosition = 15;
+float PrimaryVertex::goodVertexMaximalAbsoluteZPositionForRealData = 24;
+float PrimaryVertex::goodVertexMaximalAbsoluteRho = 2.0;
 
 
 PrimaryVertex::PrimaryVertex() :

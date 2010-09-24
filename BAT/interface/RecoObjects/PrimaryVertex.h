@@ -18,10 +18,10 @@ public:
 	static float goodVertexMaximalAbsoluteRho;
 
 	static void resetSelectionValues() {
-		PrimaryVertex::goodVertexMinimalNumberOfDegreesOfFreedom = 0;
-		PrimaryVertex::goodVertexMaximalAbsoluteZPosition = 5000;
-		PrimaryVertex::goodVertexMaximalAbsoluteZPositionForRealData = 5000;
-		PrimaryVertex::goodVertexMaximalAbsoluteRho = 5000;
+	    PrimaryVertex::goodVertexMinimalNumberOfDegreesOfFreedom = 4;
+	    PrimaryVertex::goodVertexMaximalAbsoluteZPosition = 15;
+	    PrimaryVertex::goodVertexMaximalAbsoluteZPositionForRealData = 24;
+	    PrimaryVertex::goodVertexMaximalAbsoluteRho = 2.0;
 	}
 
 	PrimaryVertex();
