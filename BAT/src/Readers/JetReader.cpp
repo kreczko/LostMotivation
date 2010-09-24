@@ -30,6 +30,7 @@ JetReader::JetReader(TChainPointer input, Jet::Algorithm algo) :
             pzReader(input, algorithmPrefixes[algo] + "_pz"), emfReader(input, algorithmPrefixes[algo] + "_emf"),
             n90HitsReader(input, algorithmPrefixes[algo] + "_id_hitsInN90"), fHPDReader(input, algorithmPrefixes[algo]
                     + "_id_fHPD"), btagSimpleSecondaryVertexReader(input, algorithmPrefixes[algo] + "_btag_secVertex"),
+            btagSimpleSecondaryVertexReaderData(input, algorithmPrefixes[algo] + "_btag_ssvHE"),
             btagTrackCountingHighPurityReader(input, algorithmPrefixes[algo] + "_btag_TC_highPur"),
             btagTrackCountingHighEfficiencyReader(input, algorithmPrefixes[algo] + "_btag_TC_highEff"), jets(),
             usedAlgorithm(algo) {
@@ -63,6 +64,7 @@ void JetReader::readJets() {
                 BJetTagger::TrackCountingHighPurity);
         jet->setDiscriminatorForBtagType(btagTrackCountingHighEfficiencyReader.getVariableAt(jetIndex),
                 BJetTagger::TrackCountingHighEfficiency);
+        jet->setBtagForData(btagSimpleSecondaryVertexReaderData.getVariableAt(jetIndex));
         jets.push_back(jet);
     }
 }
@@ -76,6 +78,7 @@ void JetReader::initialise() {
     n90HitsReader.initialise();
     fHPDReader.initialise();
     btagSimpleSecondaryVertexReader.initialise();
+    btagSimpleSecondaryVertexReaderData.initialise();
     btagTrackCountingHighPurityReader.initialise();
     btagTrackCountingHighEfficiencyReader.initialise();
 }

@@ -33,6 +33,7 @@ private:
 	VariableReader<MultiFloatPointer> fHPDReader;
 
 	VariableReader<MultiFloatPointer> btagSimpleSecondaryVertexReader;
+	VariableReader<MultiFloatPointer> btagSimpleSecondaryVertexReaderData;
 	VariableReader<MultiFloatPointer> btagTrackCountingHighPurityReader;
 	VariableReader<MultiFloatPointer> btagTrackCountingHighEfficiencyReader;
 
