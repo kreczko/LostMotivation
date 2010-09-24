@@ -102,6 +102,7 @@ void NTupleEventReader::addInputFileWithoutCheck(const char * fileName) {
 const Event& NTupleEventReader::getNextEvent() {
     selectNextNtupleEvent();
     currentEvent = Event();
+    currentEvent.setDataType(getDataType(getCurrentFile()));
     currentEvent.setHLT_Photon10_TO20(HLTPhoton10_TO20Reader->getVariable());
     currentEvent.setHLT_Photon15_TO20(HLTPhoton15_TO20Reader->getVariable());
     currentEvent.setHLT_Photon15_Cleaned_TO20(HLTPhoton15_TO20CleanedReader->getVariable());
@@ -113,7 +114,6 @@ const Event& NTupleEventReader::getNextEvent() {
     currentEvent.setJets(jetReader->getJets());
     currentEvent.setMuons(muonReader->getMuons());
     currentEvent.setMET(metReader->getMET());
-    currentEvent.setDataType(getDataType(getCurrentFile()));
     currentEvent.setRunNumber(runNumberReader->getVariable());
     currentEvent.setEventNumber(eventNumberReader->getVariable());
     currentEvent.setLocalEventNumber(currentEventEntry);
@@ -133,6 +133,8 @@ void NTupleEventReader::selectNextNtupleEvent() {
 }
 
 bool NTupleEventReader::hasNextEvent() {
+    if(numberOfFiles == 0)
+            throw NoFileFoundException("No input file found!");
     bool hasNextInNTuple = input->LoadTree(currentEventEntry) >= 0;
     bool isWithinEventRange = currentEventEntry < maximalNumberOfEvents;
     return hasNextInNTuple && isWithinEventRange;
@@ -190,6 +192,36 @@ DataType::value NTupleEventReader::getDataType(const std::string filename) {
         return DataType::QCD_EMEnriched_Pt30to80;
     else if (fileType == "enri3")
         return DataType::QCD_EMEnriched_Pt80to170;
+    else if(fileType == "VqqJets")
+        return DataType::VQQ;
+    else if(fileType == "Zprime_M500GeV_W5GeV")
+        return DataType::Zprime_M500GeV_W5GeV;
+    else if(fileType == "Zprime_M500GeV_W50GeV")
+        return DataType::Zprime_M500GeV_W50GeV;
+    else if(fileType == "Zprime_M750GeV_W7500MeV")
+            return DataType::Zprime_M750GeV_W7500MeV;
+    else if(fileType == "Zprime_M1TeV_W10GeV")
+            return DataType::Zprime_M1TeV_W10GeV;
+    else if(fileType == "Zprime_M1TeV_W100GeV")
+            return DataType::Zprime_M1TeV_W100GeV;
+    else if(fileType == "Zprime_M1250GeV_W12500MeV")
+            return DataType::Zprime_M1250GeV_W12500MeV;
+    else if(fileType == "Zprime_M1500GeV_W15GeV")
+            return DataType::Zprime_M1500GeV_W15GeV;
+    else if(fileType == "Zprime_M1500GeV_W150GeV")
+            return DataType::Zprime_M1500GeV_W150GeV;
+    else if(fileType == "Zprime_M2TeV_W20GeV")
+            return DataType::Zprime_M2TeV_W20GeV;
+    else if(fileType == "Zprime_M2TeV_W200GeV")
+            return DataType::Zprime_M2TeV_W200GeV;
+    else if(fileType == "Zprime_M3TeV_W30GeV")
+            return DataType::Zprime_M3TeV_W30GeV;
+    else if(fileType == "Zprime_M3TeV_W300GeV")
+            return DataType::Zprime_M3TeV_W300GeV;
+    else if(fileType == "Zprime_M4TeV_W40GeV")
+            return DataType::Zprime_M4TeV_W40GeV;
+    else if(fileType == "Zprime_M4TeV_W400GeV")
+            return DataType::Zprime_M4TeV_W400GeV;
     else
         return DataType::DATA;
 }

@@ -29,13 +29,20 @@ private:
 
 public:
     TestNTupleEventReader() :
-        TTbarReader(new NTupleEventReader()), QCDenri1Reader(new NTupleEventReader()), QCDenri2Reader(
-                new NTupleEventReader()), QCDenri3Reader(new NTupleEventReader()), QCDbce1Reader(
-                new NTupleEventReader()), QCDbce2Reader(new NTupleEventReader()),
-                QCDbce3Reader(new NTupleEventReader()), WjetsReader(new NTupleEventReader()), ZJetsReader(
-                        new NTupleEventReader()), TWReader(new NTupleEventReader()), TChanReader(
-                        new NTupleEventReader()), DataReader(new NTupleEventReader()), DataReader2(
-                        new NTupleEventReader()), AllMCReader(new NTupleEventReader()) {
+        TTbarReader(new NTupleEventReader()),
+        QCDenri1Reader(new NTupleEventReader()),
+        QCDenri2Reader(new NTupleEventReader()),
+        QCDenri3Reader(new NTupleEventReader()),
+        QCDbce1Reader(new NTupleEventReader()),
+        QCDbce2Reader(new NTupleEventReader()),
+        QCDbce3Reader(new NTupleEventReader()),
+        WjetsReader(new NTupleEventReader()),
+        ZJetsReader(new NTupleEventReader()),
+        TWReader(new NTupleEventReader()),
+        TChanReader(new NTupleEventReader()),
+        DataReader(new NTupleEventReader()),
+        DataReader2(new NTupleEventReader()),
+        AllMCReader(new NTupleEventReader()) {
         TTbarReader->addInputFileWithoutCheck("/storage/top/mc/V4/MG/e20skim_ttjet/e20skim_nTuple_ttjet_f_1.root");
         QCDenri1Reader->addInputFileWithoutCheck("/storage/top/mc/V4/pythia/e20skim_enri1/e20skim_nTuple_enri1_f_1_3_aGl.root");
         QCDenri2Reader->addInputFileWithoutCheck("/storage/top/mc/V4/pythia/e20skim_enri2/e20skim_nTuple_enri2_f_999_1_IDK.root");
