@@ -19,7 +19,7 @@ private:
 public:
     TestCrossSectionProvider() :
         xSectionProvider(), lumi(20) {
-
+        xSectionProvider.useSkimEfficiency(false);
     }
 
     ~TestCrossSectionProvider() {

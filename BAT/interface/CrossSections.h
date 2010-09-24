@@ -27,6 +27,8 @@ private:
     unsigned short tev;
     bool useSkimEff;
     boost::array<float, DataType::NUMBER_OF_DATA_TYPES> xsection;
+    boost::array<float, DataType::NUMBER_OF_DATA_TYPES> skimEfficieny;
+    void defineSkimEfficiencies();
 public:
 
 
