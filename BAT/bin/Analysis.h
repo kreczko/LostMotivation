@@ -26,6 +26,7 @@
 #include <iostream>
 #include <string>
 #include "../interface/Enumerators.h"
+#include "../interface/HistHelpers/HistogramManager.h"
 
 struct InterestingEvent {
     InterestingEvent(unsigned long run, unsigned long event, std::string file) :
@@ -45,8 +46,8 @@ struct InterestingEvent {
     std::string fileName;
 
     void print() {
-        std::cout << "run " << candidate.runnumber() << ", event " << candidate.eventnumber() << std::endl;
-        std::cout << "Mttbar " << candidate.mttbar() << std::endl;
+        std::cout << "run " << candidate.runnumber() << ", event " << candidate.eventnumber() << " (Mttbar: "
+                << candidate.mttbar() << ")" << std::endl;
         std::cout << "located in: " << fileName << std::endl << std::endl;
     }
 };
@@ -69,6 +70,8 @@ private:
     boost::shared_ptr<TH1F> h_mhadronicTop;
     boost::shared_ptr<TH1F> h_mAllTop;
     boost::shared_ptr<TH1F> h_swissCrossAllEle;
+    boost::shared_ptr<TH1F> h_m3, h_ttbar_pt, h_HT, h_numberOfJets, h_numberOfBJets, h_met, h_leadingJetMass, h_mtW,
+            h_electronD0, h_electronD0_iso, h_neutrino_pz;
     boost::shared_ptr<TFile> outputfile;
     cutarray cutflow;
     cutarray singleCuts;
