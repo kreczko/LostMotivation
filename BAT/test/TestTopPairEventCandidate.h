@@ -12,7 +12,7 @@ using namespace BAT;
 
 struct TestTopPairEventCandidate {
     DummyTTbarEvent ttbarEvent, goodZEvent, poorZEvent, DiJetEvent, DiJetEventWithConversion, muonEvent;
-    DummyTTbarEvent emptyEvent;
+    DummyTTbarEvent emptyEvent, customEvent;
     boost::scoped_ptr<Filter> eventFilter;
 
     ElectronPointer goodIsolatedElectron, goodIsolatedElectron2;
@@ -33,8 +33,8 @@ struct TestTopPairEventCandidate {
 
     TestTopPairEventCandidate() :
         ttbarEvent(), goodZEvent(), poorZEvent(), DiJetEvent(), DiJetEventWithConversion(), muonEvent(), emptyEvent(),
-                eventFilter(Filter::makeTopPairEPlusJetsFilter()), goodIsolatedElectron(
-                        new Electron(100., 99., 13., 5.)), goodIsolatedElectron2(new Electron(100., 79., -13., -5.)),
+                customEvent(), eventFilter(Filter::makeTopPairEPlusJetsFilter()), goodIsolatedElectron(new Electron(
+                        100., 99., 13., 5.)), goodIsolatedElectron2(new Electron(100., 79., -13., -5.)),
                 goodLooseElectron(new Electron(100., 79., -13., -5.)), badElectron(new Electron(20, 14., 15., 0)),
                 electronFromConversion(new Electron(*goodIsolatedElectron)), goodJet(new Jet(100, 13, 99, 5)),
                 goodBJet(new Jet(*goodJet)), badJet(new Jet(20, 19, 0, 0)), goodJetCloseToElectron(new Jet(100., 98.,
@@ -59,7 +59,7 @@ struct TestTopPairEventCandidate {
         setUpPoorZEvent();
         setUpDiJetEvent();
         setUpMuonEvent();
-
+        setUpCustomEvent();
     }
 
 private:
@@ -130,9 +130,10 @@ private:
     }
 
     void setUpGoodVertex() {
-        goodVertex.setDegreesOfFreedom(PrimaryVertex::goodVertexMinimalNumberOfDegreesOfFreedom);
+        goodVertex.setDegreesOfFreedom(PrimaryVertex::goodVertexMinimalNumberOfDegreesOfFreedom + 1);
         goodVertex.setFake(false);
-        goodVertex.setRho(PrimaryVertex::goodVertexMaximalAbsoluteRho);
+        goodVertex.setRho(PrimaryVertex::goodVertexMaximalAbsoluteRho - 0.1
+                * PrimaryVertex::goodVertexMaximalAbsoluteRho);
         goodVertex.setZPosition(PrimaryVertex::goodVertexMaximalAbsoluteZPosition);
     }
 
@@ -274,6 +275,28 @@ private:
             moreThan10TracksHighPurity.push_back(trackHighPurity);
             moreThan10TracksLowPurity.push_back(trackLowPurity);
         }
+    }
+
+    void setUpCustomEvent() {
+        customEvent.useCustomReturnValues = true;
+        customEvent.passConversion = false;
+        customEvent.passElectronCut = true;
+        customEvent.passHLT = true;
+        customEvent.passPV = true;
+        customEvent.passScraping = true;
+        customEvent.passesJetCuts = true;
+        customEvent.passesMuon = true;
+        customEvent.passesZveto = true;
+        assert(customEvent.passesScrapingFilter());
+        assert(customEvent.passesSelectionStep(TTbarEPlusJetsSelection::FilterOutScraping));
+        assert(customEvent.passesHighLevelTrigger());
+        assert(customEvent.passesSelectionStep(TTbarEPlusJetsSelection::HighLevelTrigger));
+        assert(customEvent.isolatedElectronDoesNotComeFromConversion() == false);
+        assert(customEvent.hasOneGoodPrimaryVertex());
+        assert(customEvent.hasOnlyOneGoodIsolatedElectron());
+        assert(customEvent.hasNoIsolatedMuon());
+        assert(customEvent.hasAtLeastFourGoodJets());
+        assert(customEvent.isNotAZBosonEvent());
     }
 
 public:
@@ -524,10 +547,21 @@ public:
         ASSERT_THROWS(cand.reconstructUsingChi2(),ReconstructionException);
     }
 
+    void testNMinus1CutsPositive() {
+        assert(customEvent.useCustomReturnValues);
+        ASSERT_EQUAL(true, customEvent.passesNMinus1(TTbarEPlusJetsSelection::ConversionRejection));
+    }
+
+    void testNMinus1CutsNegative() {
+        assert(customEvent.useCustomReturnValues);
+        ASSERT_EQUAL(false, customEvent.passesNMinus1(TTbarEPlusJetsSelection::HighLevelTrigger));
+    }
 };
 
 extern cute::suite make_suite_TestTopPairEventCandidate() {
     cute::suite s;
+    s.push_back(CUTE_SMEMFUN(TestTopPairEventCandidate, testNMinus1CutsPositive));
+    s.push_back(CUTE_SMEMFUN(TestTopPairEventCandidate, testNMinus1CutsNegative));
     s.push_back(CUTE_SMEMFUN(TestTopPairEventCandidate, testEventConstructor));
 
     s.push_back(CUTE_SMEMFUN(TestTopPairEventCandidate, testPassesHLT));
