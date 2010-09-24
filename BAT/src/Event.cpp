@@ -6,6 +6,7 @@
  */
 
 #include "../interface/Event.h"
+#include "../interface/Taggers/BJetTagger.h"
 #include <iostream>
 using namespace std;
 
@@ -14,8 +15,9 @@ namespace BAT {
 Event::Event() :
     HLT_Photon10_TO20(false), HLT_Photon15_TO20(false), HLT_Photon15_Cleaned_TO20(false), HLT_Emulated_Photon15(false),
             HLT_Photon20_Cleaned_L1R(false), HLT_Emulated_Photon20(false), primaryVertex(), tracks(), allElectrons(),
-            goodElectrons(), goodIsolatedElectrons(), met(), dataType(DataType::DATA), runNumber(0), eventNumber(0),
-            lumiBlock(0), eventWeight(1.), jetCleaningEfficiency(1.), numberOfHighPurityTracks(0) {
+            goodElectrons(), goodIsolatedElectrons(), looseElectrons(), allJets(), goodJets(), goodBJets(), allMuons(),
+            goodMuons(), goodIsolatedMuons(), met(), dataType(DataType::DATA), runNumber(0), eventNumber(0), lumiBlock(
+                    0), eventWeight(1.), jetCleaningEfficiency(1.), numberOfHighPurityTracks(0) {
 
 }
 
@@ -78,8 +80,13 @@ void Event::setJets(JetCollection jets) {
 void Event::selectGoodJets() {
     goodJets.clear();
     for (unsigned int index = 0; index < allJets.size(); ++index) {
-        if (allJets.at(index)->isGood())
+        if (allJets.at(index)->isGood()) {
             goodJets.push_back(allJets.at(index));
+            if ((isRealData() && allJets.at(index)->isBJetInData())
+                    || allJets.at(index)->isBJetAccordingToBtagAlgorithm(BJetTagger::SimpleSecondaryVertex))
+                goodBJets.push_back(allJets.at(index));
+        }
+
     }
     cleanGoodJets();
 }
@@ -224,6 +231,10 @@ const JetCollection& Event::getJets() const {
 
 const JetCollection& Event::getGoodJets() const {
     return goodJets;
+}
+
+const JetCollection& Event::getGoodBJets() const {
+    return goodBJets;
 }
 
 const MuonCollection& Event::getMuons() const {

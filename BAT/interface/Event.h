@@ -31,6 +31,7 @@ protected:
 
     JetCollection allJets;
     JetCollection goodJets;
+    JetCollection goodBJets;
 
     MuonCollection allMuons;
     MuonCollection goodMuons;
@@ -79,6 +80,7 @@ public:
     const ElectronCollection& getGoodIsolatedElectrons() const;
     const JetCollection& getJets() const;
     const JetCollection& getGoodJets() const;
+    const JetCollection& getGoodBJets() const;
     const MuonCollection& getMuons() const;
     const MuonCollection& getGoodMuons() const;
     const MuonCollection& getGoodIsolatedMuons() const;
