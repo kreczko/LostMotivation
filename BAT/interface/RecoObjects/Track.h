@@ -18,7 +18,7 @@ typedef std::vector<TrackPointer> TrackCollection;
 
 class Track: public Particle {
 private:
-    static const double BFIELD = 3.8;
+    static const double BFIELD;
     bool highPurity;
 public:
     Track();

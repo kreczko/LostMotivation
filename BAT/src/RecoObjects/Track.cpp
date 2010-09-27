@@ -8,6 +8,7 @@
 #include "../../interface/RecoObjects/Track.h"
 
 namespace BAT {
+const double Track::BFIELD = 3.8;
 
 Track::Track() :
     Particle(), highPurity(false) {
