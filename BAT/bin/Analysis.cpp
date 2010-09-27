@@ -142,7 +142,7 @@ void Analysis::doTTBarAnalysis() {
         h_et->Fill(ttbarCandidate.getElectronFromWDecay()->et());
         h_neutrino_pz->Fill(ttbarCandidate.getNeutrinoFromWDecay()->pz());
 
-        if (std::isnan(mttbar)) {
+        if (mttbar != mttbar) {//isnan
             ttbarCandidate.inspectReconstructedEvent();
         }
         if (ttbarCandidate.isRealData()) {
