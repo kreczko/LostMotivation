@@ -35,7 +35,8 @@ Electron::Electron() :
     Particle(), usedAlgorithm(Electron::Calo), robustLooseId(false), robustTightId(false), superCluser_Eta(
             initialBigValue), ecal_Isolation(initialBigValue), hcal_Isolation(initialBigValue), tracker_Isolation(
             initialBigValue), innerLayerMissingHits(initialBigValue), sigma_IEtaIEta(0), dPhi_In(0), dEta_In(0),
-            hadOverEm(0), ecalDriven(false), trackerDriven(false), swiss_Cross(1), gsfTrack() {
+            hadOverEm(0), ecalDriven(false), trackerDriven(false), swiss_Cross(1), gsfTrack(), closesTrackID(-1),
+            sharedFractionInnerHits(0) {
 }
 
 Electron::Electron(const Electron& other) :
@@ -45,7 +46,7 @@ Electron::Electron(const Electron& other) :
                     other.trackerIsolation()), innerLayerMissingHits(other.innerLayerMissingHits), sigma_IEtaIEta(
                     other.sigma_IEtaIEta), dPhi_In(other.dPhi_In), dEta_In(other.dEta_In), hadOverEm(other.hadOverEm),
             ecalDriven(other.ecalDriven), trackerDriven(other.trackerDriven), swiss_Cross(other.swiss_Cross),
-            gsfTrack() {
+            gsfTrack(), closesTrackID(-1), sharedFractionInnerHits(0) {
 
 }
 
@@ -53,7 +54,8 @@ Electron::Electron(float energy, float px, float py, float pz) :
     Particle(energy, px, py, pz), usedAlgorithm(Electron::Calo), robustLooseId(false), robustTightId(false),
             superCluser_Eta(initialBigValue), ecal_Isolation(initialBigValue), hcal_Isolation(initialBigValue),
             tracker_Isolation(initialBigValue), innerLayerMissingHits(initialBigValue), sigma_IEtaIEta(0), dPhi_In(0),
-            dEta_In(0), hadOverEm(0), ecalDriven(false), trackerDriven(false), swiss_Cross(1), gsfTrack() {
+            dEta_In(0), hadOverEm(0), ecalDriven(false), trackerDriven(false), swiss_Cross(1), gsfTrack(),
+            closesTrackID(-1), sharedFractionInnerHits(0) {
 }
 
 Electron::~Electron() {
@@ -294,6 +296,30 @@ void Electron::setUsedAlgorithm(Electron::Algorithm algo) {
 
 bool Electron::isEcalSpike() const {
     return isEcalDriven() && isInBarrelRegion() && swiss_Cross > Electron::goodElectronMaximalSwissCross;
+}
+
+void Electron::setGSFTrack(const TrackPointer track) {
+    gsfTrack = track;
+}
+
+const TrackPointer Electron::GSFTrack() const {
+    return gsfTrack;
+}
+
+void Electron::setClosestTrackID(int trackID) {
+    closesTrackID = trackID;
+}
+
+int Electron::closestCTFTrackID() const {
+    return closesTrackID;
+}
+
+void Electron::setSharedFractionInnerHits(float hits){
+    sharedFractionInnerHits = hits;
+}
+
+float Electron::shFracInnerLayer() const{
+    return sharedFractionInnerHits;
 }
 
 }

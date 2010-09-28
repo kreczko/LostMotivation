@@ -90,6 +90,9 @@ public:
     unsigned short getClosestJetID(const JetCollection& jets) const;
     Algorithm getUsedAlgorithm() const;
     float swissCross() const;
+    const TrackPointer GSFTrack() const;
+    int closestCTFTrackID() const;
+    float shFracInnerLayer() const;
 
     void setRobustLooseID(bool id);
     void setRobustTightID(bool id);
@@ -107,6 +110,9 @@ public:
     void setIsEcalDriven(bool eDriven);
     void setIsTrackerDriven(bool tDriven);
     void setSwissCross(float swiss);
+    void setGSFTrack(const TrackPointer track);
+    void setClosestTrackID(const int trackID);
+    void setSharedFractionInnerHits(float hits);
 
     float relativeIsolation() const;
 
@@ -127,6 +133,9 @@ private:
     bool ecalDriven, trackerDriven;
     float swiss_Cross;
     TrackPointer gsfTrack;
+    int closesTrackID;
+    float sharedFractionInnerHits;
+
 
     bool getVBTF_W70_ElectronID_Barrel() const;
     bool getVBTF_W70_ElectronID_Endcap() const;
