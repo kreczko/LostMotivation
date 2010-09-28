@@ -16,8 +16,8 @@ Particle::Particle() :
 }
 
 Particle::Particle(const Particle& particle) :
-    particleMass(particle.mass()), particleCharge(particle.charge()), distanceFromInteractionPointInMicron(particle.d0()), fourvector(
-            particle.getFourVector()) {
+    particleMass(particle.mass()), particleCharge(particle.charge()), distanceFromInteractionPointInMicron(
+            particle.d0()), fourvector(particle.getFourVector()) {
 
 }
 
@@ -67,11 +67,11 @@ float Particle::eta() const {
     return fourvector.Eta();
 }
 
-float Particle::phi() const{
+float Particle::phi() const {
     return fourvector.Phi();
 }
 
-float Particle::theta() const{
+float Particle::theta() const {
     return fourvector.Theta();
 }
 
@@ -183,7 +183,7 @@ unsigned short Particle::getClosest(const ParticleCollection& particles) const {
     return idOfClosest;
 }
 
-float Particle::angle(const ParticlePointer otherParticle) const{
+float Particle::angle(const ParticlePointer otherParticle) const {
     return fourvector.Angle(otherParticle->getFourVector().Vect());
 }
 }
