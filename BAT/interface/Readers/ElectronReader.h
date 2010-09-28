@@ -47,6 +47,14 @@ private:
 	VariableReader<MultiFloatPointer> isTrackerDrivenReader;
 	VariableReader<MultiDoublePointer> swissCrossReader;
 
+	VariableReader<MultiFloatPointer> sharedFractionInnerHits;
+	VariableReader<MultiFloatPointer> trackIDReader;
+	VariableReader<MultiFloatPointer> track_phi;
+	VariableReader<MultiFloatPointer> track_eta;
+	VariableReader<MultiFloatPointer> track_pt;
+	VariableReader<MultiFloatPointer> track_theta;
+	VariableReader<MultiFloatPointer> track_charge;
+
 	ElectronCollection electrons;
 	void readElectrons();
 
