@@ -70,6 +70,11 @@ private:
         goodIsolatedElectron->setNumberOfMissingInnerLayerHits(0);
         goodIsolatedElectron->setD0(0);
         goodIsolatedElectron->setSuperClusterEta(0);
+
+        TrackPointer track = TrackPointer(new Track(goodIsolatedElectron->phi(), goodIsolatedElectron->eta(),
+                goodIsolatedElectron->pt(), goodIsolatedElectron->theta()));
+        track->setD0(goodIsolatedElectron->d0());
+        track->setCharge(goodIsolatedElectron->charge());
     }
 
     void setUpGoodIsolatedElectron2() {
@@ -100,6 +105,10 @@ private:
         goodLooseElectron->setRobustLooseID(true);
         goodLooseElectron->setNumberOfMissingInnerLayerHits(0);
         goodLooseElectron->setSuperClusterEta(0);
+        TrackPointer track = TrackPointer(new Track(goodLooseElectron->phi(), goodLooseElectron->eta(),
+                goodLooseElectron->pt(), goodLooseElectron->theta()));
+        track->setD0(goodLooseElectron->d0());
+        track->setCharge(goodLooseElectron->charge());
         assert(goodLooseElectron->isGood() == false);
         assert(goodLooseElectron->isLoose());
     }
@@ -257,8 +266,8 @@ private:
     }
 
     void setUpTracks() {
-        TrackPointer trackHighPurity = TrackPointer(new Track(40, 40, 0, 0));
-        TrackPointer trackLowPurity = TrackPointer(new Track(40, 40, 0, 0));
+        TrackPointer trackHighPurity = TrackPointer(new Track(1., 0., 20., 6.));
+        TrackPointer trackLowPurity = TrackPointer(new Track(1., 0., 20., 6.));
         trackHighPurity->setHighPurity(true);
         trackLowPurity->setHighPurity(false);
         for (unsigned int index = 0; index < 20; ++index) {
@@ -287,11 +296,13 @@ private:
         customEvent.passesJetCuts = true;
         customEvent.passesMuon = true;
         customEvent.passesZveto = true;
+        customEvent.passConversionPartnerTrack = true;
         assert(customEvent.passesScrapingFilter());
         assert(customEvent.passesSelectionStep(TTbarEPlusJetsSelection::FilterOutScraping));
         assert(customEvent.passesHighLevelTrigger());
         assert(customEvent.passesSelectionStep(TTbarEPlusJetsSelection::HighLevelTrigger));
         assert(customEvent.isolatedElectronDoesNotComeFromConversion() == false);
+        assert(customEvent.isolatedElectronNotTaggedAsFromConversion());
         assert(customEvent.hasOneGoodPrimaryVertex());
         assert(customEvent.hasOnlyOneGoodIsolatedElectron());
         assert(customEvent.hasNoIsolatedMuon());
