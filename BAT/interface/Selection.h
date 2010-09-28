@@ -10,6 +10,7 @@ enum Step {
     GoodPrimaryvertex,
     OneIsolatedElectron,
     ConversionRejection,
+    ConversionFinder,
     LooseMuonVeto,
     Zveto,
     AtLeastFourGoodJets,
@@ -21,7 +22,8 @@ const std::string StringSteps[NUMBER_OF_SELECTION_STEPS] = {
         "High Level Trigger",
         "good primary vertex",
         "exactly one isolated electron",
-        "Conversion veto",
+        "Conversion veto (missing hits)",
+        "Conversion finder (partner track)",
         "loose muon veto",
         "Z veto",
         ">= 4 jets" };
