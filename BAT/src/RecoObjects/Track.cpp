@@ -11,55 +11,55 @@ namespace BAT {
 const double Track::BFIELD = 3.8;
 
 Track::Track() :
-    Particle(), highPurity(false) {
+    PseudoParticle(), highPurity(false) {
 
 }
 
 Track::Track(const Track& track) :
-    Particle((Particle) track), highPurity(false) {
+    PseudoParticle((PseudoParticle) track), highPurity(track.highPurity) {
 
 }
 
-Track::Track(float energy, float px, float py, float pz) :
-    Particle(energy, px, py, pz), highPurity(false) {
+Track::Track(float phi, float eta, float pt, float theta) :
+    PseudoParticle(phi, eta, pt, theta), highPurity(false) {
 
 }
 
 Track::~Track() {
 }
 
-double Track::curvature(double BField) const{
-    return -0.3*BField*charge()/pt()/100.;
+double Track::curvature(double BField) const {
+    return -0.3 * BField * charge() / pt() / 100.;
 }
 
-double Track::radius(double Bfield) const{
-    return fabs(1/curvature(Bfield));
+double Track::radius(double Bfield) const {
+    return fabs(1 / curvature(Bfield));
 }
 
-double Track::x(double Bfield) const{
-    return (d0()-radius(Bfield))*sin(phi());
+double Track::x(double Bfield) const {
+    return (d0() - radius(Bfield)) * sin(phi());
 }
 
-double Track::y(double Bfield) const{
-    return (radius(Bfield) - d0())*cos(phi());
+double Track::y(double Bfield) const {
+    return (radius(Bfield) - d0()) * cos(phi());
 }
 
-double Track::deltaCotTheta(const TrackPointer otherTrack) const{
-    return fabs(1/tan(theta()) - 1/tan(otherTrack->theta()));
+double Track::deltaCotTheta(const TrackPointer otherTrack) const {
+    return fabs(1 / tan(theta()) - 1 / tan(otherTrack->theta()));
 }
 
-double Track::distance(const TrackPointer otherTrack, double BField) const{
+double Track::distance(const TrackPointer otherTrack, double BField) const {
     double dx = x(BField) - otherTrack->x(BField);
     double dy = y(BField) - otherTrack->y(BField);
-    double dist = sqrt(pow(dx, 2) + pow(dy,2));
+    double dist = sqrt(pow(dx, 2) + pow(dy, 2));
     return fabs(dist - (radius(BField) + otherTrack->radius(BField)));
 }
 
-void Track::setHighPurity(bool isPure){
+void Track::setHighPurity(bool isPure) {
     highPurity = isPure;
 }
 
-bool Track::isHighPurity() const{
+bool Track::isHighPurity() const {
     return highPurity;
 }
 

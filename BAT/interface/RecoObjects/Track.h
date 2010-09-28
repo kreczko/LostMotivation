@@ -7,7 +7,7 @@
 
 #ifndef TRACK_H_
 #define TRACK_H_
-#include "Particle.h"
+#include "PseudoParticle.h"
 #include <boost/shared_ptr.hpp>
 #include <vector>
 
@@ -16,14 +16,14 @@ class Track;
 typedef boost::shared_ptr<Track> TrackPointer;
 typedef std::vector<TrackPointer> TrackCollection;
 
-class Track: public Particle {
+class Track : public PseudoParticle{
 private:
     static const double BFIELD;
     bool highPurity;
 public:
     Track();
     Track(const Track& other);
-    Track(float energy, float px, float py, float pz);
+    Track(float phi, float eta, float pt, float theta);
     virtual ~Track();
     double curvature(double Bfield = BFIELD) const;
     double distance(const TrackPointer otherTrack, double Bfield = BFIELD) const;
