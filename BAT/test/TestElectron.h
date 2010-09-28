@@ -744,6 +744,12 @@ public:
         ASSERT_EQUAL(true, goodElectron.isGood());
     }
 
+    void testGSFTrack(){
+        TrackPointer track = TrackPointer(new Track(20,20,0,0));
+        goodElectron.setGSFTrack(track);
+        ASSERT_EQUAL(track, goodElectron.GSFTrack());
+    }
+
 };
 extern cute::suite make_suite_TestElectron() {
     cute::suite s;
@@ -813,5 +819,6 @@ extern cute::suite make_suite_TestElectron() {
     s.push_back(CUTE_SMEMFUN(TestElectron, testSwissCrossBarrel));
     s.push_back(CUTE_SMEMFUN(TestElectron, testSwissCrossEndcap));
     s.push_back(CUTE_SMEMFUN(TestElectron, testSwissCrossNotEcalDriven));
+    s.push_back(CUTE_SMEMFUN(TestElectron, testGSFTrack));
     return s;
 }
