@@ -15,9 +15,10 @@ namespace BAT {
 class TrackReader {
 private:
     VariableReader<unsigned int> numberOfTracksReader;
-    VariableReader<MultiFloatPointer> pxReader;
-    VariableReader<MultiFloatPointer> pyReader;
-    VariableReader<MultiFloatPointer> pzReader;
+    VariableReader<MultiFloatPointer> phiReader;
+    VariableReader<MultiFloatPointer> etaReader;
+    VariableReader<MultiFloatPointer> ptReader;
+    VariableReader<MultiFloatPointer> thetaReader;
     VariableReader<MultiFloatPointer> chargeReader;
     VariableReader<MultiFloatPointer> d0Reader;
     VariableReader<MultiFloatPointer> highPurityReader;

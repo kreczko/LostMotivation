@@ -10,14 +10,15 @@
 namespace BAT {
 
 TrackReader::TrackReader() :
-    numberOfTracksReader(), pxReader(), pyReader(), pzReader(), chargeReader(), d0Reader(), highPurityReader() {
+    numberOfTracksReader(), phiReader(), etaReader(), ptReader(), thetaReader(), chargeReader(), d0Reader(),
+            highPurityReader() {
 
 }
 
 TrackReader::TrackReader(TChainPointer input) :
-    numberOfTracksReader(input, "Ntracks"), pxReader(input, "tracks_px"), pyReader(input, "tracks_py"), pzReader(input,
-            "tracks_pz"), chargeReader(input, "tracks_chg"), d0Reader(input, "tracks_d0dum"), highPurityReader(input,
-            "tracks_highPurity") {
+    numberOfTracksReader(input, "Ntracks"), phiReader(input, "tracks_phi"), etaReader(input, "tracks_eta"), ptReader(
+            input, "tracks_pt"), thetaReader(input, "tracks_theta"), chargeReader(input, "tracks_chg"), d0Reader(input,
+            "tracks_d0dum"), highPurityReader(input, "tracks_highPurity") {
 
 }
 
@@ -34,11 +35,11 @@ const TrackCollection& TrackReader::getTracks() {
 void TrackReader::readTracks() {
     unsigned int numberOfTracks = numberOfTracksReader.getVariable();
     for (unsigned int index = 0; index < numberOfTracks; index++) {
-        float px = pxReader.getVariableAt(index);
-        float py = pyReader.getVariableAt(index);
-        float pz = pzReader.getVariableAt(index);
-        float energy = sqrt(px * px + py * py + pz * pz);
-        TrackPointer track(new Track(energy, px, py, pz));
+        float phi = phiReader.getVariableAt(index);
+        float eta = etaReader.getVariableAt(index);
+        float pt = ptReader.getVariableAt(index);
+        float theta = thetaReader.getVariableAt(index);
+        TrackPointer track(new Track(phi, eta, pt, theta));
         track->setCharge(chargeReader.getVariableAt(index));
         track->setD0(d0Reader.getVariableAt(index));
         track ->setHighPurity(highPurityReader.getVariableAt(index) > 0);
@@ -49,9 +50,10 @@ void TrackReader::readTracks() {
 
 void TrackReader::initialise() {
     numberOfTracksReader.initialise();
-    pxReader.initialise();
-    pyReader.initialise();
-    pzReader.initialise();
+    phiReader.initialise();
+    etaReader.initialise();
+    ptReader.initialise();
+    thetaReader.initialise();
     chargeReader.initialise();
     d0Reader.initialise();
     highPurityReader.initialise();
