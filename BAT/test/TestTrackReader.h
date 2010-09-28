@@ -54,8 +54,8 @@ public:
         ASSERT_EQUAL(121, tracks.size());
     }
 
-    void testReadFirstTrackEnergy() {
-        ASSERT_EQUAL_DELTA(4.31973, firstTrack->energy(), 0.0001);
+    void testReadFirstTrackPhi() {
+        ASSERT_EQUAL(true, fabs(firstTrack->phi()) < 2*TMath::Pi()+0.1);
     }
 
     void testFirstTrackCharge() {
@@ -66,14 +66,14 @@ public:
         ASSERT_EQUAL_DELTA(-0.0156184, firstTrack->d0(), 0.0000001);
     }
 
-    void testFirstTrackIsHighPurity(){
+    void testFirstTrackIsHighPurity() {
         ASSERT_EQUAL(true, firstTrack->isHighPurity());
     }
 
-    void testNumberOfHighPurityTracks(){
+    void testNumberOfHighPurityTracks() {
         unsigned int numberOfHighPurityTracks = 0;
-        for(unsigned int index = 0; index < tracks.size(); ++ index){
-            if(tracks.at(index)->isHighPurity())
+        for (unsigned int index = 0; index < tracks.size(); ++index) {
+            if (tracks.at(index)->isHighPurity())
                 numberOfHighPurityTracks++;
         }
         ASSERT_EQUAL(111, numberOfHighPurityTracks);
@@ -83,7 +83,7 @@ public:
 extern cute::suite make_suite_TestTrackReader() {
     cute::suite s;
     s.push_back(CUTE_SMEMFUN(TestTrackReader, testReadTracksSize));
-    s.push_back(CUTE_SMEMFUN(TestTrackReader, testReadFirstTrackEnergy));
+    s.push_back(CUTE_SMEMFUN(TestTrackReader, testReadFirstTrackPhi));
     s.push_back(CUTE_SMEMFUN(TestTrackReader, testFirstTrackCharge));
     s.push_back(CUTE_SMEMFUN(TestTrackReader, testFirstTrackD0));
     s.push_back(CUTE_SMEMFUN(TestTrackReader, testFirstTrackIsHighPurity));
