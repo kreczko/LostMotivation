@@ -29,9 +29,9 @@ public:
         input->AddFriend(input2.get());
         input->AddFriend(input3.get());
 
-        input->Add("/storage/top/mc/V4/MG/e20skim_ttjet/e20skim_nTuple_ttjet_f_1.root");
-        input2->Add("/storage/top/mc/V4/MG/e20skim_ttjet/e20skim_nTuple_ttjet_f_1.root");
-        input3->Add("/storage/top/mc/V4/MG/e20skim_ttjet/e20skim_nTuple_ttjet_f_1.root");
+        input->Add("/storage/top/mc/spring10_7TeV_v5/MG/e20skim_ttjet/*_1_*.root");
+        input2->Add("/storage/top/mc/spring10_7TeV_v5/MG/e20skim_ttjet/*_1_*.root");
+        input3->Add("/storage/top/mc/spring10_7TeV_v5/MG/e20skim_ttjet/*_1_*.root");
 
         input->LoadTree(1);
         input->SetBranchStatus("*", 0);
@@ -46,40 +46,40 @@ public:
     }
 
     void testReadElectronsSize() {
-        ASSERT_EQUAL(6, electrons.size());
+        ASSERT_EQUAL(3, electrons.size());
     }
 
     void testReadFirstElectronEnergy() {
-        ASSERT_EQUAL_DELTA(38.7786, firstElectron->energy(), 0.0001);
+        ASSERT_EQUAL_DELTA(41.9839, firstElectron->energy(), 0.0001);
     }
 
     void testReadFirstElectronIsIsolated() {
-        ASSERT(firstElectron->isIsolated());
+        ASSERT_EQUAL(false, firstElectron->isIsolated());
     }
 
     void testReadFirstElectronIsIsolatedAfterChangingCut() {
-        Electron::isolatedElectronMaximalRelativeIsolation = 0.00001;
-        ASSERT(firstElectron->isIsolated() == false);
+        Electron::isolatedElectronMaximalRelativeIsolation = 10.2;
+        ASSERT_EQUAL(true, firstElectron->isIsolated());
     }
 
     void testFirstElectronSigmaEtaEta() {
-        ASSERT_EQUAL_DELTA(0.00902937, firstElectron->sigmaIEtaIEta(), 0.0000001);
+        ASSERT_EQUAL_DELTA(0.012469, firstElectron->sigmaIEtaIEta(), 0.0000001);
     }
 
     void testFirstElectronDPhiIn() {
-        ASSERT_EQUAL_DELTA(0.00104798, firstElectron->dPhiIn(), 0.0000001);
+        ASSERT_EQUAL_DELTA(-0.0144136, firstElectron->dPhiIn(), 0.0000001);
     }
 
     void testFirstElectronDEtaIn() {
-        ASSERT_EQUAL_DELTA(0.000115712, firstElectron->dEtaIn(), 0.0000001);
+        ASSERT_EQUAL_DELTA(0.00348282, firstElectron->dEtaIn(), 0.0000001);
     }
 
     void testFirstElectronHadOverEm() {
-        ASSERT_EQUAL_DELTA(0., firstElectron->HadOverEm(), 0.0000001);
+        ASSERT_EQUAL_DELTA(0.0397068, firstElectron->HadOverEm(), 0.0000001);
     }
 
     void testFirstElectronIsEcalDriven() {
-        ASSERT_EQUAL(true, firstElectron->isEcalDriven());
+        ASSERT_EQUAL(false, firstElectron->isEcalDriven());
     }
 
     void testFirstElectronIsTrackerDriven() {
@@ -91,15 +91,53 @@ public:
     }
 
     void testFirstElectronD0() {
-        ASSERT_EQUAL_DELTA(-0.000193891, firstElectron->d0(), 0.000000001);
+        ASSERT_EQUAL_DELTA(0.00162675, firstElectron->d0(), 0.00000001);
     }
 
     void testFirstElectronSwissCross() {
-        ASSERT_EQUAL_DELTA(0.706935, firstElectron->swissCross(), 0.000001);
+        ASSERT_EQUAL_DELTA(0, firstElectron->swissCross(), 0.000001);
     }
 
     void testEcalSpikeBranchNumberOfElectrons() {
         ASSERT_EQUAL(numberOfElectronsReader->getVariable(), electrons.size());
+    }
+
+    void testShFracInnerHits() {
+        ASSERT_EQUAL(1, firstElectron->shFracInnerLayer());
+    }
+
+    void testGSFTrack() {
+        const TrackPointer track = firstElectron->GSFTrack();
+        ASSERT_EQUAL(track->charge(), firstElectron->charge());
+    }
+
+    void testGSFTrackPhi() {
+        const TrackPointer track = firstElectron->GSFTrack();
+        ASSERT_EQUAL_DELTA(-3.0978, track->phi(), 0.00001);
+    }
+
+    void testGSFTrackEta() {
+        const TrackPointer track = firstElectron->GSFTrack();
+        ASSERT_EQUAL_DELTA(-1.09247, track->eta(), 0.00001);
+    }
+
+    void testGSFTrackPt() {
+        const TrackPointer track = firstElectron->GSFTrack();
+        ASSERT_EQUAL_DELTA(10.7464, track->pt(), 0.0001);
+    }
+
+    void testGSFTrackTheta() {
+        const TrackPointer track = firstElectron->GSFTrack();
+        ASSERT_EQUAL_DELTA(2.4944, track->theta(), 0.00001);
+    }
+
+    void testClosestCTFTrackID() {
+        ASSERT_EQUAL(59, firstElectron->closestCTFTrackID());
+    }
+
+    void testTRackd0(){
+        const TrackPointer track = firstElectron->GSFTrack();
+        ASSERT_EQUAL(firstElectron->d0(), track->d0());
     }
 };
 extern cute::suite make_suite_TestElectronReader() {
@@ -118,5 +156,12 @@ extern cute::suite make_suite_TestElectronReader() {
     s.push_back(CUTE_SMEMFUN(TestElectronReader, testFirstElectronD0));
     s.push_back(CUTE_SMEMFUN(TestElectronReader, testFirstElectronSwissCross));
     s.push_back(CUTE_SMEMFUN(TestElectronReader, testEcalSpikeBranchNumberOfElectrons));
+    s.push_back(CUTE_SMEMFUN(TestElectronReader, testShFracInnerHits));
+    s.push_back(CUTE_SMEMFUN(TestElectronReader, testGSFTrack));
+    s.push_back(CUTE_SMEMFUN(TestElectronReader, testGSFTrackPhi));
+    s.push_back(CUTE_SMEMFUN(TestElectronReader, testGSFTrackEta));
+    s.push_back(CUTE_SMEMFUN(TestElectronReader, testGSFTrackPt));
+    s.push_back(CUTE_SMEMFUN(TestElectronReader, testGSFTrackTheta));
+    s.push_back(CUTE_SMEMFUN(TestElectronReader, testClosestCTFTrackID));
     return s;
 }
