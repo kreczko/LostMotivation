@@ -13,8 +13,8 @@ namespace BAT {
 
 DummyTTbarEvent::DummyTTbarEvent() :
     BAT::TopPairEventCandidate(), passScraping(false), passHLT(false), passPV(false), passElectronCut(false),
-            passConversion(false), passesMuon(false), passesJetCuts(false), passesZveto(false), useCustomReturnValues(
-                    false) {
+            passConversion(false), passConversionPartnerTrack(false), passesMuon(false), passesJetCuts(false),
+            passesZveto(false), useCustomReturnValues(false) {
 
 }
 
@@ -58,6 +58,13 @@ bool DummyTTbarEvent::isolatedElectronDoesNotComeFromConversion() const {
         return passConversion;
     else
         return TopPairEventCandidate::isolatedElectronDoesNotComeFromConversion();
+}
+
+bool DummyTTbarEvent::isolatedElectronNotTaggedAsFromConversion() const {
+    if (useCustomReturnValues)
+        return passConversionPartnerTrack;
+    else
+        return TopPairEventCandidate::isolatedElectronNotTaggedAsFromConversion();
 }
 
 bool DummyTTbarEvent::hasNoIsolatedMuon() const {
@@ -104,6 +111,8 @@ bool DummyTTbarEvent::passesSelectionStep(enum TTbarEPlusJetsSelection::Step ste
         return hasOnlyOneGoodIsolatedElectron();
     case TTbarEPlusJetsSelection::ConversionRejection:
         return isolatedElectronDoesNotComeFromConversion();
+    case TTbarEPlusJetsSelection::ConversionFinder:
+        return isolatedElectronNotTaggedAsFromConversion();
     case TTbarEPlusJetsSelection::LooseMuonVeto:
         return hasNoIsolatedMuon();
     case TTbarEPlusJetsSelection::AtLeastFourGoodJets:

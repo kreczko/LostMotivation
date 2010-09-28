@@ -34,14 +34,16 @@ TopPairEventCandidate::TopPairEventCandidate() :
     Event(), electronFromW(), leptonicBJet(), hadronicBJet(), jet1FromW(), jet2FromW(), neutrino1(), neutrino2(),
             leptonicW1(), leptonicW2(), hadronicW(), leptonicTop1(), leptonicTop2(), hadronicTop(),
             selectedNeutrino(0), currentSelectedNeutrino(0), hadronicBIndex(0), leptonicBIndex(0), jet1FromWIndex(0),
-            jet2FromWIndex(0), doneReconstruction(false) {
+            jet2FromWIndex(0), doneReconstruction(false), conversionTagger(new ConversionTagger()),
+            doneConversionTagging(false) {
 }
 
 TopPairEventCandidate::TopPairEventCandidate(const Event& event) :
     Event(event), electronFromW(), leptonicBJet(), hadronicBJet(), jet1FromW(), jet2FromW(), neutrino1(), neutrino2(),
             leptonicW1(), leptonicW2(), hadronicW(), leptonicTop1(), leptonicTop2(), hadronicTop(),
             selectedNeutrino(0), currentSelectedNeutrino(0), hadronicBIndex(0), leptonicBIndex(0), jet1FromWIndex(0),
-            jet2FromWIndex(0), doneReconstruction(false) {
+            jet2FromWIndex(0), doneReconstruction(false), conversionTagger(new ConversionTagger()),
+            doneConversionTagging(false) {
 
 }
 
@@ -72,7 +74,6 @@ bool TopPairEventCandidate::passesHighLevelTrigger() const {
             return false;
     } else
         return HLT_Emulated_Photon15;
-    //    return true;
 }
 
 bool TopPairEventCandidate::hasOneGoodPrimaryVertex() const {
@@ -91,6 +92,18 @@ bool TopPairEventCandidate::isolatedElectronDoesNotComeFromConversion() const {
         return goodIsolatedElectrons.front()->isFromConversion() == false;
     else
         return false;
+}
+
+bool TopPairEventCandidate::isolatedElectronNotTaggedAsFromConversion() const{
+    if (goodIsolatedElectrons.size() > 0) {
+        if (doneConversionTagging == false) {
+            conversionTagger->calculateConversionVariables(goodIsolatedElectrons.front(), tracks, 3.8, 0.45);
+        }
+        return conversionTagger->isFromConversion(0.02, 0.02) == false;
+
+    } else
+        return false;
+
 }
 
 bool TopPairEventCandidate::hasNoIsolatedMuon() const {
@@ -162,6 +175,8 @@ bool TopPairEventCandidate::passesSelectionStep(enum TTbarEPlusJetsSelection::St
         return hasOnlyOneGoodIsolatedElectron();
     case TTbarEPlusJetsSelection::ConversionRejection:
         return isolatedElectronDoesNotComeFromConversion();
+    case TTbarEPlusJetsSelection::ConversionFinder:
+        return isolatedElectronNotTaggedAsFromConversion();
     case TTbarEPlusJetsSelection::LooseMuonVeto:
         return hasNoIsolatedMuon();
     case TTbarEPlusJetsSelection::AtLeastFourGoodJets:
@@ -594,13 +609,13 @@ double TopPairEventCandidate::fullHT() const {
     return ht;
 }
 
-double TopPairEventCandidate::transverseWmass() const{
+double TopPairEventCandidate::transverseWmass() const {
     const ElectronPointer electron = goodIsolatedElectrons.front();
     double energySquared = pow(electron->et() + met->et(), 2);
     double momentumSquared = pow(electron->px() + met->px(), 2) + pow(electron->py() + met->py(), 2);
     double tMassSquared = energySquared - momentumSquared;
 
-    if(tMassSquared > 0)
+    if (tMassSquared > 0)
         return sqrt(tMassSquared);
     else
         return -1;

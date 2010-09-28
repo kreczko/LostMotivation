@@ -17,14 +17,15 @@ public:
     DummyTTbarEvent();
     virtual ~DummyTTbarEvent();
     void setElectronFromW(const ElectronPointer electron);
-    bool passScraping, passHLT, passPV, passElectronCut, passConversion, passesMuon, passesJetCuts, passesZveto,
-            useCustomReturnValues;
+    bool passScraping, passHLT, passPV, passElectronCut, passConversion, passConversionPartnerTrack, passesMuon,
+            passesJetCuts, passesZveto, useCustomReturnValues;
 
     bool passesScrapingFilter() const;
     bool passesHighLevelTrigger() const;
     bool hasOneGoodPrimaryVertex() const;
     bool hasOnlyOneGoodIsolatedElectron() const;
     bool isolatedElectronDoesNotComeFromConversion() const;
+    bool isolatedElectronNotTaggedAsFromConversion() const;
     bool hasNoIsolatedMuon() const;
     bool hasAtLeastFourGoodJets() const;
 
