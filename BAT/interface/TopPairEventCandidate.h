@@ -14,6 +14,8 @@
 #include "RecoObjects/Particle.h"
 #include "RecoObjects/Electron.h"
 #include "RecoObjects/Jet.h"
+#include "Selection.h"
+#include "Taggers/ConversionTagger.h"
 
 namespace BAT {
 
@@ -56,6 +58,8 @@ protected:
     unsigned short selectedNeutrino, currentSelectedNeutrino, hadronicBIndex, leptonicBIndex, jet1FromWIndex,
             jet2FromWIndex;
     bool doneReconstruction;
+    ConversionTaggerPointer conversionTagger;
+    bool doneConversionTagging;
 public:
     static NeutrinoSelectionCriterion::value usedNeutrinoSelection;
     TopPairEventCandidate();
@@ -83,6 +87,7 @@ public:
     bool hasOneGoodPrimaryVertex() const;
     bool hasOnlyOneGoodIsolatedElectron() const;
     bool isolatedElectronDoesNotComeFromConversion() const;
+    bool isolatedElectronNotTaggedAsFromConversion() const;
     bool hasNoIsolatedMuon() const;
 
     bool hasAtLeastOneGoodJet() const;
@@ -119,6 +124,7 @@ public:
     bool hasNextJetCombination();
     void selectNextJetCombination();
     void inspectReconstructedEvent() const;
+    unsigned int NJet() const;
 protected:
     void throwExpeptionIfNotReconstructed() const;
     void selectNeutrinoSolution();
