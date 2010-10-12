@@ -22,7 +22,9 @@ class Event {
 protected:
     bool HLT_Photon10_TO20, HLT_Photon15_TO20, HLT_Photon15_Cleaned_TO20, HLT_Emulated_Photon15,
             HLT_Photon20_Cleaned_L1R, HLT_Emulated_Photon20;
-    PrimaryVertex primaryVertex;
+    bool HLT_Ele10_LW_L1R,  HLT_Ele15_SW_L1R, HLT_Ele15_SW_CaloEleId_L1R, HLT_Ele17_SW_CaloEleId_L1R;
+    bool HLT_Ele17_SW_TightEleId_L1R;
+    PrimaryVertexPointer primaryVertex;
     TrackCollection tracks;
     ElectronCollection allElectrons;
     ElectronCollection goodElectrons;
@@ -55,7 +57,7 @@ public:
     bool isRealData() const;
     const DataType::value getDataType() const;
     void setDataType(DataType::value type);
-    void setPrimaryVertex(PrimaryVertex vertex);
+    void setPrimaryVertex(PrimaryVertexPointer vertex);
     void setTracks(TrackCollection tracks);
     void setElectrons(ElectronCollection electrons);
     void setJets(JetCollection electrons);
@@ -67,13 +69,18 @@ public:
     void setHLT_Emulated_Photon15(bool hltTrigger);
     void setHLT_Photon20_Cleaned_L1R(bool hltTrigger);
     void setHLT_Emulated_Photon20(bool hltTrigger);
+    void setHLT_Ele10_LW_L1R(bool hltTrigger);
+    void setHLT_Ele15_SW_L1R(bool hltTrigger);
+    void setHLT_Ele15_SW_CaloEleId_L1R(bool hltTrigger);
+    void setHLT_Ele17_SW_CaloEleId_L1R(bool hltTrigger);
+    void setHLT_Ele17_SW_TightEleId_L1R(bool hltTrigger);
     void setRunNumber(unsigned long number);
     void setEventNumber(unsigned long number);
     void setLocalEventNumber(unsigned long number);
     void setLumiBlock(unsigned long block);
     void setEventWeight(float weight);
 
-    const PrimaryVertex& getPrimaryVertex() const;
+    const PrimaryVertexPointer getPrimaryVertex() const;
     const TrackCollection& getTracks() const;
     const ElectronCollection& getElectrons() const;
     const ElectronCollection& getGoodElectrons() const;

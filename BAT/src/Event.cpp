@@ -13,11 +13,22 @@ using namespace std;
 namespace BAT {
 
 Event::Event() :
-    HLT_Photon10_TO20(false), HLT_Photon15_TO20(false), HLT_Photon15_Cleaned_TO20(false), HLT_Emulated_Photon15(false),
-            HLT_Photon20_Cleaned_L1R(false), HLT_Emulated_Photon20(false), primaryVertex(), tracks(), allElectrons(),
-            goodElectrons(), goodIsolatedElectrons(), looseElectrons(), allJets(), goodJets(), goodBJets(), allMuons(),
-            goodMuons(), goodIsolatedMuons(), met(), dataType(DataType::DATA), runNumber(0), eventNumber(0), lumiBlock(
-                    0), eventWeight(1.), jetCleaningEfficiency(1.), numberOfHighPurityTracks(0) {
+    HLT_Photon10_TO20(false),
+    HLT_Photon15_TO20(false),
+    HLT_Photon15_Cleaned_TO20(false),
+    HLT_Emulated_Photon15(false),
+    HLT_Photon20_Cleaned_L1R(false),
+    HLT_Emulated_Photon20(false),
+    HLT_Ele10_LW_L1R(false),
+    HLT_Ele15_SW_L1R(false),
+    HLT_Ele15_SW_CaloEleId_L1R(false),
+    HLT_Ele17_SW_CaloEleId_L1R(false),
+    HLT_Ele17_SW_TightEleId_L1R(false),
+    primaryVertex(),
+    tracks(), allElectrons(), goodElectrons(), goodIsolatedElectrons(), looseElectrons(), allJets(),
+            goodJets(), goodBJets(), allMuons(), goodMuons(), goodIsolatedMuons(), met(), dataType(DataType::DATA),
+            runNumber(0), eventNumber(0), lumiBlock(0), eventWeight(1.), jetCleaningEfficiency(1.),
+            numberOfHighPurityTracks(0) {
 
 }
 
@@ -36,7 +47,7 @@ void Event::setDataType(DataType::value type) {
     dataType = type;
 }
 
-void Event::setPrimaryVertex(PrimaryVertex vertex) {
+void Event::setPrimaryVertex(PrimaryVertexPointer vertex) {
     primaryVertex = vertex;
 }
 
@@ -60,12 +71,14 @@ void Event::selectElectronsByQuality() {
     goodIsolatedElectrons.clear();
     for (unsigned int index = 0; index < allElectrons.size(); ++index) {
         ElectronPointer electron = allElectrons.at(index);
+        electron->setZDistanceToPrimaryVertex(fabs(electron->vz() - primaryVertex->z()));
 
         if (electron->isGood())
             goodElectrons.push_back(electron);
 
         if (electron->isGood() && electron->isIsolated())
             goodIsolatedElectrons.push_back(electron);
+
         if (electron->isGood() == false && electron->isLoose())
             looseElectrons.push_back(electron);
     }
@@ -181,6 +194,26 @@ void Event::setHLT_Emulated_Photon20(bool hltTrigger) {
     HLT_Emulated_Photon20 = hltTrigger;
 }
 
+void Event::setHLT_Ele10_LW_L1R(bool hltTrigger){
+    HLT_Ele10_LW_L1R = hltTrigger;
+}
+
+void Event::setHLT_Ele15_SW_L1R(bool hltTrigger){
+    HLT_Ele15_SW_L1R = hltTrigger;
+}
+
+void Event::setHLT_Ele15_SW_CaloEleId_L1R(bool hltTrigger){
+    HLT_Ele15_SW_CaloEleId_L1R = hltTrigger;
+}
+
+void Event::setHLT_Ele17_SW_CaloEleId_L1R(bool hltTrigger){
+    HLT_Ele17_SW_CaloEleId_L1R = hltTrigger;
+}
+
+void Event::setHLT_Ele17_SW_TightEleId_L1R(bool hltTrigger){
+    HLT_Ele17_SW_TightEleId_L1R = hltTrigger;
+}
+
 void Event::setMET(const METPointer met) {
     this->met = met;
 }
@@ -205,7 +238,7 @@ void Event::setEventWeight(float weight) {
     eventWeight = weight;
 }
 
-const PrimaryVertex& Event::getPrimaryVertex() const {
+const PrimaryVertexPointer Event::getPrimaryVertex() const {
     return primaryVertex;
 }
 
