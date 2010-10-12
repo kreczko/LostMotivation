@@ -16,8 +16,8 @@ static const float MaximalAbsoluteEta = 1.442;
 }
 
 namespace Crack {
-static const float MinimalAbsoluteEta = 1.442;
-static const float MaximalAbsoluteEta = 1.56;
+static const float MinimalAbsoluteEta = 1.4442;
+static const float MaximalAbsoluteEta = 1.5660;
 }
 
 namespace EndCap {
