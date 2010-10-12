@@ -16,9 +16,14 @@ TrackReader::TrackReader() :
 }
 
 TrackReader::TrackReader(TChainPointer input) :
-    numberOfTracksReader(input, "Ntracks"), phiReader(input, "tracks_phi"), etaReader(input, "tracks_eta"), ptReader(
-            input, "tracks_pt"), thetaReader(input, "tracks_theta"), chargeReader(input, "tracks_chg"), d0Reader(input,
-            "tracks_d0dum"), highPurityReader(input, "tracks_highPurity") {
+    numberOfTracksReader(input, "Ntracks"),
+    phiReader(input, "tracks_phi"),
+    etaReader(input, "tracks_eta"),
+    ptReader(input, "tracks_pt"),
+    thetaReader(input, "tracks_theta"),
+    chargeReader(input, "tracks_chg"),
+    d0Reader(input, "tracks_d0dum"),
+    highPurityReader(input, "tracks_highPurity") {
 
 }
 

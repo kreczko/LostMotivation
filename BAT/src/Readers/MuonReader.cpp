@@ -16,10 +16,15 @@ MuonReader::MuonReader() :
 }
 
 MuonReader::MuonReader(TChainPointer input) :
-	numberOfMuonsReader(input, "Nmus"), energyReader(input, "mus_energy"), pxReader(input, "mus_px"), pyReader(input,
-			"mus_py"), pzReader(input, "mus_pz"), ecalIsolationReader(input, "mus_iso03_emEt"), hcalIsolationReader(
-			input, "mus_iso03_hadEt"), trackerIsolationReader(input, "mus_iso03_sumPt"), isGlobalReader(input,
-			"mus_id_AllGlobalMuons") {
+	numberOfMuonsReader(input, "Nmus"),
+	energyReader(input, "mus_energy"),
+	pxReader(input, "mus_px"),
+	pyReader(input, "mus_py"),
+	pzReader(input, "mus_pz"),
+	ecalIsolationReader(input, "mus_iso03_emEt"),
+	hcalIsolationReader(input, "mus_iso03_hadEt"),
+	trackerIsolationReader(input, "mus_iso03_sumPt"),
+	isGlobalReader(input, "mus_id_AllGlobalMuons") {
 
 }
 
