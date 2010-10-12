@@ -51,7 +51,7 @@ public:
     }
 
     void testStandardAlgorithm() {
-        ASSERT_EQUAL(MET::DEFAULT, goodMET.getUsedAlgorithm());
+        ASSERT_EQUAL(MET::Calo, goodMET.getUsedAlgorithm());
     }
 };
 
