@@ -12,9 +12,20 @@ using namespace std;
 namespace BAT {
 
 DummyTTbarEvent::DummyTTbarEvent() :
-    BAT::TopPairEventCandidate(), passScraping(false), passHLT(false), passPV(false), passElectronCut(false),
-            passConversion(false), passConversionPartnerTrack(false), passesMuon(false), passesJetCuts(false),
-            passesZveto(false), useCustomReturnValues(false) {
+    BAT::TopPairEventCandidate(), 
+    passScraping(false), 
+    passHLT(false), 
+    passPV(false),
+    passElectronCut(false),
+    passConversion(false), 
+    passConversionPartnerTrack(false), 
+    passesMuon(false), 
+    passes1JetCut(false),
+    passes2JetCut(false),
+    passes3JetCut(false),
+    passes4JetCut(false),
+    passesZveto(false), 
+    useCustomReturnValues(false) {
 
 }
 
@@ -73,10 +84,30 @@ bool DummyTTbarEvent::hasNoIsolatedMuon() const {
     else
         return TopPairEventCandidate::hasNoIsolatedMuon();
 }
+bool DummyTTbarEvent::hasAtLeastOneGoodJet() const {
+    if (useCustomReturnValues)
+        return passes1JetCut;
+    else
+        return TopPairEventCandidate::hasAtLeastOneGoodJet();
+}
+
+bool DummyTTbarEvent::hasAtLeastTwoGoodJets() const {
+    if (useCustomReturnValues)
+        return passes2JetCut;
+    else
+        return TopPairEventCandidate::hasAtLeastTwoGoodJets();
+}
+
+bool DummyTTbarEvent::hasAtLeastThreeGoodJets() const {
+    if (useCustomReturnValues)
+        return passes3JetCut;
+    else
+        return TopPairEventCandidate::hasAtLeastThreeGoodJets();
+}
 
 bool DummyTTbarEvent::hasAtLeastFourGoodJets() const {
     if (useCustomReturnValues)
-        return passesJetCuts;
+        return passes4JetCut;
     else
         return TopPairEventCandidate::hasAtLeastFourGoodJets();
 }
@@ -101,26 +132,32 @@ bool DummyTTbarEvent::passesNMinus1(enum TTbarEPlusJetsSelection::Step omitted) 
 
 bool DummyTTbarEvent::passesSelectionStep(enum TTbarEPlusJetsSelection::Step step) const {
     switch (step) {
-    case TTbarEPlusJetsSelection::FilterOutScraping:
-        return passesScrapingFilter();
-    case TTbarEPlusJetsSelection::HighLevelTrigger:
-        return passesHighLevelTrigger();
-    case TTbarEPlusJetsSelection::GoodPrimaryvertex:
-        return hasOneGoodPrimaryVertex();
-    case TTbarEPlusJetsSelection::OneIsolatedElectron:
-        return hasOnlyOneGoodIsolatedElectron();
-    case TTbarEPlusJetsSelection::ConversionRejection:
-        return isolatedElectronDoesNotComeFromConversion();
-    case TTbarEPlusJetsSelection::ConversionFinder:
-        return isolatedElectronNotTaggedAsFromConversion();
-    case TTbarEPlusJetsSelection::LooseMuonVeto:
-        return hasNoIsolatedMuon();
-    case TTbarEPlusJetsSelection::AtLeastFourGoodJets:
-        return hasAtLeastFourGoodJets();
-    case TTbarEPlusJetsSelection::Zveto:
-        return isNotAZBosonEvent();
-    default:
-        return false;
+        case TTbarEPlusJetsSelection::FilterOutScraping:
+            return passesScrapingFilter();
+        case TTbarEPlusJetsSelection::HighLevelTrigger:
+            return passesHighLevelTrigger();
+        case TTbarEPlusJetsSelection::GoodPrimaryvertex:
+            return hasOneGoodPrimaryVertex();
+        case TTbarEPlusJetsSelection::OneIsolatedElectron:
+            return hasOnlyOneGoodIsolatedElectron();
+        case TTbarEPlusJetsSelection::ConversionRejection:
+            return isolatedElectronDoesNotComeFromConversion();
+        case TTbarEPlusJetsSelection::ConversionFinder:
+            return isolatedElectronNotTaggedAsFromConversion();
+        case TTbarEPlusJetsSelection::LooseMuonVeto:
+            return hasNoIsolatedMuon();
+        case TTbarEPlusJetsSelection::AtLeastOneGoodJets:
+            return hasAtLeastOneGoodJet();
+        case TTbarEPlusJetsSelection::AtLeastTwoGoodJets:
+            return hasAtLeastTwoGoodJets();
+        case TTbarEPlusJetsSelection::AtLeastThreeGoodJets:
+            return hasAtLeastThreeGoodJets();
+        case TTbarEPlusJetsSelection::AtLeastFourGoodJets:
+            return hasAtLeastFourGoodJets();
+        case TTbarEPlusJetsSelection::Zveto:
+            return isNotAZBosonEvent();
+        default:
+            return false;
     }
 }
 

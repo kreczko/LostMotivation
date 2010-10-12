@@ -18,7 +18,7 @@ public:
     virtual ~DummyTTbarEvent();
     void setElectronFromW(const ElectronPointer electron);
     bool passScraping, passHLT, passPV, passElectronCut, passConversion, passConversionPartnerTrack, passesMuon,
-            passesJetCuts, passesZveto, useCustomReturnValues;
+            passes1JetCut, passes2JetCut, passes3JetCut, passes4JetCut, passesZveto, useCustomReturnValues;
 
     bool passesScrapingFilter() const;
     bool passesHighLevelTrigger() const;
@@ -27,6 +27,10 @@ public:
     bool isolatedElectronDoesNotComeFromConversion() const;
     bool isolatedElectronNotTaggedAsFromConversion() const;
     bool hasNoIsolatedMuon() const;
+
+    bool hasAtLeastOneGoodJet() const;
+    bool hasAtLeastTwoGoodJets() const;
+    bool hasAtLeastThreeGoodJets() const;
     bool hasAtLeastFourGoodJets() const;
 
     bool isNotAZBosonEvent() const;
