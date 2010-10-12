@@ -7,6 +7,7 @@
 #include "../interface/RecoObjects/Electron.h"
 #include "../interface/Readers/ElectronReader.h"
 #include "../interface/Readers/NTupleEventReader.h"
+#include "InputFiles.h"
 #include <iostream>
 
 using namespace BAT;
@@ -21,23 +22,25 @@ private:
     ElectronPointer firstElectron;
 public:
     TestElectronReader() :
-        input(new TChain(NTupleEventReader::EVENT_CHAIN)), input2(new TChain(NTupleEventReader::HLT_TRIGGER_CHAIN)),
-                input3(new TChain(NTupleEventReader::ADDITIONAL_CHAIN)), electronReader(new ElectronReader(input,
-                        input3)), swissCrossReader(new VariableReader<MultiFloatPointer> (input, "e_swissCross")),
-                numberOfElectronsReader(new VariableReader<unsigned int> (input, "e_num")), electrons(),
-                firstElectron() {
+        input(new TChain(NTupleEventReader::EVENT_CHAIN)),
+        input2(new TChain(NTupleEventReader::HLT_TRIGGER_CHAIN)),
+        input3(new TChain(NTupleEventReader::ADDITIONAL_CHAIN)),
+        electronReader(new ElectronReader(input, input3)),
+        numberOfElectronsReader(new VariableReader<unsigned int> (input, "e_num")),
+        electrons(),
+        firstElectron()
+    {
         input->AddFriend(input2.get());
         input->AddFriend(input3.get());
 
-        input->Add("/storage/top/mc/spring10_7TeV_v5/MG/e20skim_ttjet/*_1_*.root");
-        input2->Add("/storage/top/mc/spring10_7TeV_v5/MG/e20skim_ttjet/*_1_*.root");
-        input3->Add("/storage/top/mc/spring10_7TeV_v5/MG/e20skim_ttjet/*_1_*.root");
+        input->Add(InputFile::ttbar);
+        input2->Add(InputFile::ttbar);
+        input3->Add(InputFile::ttbar);
 
         input->LoadTree(1);
         input->SetBranchStatus("*", 0);
         input2->SetBranchStatus("*", 0);
         input3->SetBranchStatus("*", 0);
-        swissCrossReader->initialise();
         numberOfElectronsReader->initialise();
         electronReader->initialise();
         input->GetEntry(1);
@@ -46,15 +49,15 @@ public:
     }
 
     void testReadElectronsSize() {
-        ASSERT_EQUAL(3, electrons.size());
+        ASSERT_EQUAL(6, electrons.size());
     }
 
     void testReadFirstElectronEnergy() {
-        ASSERT_EQUAL_DELTA(41.9839, firstElectron->energy(), 0.0001);
+        ASSERT_EQUAL_DELTA(38.7786, firstElectron->energy(), 0.0001);
     }
 
     void testReadFirstElectronIsIsolated() {
-        ASSERT_EQUAL(false, firstElectron->isIsolated());
+        ASSERT_EQUAL(true, firstElectron->isIsolated());
     }
 
     void testReadFirstElectronIsIsolatedAfterChangingCut() {
@@ -63,27 +66,19 @@ public:
     }
 
     void testFirstElectronSigmaEtaEta() {
-        ASSERT_EQUAL_DELTA(0.012469, firstElectron->sigmaIEtaIEta(), 0.0000001);
+        ASSERT_EQUAL_DELTA(0.00902937, firstElectron->sigmaIEtaIEta(), 0.0000001);
     }
 
     void testFirstElectronDPhiIn() {
-        ASSERT_EQUAL_DELTA(-0.0144136, firstElectron->dPhiIn(), 0.0000001);
+        ASSERT_EQUAL_DELTA(0.00104798, firstElectron->dPhiIn(), 0.0000001);
     }
 
     void testFirstElectronDEtaIn() {
-        ASSERT_EQUAL_DELTA(0.00348282, firstElectron->dEtaIn(), 0.0000001);
+        ASSERT_EQUAL_DELTA(0.000115712, firstElectron->dEtaIn(), 0.0000001);
     }
 
     void testFirstElectronHadOverEm() {
-        ASSERT_EQUAL_DELTA(0.0397068, firstElectron->HadOverEm(), 0.0000001);
-    }
-
-    void testFirstElectronIsEcalDriven() {
-        ASSERT_EQUAL(false, firstElectron->isEcalDriven());
-    }
-
-    void testFirstElectronIsTrackerDriven() {
-        ASSERT_EQUAL(true, firstElectron->isTrackerDriven());
+        ASSERT_EQUAL_DELTA(0, firstElectron->HadOverEm(), 0.0000001);
     }
 
     void testFirstElectronCharge() {
@@ -91,11 +86,7 @@ public:
     }
 
     void testFirstElectronD0() {
-        ASSERT_EQUAL_DELTA(0.00162675, firstElectron->d0(), 0.00000001);
-    }
-
-    void testFirstElectronSwissCross() {
-        ASSERT_EQUAL_DELTA(0, firstElectron->swissCross(), 0.000001);
+        ASSERT_EQUAL_DELTA(0.00159562, firstElectron->d0(), 0.00000001);
     }
 
     void testEcalSpikeBranchNumberOfElectrons() {
@@ -113,26 +104,26 @@ public:
 
     void testGSFTrackPhi() {
         const TrackPointer track = firstElectron->GSFTrack();
-        ASSERT_EQUAL_DELTA(-3.0978, track->phi(), 0.00001);
+        ASSERT_EQUAL_DELTA(-2.03531, track->phi(), 0.00001);
     }
 
     void testGSFTrackEta() {
         const TrackPointer track = firstElectron->GSFTrack();
-        ASSERT_EQUAL_DELTA(-1.09247, track->eta(), 0.00001);
+        ASSERT_EQUAL_DELTA(-0.0565041, track->eta(), 0.00001);
     }
 
     void testGSFTrackPt() {
         const TrackPointer track = firstElectron->GSFTrack();
-        ASSERT_EQUAL_DELTA(10.7464, track->pt(), 0.0001);
+        ASSERT_EQUAL_DELTA(40.9702, track->pt(), 0.0001);
     }
 
     void testGSFTrackTheta() {
         const TrackPointer track = firstElectron->GSFTrack();
-        ASSERT_EQUAL_DELTA(2.4944, track->theta(), 0.00001);
+        ASSERT_EQUAL_DELTA(1.62727, track->theta(), 0.00001);
     }
 
     void testClosestCTFTrackID() {
-        ASSERT_EQUAL(59, firstElectron->closestCTFTrackID());
+        ASSERT_EQUAL(9, firstElectron->closestCTFTrackID());
     }
 
     void testTRackd0(){
@@ -150,11 +141,11 @@ extern cute::suite make_suite_TestElectronReader() {
     s.push_back(CUTE_SMEMFUN(TestElectronReader, testFirstElectronDPhiIn));
     s.push_back(CUTE_SMEMFUN(TestElectronReader, testFirstElectronDEtaIn));
     s.push_back(CUTE_SMEMFUN(TestElectronReader, testFirstElectronHadOverEm));
-    s.push_back(CUTE_SMEMFUN(TestElectronReader, testFirstElectronIsEcalDriven));
-    s.push_back(CUTE_SMEMFUN(TestElectronReader, testFirstElectronIsTrackerDriven));
+//    s.push_back(CUTE_SMEMFUN(TestElectronReader, testFirstElectronIsEcalDriven));
+//    s.push_back(CUTE_SMEMFUN(TestElectronReader, testFirstElectronIsTrackerDriven));
     s.push_back(CUTE_SMEMFUN(TestElectronReader, testFirstElectronCharge));
     s.push_back(CUTE_SMEMFUN(TestElectronReader, testFirstElectronD0));
-    s.push_back(CUTE_SMEMFUN(TestElectronReader, testFirstElectronSwissCross));
+//    s.push_back(CUTE_SMEMFUN(TestElectronReader, testFirstElectronSwissCross));
     s.push_back(CUTE_SMEMFUN(TestElectronReader, testEcalSpikeBranchNumberOfElectrons));
     s.push_back(CUTE_SMEMFUN(TestElectronReader, testShFracInnerHits));
     s.push_back(CUTE_SMEMFUN(TestElectronReader, testGSFTrack));
@@ -163,5 +154,6 @@ extern cute::suite make_suite_TestElectronReader() {
     s.push_back(CUTE_SMEMFUN(TestElectronReader, testGSFTrackPt));
     s.push_back(CUTE_SMEMFUN(TestElectronReader, testGSFTrackTheta));
     s.push_back(CUTE_SMEMFUN(TestElectronReader, testClosestCTFTrackID));
+    s.push_back(CUTE_SMEMFUN(TestElectronReader, testTRackd0));
     return s;
 }
