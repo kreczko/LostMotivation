@@ -50,13 +50,9 @@ extern void printElectron(const ElectronPointer electron) {
 
     cout << setw(30) << "isSpike" << setw(30) << "rel. iso." << setw(30) << "isFromConversion" << setw(30)
             << "superClusterEta" << endl;
-    cout << setw(30) << electron->isEcalSpike() << setw(30) << electron->relativeIsolation() << setw(30)
-            << electron->isFromConversion() << setw(30) << electron->superClusterEta() << endl << endl;
 
     cout << setw(30) << "isTrackerDriven" << setw(30) << "swiss_cross" << setw(30) << "isLoose" << setw(30)
             << "isEcalDriven" << endl;
-    cout << setw(30) << electron->isTrackerDriven() << setw(30) << electron->swissCross() << setw(30)
-            << electron->isLoose() << setw(30) << electron->isEcalDriven() << endl << endl;
 }
 
 extern void printParticle(const ParticlePointer particle) {
