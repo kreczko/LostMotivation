@@ -15,8 +15,11 @@ PrimaryVertexReader::PrimaryVertexReader() :
 }
 
 PrimaryVertexReader::PrimaryVertexReader(TChainPointer input) :
-	ndofReader(input, "pv_ndof"), zReader(input, "pv_z"), rhoReader(input, "pv_rho"), isfakeReader(input, "pv_isFake"),
-			vertex() {
+	ndofReader(input, "pv_ndof"),
+	zReader(input, "pv_z"),
+	rhoReader(input, "pv_rho"),
+	isfakeReader(input, "pv_isFake"),
+	vertex() {
 
 }
 
@@ -27,17 +30,17 @@ void PrimaryVertexReader::initialise() {
 	isfakeReader.initialise();
 }
 
-const PrimaryVertex& PrimaryVertexReader::getVertex() {
+const PrimaryVertexPointer PrimaryVertexReader::getVertex() {
 	readVertex();
 	return vertex;
 }
 
 void PrimaryVertexReader::readVertex() {
-	vertex = PrimaryVertex();
-	vertex.setDegreesOfFreedom(ndofReader.getVariableAt(0));
-	vertex.setFake(isfakeReader.getVariableAt(0) > 0);
-	vertex.setRho(rhoReader.getVariableAt(0));
-	vertex.setZPosition(zReader.getVariableAt(0));
+	vertex = PrimaryVertexPointer(new PrimaryVertex());
+	vertex->setDegreesOfFreedom(ndofReader.getVariableAt(0));
+	vertex->setFake(isfakeReader.getVariableAt(0) > 0);
+	vertex->setRho(rhoReader.getVariableAt(0));
+	vertex->setZPosition(zReader.getVariableAt(0));
 }
 PrimaryVertexReader::~PrimaryVertexReader() {
 }

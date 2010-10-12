@@ -16,7 +16,7 @@ public:
 	PrimaryVertexReader();
 	PrimaryVertexReader(TChainPointer input);
 	virtual ~PrimaryVertexReader();
-	const PrimaryVertex& getVertex();
+	const PrimaryVertexPointer getVertex();
 	void initialise();
 private:
 	VariableReader<MultiFloatPointer> ndofReader;
@@ -24,7 +24,7 @@ private:
 	VariableReader<MultiFloatPointer> rhoReader;
 	VariableReader<MultiFloatPointer> isfakeReader;
 
-	PrimaryVertex vertex;
+	PrimaryVertexPointer vertex;
 	void readVertex();
 };
 
