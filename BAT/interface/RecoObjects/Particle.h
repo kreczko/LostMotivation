@@ -31,6 +31,7 @@ public:
 	Particle & operator=(const Particle &rightHandSide);
 	float mass() const;
 	float d0() const;
+	float d0_BS() const;
 	float energy() const;
 	float et() const;
 	float px() const;
@@ -44,6 +45,7 @@ public:
 	float charge() const;
 	void setMass(float mass);
 	void setD0(float d0);
+	void setD0_BS(float d0);
 	void setCharge(float charge);
 	const FourVector& getFourVector() const;
 	void setFourVector(FourVector fourvector);
@@ -64,6 +66,7 @@ public:
 protected:
 	float particleMass, particleCharge;
 	float distanceFromInteractionPointInMicron;
+	float distanceFromInteractionPointInMicron_wrt_to_BeamSpot;
 	FourVector fourvector;
 
 };

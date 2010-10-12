@@ -11,18 +11,21 @@
 namespace BAT {
 
 Particle::Particle() :
-    particleMass(0), particleCharge(0), distanceFromInteractionPointInMicron(0.), fourvector(0., 0., 0., 0.) {
+    particleMass(0), particleCharge(0), distanceFromInteractionPointInMicron(999999),
+            distanceFromInteractionPointInMicron_wrt_to_BeamSpot(999999), fourvector(0., 0., 0., 0.) {
 
 }
 
 Particle::Particle(const Particle& particle) :
     particleMass(particle.mass()), particleCharge(particle.charge()), distanceFromInteractionPointInMicron(
-            particle.d0()), fourvector(particle.getFourVector()) {
+            particle.d0()), distanceFromInteractionPointInMicron_wrt_to_BeamSpot(particle.d0_BS()), fourvector(
+            particle.getFourVector()) {
 
 }
 
 Particle::Particle(float energy, float px, float py, float pz) :
-    particleMass(0), particleCharge(0), distanceFromInteractionPointInMicron(0.), fourvector(px, py, pz, energy) {
+    particleMass(0), particleCharge(0), distanceFromInteractionPointInMicron(99999),
+            distanceFromInteractionPointInMicron_wrt_to_BeamSpot(999999), fourvector(px, py, pz, energy) {
 }
 
 Particle::~Particle() {
@@ -37,6 +40,10 @@ float Particle::mass() const {
 
 float Particle::d0() const {
     return distanceFromInteractionPointInMicron;
+}
+
+float Particle::d0_BS() const {
+    return distanceFromInteractionPointInMicron_wrt_to_BeamSpot;
 }
 
 float Particle::energy() const {
@@ -89,6 +96,10 @@ void Particle::setMass(float mass) {
 
 void Particle::setD0(float d0) {
     distanceFromInteractionPointInMicron = d0;
+}
+
+void Particle::setD0_BS(float d0) {
+    distanceFromInteractionPointInMicron_wrt_to_BeamSpot = d0;
 }
 
 const FourVector& Particle::getFourVector() const {
