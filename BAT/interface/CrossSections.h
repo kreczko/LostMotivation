@@ -22,22 +22,28 @@ namespace tenTeV{
 extern boost::array<float, DataType::NUMBER_OF_DATA_TYPES> getXSections();
 }
 
+
+
 struct CrossSectionProvider{
 private:
+    float lumiInInversePb;
     unsigned short tev;
     bool useSkimEff;
     boost::array<float, DataType::NUMBER_OF_DATA_TYPES> xsection;
-    boost::array<float, DataType::NUMBER_OF_DATA_TYPES> skimEfficieny;
-    void defineSkimEfficiencies();
+    boost::array<unsigned long, DataType::NUMBER_OF_DATA_TYPES> numberOfProducedEvents;
+    boost::array<unsigned long, DataType::NUMBER_OF_DATA_TYPES> numberOfSkimmedEvents;
+    void defineNumberOfSkimmedEvents();
+    void defineNumberOfProducedEvents();
 public:
 
 
-    CrossSectionProvider(unsigned short tev = 7);
+    CrossSectionProvider(float lumiInInversePb, unsigned short tev = 7);
     ~CrossSectionProvider();
 
     void useSkimEfficiency(bool use);
 
-    float getExpectedNumberOfEvents(DataType::value type, unsigned int lumiInInversePb);
+    float getExpectedNumberOfEvents(DataType::value type);
+    float getWeight(DataType::value type);
 
 };
 }
