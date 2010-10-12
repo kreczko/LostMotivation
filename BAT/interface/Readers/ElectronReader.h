@@ -14,7 +14,6 @@
 namespace BAT {
 class ElectronReader {
 public:
-	const static unsigned short numberOfVariables = 11;
 	const static std::string algorithmPrefixes[Electron::NUMBER_OF_ELECTRONALGORITHMS];
 	ElectronReader();
 	ElectronReader(TChainPointer input, TChainPointer input2,  Electron::Algorithm algo = Electron::Calo);
@@ -29,7 +28,8 @@ private:
 	VariableReader<MultiFloatPointer> pzReader;
 	VariableReader<MultiFloatPointer> chargeReader;
 	VariableReader<MultiFloatPointer> superClusterEtaReader;
-	VariableReader<MultiFloatPointer> d0Reader;
+	VariableReader<MultiFloatPointer> d0_BS_Reader;
+	VariableReader<MultiFloatPointer> d0_PV_Reader;
 	VariableReader<MultiFloatPointer> numberOfInnerLayerMissingHitsReader;
 
 	VariableReader<MultiFloatPointer> ecalIsolationReader;
@@ -43,10 +43,6 @@ private:
 	VariableReader<MultiFloatPointer> dEtaInReader;
 	VariableReader<MultiFloatPointer> hadOverEmReader;
 
-	VariableReader<MultiFloatPointer> isEcalDrivenReader;
-	VariableReader<MultiFloatPointer> isTrackerDrivenReader;
-	VariableReader<MultiDoublePointer> swissCrossReader;
-
 	VariableReader<MultiFloatPointer> sharedFractionInnerHits;
 	VariableReader<MultiFloatPointer> trackIDReader;
 	VariableReader<MultiFloatPointer> track_phi;
@@ -55,6 +51,8 @@ private:
 	VariableReader<MultiFloatPointer> track_theta;
 	VariableReader<MultiFloatPointer> track_charge;
 
+	VariableReader<MultiFloatPointer> vertex_z;
+	Electron::Algorithm algorithm;
 	ElectronCollection electrons;
 	void readElectrons();
 
