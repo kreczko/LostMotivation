@@ -36,7 +36,7 @@ int main(int argc, char **argv) {
     myAnalysis->setUsedNeutrinoSelectionForTopPairReconstruction(NeutrinoSelectionCriterion::chi2);
 
     //Synchronisation exercise:
-    myAnalysis->addInputFile("/storage/top/mc/sync/*.root");
+    myAnalysis->addInputFile("/storage/top/mc/Synch/nTuple_ttjet.root");
     //data Run2010A
 //    myAnalysis->addInputFile("/storage/top/data/e20skim/e20skim_EG_Run2010A-Jul16-v4_RECO_139559_140159/*.root");
 //    myAnalysis->addInputFile("/storage/top/data/e20skim/e20skim_EG_Run2010A-Jun14thReReco_v1_RECO/*.root");
