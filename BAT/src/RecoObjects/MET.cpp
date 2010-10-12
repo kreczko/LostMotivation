@@ -12,11 +12,11 @@ namespace BAT {
 float MET::goodMETMinimalEt = 0;
 
 MET::MET() :
-    Particle(), usedAlgorithm(MET::DEFAULT) {
+    Particle(), usedAlgorithm(MET::Calo) {
 }
 
 MET::MET(float ex, float ey) :
-    Particle(sqrt(ex * ex + ey * ey), ex, ey, 0), usedAlgorithm(MET::DEFAULT) {
+    Particle(sqrt(ex * ex + ey * ey), ex, ey, 0), usedAlgorithm(MET::Calo) {
 
 }
 

@@ -15,7 +15,7 @@ namespace BAT {
 class MET: public Particle {
 public:
 	enum Algorithm {
-		DEFAULT,  KT4, KT6, tcMET, ParticleFlowMET, NUMBER_OF_METALGORITHMS
+		Calo,  KT4, KT6, tcMET, ParticleFlowMET, NUMBER_OF_METALGORITHMS
 	};
 
 	static float goodMETMinimalEt;
