@@ -15,7 +15,7 @@ public:
     TestParticle() :
         particle1(new Particle(20., 10., 0., 0.)), particle2(new Particle(20., -10., 0., 0.)), particle3(new Particle(
                 *particle1 + *particle2)), particleInBarrelRegion(new Particle(30., 20., -20., 0.)), particleInCrack(
-                new Particle(25., 0., 10., -20.)), particleInEndcap(new Particle(20., 5., 5., -20.)), zParticle1(
+                new Particle(25., 0., 10., -22.)), particleInEndcap(new Particle(20., 5., 5., -20.)), zParticle1(
                 new Particle(100., 79., -13., -5.)), zParticle2(new Particle(100., 99., 13., 5.)), combinedVector(
                 FourVector(particle1->getFourVector() + particle2->getFourVector())) {
         particle1->setD0(180.);
