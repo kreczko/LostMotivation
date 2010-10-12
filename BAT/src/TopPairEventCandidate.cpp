@@ -62,25 +62,25 @@ bool TopPairEventCandidate::passesScrapingFilter() const {
 
 bool TopPairEventCandidate::passesHighLevelTrigger() const {
     if (isRealData()) {
-        if (runNumber < 137029)
-            return HLT_Photon10_TO20;
-        else if (runNumber >= 137029 && runNumber < 140042)
-            return HLT_Photon15_TO20;
-        else if (runNumber >= 140042 && runNumber < 141900)
-            return HLT_Photon15_Cleaned_TO20;
-        else if (runNumber >= 141900)
-            return HLT_Photon20_Cleaned_L1R;
+        if (runNumber < 140041)
+            return HLT_Ele10_LW_L1R;
+        else if (runNumber >= 140041 && runNumber <= 143962)
+            return HLT_Ele15_SW_L1R;
+        else if (runNumber > 143962 && runNumber <= 146427)
+            return HLT_Ele15_SW_CaloEleId_L1R;
+        else if (runNumber > 146427 && runNumber <= 147116)
+            return HLT_Ele17_SW_CaloEleId_L1R;
+        else if (runNumber > 147116)
+            return true;
         else
             return false;
-    } else
-        return HLT_Emulated_Photon15;
+    }
+    else // do not use HLT for MC
+        return true;
 }
 
 bool TopPairEventCandidate::hasOneGoodPrimaryVertex() const {
-    if (isRealData())
-        return primaryVertex.isGoodInRealData();
-    else
-        return primaryVertex.isGood();
+    return primaryVertex->isGood();
 }
 
 bool TopPairEventCandidate::hasOnlyOneGoodIsolatedElectron() const {
@@ -94,7 +94,7 @@ bool TopPairEventCandidate::isolatedElectronDoesNotComeFromConversion() const {
         return false;
 }
 
-bool TopPairEventCandidate::isolatedElectronNotTaggedAsFromConversion() const{
+bool TopPairEventCandidate::isolatedElectronNotTaggedAsFromConversion() const {
     if (goodIsolatedElectrons.size() > 0) {
         if (doneConversionTagging == false) {
             conversionTagger->calculateConversionVariables(goodIsolatedElectrons.front(), tracks, 3.8, 0.45);
@@ -179,6 +179,12 @@ bool TopPairEventCandidate::passesSelectionStep(enum TTbarEPlusJetsSelection::St
         return isolatedElectronNotTaggedAsFromConversion();
     case TTbarEPlusJetsSelection::LooseMuonVeto:
         return hasNoIsolatedMuon();
+    case TTbarEPlusJetsSelection::AtLeastOneGoodJets:
+        return hasAtLeastOneGoodJet();
+    case TTbarEPlusJetsSelection::AtLeastTwoGoodJets:
+        return hasAtLeastTwoGoodJets();
+    case TTbarEPlusJetsSelection::AtLeastThreeGoodJets:
+        return hasAtLeastThreeGoodJets();
     case TTbarEPlusJetsSelection::AtLeastFourGoodJets:
         return hasAtLeastFourGoodJets();
     case TTbarEPlusJetsSelection::Zveto:
