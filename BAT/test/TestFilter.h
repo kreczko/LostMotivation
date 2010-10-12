@@ -27,16 +27,11 @@ public:
     }
 
     void testSetGoodVertexMaximalAbsoluteZPosition() {
-        ASSERT_EQUAL(15, PrimaryVertex::goodVertexMaximalAbsoluteZPosition);
+        ASSERT_EQUAL(24, PrimaryVertex::goodVertexMaximalAbsoluteZPosition);
         filter->setGoodVertexMaximalAbsoluteZPosition(20);
         ASSERT_EQUAL(20, PrimaryVertex::goodVertexMaximalAbsoluteZPosition);
     }
 
-    void testSetGoodVertexMaximalAbsoluteZPositionInRealData() {
-            ASSERT_EQUAL(25, PrimaryVertex::goodVertexMaximalAbsoluteZPositionForRealData);
-            filter->setGoodVertexMaximalAbsoluteZPositionForRealData(20);
-            ASSERT_EQUAL(20, PrimaryVertex::goodVertexMaximalAbsoluteZPositionForRealData);
-        }
 
     void testSetGoodVertexMaximalRho() {
         ASSERT_EQUAL(2.0, PrimaryVertex::goodVertexMaximalAbsoluteRho);
@@ -98,12 +93,6 @@ public:
         ASSERT_EQUAL(2, Electron::MaximalNumberOfMissingInnerLayerHitsBeforeCalledConversion);
     }
 
-    void testElectronSwissCross() {
-        ASSERT_EQUAL_DELTA(0.95, Electron::goodElectronMaximalSwissCross, 0.001);
-        filter->setGoodElectronMaximalSwissCross(2);
-        ASSERT_EQUAL_DELTA(2, Electron::goodElectronMaximalSwissCross, 0.001);
-    }
-
     void testSetLooseElectronMinimalEt() {
         ASSERT_EQUAL_DELTA(20, Electron::looseElectronMinimalEt, 0.1);
         filter->setLooseElectronMinimalEt(55);
@@ -156,7 +145,6 @@ extern cute::suite make_suite_TestFilter() {
     cute::suite s;
     s.push_back(CUTE_SMEMFUN(TestFilter, testSetGoodVertexMinimalNumberOfDegreesOfFreedom));
     s.push_back(CUTE_SMEMFUN(TestFilter, testSetGoodVertexMaximalAbsoluteZPosition));
-    s.push_back(CUTE_SMEMFUN(TestFilter, testSetGoodVertexMaximalAbsoluteZPositionInRealData));
     s.push_back(CUTE_SMEMFUN(TestFilter, testSetGoodVertexMaximalRho));
 
     s.push_back(CUTE_SMEMFUN(TestFilter, testSetGoodJetMinimalPt));
@@ -168,7 +156,6 @@ extern cute::suite make_suite_TestFilter() {
     s.push_back(CUTE_SMEMFUN(TestFilter, testSetGoodElectronMaximalDistanceFromInteractionPoint));
     s.push_back(CUTE_SMEMFUN(TestFilter, testSetGoodMETMinimalEt));
     s.push_back(CUTE_SMEMFUN(TestFilter, testElectronConversionVeto));
-    s.push_back(CUTE_SMEMFUN(TestFilter, testElectronSwissCross));
     s.push_back(CUTE_SMEMFUN(TestFilter, testSetLooseElectronMinimalEt));
     s.push_back(CUTE_SMEMFUN(TestFilter, testSetLooseElectronMaximalRelativeIsolation));
     s.push_back(CUTE_SMEMFUN(TestFilter, testSetLooseElectronMaximalAbsoluteEta));
