@@ -5,6 +5,7 @@
 #include "../interface/Event.h"
 #include "../interface/TopPairEventCandidate.h"
 #include "../interface/Readers/NTupleEventReader.h"
+#include "InputFiles.h"
 
 using namespace BAT;
 
@@ -43,38 +44,38 @@ public:
         DataReader(new NTupleEventReader()),
         DataReader2(new NTupleEventReader()),
         AllMCReader(new NTupleEventReader()) {
-        TTbarReader->addInputFileWithoutCheck("/storage/top/mc/V4/MG/e20skim_ttjet/e20skim_nTuple_ttjet_f_1.root");
-        QCDenri1Reader->addInputFileWithoutCheck("/storage/top/mc/V4/pythia/e20skim_enri1/e20skim_nTuple_enri1_f_1_3_aGl.root");
-        QCDenri2Reader->addInputFileWithoutCheck("/storage/top/mc/V4/pythia/e20skim_enri2/e20skim_nTuple_enri2_f_999_1_IDK.root");
-        QCDenri3Reader->addInputFileWithoutCheck("/storage/top/mc/V4/pythia/e20skim_enri3/e20skim_nTuple_enri3_f_99_2_uQi.root");
+        TTbarReader->addInputFileWithoutCheck(InputFile::ttbar);
+        QCDenri1Reader->addInputFileWithoutCheck(InputFile::enri1);
+        QCDenri2Reader->addInputFileWithoutCheck(InputFile::enri2);
+        QCDenri3Reader->addInputFileWithoutCheck(InputFile::enri3);
 
-        QCDbce1Reader->addInputFileWithoutCheck("/storage/top/mc/V4/pythia/e20skim_bce1/e20skim_nTuple_bce1_f_99_2_ucg.root");
-        QCDbce2Reader->addInputFileWithoutCheck("/storage/top/mc/V4/pythia/e20skim_bce2/e20skim_nTuple_bce2_f_9.root");
-        QCDbce3Reader->addInputFileWithoutCheck("/storage/top/mc/V4/pythia/e20skim_bce3/e20skim_nTuple_bce3_f_99_1_ocw.root");
+        QCDbce1Reader->addInputFileWithoutCheck(InputFile::bce1);
+        QCDbce2Reader->addInputFileWithoutCheck(InputFile::bce2);
+        QCDbce3Reader->addInputFileWithoutCheck(InputFile::bce3);
 
-        WjetsReader->addInputFileWithoutCheck("/storage/top/mc/V4/MG/e20skim_wjet/e20skim_nTuple_wj_f_9.root");
-        ZJetsReader->addInputFileWithoutCheck("/storage/top/mc/V4/MG/e20skim_zjet/e20skim_nTuple_zj_f_9.root");
-        TWReader->addInputFileWithoutCheck("/storage/top/mc/V4/MG/e20skim_tW/e20skim_nTuple_tW_f_9.root");
-        TChanReader->addInputFileWithoutCheck("/storage/top/mc/V4/MG/e20skim_tchan/e20skim_nTuple_tchan_f_9.root");
-        DataReader->addInputFileWithoutCheck(
-                "/storage/top/data/e20skim/e20skim_EG_Run2010A-PromptReco-v4_142928_143179/e20skim_nTuple_data_24*.root");
-        DataReader->addInputFileWithoutCheck(
-                "/storage/top/data/e20skim/e20skim_EG_Run2010A-PromptReco-v4_142928_143179/e20skim_nTuple_data_23*.root");
-        DataReader2->addInputFileWithoutCheck(
-                "/storage/top/data/e20skim/e20skim_EG_Run2010A-PromptReco-v4_142928_143179/e20skim_nTuple_data_23*.root");
-        DataReader2->addInputFileWithoutCheck(
-                "/storage/top/data/e20skim/e20skim_EG_Run2010A-PromptReco-v4_142928_143179/e20skim_nTuple_data_24*.root");
-        AllMCReader->addInputFileWithoutCheck("/storage/top/mc/V4/MG/e20skim_ttjet/e20skim_nTuple_ttjet_f_1.root");
-        AllMCReader->addInputFileWithoutCheck("/storage/top/mc/V4/pythia/e20skim_enri1/e20skim_nTuple_enri1_f_1_3_aGl.root");
-        AllMCReader->addInputFileWithoutCheck("/storage/top/mc/V4/pythia/e20skim_enri2/e20skim_nTuple_enri2_f_999_1_IDK.root");
-        AllMCReader->addInputFileWithoutCheck("/storage/top/mc/V4/pythia/e20skim_enri3/e20skim_nTuple_enri3_f_99_2_uQi.root");
-        AllMCReader->addInputFileWithoutCheck("/storage/top/mc/V4/pythia/e20skim_bce1/e20skim_nTuple_bce1_f_99_2_ucg.root");
-        AllMCReader->addInputFileWithoutCheck("/storage/top/mc/V4/pythia/e20skim_bce2/e20skim_nTuple_bce2_f_9.root");
-        AllMCReader->addInputFileWithoutCheck("/storage/top/mc/V4/pythia/e20skim_bce3/e20skim_nTuple_bce3_f_99_1_ocw.root");
-        AllMCReader->addInputFileWithoutCheck("/storage/top/mc/V4/MG/e20skim_wjet/e20skim_nTuple_wj_f_9.root");
-        AllMCReader->addInputFileWithoutCheck("/storage/top/mc/V4/MG/e20skim_zjet/e20skim_nTuple_zj_f_9.root");
-        AllMCReader->addInputFileWithoutCheck("/storage/top/mc/V4/MG/e20skim_tW/e20skim_nTuple_tW_f_9.root");
-        AllMCReader->addInputFileWithoutCheck("/storage/top/mc/V4/MG/e20skim_tchan/e20skim_nTuple_tchan_f_9.root");
+        WjetsReader->addInputFileWithoutCheck(InputFile::wjets);
+        ZJetsReader->addInputFileWithoutCheck(InputFile::zjets);
+        TWReader->addInputFileWithoutCheck(InputFile::tW);
+        TChanReader->addInputFileWithoutCheck(InputFile::tchan);
+        DataReader->addInputFileWithoutCheck(InputFile::data);
+        DataReader->addInputFileWithoutCheck(InputFile::data2);
+        DataReader2->addInputFileWithoutCheck(InputFile::data2);
+        DataReader2->addInputFileWithoutCheck(InputFile::data);
+
+        AllMCReader->addInputFileWithoutCheck(InputFile::ttbar);
+        AllMCReader->addInputFileWithoutCheck(InputFile::enri1);
+        AllMCReader->addInputFileWithoutCheck(InputFile::enri2);
+        AllMCReader->addInputFileWithoutCheck(InputFile::enri3);
+        AllMCReader->addInputFileWithoutCheck(InputFile::bce1);
+        AllMCReader->addInputFileWithoutCheck(InputFile::bce2);
+        AllMCReader->addInputFileWithoutCheck(InputFile::bce3);
+        AllMCReader->addInputFileWithoutCheck(InputFile::wjets);
+        AllMCReader->addInputFileWithoutCheck(InputFile::zjets);
+        AllMCReader->addInputFileWithoutCheck(InputFile::tW);
+        AllMCReader->addInputFileWithoutCheck(InputFile::tchan);
+        AllMCReader->addInputFileWithoutCheck(InputFile::pj1);
+        AllMCReader->addInputFileWithoutCheck(InputFile::pj2);
+        AllMCReader->addInputFileWithoutCheck(InputFile::pj3);
 
     }
 
@@ -227,7 +228,7 @@ public:
 
     void testPrimaryVertex() {
         ASSERT_EQUAL(true, TTbarReader->hasNextEvent());
-        ASSERT_EQUAL(true, TTbarReader->getNextEvent().getPrimaryVertex().isGood());
+        ASSERT_EQUAL(true, TTbarReader->getNextEvent().getPrimaryVertex()->isGood());
     }
 
     void testHLTTrigger() {
