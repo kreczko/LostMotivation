@@ -69,7 +69,7 @@ private:
     boost::shared_ptr<TH1F> h_mleptonicTop;
     boost::shared_ptr<TH1F> h_mhadronicTop;
     boost::shared_ptr<TH1F> h_mAllTop;
-    boost::shared_ptr<TH1F> h_swissCrossAllEle;
+//    boost::shared_ptr<TH1F> h_swissCrossAllEle;
     boost::shared_ptr<TH1F> h_m3, h_ttbar_pt, h_HT, h_numberOfJets, h_numberOfBJets, h_met, h_leadingJetMass, h_mtW,
             h_electronD0, h_electronD0_iso, h_neutrino_pz;
     boost::shared_ptr<TFile> outputfile;
@@ -78,8 +78,10 @@ private:
     cutmap cutflowPerFile;
     cutmap singleCutsPerFile;
     std::vector<InterestingEvent> interestingEvents;
-    BAT::CrossSectionProvider xSections;
+    BAT::CrossSectionProvider weights;
+    float weight;
 public:
+    static double luminosity;
     Analysis();
     virtual ~Analysis();
     void analyze();
@@ -97,7 +99,7 @@ public:
     }
 private:
     void printNumberOfProccessedEventsEvery(unsigned long printEvery);
-    void doEcalSpikeAnalysis();
+//    void doEcalSpikeAnalysis();
     void doDiElectronAnalysis();
     void doTTBarAnalysis();
     void doTTbarCutFlow();

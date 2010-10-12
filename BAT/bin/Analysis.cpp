@@ -15,14 +15,16 @@
 
 using namespace BAT;
 using namespace std;
+double Analysis::luminosity = 7.22;
 
 void Analysis::analyze() {
     while (eventReader->hasNextEvent()) {
         printNumberOfProccessedEventsEvery(100000);
         currentEvent = eventReader->getNextEvent();
         ttbarCandidate = TopPairEventCandidate(currentEvent);
+        weight = weights.getWeight(currentEvent.getDataType());
         inspectEvents();
-        doEcalSpikeAnalysis();
+//        doEcalSpikeAnalysis();
         doTTbarCutFlow();
         doDiElectronAnalysis();
         doTTBarAnalysis();
@@ -40,15 +42,15 @@ void Analysis::printNumberOfProccessedEventsEvery(unsigned long printEvery) {
 
 void Analysis::inspectEvents() {
     std::vector<InterestingEvent> eventsToInspect;
-        eventsToInspect.push_back(InterestingEvent(144112, 1793794380, ""));
-        eventsToInspect.push_back(InterestingEvent(144112, 2019949875, ""));
-        eventsToInspect.push_back(InterestingEvent(144011, 176799946, ""));
-        eventsToInspect.push_back(InterestingEvent(144086, 282508280, ""));
-        eventsToInspect.push_back(InterestingEvent(144112, 194482467, ""));
-        eventsToInspect.push_back(InterestingEvent(144112, 210965064, ""));
-        eventsToInspect.push_back(InterestingEvent(144112, 338800668, ""));
-        eventsToInspect.push_back(InterestingEvent(144112, 200726415, ""));
-        eventsToInspect.push_back(InterestingEvent(144089, 200726415, ""));
+//        eventsToInspect.push_back(InterestingEvent(144112, 1793794380, ""));
+//        eventsToInspect.push_back(InterestingEvent(144112, 2019949875, ""));
+//        eventsToInspect.push_back(InterestingEvent(144011, 176799946, ""));
+//        eventsToInspect.push_back(InterestingEvent(144086, 282508280, ""));
+//        eventsToInspect.push_back(InterestingEvent(144112, 194482467, ""));
+//        eventsToInspect.push_back(InterestingEvent(144112, 210965064, ""));
+//        eventsToInspect.push_back(InterestingEvent(144112, 338800668, ""));
+//        eventsToInspect.push_back(InterestingEvent(144112, 200726415, ""));
+//        eventsToInspect.push_back(InterestingEvent(144089, 200726415, ""));
 
     for (unsigned int index = 0; index < eventsToInspect.size(); ++index) {
         if ((ttbarCandidate.runnumber() == eventsToInspect.at(index).runNumber && ttbarCandidate.eventnumber()
@@ -60,13 +62,13 @@ void Analysis::inspectEvents() {
 
 }
 
-void Analysis::doEcalSpikeAnalysis() {
-    const ElectronCollection electrons = currentEvent.getElectrons();
-    for (unsigned short index = 0; index < electrons.size(); ++index) {
-        const ElectronPointer electron = electrons.at(index);
-        h_swissCrossAllEle->Fill(electron->swissCross());
-    }
-}
+//void Analysis::doEcalSpikeAnalysis() {
+//    const ElectronCollection electrons = currentEvent.getElectrons();
+//    for (unsigned short index = 0; index < electrons.size(); ++index) {
+//        const ElectronPointer electron = electrons.at(index);
+//        h_swissCrossAllEle->Fill(electron->swissCross());
+//    }
+//}
 
 void Analysis::doTTbarCutFlow() {
     for (unsigned int cut = 0; cut < TTbarEPlusJetsSelection::NUMBER_OF_SELECTION_STEPS; ++cut) {
@@ -87,7 +89,7 @@ void Analysis::doDiElectronAnalysis() {
         numberOfGoodElectrons += 2;
         ElectronPointer leadingElectron = electrons.front();
         ElectronPointer secondElectron = electrons.at(1);
-        h_diElectronMass->Fill(leadingElectron->invariantMass(secondElectron));
+        h_diElectronMass->Fill(leadingElectron->invariantMass(secondElectron), weight);
     }
 }
 
@@ -106,12 +108,12 @@ void Analysis::doTTBarAnalysis() {
             bool passesEta = fabs(electron->superClusterEta()) < Electron::goodElectronMaximalAbsoluteEta
                     && electron->isInCrack() == false;
             bool passesID = electron->VBTF_W70_ElectronID();
-            bool isNotEcalSpike = electron->isEcalSpike() == false;
+//            bool isNotEcalSpike = electron->isEcalSpike() == false;
             bool noConversion = electron->isFromConversion() == false;
-            if (passesEt && passesEta && passesID && isNotEcalSpike && noConversion) {
-                h_electronD0->Fill(electron->d0());
+            if (passesEt && passesEta && passesID && noConversion) {
+                h_electronD0->Fill(electron->d0(), weight);
                 if (electron->isIsolated())
-                    h_electronD0->Fill(electron->d0());
+                    h_electronD0->Fill(electron->d0(), weight);
             }
         }
     }
@@ -121,35 +123,42 @@ void Analysis::doTTBarAnalysis() {
         unsigned int closestID = isolatedElectron->getClosestJetID(jets);
         float minDR = isolatedElectron->deltaR(jets.at(closestID));
         float ptRel = isolatedElectron->relativePtTo(jets.at(closestID));
-        h_ptRel_vs_DRmin->Fill(minDR, ptRel);
-        h_numberOfBJets->Fill(ttbarCandidate.getGoodBJets().size());
+        h_ptRel_vs_DRmin->Fill(minDR, ptRel, weight);
+        h_numberOfBJets->Fill(ttbarCandidate.getGoodBJets().size(), weight);
         ttbarCandidate.reconstructUsingChi2();
-        h_mleptonicTop->Fill(ttbarCandidate.getLeptonicTop()->mass());
-        h_mhadronicTop->Fill(ttbarCandidate.getHadronicTop()->mass());
-        h_mAllTop->Fill(ttbarCandidate.getLeptonicTop()->mass());
-        h_mAllTop->Fill(ttbarCandidate.getHadronicTop()->mass());
+        h_mleptonicTop->Fill(ttbarCandidate.getLeptonicTop()->mass(), weight);
+        h_mhadronicTop->Fill(ttbarCandidate.getHadronicTop()->mass(), weight);
+        h_mAllTop->Fill(ttbarCandidate.getLeptonicTop()->mass(), weight);
+        h_mAllTop->Fill(ttbarCandidate.getHadronicTop()->mass(), weight);
 
-        h_met->Fill(ttbarCandidate.getMET()->et());
-        h_HT->Fill(ttbarCandidate.fullHT());
-        h_leadingJetMass->Fill(ttbarCandidate.getGoodJets().front()->mass());
-        h_mtW->Fill(ttbarCandidate.transverseWmass());
-        h_m3->Fill(ttbarCandidate.M3());
+        h_met->Fill(ttbarCandidate.getMET()->et(), weight);
+        h_HT->Fill(ttbarCandidate.fullHT(), weight);
+        h_leadingJetMass->Fill(ttbarCandidate.getGoodJets().front()->mass(), weight);
+        h_mtW->Fill(ttbarCandidate.transverseWmass(), weight);
+        h_m3->Fill(ttbarCandidate.M3(), weight);
 
         const ParticlePointer ressonance = ttbarCandidate.getRessonance();
         double mttbar = ttbarCandidate.mttbar();
-        h_mttbar->Fill(mttbar);
-        h_ttbar_pt->Fill(ressonance->pt());
-        h_et->Fill(ttbarCandidate.getElectronFromWDecay()->et());
-        h_neutrino_pz->Fill(ttbarCandidate.getNeutrinoFromWDecay()->pz());
+        h_mttbar->Fill(mttbar, weight);
+        h_ttbar_pt->Fill(ressonance->pt(), weight);
+        h_et->Fill(ttbarCandidate.getElectronFromWDecay()->et(), weight);
+        h_neutrino_pz->Fill(ttbarCandidate.getNeutrinoFromWDecay()->pz(), weight);
 
         if (mttbar != mttbar) {//isnan
             ttbarCandidate.inspectReconstructedEvent();
         }
         if (ttbarCandidate.isRealData()) {
-            cout << "run " << ttbarCandidate.runnumber() << ", event " << ttbarCandidate.eventnumber() << endl;
-            cout << "top pair invariant mass=" << mttbar << endl;
+            cout << "run " << ttbarCandidate.runnumber() << ", event " << ttbarCandidate.eventnumber();
+            cout << ", top pair invariant mass=" << mttbar << " GeV" << endl;
             interestingEvents .push_back(InterestingEvent(ttbarCandidate, eventReader->getCurrentFile()));
+
+            if (ressonance->pt() > 100) {
+                cout << "top pair pt=" << ressonance->pt() << " GeV" << endl;
+                ttbarCandidate.inspect();
+                ttbarCandidate.inspectReconstructedEvent();
+            }
         }
+
     }
 }
 
@@ -188,7 +197,7 @@ Analysis::Analysis() :
     h_mleptonicTop(new TH1F("mLeptonicTop", "mLeptonicTop", 500, 0, 500)),
     h_mhadronicTop(new TH1F("mHadronicTop", "mHadronicTop", 500, 0, 500)),
     h_mAllTop(new TH1F("mAllTop", "mAllTop", 500, 0, 500)),
-    h_swissCrossAllEle(new TH1F("swissCross", "swissCross", 200, -1, 1)),
+//    h_swissCrossAllEle(new TH1F("swissCross", "swissCross", 200, -1, 1)),
     h_m3(new TH1F("m3", "m3", 5000, 0, 000)),
     h_ttbar_pt(new TH1F("ttbar_pt", "ttbar_pt", 5000, 0, 5000)),
     h_HT(new TH1F("HT", "HT", 5000, 0, 5000)),
@@ -206,7 +215,8 @@ Analysis::Analysis() :
     cutflowPerFile(),
     singleCutsPerFile(),
     interestingEvents(),
-    xSections() {
+    weights(Analysis::luminosity/*current lumi*/),
+    weight(0){
     for (unsigned int cut = 0; cut < TTbarEPlusJetsSelection::NUMBER_OF_SELECTION_STEPS; ++cut) {
         cutflow[cut] = 0;
         singleCuts[cut] = 0;
@@ -223,6 +233,8 @@ Analysis::~Analysis() {
     h_mhadronicTop_rebinned->Rebin(20);
     h_mAllTop_rebinned->Rebin(20);
     outputfile->mkdir(testingDirectory->GetName())->cd();
+    h_mttbar_rebinned->SetFillStyle(1001);
+    h_mttbar_rebinned->SetFillColor(kRed + 1);
     h_et->Write();
     h_diElectronMass->Write();
     h_ptRel_vs_DRmin->Write();
@@ -247,7 +259,7 @@ Analysis::~Analysis() {
     h_mhadronicTop_rebinned->Write();
     h_mAllTop_rebinned->Write();
 
-    h_swissCrossAllEle->Write();
+//    h_swissCrossAllEle->Write();
     testingDirectory->Write();
     outputfile->Write();
     outputfile->Close();
@@ -266,3 +278,4 @@ void Analysis::setMaximalNumberOfEvents(long maxEvents) {
 void Analysis::setUsedNeutrinoSelectionForTopPairReconstruction(NeutrinoSelectionCriterion::value selection) {
     TopPairEventCandidate::usedNeutrinoSelection = selection;
 }
+
