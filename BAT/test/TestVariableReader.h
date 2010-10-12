@@ -24,15 +24,18 @@ private:
 	boost::scoped_ptr<VariableReader<int> > invalidEmptyVariableVariableReader, invalidnNotAvailableVariableReader;
 public:
 	TestVariableReader() :
-		invalidEmptyVariableName(""), invalidNotAvailableVariableName("thisIsNotInTheFile"), numberOfElectrons("Nels"),
-				energyForEachElectron("els_energy"), input(new TChain("configurableAnalysis/eventB")),
-				singleVariableReader(new VariableReader<unsigned int>::VariableReader(input, numberOfElectrons)),
-				multipleVariableReader(new VariableReader<MultiFloatPointer>::VariableReader(input,
-						energyForEachElectron)), invalidEmptyVariableVariableReader(
-						new VariableReader<int>::VariableReader(input, invalidEmptyVariableName)),
-				invalidnNotAvailableVariableReader(new VariableReader<int>::VariableReader(input,
-						invalidNotAvailableVariableName)) {
-		input->Add("/storage/top/mc/V4/MG/e20skim_ttjet/*_1.root");
+		invalidEmptyVariableName(""),
+		invalidNotAvailableVariableName("thisIsNotInTheFile"),
+		numberOfElectrons("Nels"),
+		energyForEachElectron("els_energy"),
+		input(new TChain("configurableAnalysis/eventB")),
+		singleVariableReader(new VariableReader<unsigned int>::VariableReader(input, numberOfElectrons)),
+		multipleVariableReader(new VariableReader<MultiFloatPointer>::VariableReader(input,
+						energyForEachElectron)),
+		invalidEmptyVariableVariableReader(new VariableReader<int>::VariableReader(input, invalidEmptyVariableName)),
+		invalidnNotAvailableVariableReader(new VariableReader<int>::VariableReader(input, invalidNotAvailableVariableName)) 
+		{
+		input->Add(InputFile::ttbar);
 		input->SetBranchStatus("*", 0);
 		singleVariableReader->initialise();
 		multipleVariableReader->initialise();

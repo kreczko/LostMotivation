@@ -6,6 +6,7 @@
 
 #include "TChain.h"
 #include "../interface/Readers/MuonReader.h"
+#include "InputFiles.h"
 
 using namespace BAT;
 
@@ -17,8 +18,11 @@ private:
 	Muon leadingMuon;
 public:
 	TestMuonReader() :
-		input(new TChain("configurableAnalysis/eventB")), reader(new MuonReader(input)), muons(), leadingMuon() {
-		input->Add("/storage/top/mc/V4/MG/e20skim_ttjet/e20skim_nTuple_ttjet_f_1.root");
+		input(new TChain("configurableAnalysis/eventB")),
+		reader(new MuonReader(input)),
+		muons(),
+		leadingMuon() {
+		input->Add(InputFile::ttbar);
 		input->SetBranchStatus("*", 0);
 		reader->initialise();
 		input->GetEntry(1);

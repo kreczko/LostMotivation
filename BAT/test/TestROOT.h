@@ -20,9 +20,11 @@ private:
 	boost::scoped_ptr<TChain> input;
 public:
 	TestROOT() :
-		invalidBranch("this is not in the chain"), numberOfElectrons("Nels"), energyForEachElectron("els_energy"),
-				input(new TChain("configurableAnalysis/eventB")) {
-		input->Add("/storage/top/mc/V4/MG/e20skim_ttjet/e20skim_nTuple_ttjet_f_1.root");
+		invalidBranch("this is not in the chain"),
+		numberOfElectrons("Nels"),
+		energyForEachElectron("els_energy"),
+		input(new TChain("configurableAnalysis/eventB")) {
+		input->Add(InputFile::ttbar);
 
 		input->GetEntries();
 		input->SetBranchStatus("*", 0);

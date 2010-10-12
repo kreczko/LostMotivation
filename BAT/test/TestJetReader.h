@@ -5,7 +5,7 @@
 #include <boost/shared_ptr.hpp>
 
 #include "../interface/Readers/JetReader.h"
-
+#include "InputFiles.h"
 using namespace BAT;
 
 struct TestJetReader {
@@ -17,9 +17,14 @@ private:
 
 public:
 	TestJetReader() :
-		input(new TChain("configurableAnalysis/eventB")), reader(new JetReader(input)), PFreader(new JetReader(input,
-				Jet::ParticleFlow)), jets(), pfjets(), firstJet(), firstPFJet() {
-		input->Add("/storage/top/mc/V4/MG/e20skim_ttjet/e20skim_nTuple_ttjet_f_1.root");
+		input(new TChain("configurableAnalysis/eventB")),
+		reader(new JetReader(input)),
+		PFreader(new JetReader(input, Jet::ParticleFlow)),
+		jets(),
+		pfjets(),
+		firstJet(),
+		firstPFJet() {
+		input->Add(InputFile::ttbar);
 		input->SetBranchStatus("*", 0);
 		reader->initialise();
 		PFreader->initialise();

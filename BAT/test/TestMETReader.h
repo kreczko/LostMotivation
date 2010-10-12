@@ -3,7 +3,7 @@
 
 #include "../interface/Readers/METReader.h"
 #include "../interface/RecoObjects/MET.h"
-
+#include "InputFiles.h"
 using namespace BAT;
 
 struct TestMETReader {
@@ -13,11 +13,19 @@ private:
     METPointer met, pfmet, tcmet, kt4met, kt6met;
 public:
     TestMETReader() :
-        input(new TChain("configurableAnalysis/eventB")), reader(new METReader(input)), PFreader(new METReader(input,
-                MET::ParticleFlowMET)), TCreader(new METReader(input, MET::tcMET)), KT4reader(new METReader(input,
-                MET::KT4)), KT6Reader(new METReader(input, MET::KT6)), met(), pfmet(), tcmet(), kt4met(), kt6met() {
+        input(new TChain("configurableAnalysis/eventB")),
+        reader(new METReader(input)),
+        PFreader(new METReader(input, MET::ParticleFlowMET)),
+        TCreader(new METReader(input, MET::tcMET)),
+        KT4reader(new METReader(input, MET::KT4)),
+        KT6Reader(new METReader(input, MET::KT6)),
+        met(),
+        pfmet(),
+        tcmet(),
+        kt4met(),
+        kt6met() {
         MET::goodMETMinimalEt = 20;
-        input->Add("/storage/top/mc/V4/MG/e20skim_ttjet/e20skim_nTuple_ttjet_f_1.root");
+        input->Add(InputFile::ttbar);
         input->SetBranchStatus("*", 0);
         reader->initialise();
         PFreader->initialise();

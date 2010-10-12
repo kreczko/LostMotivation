@@ -35,9 +35,9 @@ public:
         input->AddFriend(input2.get());
         input->AddFriend(input3.get());
 
-        input->Add("/storage/top/mc/V4/MG/e20skim_ttjet/e20skim_nTuple_ttjet_f_1.root");
-        input2->Add("/storage/top/mc/V4/MG/e20skim_ttjet/e20skim_nTuple_ttjet_f_1.root");
-        input3->Add("/storage/top/mc/V4/MG/e20skim_ttjet/e20skim_nTuple_ttjet_f_1.root");
+        input->Add(InputFile::ttbar);
+        input2->Add(InputFile::ttbar);
+        input3->Add(InputFile::ttbar);
 
         input->LoadTree(1);
         input->SetBranchStatus("*", 0);
