@@ -11,11 +11,13 @@ using namespace BAT;
 struct TestPrimaryVertexReader {
 	boost::shared_ptr<TChain> input;
 	boost::shared_ptr<PrimaryVertexReader> reader;
-	PrimaryVertex vertex;
+	PrimaryVertexPointer vertex;
 
 	TestPrimaryVertexReader() :
-		input(new TChain("configurableAnalysis/eventB")), reader(new PrimaryVertexReader(input)), vertex() {
-		input->Add("/storage/top/mc/V4/MG/e20skim_ttjet/e20skim_nTuple_ttjet_f_1.root");
+		input(new TChain("configurableAnalysis/eventB")),
+		reader(new PrimaryVertexReader(input)),
+		vertex() {
+		input->Add(InputFile::ttbar);
 		input->SetBranchStatus("*", 0);
 		reader->initialise();
 		input->GetEntry(1);
@@ -23,19 +25,19 @@ struct TestPrimaryVertexReader {
 	}
 
 	void testVertexZPosition() {
-		ASSERT_EQUAL_DELTA(3.02691, vertex.absoluteZPosition(), 0.00001);
+		ASSERT_EQUAL_DELTA(3.02691, vertex->absoluteZPosition(), 0.00001);
 	}
 
 	void testVertexRho(){
-		ASSERT_EQUAL_DELTA(0.0368912, vertex.absoluteRho(), 0.000001);
+		ASSERT_EQUAL_DELTA(0.0368912, vertex->absoluteRho(), 0.000001);
 	}
 
 	void testVertexIsFake(){
-		ASSERT(vertex.isFake() == false);
+		ASSERT(vertex->isFake() == false);
 	}
 
 	void testVertexNDOF(){
-		ASSERT_EQUAL(133, vertex.ndof());
+		ASSERT_EQUAL(133, vertex->ndof());
 	}
 };
 
