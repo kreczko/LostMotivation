@@ -19,30 +19,44 @@ struct TestEvent {
     ElectronPointer badElectron;
     ElectronPointer electronFromConversion;
     JetPointer goodJet, goodBJet, badJet, goodJetCloseToElectron;
-    PrimaryVertex goodVertex;
-    PrimaryVertex badVertex;
+    PrimaryVertexPointer goodVertex;
+    PrimaryVertexPointer badVertex;
     Muon goodIsolatedMuon;
     Muon badMuon;
     METPointer met;
     TestEvent() :
-        ttbarEvent(), goodZEvent(), poorZEvent(), DiJetEvent(), DiJetEventWithConversion(), muonEvent(), emptyEvent(),
-                eventFilter(Filter::makeTopPairEPlusJetsFilter()), goodIsolatedElectron(
-                        new Electron(100., 99., 13., 5.)), goodIsolatedElectron2(new Electron(100., 79., -13., -5.)),
-                goodLooseElectron(new Electron(100., 79., -13., -5.)), badElectron(new Electron(20, 14., 15., 0)),
-                electronFromConversion(new Electron(*goodIsolatedElectron)), goodJet(new Jet(100, 13, 99, 5)),
-                goodBJet(new Jet(*goodJet)), badJet(new Jet(20, 19, 0, 0)), goodJetCloseToElectron(new Jet(100., 98.,
-                        13., 5.)), goodVertex(), badVertex(), goodIsolatedMuon(100., 99., 13., 5.), badMuon(100., 99.,
-                        13., 5.), met(new MET(40, 30)) {
-        setUpGoodIsolatedElectron();
-        setUpGoodIsolatedElectron2();
+    ttbarEvent(),
+    goodZEvent(),
+    poorZEvent(),
+    DiJetEvent(),
+    DiJetEventWithConversion(),
+    muonEvent(),
+    emptyEvent(),
+    eventFilter(Filter::makeTopPairEPlusJetsFilter()),
+    goodIsolatedElectron(TestObjectFactory::goodIsolatedElectron()),
+    goodIsolatedElectron2(TestObjectFactory::goodIsolatedElectron2()),
+    goodLooseElectron(new Electron(100., 79., -13., -5.)),
+    badElectron(new Electron(20, 14., 15., 0)),
+    electronFromConversion(new Electron(*goodIsolatedElectron)),
+    goodJet(new Jet(100, 13, 99, 5)),
+    goodBJet(new Jet(*goodJet)),
+    badJet(new Jet(20, 19, 0, 0)),
+    goodJetCloseToElectron(new Jet(100., 98., 13., 5.)),
+    goodVertex(TestObjectFactory::goodPrimaryVertex()),
+    badVertex(TestObjectFactory::badFakePrimaryVertex()),
+    goodIsolatedMuon(100., 99., 13., 5.),
+    badMuon(100., 99., 13., 5.),
+    met(new MET(40, 30)) {
+//        setUpGoodIsolatedElectron();
+//        setUpGoodIsolatedElectron2();
         setUpGoodLooseElectron();
         setUpBadElectron();
         setUpGoodIsolatedElectronFromConversion();
         setUpGoodJet();
         setUpGoodBJet();
         setUpGoodJetCloseToElectron();
-        setUpGoodVertex();
-        setUpBadVertex();
+//        setUpGoodVertex();
+//        setUpBadVertex();
         setUpIsolatedGoodMuon();
         setUpBadMuon();
 
@@ -54,23 +68,23 @@ struct TestEvent {
     }
 
 private:
-    void setUpGoodIsolatedElectron() {
-        goodIsolatedElectron->setHcalIsolation(0.5);
-        goodIsolatedElectron->setEcalIsolation(0.3);
-        goodIsolatedElectron->setTrackerIsolation(0.4);
-        goodIsolatedElectron->setNumberOfMissingInnerLayerHits(0);
-        goodIsolatedElectron->setD0(0);
-        goodIsolatedElectron->setSuperClusterEta(1);
-    }
-
-    void setUpGoodIsolatedElectron2() {
-        goodIsolatedElectron2->setHcalIsolation(0.4);
-        goodIsolatedElectron2->setEcalIsolation(0.3);
-        goodIsolatedElectron2->setTrackerIsolation(0.4);
-        goodIsolatedElectron2->setNumberOfMissingInnerLayerHits(0);
-        goodIsolatedElectron2->setD0(0);
-        goodIsolatedElectron2->setSuperClusterEta(1);
-    }
+//    void setUpGoodIsolatedElectron() {
+//        goodIsolatedElectron->setHcalIsolation(0.5);
+//        goodIsolatedElectron->setEcalIsolation(0.3);
+//        goodIsolatedElectron->setTrackerIsolation(0.4);
+//        goodIsolatedElectron->setNumberOfMissingInnerLayerHits(0);
+//        goodIsolatedElectron->setD0(0);
+//        goodIsolatedElectron->setSuperClusterEta(1);
+//    }
+//
+//    void setUpGoodIsolatedElectron2() {
+//        goodIsolatedElectron2->setHcalIsolation(0.4);
+//        goodIsolatedElectron2->setEcalIsolation(0.3);
+//        goodIsolatedElectron2->setTrackerIsolation(0.4);
+//        goodIsolatedElectron2->setNumberOfMissingInnerLayerHits(0);
+//        goodIsolatedElectron2->setD0(0);
+//        goodIsolatedElectron2->setSuperClusterEta(1);
+//    }
 
     void setUpBadElectron() {
         badElectron->setHcalIsolation(4);
@@ -122,18 +136,18 @@ private:
         goodJetCloseToElectron->setN90Hits(2);
     }
 
-    void setUpGoodVertex() {
-        goodVertex.setDegreesOfFreedom(PrimaryVertex::goodVertexMinimalNumberOfDegreesOfFreedom);
-        goodVertex.setFake(false);
-        goodVertex.setRho(PrimaryVertex::goodVertexMaximalAbsoluteRho);
-        goodVertex.setZPosition(PrimaryVertex::goodVertexMaximalAbsoluteZPosition);
-    }
+//    void setUpGoodVertex() {
+//        goodVertex.setDegreesOfFreedom(PrimaryVertex::goodVertexMinimalNumberOfDegreesOfFreedom);
+//        goodVertex.setFake(false);
+//        goodVertex.setRho(PrimaryVertex::goodVertexMaximalAbsoluteRho);
+//        goodVertex.setZPosition(PrimaryVertex::goodVertexMaximalAbsoluteZPosition);
+//    }
 
     void setUpBadVertex() {
-        badVertex.setDegreesOfFreedom(PrimaryVertex::goodVertexMinimalNumberOfDegreesOfFreedom);
-        badVertex.setFake(true);
-        badVertex.setRho(PrimaryVertex::goodVertexMaximalAbsoluteRho);
-        badVertex.setZPosition(PrimaryVertex::goodVertexMaximalAbsoluteZPosition);
+        badVertex->setDegreesOfFreedom(PrimaryVertex::goodVertexMinimalNumberOfDegreesOfFreedom);
+        badVertex->setFake(true);
+        badVertex->setRho(PrimaryVertex::goodVertexMaximalAbsoluteRho);
+        badVertex->setZPosition(PrimaryVertex::goodVertexMaximalAbsoluteZPosition);
     }
 
     void setUpIsolatedGoodMuon() {
@@ -148,6 +162,7 @@ private:
     }
 
     void setUpTTbarEvent() {
+        ttbarEvent.setPrimaryVertex(goodVertex);
         ElectronCollection electrons;
         electrons.push_back(goodIsolatedElectron);
         electrons.push_back(badElectron);
@@ -160,7 +175,7 @@ private:
         jets.push_back(badJet);
         ttbarEvent.setJets(jets);
         ttbarEvent.setHLT_Photon15_TO20(true);
-        ttbarEvent.setPrimaryVertex(goodVertex);
+
         MuonCollection muons;
         muons.push_back(badMuon);
         ttbarEvent.setMuons(muons);
@@ -168,6 +183,7 @@ private:
     }
 
     void setUpGoodZEvent() {
+        goodZEvent.setPrimaryVertex(goodVertex);
         ElectronCollection electrons;
         electrons.push_back(goodIsolatedElectron);
         electrons.push_back(goodIsolatedElectron2);
@@ -181,10 +197,11 @@ private:
         jets.push_back(goodBJet);
         goodZEvent.setJets(jets);
         goodZEvent.setHLT_Photon15_TO20(true);
-        goodZEvent.setPrimaryVertex(goodVertex);
+
     }
 
     void setUpPoorZEvent() {
+        poorZEvent.setPrimaryVertex(goodVertex);
         ElectronCollection electrons;
         electrons.push_back(goodIsolatedElectron);
         electrons.push_back(goodLooseElectron);
@@ -198,31 +215,34 @@ private:
         jets.push_back(goodBJet);
         poorZEvent.setJets(jets);
         poorZEvent.setHLT_Photon15_TO20(true);
-        poorZEvent.setPrimaryVertex(goodVertex);
+
     }
 
     void setUpDiJetEvent() {
+        DiJetEvent.setPrimaryVertex(badVertex);
         JetCollection jets;
         jets.push_back(goodJet);
         jets.push_back(goodJet);
         DiJetEvent.setJets(jets);
         DiJetEvent.setHLT_Photon15_TO20(false);
-        DiJetEvent.setPrimaryVertex(badVertex);
+
     }
 
     void setUpDiJetEventWithConversion() {
+        DiJetEventWithConversion.setPrimaryVertex(goodVertex);
         JetCollection jets;
         jets.push_back(goodJet);
         jets.push_back(goodJet);
         DiJetEventWithConversion.setJets(jets);
         DiJetEventWithConversion.setHLT_Photon15_TO20(false);
-        DiJetEventWithConversion.setPrimaryVertex(goodVertex);
+
         ElectronCollection electrons;
         electrons.push_back(electronFromConversion);
         DiJetEventWithConversion.setElectrons(electrons);
     }
 
     void setUpMuonEvent() {
+        muonEvent.setPrimaryVertex(goodVertex);
         ElectronCollection electrons;
         electrons.push_back(goodIsolatedElectron);
         electrons.push_back(badElectron);
@@ -235,7 +255,6 @@ private:
         jets.push_back(badJet);
         muonEvent.setJets(jets);
         muonEvent.setHLT_Photon15_TO20(true);
-        muonEvent.setPrimaryVertex(goodVertex);
         MuonCollection muons;
         muons.push_back(goodIsolatedMuon);
         muonEvent.setMuons(muons);
@@ -294,6 +313,7 @@ public:
 
     void testGoodJetCleaning() {
         Event event = Event();
+        event.setPrimaryVertex(goodVertex);
         ElectronCollection electrons;
         electrons.push_back(goodIsolatedElectron);
         electrons.push_back(badElectron);
@@ -311,6 +331,7 @@ public:
 
     void testGoodJetCleaningNoGoodElectrons() {
         Event event = Event();
+        event.setPrimaryVertex(goodVertex);
         ElectronCollection electrons;
         goodIsolatedElectron->setSigmaIEtaIEta(VBTF_W70::MaximalDEtaIn_BarrelRegion + 2);
         electrons.push_back(goodIsolatedElectron);
@@ -331,6 +352,7 @@ public:
 
     void testGoodJetCleaningNoElectrons() {
         Event event = Event();
+        event.setPrimaryVertex(goodVertex);
         JetCollection jets;
         jets.push_back(goodJet);
         jets.push_back(goodJet);
@@ -344,6 +366,7 @@ public:
 
     void testGoodJetCleaningNoGoodJets() {
         Event event = Event();
+        event.setPrimaryVertex(goodVertex);
         ElectronCollection electrons;
         electrons.push_back(goodIsolatedElectron);
         electrons.push_back(badElectron);
