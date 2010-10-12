@@ -17,7 +17,11 @@ private:
 
 public:
     TestPrimaryVertex() :
-        goodVertex(), badNDOFVertex(), badZPositionVertex(), badRhoVertex(), fakeVertex() {
+        goodVertex(),
+        badNDOFVertex(),
+        badZPositionVertex(),
+        badRhoVertex(),
+        fakeVertex() {
         setGoodVertexCuts();
         setGoodVertex();
         setBadNDOFVertex();
@@ -106,9 +110,6 @@ public:
         ASSERT(goodVertex.isGood());
     }
 
-    void testGoodVertexInRealData() {
-        ASSERT(goodVertex.isGoodInRealData());
-    }
 
     void testBadNDOFVertex() {
         ASSERT(badNDOFVertex.isGood() == false);
@@ -137,7 +138,6 @@ cute::suite make_suite_TestPrimaryVertex() {
     s.push_back(CUTE_SMEMFUN(TestPrimaryVertex, testSetNegativeZ));
 
     s.push_back(CUTE_SMEMFUN(TestPrimaryVertex, testGoodVertex));
-    s.push_back(CUTE_SMEMFUN(TestPrimaryVertex, testGoodVertexInRealData));
     s.push_back(CUTE_SMEMFUN(TestPrimaryVertex, testBadNDOFVertex));
     s.push_back(CUTE_SMEMFUN(TestPrimaryVertex, testBadZpositionVertex));
     s.push_back(CUTE_SMEMFUN(TestPrimaryVertex, testBadRhoVertex));
