@@ -33,7 +33,6 @@ public:
     static float goodElectronMinimalEt;
     static float goodElectronMaximalAbsoluteEta;
     static float goodElectronMaximalDistanceFromInteractionPoint;
-    static float goodElectronMaximalSwissCross;
 
     static float looseElectronMinimalEt;
     static float looseElectronMaximalAbsoluteEta;
@@ -59,7 +58,6 @@ public:
         Electron::MaximalNumberOfMissingInnerLayerHitsBeforeCalledConversion = 500;
 
         Electron::isolatedElectronMaximalRelativeIsolation = 2;
-        Electron::goodElectronMaximalSwissCross = 0;
     }
 
     Electron();
@@ -71,8 +69,6 @@ public:
     bool isHEEPIsolated() const;
     bool isFromConversion() const;
     bool isLoose() const;
-    bool isEcalDriven() const;
-    bool isTrackerDriven() const;
 
     float ecalIsolation() const;
     float hcalIsolation() const;
@@ -89,7 +85,6 @@ public:
     bool RobustTightID() const;
     unsigned short getClosestJetID(const JetCollection& jets) const;
     Algorithm getUsedAlgorithm() const;
-    float swissCross() const;
     const TrackPointer GSFTrack() const;
     int closestCTFTrackID() const;
     float shFracInnerLayer() const;
@@ -107,12 +102,11 @@ public:
     void setDPhiIn(float dphi);
     void setDEtaIn(float deta);
     void setHadOverEm(float HoverE);
-    void setIsEcalDriven(bool eDriven);
-    void setIsTrackerDriven(bool tDriven);
-    void setSwissCross(float swiss);
     void setGSFTrack(const TrackPointer track);
     void setClosestTrackID(const int trackID);
     void setSharedFractionInnerHits(float hits);
+    void setElectronVertexZPosition(float z);
+    void setZDistanceToPrimaryVertex(float dist);
 
     float relativeIsolation() const;
 
@@ -120,7 +114,7 @@ public:
     bool isInCrack() const;
     bool isInEndCapRegion() const;
 
-    bool isEcalSpike() const;
+    float vz() const;
 
 private:
     Algorithm usedAlgorithm;
@@ -130,11 +124,10 @@ private:
     float innerLayerMissingHits;
     //used for HEEP
     float sigma_IEtaIEta, dPhi_In, dEta_In, hadOverEm;
-    bool ecalDriven, trackerDriven;
-    float swiss_Cross;
     TrackPointer gsfTrack;
     int closesTrackID;
     float sharedFractionInnerHits;
+    float vertex_z, zDistanceToPrimaryVertex;
 
 
     bool getVBTF_W70_ElectronID_Barrel() const;
