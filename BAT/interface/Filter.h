@@ -22,7 +22,7 @@ public:
 
 	void setGoodVertexMinimalNumberOfDegreesOfFreedom(unsigned int minimalNDOF);
 	void setGoodVertexMaximalAbsoluteZPosition(float absoluteZ);
-	void setGoodVertexMaximalAbsoluteZPositionForRealData(float absoluteZ);
+//	void setGoodVertexMaximalAbsoluteZPositionForRealData(float absoluteZ);
 	void setGoodVertexMaximalRho(float rho);
 
 	void setGoodJetMinimalEt(float minimalEt);
@@ -34,7 +34,7 @@ public:
 	void setGoodElectronMinimalEt(float minimalEt);
 	void setGoodElectronMaximalAbsoluteEta(float maximalAbsoluteEta);
 	void setGoodElectronMaximalDistanceFromInteractionPoint(float maximalDistance);
-	void setGoodElectronMaximalSwissCross(float maxSwiss);
+//	void setGoodElectronMaximalSwissCross(float maxSwiss);
 	void setElectronMaximalNumberOfMissingInnerLayerHitsBeforeCalledConversion(float missedHits);
 
 	void setLooseElectronMinimalEt(float minimalEt);

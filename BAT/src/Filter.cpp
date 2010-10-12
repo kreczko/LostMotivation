@@ -21,8 +21,8 @@ Filter * Filter::makeTopPairEPlusJetsFilter() {
 	Filter * filter = new Filter();
 	
 	filter->setGoodVertexMinimalNumberOfDegreesOfFreedom(4);
-	filter->setGoodVertexMaximalAbsoluteZPosition(15);
-	filter->setGoodVertexMaximalAbsoluteZPositionForRealData(25);
+	filter->setGoodVertexMaximalAbsoluteZPosition(24);
+//	filter->setGoodVertexMaximalAbsoluteZPositionForRealData(24);
 	filter->setGoodVertexMaximalRho(2.0);
 
 	filter->setGoodJetMinimalEt(30.0);
@@ -34,7 +34,7 @@ Filter * Filter::makeTopPairEPlusJetsFilter() {
 	filter->setGoodElectronMinimalEt(30.0);
 	filter->setGoodElectronMaximalAbsoluteEta(2.5);
 	filter->setGoodElectronMaximalDistanceFromInteractionPoint(0.02);//centimeter
-	filter->setGoodElectronMaximalSwissCross(0.95);
+//	filter->setGoodElectronMaximalSwissCross(0.95);
 	filter->setElectronMaximalNumberOfMissingInnerLayerHitsBeforeCalledConversion(0);
 
 	filter->setLooseElectronMinimalEt(20.0);
@@ -60,9 +60,9 @@ void Filter::setGoodVertexMaximalAbsoluteZPosition(float absoluteZ){
 	PrimaryVertex::goodVertexMaximalAbsoluteZPosition = absoluteZ;
 }
 
-void Filter::setGoodVertexMaximalAbsoluteZPositionForRealData(float absoluteZ){
-    PrimaryVertex::goodVertexMaximalAbsoluteZPositionForRealData = absoluteZ;
-}
+//void Filter::setGoodVertexMaximalAbsoluteZPositionForRealData(float absoluteZ){
+//    PrimaryVertex::goodVertexMaximalAbsoluteZPositionForRealData = absoluteZ;
+//}
 
 void Filter::setGoodVertexMaximalRho(float rho){
 	PrimaryVertex::goodVertexMaximalAbsoluteRho = rho;
@@ -100,9 +100,9 @@ void Filter::setGoodElectronMaximalDistanceFromInteractionPoint(float maximalDis
 	Electron::goodElectronMaximalDistanceFromInteractionPoint = maximalDistance;
 }
 
-void Filter::setGoodElectronMaximalSwissCross(float maxSwiss){
-    Electron::goodElectronMaximalSwissCross = maxSwiss;
-}
+//void Filter::setGoodElectronMaximalSwissCross(float maxSwiss){
+//    Electron::goodElectronMaximalSwissCross = maxSwiss;
+//}
 
 void Filter::setElectronMaximalNumberOfMissingInnerLayerHitsBeforeCalledConversion(float missedHits){
     Electron::MaximalNumberOfMissingInnerLayerHitsBeforeCalledConversion = missedHits;
