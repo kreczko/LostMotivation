@@ -17,7 +17,7 @@ public:
     const static std::string algorithmPrefixes[MET::NUMBER_OF_METALGORITHMS];
 
     METReader();
-    METReader(TChainPointer input, MET::Algorithm algo = MET::DEFAULT);
+    METReader(TChainPointer input, MET::Algorithm algo = MET::Calo);
     const METPointer getMET();
     virtual ~METReader();
     void initialise();

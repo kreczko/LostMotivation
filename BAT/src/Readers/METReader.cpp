@@ -21,7 +21,8 @@ METReader::METReader() :
 }
 
 METReader::METReader(TChainPointer input, MET::Algorithm algo) :
-    exReader(input, algorithmPrefixes[algo] + "_ex"), eyReader(input, algorithmPrefixes[algo] + "_ey") {
+    exReader(input, algorithmPrefixes[algo] + "_ex"),
+    eyReader(input, algorithmPrefixes[algo] + "_ey") {
 
 }
 
