@@ -7,6 +7,7 @@
 
 #ifndef PRIMARYVERTEX_H_
 #define PRIMARYVERTEX_H_
+#include <boost/shared_ptr.hpp>
 
 namespace BAT {
 
@@ -14,24 +15,22 @@ class PrimaryVertex {
 public:
 	static unsigned int goodVertexMinimalNumberOfDegreesOfFreedom;
 	static float goodVertexMaximalAbsoluteZPosition;
-	static float goodVertexMaximalAbsoluteZPositionForRealData;
 	static float goodVertexMaximalAbsoluteRho;
 
 	static void resetSelectionValues() {
 	    PrimaryVertex::goodVertexMinimalNumberOfDegreesOfFreedom = 4;
-	    PrimaryVertex::goodVertexMaximalAbsoluteZPosition = 15;
-	    PrimaryVertex::goodVertexMaximalAbsoluteZPositionForRealData = 24;
+	    PrimaryVertex::goodVertexMaximalAbsoluteZPosition = 24;
 	    PrimaryVertex::goodVertexMaximalAbsoluteRho = 2.0;
 	}
 
 	PrimaryVertex();
 	virtual ~PrimaryVertex();
 	bool isGood() const;
-	bool isGoodInRealData() const;
 	bool isFake() const;
 	unsigned int ndof() const;
 	float absoluteZPosition() const;
 	float absoluteRho() const;
+	float z() const;
 	void setFake(bool fake);
 	void setDegreesOfFreedom(unsigned int ndof);
 	void setZPosition(float z);
@@ -43,6 +42,7 @@ private:
 	float rho;
 
 };
+typedef boost::shared_ptr<PrimaryVertex> PrimaryVertexPointer;
 
 }
 

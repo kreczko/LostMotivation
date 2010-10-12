@@ -9,8 +9,7 @@
 #include <math.h>
 namespace BAT {
 unsigned int PrimaryVertex::goodVertexMinimalNumberOfDegreesOfFreedom = 4;
-float PrimaryVertex::goodVertexMaximalAbsoluteZPosition = 15;
-float PrimaryVertex::goodVertexMaximalAbsoluteZPositionForRealData = 24;
+float PrimaryVertex::goodVertexMaximalAbsoluteZPosition = 24;
 float PrimaryVertex::goodVertexMaximalAbsoluteRho = 2.0;
 
 
@@ -61,12 +60,16 @@ bool PrimaryVertex::isGood() const {
 	bool isNotFake = isFake() == false;
 	return passesNDOF && passesZ && passesRho && isNotFake;
 }
+//
+//bool PrimaryVertex::isGoodInRealData() const {
+//    bool passesNDOF = ndof() >= PrimaryVertex::goodVertexMinimalNumberOfDegreesOfFreedom;
+//    bool passesZ = absoluteZPosition() <= PrimaryVertex::goodVertexMaximalAbsoluteZPositionForRealData;
+//    bool passesRho = absoluteRho() <= PrimaryVertex::goodVertexMaximalAbsoluteRho;
+//    bool isNotFake = isFake() == false;
+//    return passesNDOF && passesZ && passesRho && isNotFake;
+//}
 
-bool PrimaryVertex::isGoodInRealData() const {
-    bool passesNDOF = ndof() >= PrimaryVertex::goodVertexMinimalNumberOfDegreesOfFreedom;
-    bool passesZ = absoluteZPosition() <= PrimaryVertex::goodVertexMaximalAbsoluteZPositionForRealData;
-    bool passesRho = absoluteRho() <= PrimaryVertex::goodVertexMaximalAbsoluteRho;
-    bool isNotFake = isFake() == false;
-    return passesNDOF && passesZ && passesRho && isNotFake;
+float PrimaryVertex::z() const{
+    return z_position;
 }
 }
