@@ -20,6 +20,9 @@ enum value {
     QCD_EMEnriched_Pt20to30,
     QCD_EMEnriched_Pt30to80,
     QCD_EMEnriched_Pt80to170,
+    PhotonJets_Pt40to100,
+    PhotonJets_Pt100to200,
+    PhotonJets_Pt200toInf,
     VQQ,
     singleTop_And_W,
     singleTopTChannel,
@@ -53,6 +56,13 @@ enum value{
     chi2
 };
 }
+
+namespace HLT{
+enum trigger{
+
+};
 }
+}
+
 
 #endif /* ENUMERATORS_H_ */
