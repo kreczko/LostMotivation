@@ -121,7 +121,10 @@ void ElectronReader::readElectrons() {
         float trackCharge = track_charge.getVariableAt(index);
         TrackPointer track = TrackPointer(new Track(trackPhi, trackEta, trackPt, trackTheta));
         track->setCharge(trackCharge);
-        track->setD0(electron->d0());
+        if(algorithm == Electron::Calo)
+            track->setD0(electron->d0_BS());
+        else
+            track->setD0(electron->d0());
         electron->setGSFTrack(track);
         electrons.push_back(electron);
     }
