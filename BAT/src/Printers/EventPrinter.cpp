@@ -40,19 +40,22 @@ extern void printElectron(const ElectronPointer electron) {
     printParticle(electron);
     cout << setw(30) << "VBTF70" << setw(30) << "VBTF95" << setw(30) << "robust loose" << setw(30) << "robust tight"
             << endl;
-    cout << setw(30) << electron->VBTF_W70_ElectronID() << setw(30) << "" << setw(30) << electron->RobustLooseID()
-            << setw(30) << electron->RobustTightID() << endl;
+    cout << setw(30) << electron->VBTF_W70_ElectronID() << setw(30) << electron->VBTF_W95_ElectronID() << setw(30)
+            << electron->RobustLooseID() << setw(30) << electron->RobustTightID() << endl;
 
     cout << setw(30) << "sigma_{ieta ieta}" << setw(30) << "|Delta phi_{in}|" << setw(30) << "|Delta eta_{in}|"
             << setw(30) << "HadOverEm" << endl;
     cout << setw(30) << electron->sigmaIEtaIEta() << setw(30) << fabs(electron->dPhiIn()) << setw(30) << fabs(
             electron->dEtaIn()) << setw(30) << electron->HadOverEm() << endl;
 
-    cout << setw(30) << "isSpike" << setw(30) << "rel. iso." << setw(30) << "isFromConversion" << setw(30)
+    cout << setw(30) << "isLoose" << setw(30) << "rel. iso." << setw(30) << "isFromConversion" << setw(30)
             << "superClusterEta" << endl;
 
-    cout << setw(30) << "isTrackerDriven" << setw(30) << "swiss_cross" << setw(30) << "isLoose" << setw(30)
-            << "isEcalDriven" << endl;
+    cout << setw(30) << electron->isLoose() << setw(30) << electron->relativeIsolation() << setw(30)
+            << electron->isFromConversion() << setw(30) << electron->superClusterEta() << endl;
+
+    //    cout << setw(30) << "isTrackerDriven" << setw(30) << "swiss_cross" << setw(30) << "isLoose" << setw(30)
+    //            << "isEcalDriven" << endl;
 }
 
 extern void printParticle(const ParticlePointer particle) {
