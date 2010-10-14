@@ -128,7 +128,7 @@ public:
 
     void testTRackd0(){
         const TrackPointer track = firstElectron->GSFTrack();
-        ASSERT_EQUAL(firstElectron->d0(), track->d0());
+        ASSERT_EQUAL(firstElectron->d0_BS(), track->d0());
     }
 };
 extern cute::suite make_suite_TestElectronReader() {
@@ -141,11 +141,8 @@ extern cute::suite make_suite_TestElectronReader() {
     s.push_back(CUTE_SMEMFUN(TestElectronReader, testFirstElectronDPhiIn));
     s.push_back(CUTE_SMEMFUN(TestElectronReader, testFirstElectronDEtaIn));
     s.push_back(CUTE_SMEMFUN(TestElectronReader, testFirstElectronHadOverEm));
-//    s.push_back(CUTE_SMEMFUN(TestElectronReader, testFirstElectronIsEcalDriven));
-//    s.push_back(CUTE_SMEMFUN(TestElectronReader, testFirstElectronIsTrackerDriven));
     s.push_back(CUTE_SMEMFUN(TestElectronReader, testFirstElectronCharge));
     s.push_back(CUTE_SMEMFUN(TestElectronReader, testFirstElectronD0));
-//    s.push_back(CUTE_SMEMFUN(TestElectronReader, testFirstElectronSwissCross));
     s.push_back(CUTE_SMEMFUN(TestElectronReader, testEcalSpikeBranchNumberOfElectrons));
     s.push_back(CUTE_SMEMFUN(TestElectronReader, testShFracInnerHits));
     s.push_back(CUTE_SMEMFUN(TestElectronReader, testGSFTrack));
