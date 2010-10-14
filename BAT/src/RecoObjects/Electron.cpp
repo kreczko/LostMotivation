@@ -18,17 +18,21 @@ const boost::array<std::string, Electron::NUMBER_OF_ELECTRONIDS> Electron::Elect
         "robust tight ID",
         "VBTF working point 70%",
         "High Energy" } };
+
 float Electron::goodElectronMinimalEt = 30;
 float Electron::goodElectronMaximalAbsoluteEta = 2.5;
 float Electron::goodElectronMaximalDistanceFromInteractionPoint = 0.02;
+float Electron::isolatedElectronMaximalRelativeIsolation = 0.1;
+
+float Electron::MaximalNumberOfMissingInnerLayerHitsBeforeCalledConversion = 0;
 
 float Electron::looseElectronMinimalEt = 20;
 float Electron::looseElectronMaximalAbsoluteEta = 2.5;
 float Electron::looseIsolatedElectronMaximalRelativeIsolation = 1.;
 
-float Electron::MaximalNumberOfMissingInnerLayerHitsBeforeCalledConversion = 0;
 
-float Electron::isolatedElectronMaximalRelativeIsolation = 0.1;
+
+
 const float initialBigValue = 123456789;
 Electron::Electron() :
     Particle(),
@@ -117,7 +121,7 @@ float Electron::relativeIsolation() const {
 }
 
 bool Electron::isIsolated() const {
-    return this->relativeIsolation() < Electron::isolatedElectronMaximalRelativeIsolation;
+    return relativeIsolation() < Electron::isolatedElectronMaximalRelativeIsolation;
 }
 
 bool Electron::isHEEPIsolated() const {

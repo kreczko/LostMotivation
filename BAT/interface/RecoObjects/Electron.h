@@ -47,17 +47,20 @@ public:
     }
 
     static void resetSelectionValues() {
-        Electron::goodElectronMinimalEt = 0;
-        Electron::goodElectronMaximalAbsoluteEta = 5;
-        Electron::goodElectronMaximalDistanceFromInteractionPoint = 5000;
-
-        Electron::looseElectronMinimalEt = 0;
-        Electron::looseElectronMaximalAbsoluteEta = 5;
-        Electron::looseIsolatedElectronMaximalRelativeIsolation = 5000;
-
-        Electron::MaximalNumberOfMissingInnerLayerHitsBeforeCalledConversion = 500;
-
+        Electron::goodElectronMinimalEt = 30;
+        Electron::goodElectronMaximalAbsoluteEta = 2.5;
+        Electron::goodElectronMaximalDistanceFromInteractionPoint = 0.02;
         Electron::isolatedElectronMaximalRelativeIsolation = 2;
+
+        Electron::MaximalNumberOfMissingInnerLayerHitsBeforeCalledConversion = 0;
+
+        Electron::looseElectronMinimalEt = 20;
+        Electron::looseElectronMaximalAbsoluteEta = 2.5;
+        Electron::looseIsolatedElectronMaximalRelativeIsolation = 1.0;
+
+
+
+
     }
 
     Electron();
