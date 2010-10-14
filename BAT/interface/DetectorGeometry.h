@@ -12,7 +12,7 @@ namespace BAT {
 namespace Detector {
 
 namespace Barrel {
-static const float MaximalAbsoluteEta = 1.442;
+static const float MaximalAbsoluteEta = 1.4442;
 }
 
 namespace Crack {
@@ -21,7 +21,7 @@ static const float MaximalAbsoluteEta = 1.5660;
 }
 
 namespace EndCap {
-static const float MinimalAbsoluteEta = 1.56;
+static const float MinimalAbsoluteEta = 1.5660;
 }
 
 }
