@@ -14,14 +14,16 @@
 namespace BAT {
 
 class ConversionTagger {
-private:
+public:
     ElectronPointer electron;
     TrackCollection tracks;
     TrackPointer partnerTrack;
+    TrackPointer electronTrack;
     double minFracSharedHits;
     double distance, deltaCot;
     int electronTrackID;
-    void findClosestTrack(const TrackPointer electronTrack);
+private:
+    void findClosestTrack();
 public:
     ConversionTagger();
     virtual ~ConversionTagger();

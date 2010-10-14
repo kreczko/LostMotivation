@@ -12,7 +12,7 @@ using namespace std;
 namespace BAT {
 
 ConversionTagger::ConversionTagger() :
-    electron(), tracks(), partnerTrack(), minFracSharedHits(99999), distance(-9999), deltaCot(-9999), electronTrackID(
+    electron(), tracks(), partnerTrack(), electronTrack(), minFracSharedHits(99999), distance(-9999), deltaCot(-9999), electronTrackID(
             -999) {
 
 }
@@ -25,7 +25,7 @@ bool ConversionTagger::isFromConversion(double maxAbsDistance, double maxAbsDelt
 }
 
 void ConversionTagger::calculateConversionVariables(const ElectronPointer electron, const TrackCollection tracks,
-        const double bfieldAtOrigin = 3.8, const double minFracSharedHits = 0.4) {
+        const double bfieldAtOrigin = 3.8, const double minFracSharedHits = 0.45) {
     this->electron = electron;
     this->tracks = tracks;
     this->minFracSharedHits = minFracSharedHits;
@@ -33,9 +33,9 @@ void ConversionTagger::calculateConversionVariables(const ElectronPointer electr
     distance = -9999;
     deltaCot = -9999;
 
-    const TrackPointer electronTrack = getElectronTrack();
+    electronTrack = getElectronTrack();
 
-    findClosestTrack(electronTrack);
+    findClosestTrack();
     if (partnerTrack.get() != 0 && electronTrack != 0) {
         distance = partnerTrack->distance(electronTrack);
         deltaCot = partnerTrack->deltaCotTheta(electronTrack);
@@ -52,7 +52,7 @@ const TrackPointer ConversionTagger::getElectronTrack() {
         return electron->GSFTrack();
 }
 
-void ConversionTagger::findClosestTrack(const TrackPointer electronTrack) {
+void ConversionTagger::findClosestTrack() {
     if(electronTrack.get() == 0)
         return;
 
