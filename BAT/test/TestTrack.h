@@ -45,19 +45,19 @@ public:
     }
 
     void testXWithSTDBField() {
-        ASSERT_EQUAL((-track1->radius() - track1->d0()) * sin(track1->phi()), track1->x());
+        ASSERT_EQUAL((1/track1->curvature() - track1->d0()) * cos(track1->phi()), track1->x());
     }
 
     void testXWithCustomBField() {
-        ASSERT_EQUAL((-track1->radius(3) - track1->d0()) * sin(track1->phi()), track1->x(3));
+        ASSERT_EQUAL((1/track1->curvature(3) - track1->d0()) * cos(track1->phi()), track1->x(3));
     }
 
     void testYWithSTDBField() {
-        ASSERT_EQUAL((track1->radius() - track1->d0()) * cos(track1->phi()), track1->y());
+        ASSERT_EQUAL((1/track1->curvature() - track1->d0()) * sin(track1->phi()), track1->y());
     }
 
     void testYWithCustomBField() {
-        ASSERT_EQUAL((track1->radius(3) - track1->d0()) * cos(track1->phi()), track1->y(3));
+        ASSERT_EQUAL((1/track1->curvature() - track1->d0()) * sin(track1->phi()), track1->y(3));
     }
 
     void testDeltaCotThetaWithSTDBField() {
@@ -118,6 +118,34 @@ public:
         TrackPointer track = TrackPointer(new Track(1, 0.5, 12.5, 23.5));
         ASSERT_EQUAL(23.5, track->theta());
     }
+
+    void testXNCharge() {
+        TrackPointer track = TrackPointer(new Track(1, 0.5, 12.5, 23.5));
+        track->setCharge(-1);
+        double x = (1 / track->curvature(3.8) - track->d0()) * cos(track->phi());
+        ASSERT_EQUAL_DELTA(x, track->x(), 0.01);
+    }
+
+    void testYNCharge() {
+        TrackPointer track = TrackPointer(new Track(1, 0.5, 12.5, 23.5));
+        track->setCharge(-1);
+        double y = (1 / track->curvature(3.8) - track->d0()) * sin(track->phi());
+        ASSERT_EQUAL_DELTA(y, track->y(), 0.01);
+    }
+
+    void testXPCharge() {
+        TrackPointer track = TrackPointer(new Track(1, 0.5, 12.5, 23.5));
+        track->setCharge(1);
+        double x = (1 / track->curvature(3.8) - track->d0()) * cos(track->phi());
+        ASSERT_EQUAL_DELTA(x, track->x(), 0.01);
+    }
+
+    void testYPCharge() {
+        TrackPointer track = TrackPointer(new Track(1, 0.5, 12.5, 23.5));
+        track->setCharge(1);
+        double y = (1 / track->curvature(3.8) - track->d0()) * sin(track->phi());
+        ASSERT_EQUAL_DELTA(y, track->y(), 0.01);
+    }
 };
 
 extern cute::suite make_suite_TestTrack() {
@@ -141,6 +169,10 @@ extern cute::suite make_suite_TestTrack() {
     s.push_back(CUTE_SMEMFUN(TestTrack, testCustomPhi));
     s.push_back(CUTE_SMEMFUN(TestTrack, testCustomPt));
     s.push_back(CUTE_SMEMFUN(TestTrack, testCustomTheta));
+    s.push_back(CUTE_SMEMFUN(TestTrack, testXNCharge));
+    s.push_back(CUTE_SMEMFUN(TestTrack, testYNCharge));
+    s.push_back(CUTE_SMEMFUN(TestTrack, testXPCharge));
+    s.push_back(CUTE_SMEMFUN(TestTrack, testYPCharge));
     return s;
 }
 #endif /* TESTTRACK_H_ */
