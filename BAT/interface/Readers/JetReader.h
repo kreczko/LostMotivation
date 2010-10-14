@@ -27,10 +27,18 @@ private:
 	VariableReader<MultiFloatPointer> pxReader;
 	VariableReader<MultiFloatPointer> pyReader;
 	VariableReader<MultiFloatPointer> pzReader;
+	VariableReader<MultiFloatPointer> massReader;
 
 	VariableReader<MultiFloatPointer> emfReader;
 	VariableReader<MultiFloatPointer> n90HitsReader;
 	VariableReader<MultiFloatPointer> fHPDReader;
+
+	VariableReader<MultiFloatPointer> NODReader;
+	VariableReader<MultiFloatPointer> CEFReader;
+	VariableReader<MultiFloatPointer> NHFReader;
+	VariableReader<MultiFloatPointer> NEFReader;
+	VariableReader<MultiFloatPointer> CHFReader;
+	VariableReader<MultiFloatPointer> NCHReader;
 
 	VariableReader<MultiFloatPointer> btagSimpleSecondaryVertexReader;
 	VariableReader<MultiFloatPointer> btagSimpleSecondaryVertexReaderData;

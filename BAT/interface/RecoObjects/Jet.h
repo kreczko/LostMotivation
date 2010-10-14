@@ -25,18 +25,18 @@ public:
 		NUMBER_OF_JETALGORITHMS
 	};
 
-	static float goodJetMinimalEt;
+	static float goodJetMinimalPt;
 	static float goodJetMaximalAbsoluteEta;
 	static float goodJetMinimalElectromagneticFraction;
 	static float goodJetMinimalNumberOfRecHitsContaining90PercentOfTheJetEnergy;
 	static float goodJetMaximalFractionOfEnergyIntheHottestHPDReadout;
 
 	static void resetSelectionValues() {
-		Jet::goodJetMaximalAbsoluteEta = 5;
-		Jet::goodJetMinimalEt = 0;
-		Jet::goodJetMinimalElectromagneticFraction = 0;
-		Jet::goodJetMinimalNumberOfRecHitsContaining90PercentOfTheJetEnergy = 0.;
-		Jet::goodJetMaximalFractionOfEnergyIntheHottestHPDReadout = 5000;
+		Jet::goodJetMaximalAbsoluteEta = 2.4;
+		Jet::goodJetMinimalPt = 30.;
+		Jet::goodJetMinimalElectromagneticFraction = 0.01;
+		Jet::goodJetMinimalNumberOfRecHitsContaining90PercentOfTheJetEnergy = 1;
+		Jet::goodJetMaximalFractionOfEnergyIntheHottestHPDReadout = 0.98;
 	}
 	Jet();
 	Jet(const Particle& particle);
@@ -49,12 +49,25 @@ public:
 	float emf() const;
 	float n90Hits() const;
 	float fHPD() const;
+	float NOD() const;
+	float CEF() const;
+    float NHF() const;
+    float NEF() const;
+    float CHF() const;
+    float NCH() const;
+
 	void setUsedAlgorithm(Algorithm algo);
 	void setEMF(float emf);
 	void setN90Hits(float n90Hits);
 	void setFHPD(float fHPD);
 	void setDiscriminatorForBtagType(float discriminator, BJetTagger::Algorithm type);
 	void setBtagForData(float btag);
+	void setNOD(float nod);
+	void setCEF(float cef);
+	void setNHF(float nhf);
+	void setNEF(float nef);
+	void setCHF(float chf);
+	void setNCH(float nch);
 private:
 	Algorithm usedAlgorithm;
 	float electromagneticFraction;
@@ -62,6 +75,8 @@ private:
 	float fractionOfEnergyIntheHottestHPDReadout;
 	std::vector<float> btag_discriminators;
 	float btagInData;
+	float numberOfDaughters, chargedEmEnergyFraction, neutralHadronEnergyFraction, neutralEmEnergyFraction;
+	float chargedHadronEnergyFraction, chargedMultiplicity;
 };
 typedef boost::shared_ptr<Jet> JetPointer;
 typedef std::vector<JetPointer> JetCollection;
