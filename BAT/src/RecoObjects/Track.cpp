@@ -37,11 +37,11 @@ double Track::radius(double Bfield) const {
 }
 
 double Track::x(double Bfield) const {
-    return (d0() - radius(Bfield)) * sin(phi());
+    return (1/curvature(Bfield) - d0()) * cos(phi());
 }
 
 double Track::y(double Bfield) const {
-    return (radius(Bfield) - d0()) * cos(phi());
+    return (1/curvature(Bfield) - d0()) * sin(phi());
 }
 
 double Track::deltaCotTheta(const TrackPointer otherTrack) const {
