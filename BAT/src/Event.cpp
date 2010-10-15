@@ -126,16 +126,15 @@ void Event::cleanGoodJetsAgainstIsolatedElectrons() {
 }
 
 void Event::cleanGoodJetsAgainstMostIsolatedElectron() {
-    if (allElectrons.size() > 0) {
-        const ElectronPointer mostIsolatedElectron = getMostIsolatedElectron();
-        unsigned int initialGoodJets = goodJets.size();
-        for (unsigned int jetIndex = 0; jetIndex < goodJets.size(); ++jetIndex) {
-            if (goodJets.at(jetIndex)->isWithinDeltaR(0.3, mostIsolatedElectron)) {
-                goodJets.erase(goodJets.begin() + jetIndex);
-            }
+    const ElectronPointer mostIsolatedElectron = getMostIsolatedElectron();
+    unsigned int initialGoodJets = goodJets.size();
+    for (unsigned int jetIndex = 0; jetIndex < goodJets.size(); ++jetIndex) {
+        if (goodJets.at(jetIndex)->isWithinDeltaR(0.3, mostIsolatedElectron)) {
+            goodJets.erase(goodJets.begin() + jetIndex);
+            --jetIndex;
         }
-        jetCleaningEfficiency = goodJets.size() / initialGoodJets;
     }
+    jetCleaningEfficiency = goodJets.size() / initialGoodJets;
 }
 
 const ElectronPointer Event::getMostIsolatedElectron() const {
