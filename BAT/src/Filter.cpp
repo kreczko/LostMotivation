@@ -25,7 +25,7 @@ Filter * Filter::makeTopPairEPlusJetsFilter() {
 //	filter->setGoodVertexMaximalAbsoluteZPositionForRealData(24);
 	filter->setGoodVertexMaximalRho(2.0);
 
-	filter->setGoodJetMinimalEt(30.0);
+	filter->setGoodJetMinimalPt(30.0);
 	filter->setGoodJetMaximalAbsoluteEta(2.4);
 	filter->setGoodJetMinimalElectromagneticFraction(0.01);
 	filter->setGoodJetMinimalNumberOfRecHitsContaining90PercentOfTheJetEnergy(1.);
@@ -34,7 +34,6 @@ Filter * Filter::makeTopPairEPlusJetsFilter() {
 	filter->setGoodElectronMinimalEt(30.0);
 	filter->setGoodElectronMaximalAbsoluteEta(2.5);
 	filter->setGoodElectronMaximalDistanceFromInteractionPoint(0.02);//centimeter
-//	filter->setGoodElectronMaximalSwissCross(0.95);
 	filter->setElectronMaximalNumberOfMissingInnerLayerHitsBeforeCalledConversion(0);
 
 	filter->setLooseElectronMinimalEt(20.0);
@@ -68,8 +67,8 @@ void Filter::setGoodVertexMaximalRho(float rho){
 	PrimaryVertex::goodVertexMaximalAbsoluteRho = rho;
 }
 
-void Filter::setGoodJetMinimalEt(float minimalEt) {
-	Jet::goodJetMinimalEt = minimalEt;
+void Filter::setGoodJetMinimalPt(float minimalPt) {
+	Jet::goodJetMinimalPt = minimalPt;
 }
 
 void Filter::setGoodJetMaximalAbsoluteEta(float maximalAbsoluteEta) {

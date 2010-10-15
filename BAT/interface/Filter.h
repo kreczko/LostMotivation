@@ -25,7 +25,7 @@ public:
 //	void setGoodVertexMaximalAbsoluteZPositionForRealData(float absoluteZ);
 	void setGoodVertexMaximalRho(float rho);
 
-	void setGoodJetMinimalEt(float minimalEt);
+	void setGoodJetMinimalPt(float minimalPt);
 	void setGoodJetMaximalAbsoluteEta(float maximalAbsoluteEta);
 	void setGoodJetMinimalElectromagneticFraction(float minimalElectromagneticFraction);
 	void setGoodJetMinimalNumberOfRecHitsContaining90PercentOfTheJetEnergy(float n90Hits);

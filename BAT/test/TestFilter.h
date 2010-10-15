@@ -40,9 +40,9 @@ public:
     }
 
     void testSetGoodJetMinimalPt() {
-        ASSERT_EQUAL_DELTA(30.0, Jet::goodJetMinimalEt, 0.01);
-        filter->setGoodJetMinimalEt(50.5);
-        ASSERT_EQUAL_DELTA(50.5, Jet::goodJetMinimalEt, 0.01);
+        ASSERT_EQUAL_DELTA(30.0, Jet::goodJetMinimalPt, 0.01);
+        filter->setGoodJetMinimalPt(50.5);
+        ASSERT_EQUAL_DELTA(50.5, Jet::goodJetMinimalPt, 0.01);
     }
 
     void testSetGoodJetMaximalAbsoluteEta() {

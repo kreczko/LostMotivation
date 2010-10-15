@@ -26,7 +26,7 @@ struct TestJet {
 private:
 	void setJetConditions() {
 		Jet::goodJetMaximalAbsoluteEta = 2.4;
-		Jet::goodJetMinimalEt = 30.0;
+		Jet::goodJetMinimalPt = 30.0;
 		Jet::goodJetMinimalElectromagneticFraction = 0.01;
 		Jet::goodJetMinimalNumberOfRecHitsContaining90PercentOfTheJetEnergy = 1;
 		Jet::goodJetMaximalFractionOfEnergyIntheHottestHPDReadout = 0.98;
@@ -43,7 +43,7 @@ private:
 
 	void setUpBadEtaJet() {
 		setUpJet(badEtaJet);
-		assert(badEtaJet.et() > Jet::goodJetMinimalEt);
+		assert(badEtaJet.et() > Jet::goodJetMinimalPt);
 		assert(badEtaJet.eta() > Jet::goodJetMaximalAbsoluteEta);
 	}
 
