@@ -36,7 +36,7 @@ JetReader::JetReader(TChainPointer input, Jet::Algorithm algo) :
     emfReader(input, algorithmPrefixes[algo] + "_emf"),
     n90HitsReader(input, algorithmPrefixes[algo] + "_id_hitsInN90"),
     fHPDReader(input, algorithmPrefixes[algo] + "_id_fHPD"),
-    NODReader(input, algorithmPrefixes[algo] + "_numberOfDaughters"),
+    NODReader(input, algorithmPrefixes[algo] + "_nConstituents"),
     CEFReader(input, algorithmPrefixes[algo] + "_CEF"),
     NHFReader(input, algorithmPrefixes[algo] + "_NHF"),
     NEFReader(input, algorithmPrefixes[algo] + "_NEF"),
