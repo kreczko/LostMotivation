@@ -100,7 +100,6 @@ bool TopPairEventCandidate::isolatedElectronNotTaggedAsFromConversion() const {
             conversionTagger->calculateConversionVariables(goodIsolatedElectrons.front(), tracks, 3.8, 0.45);
         }
         return conversionTagger->isFromConversion(0.02, 0.02) == false;
-
     } else
         return false;
 
@@ -128,14 +127,23 @@ bool TopPairEventCandidate::hasAtLeastFourGoodJets() const {
 
 bool TopPairEventCandidate::isNotAZBosonEvent() const {
     float invariantMass = 0;
-    if (goodIsolatedElectrons.size() == 2)
-        invariantMass = goodIsolatedElectrons.at(0)->invariantMass(goodIsolatedElectrons.at(1));
-    else if (goodIsolatedElectrons.size() == 1 && looseElectrons.size() > 0)
-        invariantMass = goodIsolatedElectrons.front()->invariantMass(looseElectrons.front());
+    bool isZEvent = false;
+    if (goodIsolatedElectrons.size() > 0 && allElectrons.size() > 1){
+        const ElectronPointer isoElectron = goodIsolatedElectrons.front();
+        for(unsigned int index = 0; index < allElectrons.size(); ++ index){
+            const ElectronPointer looseElectron = allElectrons.at(index);
+            if(looseElectron->isLoose())
+                invariantMass = isoElectron->invariantMass(looseElectron);
+            else
+                invariantMass = 0;
+            bool passesLowerLimit = invariantMass > 76;
+            bool passesUpperLimit = invariantMass < 106;
+            if(passesLowerLimit && passesUpperLimit)
+                isZEvent = true;
+        }
+    }
 
-    bool passesLowerLimit = invariantMass >= 76;
-    bool passesUpperLimit = invariantMass <= 106;
-    return (passesLowerLimit && passesUpperLimit) == false;
+    return isZEvent == false;
 }
 
 bool TopPairEventCandidate::passesFullTTbarEPlusJetSelection() const {
