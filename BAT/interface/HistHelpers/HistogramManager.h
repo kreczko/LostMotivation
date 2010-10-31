@@ -14,6 +14,10 @@
 #include "../../interface/Enumerators.h"
 #include <boost/shared_ptr.hpp>
 #include <boost/array.hpp>
+#include <boost/multi_array.hpp>
+#include "TFile.h"
+#include <string>
+
 namespace BAT {
 typedef unsigned short ushort;
 class HistogramManager {
@@ -21,22 +25,39 @@ public:
 	HistogramManager();
 	virtual ~HistogramManager();
 	void createAllHistograms();
+	void addH1D(std::string name, std::string title, unsigned int nBins, float xmin, float xmax);
+	void addH1D_JetBinned(std::string name, std::string title, unsigned int nBins, float xmin, float xmax);
+	void addH1D_BJetBinned(std::string name, std::string title, unsigned int nBins, float xmin, float xmax);
 
-//	void fillHistogram(ushort histogram, const float value, const double weight);
-//	void fill2DHistograms(ushort histogram, const float Xvalue, const float Yvalue, const double weight);
-//	void fillLevelBinnedHistogram(const ushort histogram, ushort level, const float value, const float weight);
-//	void fillLevelBinnedHistogram(const ushort hist, ushort level, const float valueX, const float valueY,
-//			const float weight);
-//	void fillNjetBinnedHistogram(ushort histogram, const float value, const double w);
-//	void fillHisto_btag_DataAndMC(BJetTagger::Algorithm btagAlgorithm, ushort histogram, const float value, const double w);
 	void setCurrentDataType(DataType::value type);
+	void setCurrentJetBin(unsigned int jetbin);
+	void setCurrentBJetBin(unsigned int jetbin);
+	void setCurrentLumi(float lumi);
 	void prepairForSeenDataTypes(const boost::array<bool, DataType::NUMBER_OF_DATA_TYPES>& seenDataTypes);
+
 	boost::shared_ptr<TH1> operator[](std::string);
+	boost::shared_ptr<TH1> H1D(std::string);
+	boost::shared_ptr<TH1> H1D_JetBinned(std::string);
+	boost::shared_ptr<TH1> H1D_BJetBinned(std::string);
 	boost::shared_ptr<TH2> operator()(std::string);
+	boost::shared_ptr<TH2> H2D(std::string);
+	boost::shared_ptr<TH2> H2D_JetBinned(std::string);
+	boost::shared_ptr<TH2> H2D_BJetBinned(std::string);
+
+	void createSummaryHistograms();
+
+	void writeToDisk();
 private:
-	TH1Collection collection;
-	TH2Collection collection2D;
+	boost::multi_array<TH1CollectionRef, 2> jetBinned1DHists;
+	boost::array<bool, DataType::NUMBER_OF_DATA_TYPES> seenDataTypes;
+	boost::array<TH1CollectionRef, DataType::NUMBER_OF_DATA_TYPES> collection;// move to array of DataTypes
+	boost::array<TH2CollectionRef, DataType::NUMBER_OF_DATA_TYPES> collection2D;
 	DataType::value currentDataType;
+	unsigned int currentJetbin;
+	unsigned int currentBJetbin;
+	float currentIntegratedLumi;
+
+	const std::string assembleFilename(DataType::value) const;
 };
 
 }
