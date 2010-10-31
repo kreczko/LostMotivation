@@ -24,6 +24,7 @@ protected:
             HLT_Photon20_Cleaned_L1R, HLT_Emulated_Photon20;
     bool HLT_Ele10_LW_L1R,  HLT_Ele15_SW_L1R, HLT_Ele15_SW_CaloEleId_L1R, HLT_Ele17_SW_CaloEleId_L1R;
     bool HLT_Ele17_SW_TightEleId_L1R;
+    bool HLT_Ele22_SW_TighterEleId_L1R_v2;
     PrimaryVertexPointer primaryVertex;
     TrackCollection tracks;
     ElectronCollection allElectrons;
@@ -74,6 +75,7 @@ public:
     void setHLT_Ele15_SW_CaloEleId_L1R(bool hltTrigger);
     void setHLT_Ele17_SW_CaloEleId_L1R(bool hltTrigger);
     void setHLT_Ele17_SW_TightEleId_L1R(bool hltTrigger);
+    void setHLT_Ele22_SW_TighterEleId_L1R_v2(bool hltTrigger);
     void setRunNumber(unsigned long number);
     void setEventNumber(unsigned long number);
     void setLocalEventNumber(unsigned long number);

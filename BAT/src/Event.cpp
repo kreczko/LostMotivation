@@ -24,6 +24,7 @@ Event::Event() :
     HLT_Ele15_SW_CaloEleId_L1R(false),
     HLT_Ele17_SW_CaloEleId_L1R(false),
     HLT_Ele17_SW_TightEleId_L1R(false),
+    HLT_Ele22_SW_TighterEleId_L1R_v2(false),
     primaryVertex(),
     tracks(), allElectrons(), goodElectrons(), goodIsolatedElectrons(), looseElectrons(), allJets(),
             goodJets(), goodBJets(), allMuons(), goodMuons(), goodIsolatedMuons(), met(), dataType(DataType::DATA),
@@ -213,6 +214,10 @@ void Event::setHLT_Ele17_SW_TightEleId_L1R(bool hltTrigger){
     HLT_Ele17_SW_TightEleId_L1R = hltTrigger;
 }
 
+void Event::setHLT_Ele22_SW_TighterEleId_L1R_v2(bool hltTrigger){
+    HLT_Ele22_SW_TighterEleId_L1R_v2 = hltTrigger;
+}
+
 void Event::setMET(const METPointer met) {
     this->met = met;
 }
@@ -306,7 +311,7 @@ float Event::weight() const {
 }
 
 void Event::inspect() const {
-    cout << "run " << runNumber << ", event number " << eventNumber << endl;
+    cout << "run " << runNumber << ", event number " << eventNumber << ", lumi section " << lumiBlock << endl;
 
     cout << "number of tracks: " << tracks.size() << endl;
     cout << "number of high purity tracks: " << numberOfHighPurityTracks << endl;

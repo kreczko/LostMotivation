@@ -70,8 +70,10 @@ bool TopPairEventCandidate::passesHighLevelTrigger() const {
             return HLT_Ele15_SW_CaloEleId_L1R;
         else if (runNumber > 146427 && runNumber <= 147116)
             return HLT_Ele17_SW_CaloEleId_L1R;
-        else if (runNumber > 147116)
-            return true;
+        else if (runNumber > 147116 && runNumber <= 148818)
+            return HLT_Ele17_SW_TightEleId_L1R;
+        else if (runNumber >= 148819)
+            return HLT_Ele22_SW_TighterEleId_L1R_v2;
         else
             return false;
     }
