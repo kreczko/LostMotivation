@@ -48,9 +48,9 @@ public:
 
     }
 
-    void add(std::string name, std::string title, unsigned int numberOfBins, double xmin, double xmax);
-    void add(std::string name, std::string title, unsigned int numberOfXBins, double xmin, double xmax,
-            unsigned int numberOfYBins, double ymin, double ymax);
+    void add(std::string name, std::string title, unsigned int numberOfBins, float xmin, float xmax);
+    void add(std::string name, std::string title, unsigned int numberOfXBins, float xmin, float xmax,
+            unsigned int numberOfYBins, float ymin, float ymax);
 
     boost::shared_ptr<histType> get(std::string name) {
         return histMap[name];
@@ -96,6 +96,8 @@ private:
 
 typedef THCollection<TH1> TH1Collection;
 typedef THCollection<TH2> TH2Collection;
+typedef boost::shared_ptr<THCollection<TH1> > TH1CollectionRef;
+typedef boost::shared_ptr<THCollection<TH2> > TH2CollectionRef;
 
 }
 
