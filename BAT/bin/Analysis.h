@@ -60,19 +60,19 @@ private:
     boost::scoped_ptr<BAT::Filter> eventFilter;
     BAT::Event currentEvent;
     BAT::TopPairEventCandidate ttbarCandidate;
-    unsigned long numberOfGoodElectrons;
-    boost::shared_ptr<TDirectory> testingDirectory;
-    boost::shared_ptr<TH1F> h_et;
-    boost::shared_ptr<TH1F> h_diElectronMass;
-    boost::shared_ptr<TH2F> h_ptRel_vs_DRmin;
-    boost::shared_ptr<TH1F> h_mttbar;
-    boost::shared_ptr<TH1F> h_mleptonicTop;
-    boost::shared_ptr<TH1F> h_mhadronicTop;
-    boost::shared_ptr<TH1F> h_mAllTop;
+    BAT::HistogramManager histMan;
+//    boost::shared_ptr<TDirectory> testingDirectory;
+//    boost::shared_ptr<TH1F> h_et;
+//    boost::shared_ptr<TH1F> h_diElectronMass;
+//    boost::shared_ptr<TH2F> h_ptRel_vs_DRmin;
+//    boost::shared_ptr<TH1F> h_mttbar;
+//    boost::shared_ptr<TH1F> h_mleptonicTop;
+//    boost::shared_ptr<TH1F> h_mhadronicTop;
+//    boost::shared_ptr<TH1F> h_mAllTop;
 //    boost::shared_ptr<TH1F> h_swissCrossAllEle;
-    boost::shared_ptr<TH1F> h_m3, h_ttbar_pt, h_HT, h_numberOfJets, h_numberOfBJets, h_met, h_leadingJetMass, h_mtW,
-            h_electronD0, h_electronD0_iso, h_neutrino_pz;
-    boost::shared_ptr<TFile> outputfile;
+//    boost::shared_ptr<TH1F> h_m3, h_ttbar_pt, h_HT, h_numberOfJets, h_numberOfBJets, h_met, h_leadingJetMass, h_mtW,
+//            h_electronD0, h_electronD0_iso, h_neutrino_pz;
+//    boost::shared_ptr<TFile> outputfile;
     cutarray cutflow;
     cutarray singleCuts;
     cutmap cutflowPerFile;
@@ -81,7 +81,7 @@ private:
     BAT::CrossSectionProvider weights;
     float weight;
 public:
-    static double luminosity;
+    static float luminosity;
     Analysis();
     virtual ~Analysis();
     void analyze();
@@ -103,9 +103,11 @@ private:
     void doDiElectronAnalysis();
     void doTTBarAnalysis();
     void doTTbarCutFlow();
+    void doSynchExercise();
     void printInterestingEvents();
     void printSummary();
     void inspectEvents();
+    void createHistograms();
 };
 
 #endif /* ANALYSIS_H_ */
