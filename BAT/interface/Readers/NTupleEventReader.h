@@ -42,7 +42,6 @@ public:
 	static const char * EVENT_CHAIN;
 	static const char * HLT_TRIGGER_CHAIN;
 	static const char * ADDITIONAL_CHAIN;
-	static const boost::array<std::string, 30> FileTypes;
 	static const std::string FilePrefix;
 
 	static Jet::Algorithm jetAlgorithm;
@@ -82,6 +81,7 @@ private:
 	boost::scoped_ptr<VariableReader<double> > HLT_Ele15_SW_CaloEleId_L1R;
 	boost::scoped_ptr<VariableReader<double> > HLT_Ele17_SW_CaloEleId_L1R;
 	boost::scoped_ptr<VariableReader<double> > HLT_Ele17_SW_TightEleId_L1R;
+	boost::scoped_ptr<VariableReader<double> > HLT_Ele22_SW_TighterEleId_L1R_v2;
 	boost::scoped_ptr<PrimaryVertexReader> primaryReader;
 	boost::scoped_ptr<TrackReader> trackReader;
 	boost::scoped_ptr<ElectronReader> electronReader;

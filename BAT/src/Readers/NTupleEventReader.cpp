@@ -19,38 +19,6 @@ Jet::Algorithm NTupleEventReader::jetAlgorithm = Jet::Calo_AntiKT_Cone05;
 Electron::Algorithm NTupleEventReader::electronAlgorithm = Electron::Calo;
 MET::Algorithm NTupleEventReader::metAlgorithm = MET::Calo;
 
-const boost::array<std::string, 30> NTupleEventReader::FileTypes = { {
-        "ttbar",
-        "ttjet",
-        "tchan",
-        "tW",
-        "wj",
-        "zj",
-        "bce1",
-        "bce2",
-        "bce3",
-        "enri1",
-        "enri2",
-        "enri3",
-        "pj1",
-        "pj2",
-        "pj3",
-        "VqqJets",
-        "Zprime_M500GeV_W5GeV",
-        "Zprime_M500GeV_W50GeV",
-        "Zprime_M750GeV_W7500MeV",
-        "Zprime_M1TeV_W10GeV",
-        "Zprime_M1TeV_W100GeV",
-        "Zprime_M1250GeV_W12500MeV",
-        "Zprime_M1500GeV_W15GeV",
-        "Zprime_M1500GeV_W150GeV",
-        "Zprime_M2TeV_W20GeV",
-        "Zprime_M2TeV_W200GeV",
-        "Zprime_M3TeV_W30GeV",
-        "Zprime_M3TeV_W300GeV",
-        "Zprime_M4TeV_W40GeV",
-        "Zprime_M4TeV_W400GeV" } };
-
 const std::string NTupleEventReader::FilePrefix = "nTuple_";
 
 NTupleEventReader::NTupleEventReader() :
@@ -71,6 +39,7 @@ NTupleEventReader::NTupleEventReader() :
     HLT_Ele15_SW_CaloEleId_L1R(new VariableReader<double>( hltTriggerInput, "HLT_Ele15_SW_CaloEleId_L1R")),
     HLT_Ele17_SW_CaloEleId_L1R(new VariableReader<double>( hltTriggerInput, "HLT_Ele17_SW_CaloEleId_L1R")),
     HLT_Ele17_SW_TightEleId_L1R(new VariableReader<double>( hltTriggerInput, "HLT_Ele17_SW_TightEleId_L1R")),
+    HLT_Ele22_SW_TighterEleId_L1R_v2(new VariableReader<double>( hltTriggerInput, "HLT_Ele22_SW_TighterEleId_L1R_v2")),
     primaryReader(new PrimaryVertexReader(input)),
     trackReader(new TrackReader(input)),
     electronReader(new ElectronReader(input, additionalInput, NTupleEventReader::electronAlgorithm)),
@@ -119,6 +88,7 @@ const Event& NTupleEventReader::getNextEvent() {
     currentEvent.setHLT_Ele15_SW_CaloEleId_L1R(HLT_Ele15_SW_CaloEleId_L1R->getVariable());
     currentEvent.setHLT_Ele17_SW_CaloEleId_L1R(HLT_Ele17_SW_CaloEleId_L1R->getVariable());
     currentEvent.setHLT_Ele17_SW_TightEleId_L1R(HLT_Ele17_SW_TightEleId_L1R->getVariable());
+    currentEvent.setHLT_Ele22_SW_TighterEleId_L1R_v2(HLT_Ele22_SW_TighterEleId_L1R_v2->getVariable());
 
     currentEvent.setPrimaryVertex(primaryReader->getVertex());
     currentEvent.setTracks(trackReader->getTracks());
@@ -177,6 +147,8 @@ void NTupleEventReader::initiateReadersIfNotSet() {
             HLT_Ele17_SW_CaloEleId_L1R->initialise();
         if(HLT_Ele17_SW_TightEleId_L1R->doesVariableExist())
             HLT_Ele17_SW_TightEleId_L1R->initialise();
+        if(HLT_Ele22_SW_TighterEleId_L1R_v2->doesVariableExist())
+            HLT_Ele22_SW_TighterEleId_L1R_v2->initialise();
         primaryReader->initialise();
         trackReader->initialise();
         electronReader->initialise();
@@ -257,11 +229,11 @@ DataType::value NTupleEventReader::getDataType(const std::string filename) {
 std::string NTupleEventReader::findFileType(const std::string filename) {
     std::string filetype = "";
 
-    for (unsigned int index = 0; index < NTupleEventReader::FileTypes.size(); ++index) {
-        const std::string searchString(NTupleEventReader::FilePrefix + NTupleEventReader::FileTypes.at(index));
+    for (unsigned int index = 0; index < DataType::names.size(); ++index) {
+        const std::string searchString(NTupleEventReader::FilePrefix + DataType::names.at(index));
 
         if (filename.find(searchString) != std::string::npos) {
-            filetype = NTupleEventReader::FileTypes.at(index);
+            filetype = DataType::names.at(index);
         }
     }
     return filetype;
