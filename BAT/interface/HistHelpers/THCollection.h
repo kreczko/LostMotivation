@@ -34,13 +34,13 @@ protected:
     std::vector<std::string> directories;
     map histMap;
 public:
-    THCollection() :
-        histogramFile(), directories(), histMap() {
+//    THCollection() :
+//        histogramFile(), directories(), histMap() {
+//
+//    }
 
-    }
-
-    THCollection(boost::shared_ptr<TFile> histFile, std::string virtualPath = "") :
-        histogramFile(histFile), path(virtualPath), directories(getDirectoriesFromPath(path)), histMap() {
+    THCollection(std::string virtualPath = "") :
+        histogramFile(), path(virtualPath), directories(getDirectoriesFromPath(path)), histMap() {
 
     }
 
@@ -60,7 +60,8 @@ public:
         return histMap.size();
     }
 
-    void writeToFile() {
+    void writeToFile(boost::shared_ptr<TFile> histFile) {
+        histogramFile = histFile;
         histogramFile->cd();
         writeDirectories();
         histogramFile->Cd(path.c_str());
