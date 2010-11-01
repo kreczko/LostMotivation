@@ -11,6 +11,7 @@
 #include "TH1F.h"
 #include "TFile.h"
 #include <boost/shared_ptr.hpp>
+#include <boost/filesystem.hpp>
 
 using namespace BAT;
 
@@ -22,11 +23,14 @@ private:
     TH2Collection collection2D;
 public:
     TestTHCollection() :
-        histFile(new TFile("testTHCollection.root", "RECREATE")), collection(histFile), collectionWithPath(histFile,
-                "mc/ttbar"), collection2D(histFile) {
+        histFile(new TFile("testTHCollection.root", "RECREATE")), collection(), collectionWithPath("mc/ttbar"),
+                collection2D() {
     }
 
     ~TestTHCollection() {
+        if (boost::filesystem::exists("testTHCollection.root")) {
+            boost::filesystem::remove("testTHCollection.root");
+        }
     }
 
     void testInitialSize() {
@@ -38,7 +42,7 @@ public:
         ASSERT_EQUAL(1, collection.size());
     }
 
-    void test2DSize(){
+    void test2DSize() {
         collection2D.add("test", "test", 100, 0, 100, 50, 0, 50);
         ASSERT_EQUAL(1, collection2D.size());
     }
@@ -56,34 +60,34 @@ public:
         collectionWithPath.add("test", "test", 100, 0, 100);
         collection.get("test")->Fill(1);
         collectionWithPath.get("test")->Fill(1);
-        collection.writeToFile();
-        collectionWithPath.writeToFile();
+        collection.writeToFile(histFile);
+        collectionWithPath.writeToFile(histFile);
         ASSERT(histFile->Get("test") != 0);
         ASSERT(histFile->Get("mc/ttbar/test") != 0);
     }
 
     void testWriteFileWithoutFolder() {
         collection.add("test", "test", 100, 0, 100);
-        collection.writeToFile();
+        collection.writeToFile(histFile);
         ASSERT(histFile->Get("test") != 0);
     }
 
     void testWriteFileWithFolderFirstDirectory() {
         collectionWithPath.add("test", "test", 100, 0, 100);
-        collectionWithPath.writeToFile();
+        collectionWithPath.writeToFile(histFile);
         ASSERT(histFile->Get("mc") != 0);
 
     }
 
     void testWriteFileWithFolderSubDirectory() {
         collectionWithPath.add("test", "test", 100, 0, 100);
-        collectionWithPath.writeToFile();
+        collectionWithPath.writeToFile(histFile);
         ASSERT(histFile->Get("mc/ttbar") != 0);
     }
 
     void testWriteFileWithFolder() {
         collectionWithPath.add("test", "test", 100, 0, 100);
-        collectionWithPath.writeToFile();
+        collectionWithPath.writeToFile(histFile);
         ASSERT(histFile->Get("mc/ttbar/test") != 0);
     }
 
