@@ -199,7 +199,7 @@ void Analysis::printSummary() {
 
 void Analysis::createHistograms(){
     histMan.setCurrentLumi(Analysis::luminosity);
-    histMan.prepairForSeenDataTypes(eventReader->getSeenDatatypes());
+    histMan.prepareForSeenDataTypes(eventReader->getSeenDatatypes());
     histMan.addH1D("electron_et", "electron_et", 500, 0, 500);
     histMan.addH1D("diElectronMass", "diElectronMass", 1000, 0, 1000);
     histMan.addH1D("mttbar", "mttbar", 5000, 0, 5000);
@@ -216,6 +216,7 @@ void Analysis::createHistograms(){
     histMan.addH1D("mtW", "mtW", 600, 0, 600);
     histMan.addH1D("electronD0", "electronD0", 1000, 0, 0.2);
     histMan.addH1D("neutrino_pz", "neutrino_pz", 1000, -500, 500);
+    histMan.addH2D("ptRel_vs_DRmin", "ptRel_vs_DRmin", 100, 0, 1, 300, 0, 300);
 }
 
 Analysis::Analysis() :
@@ -260,45 +261,6 @@ Analysis::Analysis() :
 }
 
 Analysis::~Analysis() {
-//    boost::shared_ptr<TH1F> h_mttbar_rebinned((TH1F*) h_mttbar->Clone("mttbar_rebinned"));
-//    boost::shared_ptr<TH1F> h_mleptonicTop_rebinned((TH1F*) h_mleptonicTop->Clone("mleptonicTop_rebinned"));
-//    boost::shared_ptr<TH1F> h_mhadronicTop_rebinned((TH1F*) h_mhadronicTop->Clone("mhadronicTop_rebinned"));
-//    boost::shared_ptr<TH1F> h_mAllTop_rebinned((TH1F*) h_mAllTop->Clone("mAllTop_rebinned"));
-//    h_mttbar_rebinned->Rebin(50);
-//    h_mleptonicTop_rebinned->Rebin(20);
-//    h_mhadronicTop_rebinned->Rebin(20);
-//    h_mAllTop_rebinned->Rebin(20);
-////    outputfile->mkdir(testingDirectory->GetName())->cd();
-//    h_mttbar_rebinned->SetFillStyle(1001);
-//    h_mttbar_rebinned->SetFillColor(kRed + 1);
-//    h_et->Write();
-//    h_diElectronMass->Write();
-//    h_ptRel_vs_DRmin->Write();
-//    h_mttbar->Write();
-//    h_mleptonicTop->Write();
-//    h_mhadronicTop->Write();
-//    h_mAllTop->Write();
-//    h_m3->Write();
-//    h_ttbar_pt->Write();
-//    h_HT->Write();
-//    h_numberOfJets->Write();
-//    h_numberOfBJets->Write();
-//    h_met->Write();
-//    h_leadingJetMass->Write();
-//    h_mtW->Write();
-//    h_electronD0->Write();
-//    h_electronD0_iso->Write();
-//    h_neutrino_pz->Write();
-//
-//    h_mttbar_rebinned->Write();
-//    h_mleptonicTop_rebinned->Write();
-//    h_mhadronicTop_rebinned->Write();
-//    h_mAllTop_rebinned->Write();
-//
-////    h_swissCrossAllEle->Write();
-//    testingDirectory->Write();
-//    outputfile->Write();
-//    outputfile->Close();
     histMan.writeToDisk();
 }
 
