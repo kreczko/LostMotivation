@@ -94,6 +94,26 @@ enum trigger {
 
 };
 }
+
+namespace JetBin{
+enum value{
+    NoJet,
+    OneJet,
+    TwoJets,
+    ThreeJets,
+    FourOrMoreJets,
+    allInclusive,
+    NUMBER_OF_JET_BINS
+};
+
+const boost::array<std::string, JetBin::NUMBER_OF_JET_BINS> names = { {
+        "0jet",
+        "1jet",
+        "2jets",
+        "3jets",
+        "4orMoreJets",
+        "allInclusive"} };
+}
 }
 
 #endif /* ENUMERATORS_H_ */
