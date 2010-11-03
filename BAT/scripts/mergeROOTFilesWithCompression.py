@@ -9,7 +9,7 @@ def getFiles(path):
     files = glob.glob(path)
     return files
 
-def groupFilesToSize(files, finalSize = 1024*1024*1024*3):# < 3 GB
+def groupFilesToSize(files, finalSize = 1024*1024*1024*2):# < 3 GB
     groupSize = 0
     groups = [[]]
     groupIndex = 0
