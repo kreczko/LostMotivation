@@ -33,14 +33,20 @@ protected:
     std::string path;
     std::vector<std::string> directories;
     map histMap;
+    std::string prefix, suffix;
 public:
-//    THCollection() :
-//        histogramFile(), directories(), histMap() {
-//
-//    }
+    //    THCollection() :
+    //        histogramFile(), directories(), histMap() {
+    //
+    //    }
 
     THCollection(std::string virtualPath = "") :
-        histogramFile(), path(virtualPath), directories(getDirectoriesFromPath(path)), histMap() {
+        histogramFile(),
+        path(virtualPath),
+        directories(getDirectoriesFromPath(path)),
+        histMap(),
+        prefix(""),
+        suffix("") {
 
     }
 
@@ -68,6 +74,14 @@ public:
         writeHistograms();
     }
 
+    void setPrefix(std::string pre){
+        prefix = pre;
+    }
+
+    void setSuffix(std::string suf){
+        suffix = suf;
+    }
+
 private:
 
     void writeDirectories() {
@@ -89,7 +103,13 @@ private:
     }
     void writeHistograms() {
         for (typename map::const_iterator iter = histMap.begin(); iter != histMap.end(); ++iter) {
-            iter->second->Write();
+            std::string newName(iter->second->GetName());
+            if (prefix != "") {
+                newName = prefix + "_" + newName;
+            }
+            if (suffix != "")
+                newName = newName + "_" + suffix;
+            iter->second->Write(newName.c_str());
         }
     }
 
