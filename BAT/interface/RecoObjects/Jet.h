@@ -14,16 +14,16 @@ namespace BAT {
 
 class Jet: public Particle {
 public:
-	enum Algorithm {
-		Calo_AntiKT_Cone05,
-		JPT_AntiKt_ConeDR05,
-		KT_Cone04,
-		KT_Cone06,
-		ParticleFlow,
-		SiS_Cone05,
-		SiS_Cone07,
-		NUMBER_OF_JETALGORITHMS
-	};
+//	enum Algorithm {
+//		Calo_AntiKT_Cone05,
+//		JPT_AntiKt_ConeDR05,
+//		KT_Cone04,
+//		KT_Cone06,
+//		ParticleFlow,
+//		SiS_Cone05,
+//		SiS_Cone07,
+//		NUMBER_OF_JETALGORITHMS
+//	};
 
 	static float goodJetMinimalPt;
 	static float goodJetMaximalAbsoluteEta;
@@ -45,7 +45,7 @@ public:
 	bool isGood() const;
 	bool isBJetAccordingToBtagAlgorithm(BJetTagger::Algorithm btag) const;
 	bool isBJetInData() const;
-	Algorithm getUsedAlgorithm() const;
+	JetAlgorithm::value getUsedAlgorithm() const;
 	float emf() const;
 	float n90Hits() const;
 	float fHPD() const;
@@ -56,7 +56,7 @@ public:
     float CHF() const;
     float NCH() const;
 
-	void setUsedAlgorithm(Algorithm algo);
+	void setUsedAlgorithm(JetAlgorithm::value algo);
 	void setEMF(float emf);
 	void setN90Hits(float n90Hits);
 	void setFHPD(float fHPD);
@@ -69,7 +69,7 @@ public:
 	void setCHF(float chf);
 	void setNCH(float nch);
 private:
-	Algorithm usedAlgorithm;
+	JetAlgorithm::value usedAlgorithm;
 	float electromagneticFraction;
 	float numberOfRecHitsContaining90PercentOfTheJetEnergy;
 	float fractionOfEnergyIntheHottestHPDReadout;

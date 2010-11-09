@@ -14,10 +14,10 @@ namespace BAT {
 
 class JetReader {
 public:
-	const static std::string algorithmPrefixes[Jet::NUMBER_OF_JETALGORITHMS];
+//	const static std::string algorithmPrefixes[JetAlgorithm::NUMBER_OF_JETALGORITHMS];
 	
 	JetReader();
-	JetReader(TChainPointer, Jet::Algorithm algo = Jet::Calo_AntiKT_Cone05);
+	JetReader(TChainPointer, JetAlgorithm::value algo = JetAlgorithm::Calo_AntiKT_Cone05);
 	virtual ~JetReader();
 	const JetCollection& getJets();
 	void initialise();
@@ -41,12 +41,12 @@ private:
 	VariableReader<MultiFloatPointer> NCHReader;
 
 	VariableReader<MultiFloatPointer> btagSimpleSecondaryVertexReader;
-	VariableReader<MultiFloatPointer> btagSimpleSecondaryVertexReaderData;
+//	VariableReader<MultiFloatPointer> btagSimpleSecondaryVertexReaderData;
 	VariableReader<MultiFloatPointer> btagTrackCountingHighPurityReader;
 	VariableReader<MultiFloatPointer> btagTrackCountingHighEfficiencyReader;
 
 	JetCollection jets;
-	Jet::Algorithm usedAlgorithm;
+	JetAlgorithm::value usedAlgorithm;
 	void readJets();
 };
 

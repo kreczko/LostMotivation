@@ -9,43 +9,58 @@
 
 namespace BAT {
 
-const std::string JetReader::algorithmPrefixes[Jet::NUMBER_OF_JETALGORITHMS] = {
-        "jets",
-        "jetsJPTAK5",
-        "jetsKT4",
-        "jetsKT6",
-        "PFJets",
-        "jetsSC5",
-        "jetsSC7" };
+//const std::string JetReader::algorithmPrefixes[JetAlgorithm::NUMBER_OF_JETALGORITHMS] = {
+//        "jets",
+//        "jetsJPTAK5",
+//        "jetsKT4",
+//        "jetsKT6",
+//        "PFJets",
+//        "jetsSC5",
+//        "jetsSC7" };
 
 JetReader::JetReader() :
-    numberOfJetsReader(), energyReader(), pxReader(), pyReader(), pzReader(), massReader(), emfReader(),
-            n90HitsReader(), fHPDReader(), NODReader(), CEFReader(), NHFReader(), NEFReader(), CHFReader(),
-            NCHReader(), btagSimpleSecondaryVertexReader(), btagTrackCountingHighPurityReader(),
-            btagTrackCountingHighEfficiencyReader(), jets(), usedAlgorithm(
-                    Jet::Calo_AntiKT_Cone05) {
+    numberOfJetsReader(),
+    energyReader(),
+    pxReader(),
+    pyReader(),
+    pzReader(),
+    massReader(),
+    emfReader(),
+    n90HitsReader(),
+    fHPDReader(),
+    NODReader(),
+    CEFReader(),
+    NHFReader(),
+    NEFReader(),
+    CHFReader(),
+    NCHReader(),
+    btagSimpleSecondaryVertexReader(),
+    btagTrackCountingHighPurityReader(),
+    btagTrackCountingHighEfficiencyReader(),
+    jets(),
+    usedAlgorithm(JetAlgorithm::Calo_AntiKT_Cone05) {
 
 }
-JetReader::JetReader(TChainPointer input, Jet::Algorithm algo) :
-    numberOfJetsReader(input, "N" + algorithmPrefixes[algo]),
-    energyReader(input, algorithmPrefixes[algo] + "_energy"),
-    pxReader(input, algorithmPrefixes[algo] + "_px"),
-    pyReader(input, algorithmPrefixes[algo] + "_py"),
-    pzReader(input, algorithmPrefixes[algo] + "_pz"),
-    massReader(input, algorithmPrefixes[algo] + "_mass"),
-    emfReader(input, algorithmPrefixes[algo] + "_emf"),
-    n90HitsReader(input, algorithmPrefixes[algo] + "_id_hitsInN90"),
-    fHPDReader(input, algorithmPrefixes[algo] + "_id_fHPD"),
-    NODReader(input, algorithmPrefixes[algo] + "_nConstituents"),
-    CEFReader(input, algorithmPrefixes[algo] + "_CEF"),
-    NHFReader(input, algorithmPrefixes[algo] + "_NHF"),
-    NEFReader(input, algorithmPrefixes[algo] + "_NEF"),
-    CHFReader(input, algorithmPrefixes[algo] + "_CHF"),
-    NCHReader(input, algorithmPrefixes[algo] + "_chg_Mult"),
-    btagSimpleSecondaryVertexReader(input, algorithmPrefixes[algo] + "_btag_secVertex"),
-    btagSimpleSecondaryVertexReaderData(input, algorithmPrefixes[algo] + "_btag_ssvHE"),
-    btagTrackCountingHighPurityReader(input, algorithmPrefixes[algo] + "_btag_TC_highPur"),
-    btagTrackCountingHighEfficiencyReader(input, algorithmPrefixes[algo] + "_btag_TC_highEff"),
+JetReader::JetReader(TChainPointer input, JetAlgorithm::value algo) :
+    numberOfJetsReader(input, "N" + JetAlgorithm::prefixes.at(algo)),
+    energyReader(input, JetAlgorithm::prefixes.at(algo) + "_energy"),
+    pxReader(input, JetAlgorithm::prefixes.at(algo) + "_px"),
+    pyReader(input, JetAlgorithm::prefixes.at(algo) + "_py"),
+    pzReader(input, JetAlgorithm::prefixes.at(algo) + "_pz"),
+    massReader(input, JetAlgorithm::prefixes.at(algo) + "_mass"),
+    emfReader(input, JetAlgorithm::prefixes.at(algo) + "_emf"),
+    n90HitsReader(input, JetAlgorithm::prefixes.at(algo) + "_id_hitsInN90"),
+    fHPDReader(input, JetAlgorithm::prefixes.at(algo) + "_id_fHPD"),
+    NODReader(input, JetAlgorithm::prefixes.at(algo) + "_nConstituents"),
+    CEFReader(input, JetAlgorithm::prefixes.at(algo) + "_CEF"),
+    NHFReader(input, JetAlgorithm::prefixes.at(algo) + "_NHF"),
+    NEFReader(input, JetAlgorithm::prefixes.at(algo) + "_NEF"),
+    CHFReader(input, JetAlgorithm::prefixes.at(algo) + "_CHF"),
+    NCHReader(input, JetAlgorithm::prefixes.at(algo) + "_chg_Mult"),
+    btagSimpleSecondaryVertexReader(input, JetAlgorithm::prefixes.at(algo) + "_btag_ssvHE"),
+//    btagSimpleSecondaryVertexReaderData(input, JetAlgorithm::prefixes.at(algo) + "_btag_ssvHE"),
+    btagTrackCountingHighPurityReader(input, JetAlgorithm::prefixes.at(algo) + "_btag_TC_highPur"),
+    btagTrackCountingHighEfficiencyReader(input, JetAlgorithm::prefixes.at(algo) + "_btag_TC_highEff"),
     jets(),
     usedAlgorithm(algo) {
 
@@ -73,14 +88,16 @@ void JetReader::readJets() {
         jet->setEMF(emfReader.getVariableAt(jetIndex));
         jet->setN90Hits(n90HitsReader.getVariableAt(jetIndex));
         jet->setFHPD(fHPDReader.getVariableAt(jetIndex));
+
         jet->setDiscriminatorForBtagType(btagSimpleSecondaryVertexReader.getVariableAt(jetIndex),
                 BJetTagger::SimpleSecondaryVertex);
         jet->setDiscriminatorForBtagType(btagTrackCountingHighPurityReader.getVariableAt(jetIndex),
                 BJetTagger::TrackCountingHighPurity);
         jet->setDiscriminatorForBtagType(btagTrackCountingHighEfficiencyReader.getVariableAt(jetIndex),
                 BJetTagger::TrackCountingHighEfficiency);
-        jet->setBtagForData(btagSimpleSecondaryVertexReaderData.getVariableAt(jetIndex));
-        if (usedAlgorithm == Jet::ParticleFlow){
+//        jet->setBtagForData(btagSimpleSecondaryVertexReaderData.getVariableAt(jetIndex));
+
+        if (usedAlgorithm == JetAlgorithm::ParticleFlow || usedAlgorithm == JetAlgorithm::PF2PAT){
             jet->setNOD(NODReader.getVariableAt(jetIndex));
             jet->setCEF(CEFReader.getVariableAt(jetIndex));
             jet->setNHF(NHFReader.getVariableAt(jetIndex));
@@ -102,10 +119,10 @@ void JetReader::initialise() {
     n90HitsReader.initialise();
     fHPDReader.initialise();
     btagSimpleSecondaryVertexReader.initialise();
-    btagSimpleSecondaryVertexReaderData.initialise();
+//    btagSimpleSecondaryVertexReaderData.initialise();
     btagTrackCountingHighPurityReader.initialise();
     btagTrackCountingHighEfficiencyReader.initialise();
-    if (usedAlgorithm == Jet::ParticleFlow) {
+    if (usedAlgorithm == JetAlgorithm::ParticleFlow || usedAlgorithm == JetAlgorithm::PF2PAT) {
         NODReader.initialise();
         CEFReader.initialise();
         NHFReader.initialise();
