@@ -7,7 +7,9 @@
 
 #include "../../interface/Readers/NTupleEventReader.h"
 #include "TFile.h"
+#include "TChainElement.h"
 #include <iostream>
+#include <boost/shared_ptr.hpp>
 using namespace std;
 namespace BAT {
 
@@ -15,9 +17,9 @@ const char * NTupleEventReader::EVENT_CHAIN = "configurableAnalysis/eventB";
 const char * NTupleEventReader::HLT_TRIGGER_CHAIN = "configurableAnalysis/eventV";
 const char * NTupleEventReader::ADDITIONAL_CHAIN = "configurableAnalysis/eventA";
 
-Jet::Algorithm NTupleEventReader::jetAlgorithm = Jet::Calo_AntiKT_Cone05;
-Electron::Algorithm NTupleEventReader::electronAlgorithm = Electron::Calo;
-MET::Algorithm NTupleEventReader::metAlgorithm = MET::Calo;
+JetAlgorithm::value NTupleEventReader::jetAlgorithm = JetAlgorithm::Calo_AntiKT_Cone05;
+ElectronAlgorithm::value NTupleEventReader::electronAlgorithm = ElectronAlgorithm::Calo;
+METAlgorithm::value NTupleEventReader::metAlgorithm = METAlgorithm::Calo;
 
 const std::string NTupleEventReader::FilePrefix = "nTuple_";
 
@@ -29,17 +31,18 @@ NTupleEventReader::NTupleEventReader() :
     input(new TChain(NTupleEventReader::EVENT_CHAIN)),
     hltTriggerInput(new TChain(NTupleEventReader::HLT_TRIGGER_CHAIN)),
     additionalInput(new TChain(NTupleEventReader::ADDITIONAL_CHAIN)),
-    HLTPhoton10_TO20Reader(new VariableReader<bool> (additionalInput, "pass_photon10_TO20")),
-    HLTPhoton15_TO20Reader(new VariableReader<bool> (additionalInput, "pass_photon15_TO20")),
-    HLTPhoton15_TO20CleanedReader(new VariableReader<bool> (additionalInput, "pass_photon15clean_TO20")),
-    HLTPhoton20CleanedReader(new VariableReader<double> (hltTriggerInput, "HLT_Photon20_Cleaned_L1R")),
-    HLTEmulatedPhoton15Reader(new VariableReader<bool> (additionalInput, "pass_photon15")),
-    HLT_Ele10_LW_L1R(new VariableReader<double>( hltTriggerInput, "HLT_Ele10_LW_L1R")),
-    HLT_Ele15_SW_L1R(new VariableReader<double>( hltTriggerInput, "HLT_Ele15_SW_L1R")),
-    HLT_Ele15_SW_CaloEleId_L1R(new VariableReader<double>( hltTriggerInput, "HLT_Ele15_SW_CaloEleId_L1R")),
-    HLT_Ele17_SW_CaloEleId_L1R(new VariableReader<double>( hltTriggerInput, "HLT_Ele17_SW_CaloEleId_L1R")),
-    HLT_Ele17_SW_TightEleId_L1R(new VariableReader<double>( hltTriggerInput, "HLT_Ele17_SW_TightEleId_L1R")),
-    HLT_Ele22_SW_TighterEleId_L1R_v2(new VariableReader<double>( hltTriggerInput, "HLT_Ele22_SW_TighterEleId_L1R_v2")),
+//    HLTPhoton10_TO20Reader(new VariableReader<bool> (additionalInput, "pass_photon10_TO20")),
+//    HLTPhoton15_TO20Reader(new VariableReader<bool> (additionalInput, "pass_photon15_TO20")),
+//    HLTPhoton15_TO20CleanedReader(new VariableReader<bool> (additionalInput, "pass_photon15clean_TO20")),
+//    HLTPhoton20CleanedReader(new VariableReader<double> (hltTriggerInput, "HLT_Photon20_Cleaned_L1R")),
+//    HLTEmulatedPhoton15Reader(new VariableReader<bool> (additionalInput, "pass_photon15")),
+    HLT_Ele10_LW_L1R(new VariableReader<double> (hltTriggerInput, "HLT_Ele10_LW_L1R")),
+    HLT_Ele15_SW_L1R(new VariableReader<double> (hltTriggerInput, "HLT_Ele15_SW_L1R")),
+    HLT_Ele15_SW_CaloEleId_L1R(new VariableReader<double> (hltTriggerInput, "HLT_Ele15_SW_CaloEleId_L1R")),
+    HLT_Ele17_SW_CaloEleId_L1R(new VariableReader<double> (hltTriggerInput, "HLT_Ele17_SW_CaloEleId_L1R")),
+    HLT_Ele17_SW_TightEleId_L1R(new VariableReader<double> (hltTriggerInput, "HLT_Ele17_SW_TightEleId_L1R")),
+    HLT_Ele22_SW_TighterEleId_L1R_v2(new VariableReader<double> (hltTriggerInput, "HLT_Ele22_SW_TighterEleId_L1R_v2")),
+    HLT_Ele22_SW_TighterEleId_L1R_v3(new VariableReader<double> (hltTriggerInput, "HLT_Ele22_SW_TighterEleId_L1R_v3")),
     primaryReader(new PrimaryVertexReader(input)),
     trackReader(new TrackReader(input)),
     electronReader(new ElectronReader(input, additionalInput, NTupleEventReader::electronAlgorithm)),
@@ -50,6 +53,7 @@ NTupleEventReader::NTupleEventReader() :
     eventNumberReader(new VariableReader<unsigned int> (input, "event")),
     lumiBlockReader(new VariableReader<unsigned int> (input, "lumiblock")),
     areReadersSet(false),
+    areDatatypesKnown(false),
     currentEvent(),
     seenDataTypes() {
 }
@@ -59,30 +63,30 @@ NTupleEventReader::~NTupleEventReader() {
 
 void NTupleEventReader::addInputFile(const char * fileName) {
     unsigned long filesAdded = input->Add(fileName, -1);
-    if(filesAdded <= 0)
+    if (filesAdded <= 0)
         throw NoFileFoundException("No file found in '" + TString(fileName) + "'");
     numberOfFiles += filesAdded;
     hltTriggerInput->Add(fileName);
     additionalInput->Add(fileName);
-    seenDataTypes.at(getDataType(fileName)) = true;
+    //    seenDataTypes.at(getDataType(fileName)) = true;
 }
 
 void NTupleEventReader::addInputFileWithoutCheck(const char * fileName) {
     numberOfFiles += input->Add(fileName);
     hltTriggerInput->Add(fileName);
     additionalInput->Add(fileName);
-    seenDataTypes.at(getDataType(fileName)) = true;
+    //    seenDataTypes.at(getDataType(fileName)) = true;
 }
 
 const Event& NTupleEventReader::getNextEvent() {
     selectNextNtupleEvent();
     currentEvent = Event();
     currentEvent.setDataType(getDataType(getCurrentFile()));
-    currentEvent.setHLT_Photon10_TO20(HLTPhoton10_TO20Reader->getVariable());
-    currentEvent.setHLT_Photon15_TO20(HLTPhoton15_TO20Reader->getVariable());
-    currentEvent.setHLT_Photon15_Cleaned_TO20(HLTPhoton15_TO20CleanedReader->getVariable());
-    currentEvent.setHLT_Photon20_Cleaned_L1R(HLTPhoton20CleanedReader->getVariable() >0.5);
-    currentEvent.setHLT_Emulated_Photon15(HLTEmulatedPhoton15Reader->getVariable());
+//    currentEvent.setHLT_Photon10_TO20(HLTPhoton10_TO20Reader->getVariable());
+//    currentEvent.setHLT_Photon15_TO20(HLTPhoton15_TO20Reader->getVariable());
+//    currentEvent.setHLT_Photon15_Cleaned_TO20(HLTPhoton15_TO20CleanedReader->getVariable());
+//    currentEvent.setHLT_Photon20_Cleaned_L1R(HLTPhoton20CleanedReader->getVariable() > 0.5);
+//    currentEvent.setHLT_Emulated_Photon15(HLTEmulatedPhoton15Reader->getVariable());
     currentEvent.setHLT_Ele10_LW_L1R(HLT_Ele10_LW_L1R->getVariable());
     currentEvent.setHLT_Ele15_SW_L1R(HLT_Ele15_SW_L1R->getVariable());
     currentEvent.setHLT_Ele15_SW_CaloEleId_L1R(HLT_Ele15_SW_CaloEleId_L1R->getVariable());
@@ -115,8 +119,8 @@ void NTupleEventReader::selectNextNtupleEvent() {
 }
 
 bool NTupleEventReader::hasNextEvent() {
-    if(numberOfFiles == 0)
-            throw NoFileFoundException("No input file found!");
+    if (numberOfFiles == 0)
+        throw NoFileFoundException("No input file found!");
     bool hasNextInNTuple = input->LoadTree(currentEventEntry) >= 0;
     bool isWithinEventRange = currentEventEntry < maximalNumberOfEvents;
     return hasNextInNTuple && isWithinEventRange;
@@ -127,28 +131,32 @@ void NTupleEventReader::initiateReadersIfNotSet() {
         input->SetBranchStatus("*", 0);
         hltTriggerInput->SetBranchStatus("*", 0);
         additionalInput->SetBranchStatus("*", 0);
-        if (HLTPhoton10_TO20Reader->doesVariableExist())
-            HLTPhoton10_TO20Reader->initialise();
-        if (HLTPhoton15_TO20Reader->doesVariableExist())
-            HLTPhoton15_TO20Reader->initialise();
-        if (HLTPhoton15_TO20CleanedReader->doesVariableExist())
-            HLTPhoton15_TO20CleanedReader->initialise();
-        if (HLTPhoton20CleanedReader->doesVariableExist())
-            HLTPhoton20CleanedReader->initialise();
-        if (HLTEmulatedPhoton15Reader->doesVariableExist())
-            HLTEmulatedPhoton15Reader->initialise();
-        if(HLT_Ele10_LW_L1R->doesVariableExist())
-            HLT_Ele10_LW_L1R->initialise();
-        if(HLT_Ele15_SW_L1R->doesVariableExist())
-            HLT_Ele15_SW_L1R->initialise();
-        if(HLT_Ele15_SW_CaloEleId_L1R->doesVariableExist())
-            HLT_Ele15_SW_CaloEleId_L1R->initialise();
-        if(HLT_Ele17_SW_CaloEleId_L1R->doesVariableExist())
-            HLT_Ele17_SW_CaloEleId_L1R->initialise();
-        if(HLT_Ele17_SW_TightEleId_L1R->doesVariableExist())
-            HLT_Ele17_SW_TightEleId_L1R->initialise();
-        if(HLT_Ele22_SW_TighterEleId_L1R_v2->doesVariableExist())
-            HLT_Ele22_SW_TighterEleId_L1R_v2->initialise();
+//        if (HLTPhoton10_TO20Reader->doesVariableExist())
+//            HLTPhoton10_TO20Reader->initialise();
+//        if (HLTPhoton15_TO20Reader->doesVariableExist())
+//            HLTPhoton15_TO20Reader->initialise();
+//        if (HLTPhoton15_TO20CleanedReader->doesVariableExist())
+//            HLTPhoton15_TO20CleanedReader->initialise();
+//        if (HLTPhoton20CleanedReader->doesVariableExist())
+//            HLTPhoton20CleanedReader->initialise();
+////        if (HLTEmulatedPhoton15Reader->doesVariableExist())
+//            HLTEmulatedPhoton15Reader->initialise();
+        //        if (HLT_Ele10_LW_L1R->doesVariableExist())
+        if (seenDataTypes.at(DataType::DATA)) {
+            HLT_Ele10_LW_L1R->initialiseBlindly();
+            //        if (HLT_Ele15_SW_L1R->doesVariableExist())
+            HLT_Ele15_SW_L1R->initialiseBlindly();
+            //        if (HLT_Ele15_SW_CaloEleId_L1R->doesVariableExist())
+            HLT_Ele15_SW_CaloEleId_L1R->initialiseBlindly();
+            //        if (HLT_Ele17_SW_CaloEleId_L1R->doesVariableExist())
+            HLT_Ele17_SW_CaloEleId_L1R->initialiseBlindly();
+            //        if (HLT_Ele17_SW_TightEleId_L1R->doesVariableExist())
+            HLT_Ele17_SW_TightEleId_L1R->initialiseBlindly();
+            //        if (HLT_Ele22_SW_TighterEleId_L1R_v2->doesVariableExist())
+            HLT_Ele22_SW_TighterEleId_L1R_v2->initialiseBlindly();
+            HLT_Ele22_SW_TighterEleId_L1R_v3->initialiseBlindly();
+        }
+
         primaryReader->initialise();
         trackReader->initialise();
         electronReader->initialise();
@@ -186,42 +194,42 @@ DataType::value NTupleEventReader::getDataType(const std::string filename) {
         return DataType::QCD_EMEnriched_Pt30to80;
     else if (fileType == "enri3")
         return DataType::QCD_EMEnriched_Pt80to170;
-    else if(fileType == "pj1")
+    else if (fileType == "pj1")
         return DataType::PhotonJets_Pt40to100;
-    else if(fileType == "pj2")
-         return DataType::PhotonJets_Pt100to200;
-    else if(fileType == "pj3")
-         return DataType::PhotonJets_Pt200toInf;
-    else if(fileType == "VqqJets")
+    else if (fileType == "pj2")
+        return DataType::PhotonJets_Pt100to200;
+    else if (fileType == "pj3")
+        return DataType::PhotonJets_Pt200toInf;
+    else if (fileType == "VqqJets")
         return DataType::VQQ;
-    else if(fileType == "Zprime_M500GeV_W5GeV")
+    else if (fileType == "Zprime_M500GeV_W5GeV")
         return DataType::Zprime_M500GeV_W5GeV;
-    else if(fileType == "Zprime_M500GeV_W50GeV")
+    else if (fileType == "Zprime_M500GeV_W50GeV")
         return DataType::Zprime_M500GeV_W50GeV;
-    else if(fileType == "Zprime_M750GeV_W7500MeV")
+    else if (fileType == "Zprime_M750GeV_W7500MeV")
         return DataType::Zprime_M750GeV_W7500MeV;
-    else if(fileType == "Zprime_M1TeV_W10GeV")
-            return DataType::Zprime_M1TeV_W10GeV;
-    else if(fileType == "Zprime_M1TeV_W100GeV")
-            return DataType::Zprime_M1TeV_W100GeV;
-    else if(fileType == "Zprime_M1250GeV_W12500MeV")
-            return DataType::Zprime_M1250GeV_W12500MeV;
-    else if(fileType == "Zprime_M1500GeV_W15GeV")
-            return DataType::Zprime_M1500GeV_W15GeV;
-    else if(fileType == "Zprime_M1500GeV_W150GeV")
-            return DataType::Zprime_M1500GeV_W150GeV;
-    else if(fileType == "Zprime_M2TeV_W20GeV")
-            return DataType::Zprime_M2TeV_W20GeV;
-    else if(fileType == "Zprime_M2TeV_W200GeV")
-            return DataType::Zprime_M2TeV_W200GeV;
-    else if(fileType == "Zprime_M3TeV_W30GeV")
-            return DataType::Zprime_M3TeV_W30GeV;
-    else if(fileType == "Zprime_M3TeV_W300GeV")
-            return DataType::Zprime_M3TeV_W300GeV;
-    else if(fileType == "Zprime_M4TeV_W40GeV")
-            return DataType::Zprime_M4TeV_W40GeV;
-    else if(fileType == "Zprime_M4TeV_W400GeV")
-            return DataType::Zprime_M4TeV_W400GeV;
+    else if (fileType == "Zprime_M1TeV_W10GeV")
+        return DataType::Zprime_M1TeV_W10GeV;
+    else if (fileType == "Zprime_M1TeV_W100GeV")
+        return DataType::Zprime_M1TeV_W100GeV;
+    else if (fileType == "Zprime_M1250GeV_W12500MeV")
+        return DataType::Zprime_M1250GeV_W12500MeV;
+    else if (fileType == "Zprime_M1500GeV_W15GeV")
+        return DataType::Zprime_M1500GeV_W15GeV;
+    else if (fileType == "Zprime_M1500GeV_W150GeV")
+        return DataType::Zprime_M1500GeV_W150GeV;
+    else if (fileType == "Zprime_M2TeV_W20GeV")
+        return DataType::Zprime_M2TeV_W20GeV;
+    else if (fileType == "Zprime_M2TeV_W200GeV")
+        return DataType::Zprime_M2TeV_W200GeV;
+    else if (fileType == "Zprime_M3TeV_W30GeV")
+        return DataType::Zprime_M3TeV_W30GeV;
+    else if (fileType == "Zprime_M3TeV_W300GeV")
+        return DataType::Zprime_M3TeV_W300GeV;
+    else if (fileType == "Zprime_M4TeV_W40GeV")
+        return DataType::Zprime_M4TeV_W40GeV;
+    else if (fileType == "Zprime_M4TeV_W400GeV")
+        return DataType::Zprime_M4TeV_W400GeV;
     else
         return DataType::DATA;
 }
@@ -256,7 +264,21 @@ void NTupleEventReader::setMaximumNumberOfEvents(unsigned long maxNumberOfEvents
 }
 
 const boost::array<bool, DataType::NUMBER_OF_DATA_TYPES>& NTupleEventReader::getSeenDatatypes() {
+    if (areDatatypesKnown == false) {
+        readDataTypes();
+        areDatatypesKnown = true;
+    }
     return seenDataTypes;
+}
+
+void NTupleEventReader::readDataTypes() {
+    TIter nextFile(input->GetListOfFiles());
+    TChainElement* file = 0;
+    while ((file = (TChainElement*) nextFile()) != 0) {
+        string fileName = file->GetTitle();
+        DataType::value type = getDataType(fileName);
+        seenDataTypes.at(type) = true;
+    }
 }
 
 const char* NTupleEventReader::getCurrentFile() const {

@@ -13,8 +13,8 @@
 #include "RecoObjects/PrimaryVertex.h"
 #include "RecoObjects/MET.h"
 #include "Selection.h"
-#include "Enumerators.h"
-#include "Printers/EventPrinter.h"
+#include "Constants.h"
+#include "Printers/EventContentPrinter.h"
 
 namespace BAT {
 
@@ -25,12 +25,14 @@ protected:
     bool HLT_Ele10_LW_L1R,  HLT_Ele15_SW_L1R, HLT_Ele15_SW_CaloEleId_L1R, HLT_Ele17_SW_CaloEleId_L1R;
     bool HLT_Ele17_SW_TightEleId_L1R;
     bool HLT_Ele22_SW_TighterEleId_L1R_v2;
+    bool HLT_Ele22_SW_TighterEleId_L1R_v3;
     PrimaryVertexPointer primaryVertex;
     TrackCollection tracks;
     ElectronCollection allElectrons;
     ElectronCollection goodElectrons;
     ElectronCollection goodIsolatedElectrons;
     ElectronCollection looseElectrons;
+    ElectronCollection qcdElectrons;
 
     JetCollection allJets;
     JetCollection goodJets;
@@ -76,25 +78,27 @@ public:
     void setHLT_Ele17_SW_CaloEleId_L1R(bool hltTrigger);
     void setHLT_Ele17_SW_TightEleId_L1R(bool hltTrigger);
     void setHLT_Ele22_SW_TighterEleId_L1R_v2(bool hltTrigger);
+    void setHLT_Ele22_SW_TighterEleId_L1R_v3(bool hltTrigger);
     void setRunNumber(unsigned long number);
     void setEventNumber(unsigned long number);
     void setLocalEventNumber(unsigned long number);
     void setLumiBlock(unsigned long block);
     void setEventWeight(float weight);
 
-    const PrimaryVertexPointer getPrimaryVertex() const;
-    const TrackCollection& getTracks() const;
-    const ElectronCollection& getElectrons() const;
-    const ElectronCollection& getGoodElectrons() const;
-    const ElectronCollection& getGoodIsolatedElectrons() const;
-    const JetCollection& getJets() const;
-    const JetCollection& getGoodJets() const;
-    const JetCollection& getGoodBJets() const;
-    const MuonCollection& getMuons() const;
-    const MuonCollection& getGoodMuons() const;
-    const MuonCollection& getGoodIsolatedMuons() const;
-    const METPointer getMET() const;
-    const ElectronPointer getMostIsolatedElectron() const;
+    const PrimaryVertexPointer PrimaryVertex() const;
+    const TrackCollection& Tracks() const;
+    const ElectronCollection& Electrons() const;
+    const ElectronCollection& GoodElectrons() const;
+    const ElectronCollection& GoodIsolatedElectrons() const;
+    const ElectronCollection& QCDElectrons() const;
+    const JetCollection& Jets() const;
+    const JetCollection& GoodJets() const;
+    const JetCollection& GoodBJets() const;
+    const MuonCollection& Muons() const;
+    const MuonCollection& GoodMuons() const;
+    const MuonCollection& GoodIsolatedMuons() const;
+    const METPointer MET() const;
+    const ElectronPointer MostIsolatedElectron() const;
     unsigned long runnumber() const;
     unsigned long eventnumber() const;
     unsigned long localnumber() const;

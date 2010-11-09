@@ -25,11 +25,28 @@ Event::Event() :
     HLT_Ele17_SW_CaloEleId_L1R(false),
     HLT_Ele17_SW_TightEleId_L1R(false),
     HLT_Ele22_SW_TighterEleId_L1R_v2(false),
+    HLT_Ele22_SW_TighterEleId_L1R_v3(false),
     primaryVertex(),
-    tracks(), allElectrons(), goodElectrons(), goodIsolatedElectrons(), looseElectrons(), allJets(),
-            goodJets(), goodBJets(), allMuons(), goodMuons(), goodIsolatedMuons(), met(), dataType(DataType::DATA),
-            runNumber(0), eventNumber(0), lumiBlock(0), eventWeight(1.), jetCleaningEfficiency(1.),
-            numberOfHighPurityTracks(0) {
+    tracks(),
+    allElectrons(),
+    goodElectrons(),
+    goodIsolatedElectrons(),
+    looseElectrons(),
+    qcdElectrons(),
+    allJets(),
+    goodJets(),
+    goodBJets(),
+    allMuons(),
+    goodMuons(),
+    goodIsolatedMuons(),
+    met(),
+    dataType(DataType::DATA),
+    runNumber(0),
+    eventNumber(0),
+    lumiBlock(0),
+    eventWeight(1.),
+    jetCleaningEfficiency(1.),
+    numberOfHighPurityTracks(0) {
 
 }
 
@@ -77,6 +94,9 @@ void Event::selectElectronsByQuality() {
         if (electron->isGood())
             goodElectrons.push_back(electron);
 
+        if(electron->isGood(20))
+            qcdElectrons.push_back(electron);
+
         if (electron->isGood() && electron->isIsolated())
             goodIsolatedElectrons.push_back(electron);
 
@@ -94,13 +114,12 @@ void Event::setJets(JetCollection jets) {
 void Event::selectGoodJets() {
     goodJets.clear();
     for (unsigned int index = 0; index < allJets.size(); ++index) {
-        if (allJets.at(index)->isGood()) {
-            goodJets.push_back(allJets.at(index));
-            if ((isRealData() && allJets.at(index)->isBJetInData())
-                    || allJets.at(index)->isBJetAccordingToBtagAlgorithm(BJetTagger::SimpleSecondaryVertex))
-                goodBJets.push_back(allJets.at(index));
+        const JetPointer jet = allJets.at(index);
+        if (jet->isGood()) {
+            goodJets.push_back(jet);
+            if (jet->isBJetAccordingToBtagAlgorithm(BJetTagger::SimpleSecondaryVertex))
+                goodBJets.push_back(jet);
         }
-
     }
     cleanGoodJets();
 }
@@ -127,7 +146,7 @@ void Event::cleanGoodJetsAgainstIsolatedElectrons() {
 }
 
 void Event::cleanGoodJetsAgainstMostIsolatedElectron() {
-    const ElectronPointer mostIsolatedElectron = getMostIsolatedElectron();
+    const ElectronPointer mostIsolatedElectron = MostIsolatedElectron();
     unsigned int initialGoodJets = goodJets.size();
     for (unsigned int jetIndex = 0; jetIndex < goodJets.size(); ++jetIndex) {
         if (goodJets.at(jetIndex)->isWithinDeltaR(0.3, mostIsolatedElectron)) {
@@ -138,7 +157,7 @@ void Event::cleanGoodJetsAgainstMostIsolatedElectron() {
     jetCleaningEfficiency = goodJets.size() / initialGoodJets;
 }
 
-const ElectronPointer Event::getMostIsolatedElectron() const {
+const ElectronPointer Event::MostIsolatedElectron() const {
     float bestIsolation = 999999999;
     unsigned int bestIsolatedElectron = 990;
     for (unsigned int index = 0; index < allElectrons.size(); ++index) {
@@ -218,6 +237,10 @@ void Event::setHLT_Ele22_SW_TighterEleId_L1R_v2(bool hltTrigger){
     HLT_Ele22_SW_TighterEleId_L1R_v2 = hltTrigger;
 }
 
+void Event::setHLT_Ele22_SW_TighterEleId_L1R_v3(bool hltTrigger){
+    HLT_Ele22_SW_TighterEleId_L1R_v3 = hltTrigger;
+}
+
 void Event::setMET(const METPointer met) {
     this->met = met;
 }
@@ -242,51 +265,55 @@ void Event::setEventWeight(float weight) {
     eventWeight = weight;
 }
 
-const PrimaryVertexPointer Event::getPrimaryVertex() const {
+const PrimaryVertexPointer Event::PrimaryVertex() const {
     return primaryVertex;
 }
 
-const TrackCollection& Event::getTracks() const {
+const TrackCollection& Event::Tracks() const {
     return tracks;
 }
 
-const ElectronCollection& Event::getElectrons() const {
+const ElectronCollection& Event::Electrons() const {
     return allElectrons;
 }
 
-const ElectronCollection& Event::getGoodElectrons() const {
+const ElectronCollection& Event::GoodElectrons() const {
     return goodElectrons;
 }
 
-const ElectronCollection& Event::getGoodIsolatedElectrons() const {
+const ElectronCollection& Event::GoodIsolatedElectrons() const {
     return goodIsolatedElectrons;
 }
 
-const JetCollection& Event::getJets() const {
+const ElectronCollection& Event::QCDElectrons() const{
+    return qcdElectrons;
+}
+
+const JetCollection& Event::Jets() const {
     return allJets;
 }
 
-const JetCollection& Event::getGoodJets() const {
+const JetCollection& Event::GoodJets() const {
     return goodJets;
 }
 
-const JetCollection& Event::getGoodBJets() const {
+const JetCollection& Event::GoodBJets() const {
     return goodBJets;
 }
 
-const MuonCollection& Event::getMuons() const {
+const MuonCollection& Event::Muons() const {
     return allMuons;
 }
 
-const MuonCollection& Event::getGoodMuons() const {
+const MuonCollection& Event::GoodMuons() const {
     return goodMuons;
 }
 
-const MuonCollection& Event::getGoodIsolatedMuons() const {
+const MuonCollection& Event::GoodIsolatedMuons() const {
     return goodIsolatedMuons;
 }
 
-const METPointer Event::getMET() const {
+const METPointer Event::MET() const {
     return met;
 }
 
@@ -317,18 +344,18 @@ void Event::inspect() const {
     cout << "number of high purity tracks: " << numberOfHighPurityTracks << endl;
 
     cout << "number of jets: " << allJets.size() << endl;
-    EventPrinter::printJets(allJets);
+    EventContentPrinter::printJets(allJets);
     cout << "number of good jets: " << goodJets.size() << endl;
-    EventPrinter::printJets(goodJets);
+    EventContentPrinter::printJets(goodJets);
 
     cout << "number of good isolated electrons: " << goodIsolatedElectrons.size() << endl;
-    EventPrinter::printElectrons(goodIsolatedElectrons);
+    EventContentPrinter::printElectrons(goodIsolatedElectrons);
 
     cout << "number of good electrons: " << goodElectrons.size() << endl;
-    EventPrinter::printElectrons(goodElectrons);
+    EventContentPrinter::printElectrons(goodElectrons);
 
     cout << "number of electrons: " << allElectrons.size() << endl;
-    EventPrinter::printElectrons(allElectrons);
+    EventContentPrinter::printElectrons(allElectrons);
 }
 
 }

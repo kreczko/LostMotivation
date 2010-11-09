@@ -20,7 +20,7 @@
 #include "METReader.h"
 #include "TrackReader.h"
 #include <string>
-#include "../Enumerators.h"
+#include "../Constants.h"
 #include "../CrossSections.h"
 
 namespace BAT {
@@ -44,9 +44,9 @@ public:
 	static const char * ADDITIONAL_CHAIN;
 	static const std::string FilePrefix;
 
-	static Jet::Algorithm jetAlgorithm;
-	static Electron::Algorithm electronAlgorithm;
-	static MET::Algorithm metAlgorithm;
+	static JetAlgorithm::value jetAlgorithm;
+	static ElectronAlgorithm::value electronAlgorithm;
+	static METAlgorithm::value metAlgorithm;
 
 	NTupleEventReader();
 	virtual ~NTupleEventReader();
@@ -71,17 +71,18 @@ private:
 	boost::shared_ptr<TChain> input;
 	boost::shared_ptr<TChain> hltTriggerInput;
 	boost::shared_ptr<TChain> additionalInput;
-	boost::scoped_ptr<VariableReader<bool> > HLTPhoton10_TO20Reader;
-	boost::scoped_ptr<VariableReader<bool> > HLTPhoton15_TO20Reader;
-	boost::scoped_ptr<VariableReader<bool> > HLTPhoton15_TO20CleanedReader;
-	boost::scoped_ptr<VariableReader<double> > HLTPhoton20CleanedReader;
-	boost::scoped_ptr<VariableReader<bool> > HLTEmulatedPhoton15Reader;
+//	boost::scoped_ptr<VariableReader<bool> > HLTPhoton10_TO20Reader;
+//	boost::scoped_ptr<VariableReader<bool> > HLTPhoton15_TO20Reader;
+//	boost::scoped_ptr<VariableReader<bool> > HLTPhoton15_TO20CleanedReader;
+//	boost::scoped_ptr<VariableReader<double> > HLTPhoton20CleanedReader;
+//	boost::scoped_ptr<VariableReader<bool> > HLTEmulatedPhoton15Reader;
 	boost::scoped_ptr<VariableReader<double> > HLT_Ele10_LW_L1R;
 	boost::scoped_ptr<VariableReader<double> > HLT_Ele15_SW_L1R;
 	boost::scoped_ptr<VariableReader<double> > HLT_Ele15_SW_CaloEleId_L1R;
 	boost::scoped_ptr<VariableReader<double> > HLT_Ele17_SW_CaloEleId_L1R;
 	boost::scoped_ptr<VariableReader<double> > HLT_Ele17_SW_TightEleId_L1R;
 	boost::scoped_ptr<VariableReader<double> > HLT_Ele22_SW_TighterEleId_L1R_v2;
+	boost::scoped_ptr<VariableReader<double> > HLT_Ele22_SW_TighterEleId_L1R_v3;
 	boost::scoped_ptr<PrimaryVertexReader> primaryReader;
 	boost::scoped_ptr<TrackReader> trackReader;
 	boost::scoped_ptr<ElectronReader> electronReader;
@@ -92,7 +93,7 @@ private:
 	boost::scoped_ptr<VariableReader<unsigned int> > runNumberReader;
 	boost::scoped_ptr<VariableReader<unsigned int> > eventNumberReader;
 	boost::scoped_ptr<VariableReader<unsigned int> > lumiBlockReader;
-	bool areReadersSet;
+	bool areReadersSet, areDatatypesKnown;
 	Event currentEvent;
 	boost::array<bool, DataType::NUMBER_OF_DATA_TYPES> seenDataTypes;
 
@@ -100,6 +101,7 @@ private:
 	void initiateReadersIfNotSet();
 	DataType::value getDataType(const std::string filename);
 	std::string findFileType(const std::string filename);
+	void readDataTypes();
 };
 }
 
