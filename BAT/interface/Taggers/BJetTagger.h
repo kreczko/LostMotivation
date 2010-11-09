@@ -8,7 +8,7 @@
 #ifndef BJETTAGGER_H_
 #define BJETTAGGER_H_
 
-#include "../Enumerators.h"
+#include "../Constants.h"
 
 namespace BAT {
 
