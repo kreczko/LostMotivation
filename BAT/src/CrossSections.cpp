@@ -68,21 +68,21 @@ CrossSectionProvider::CrossSectionProvider(float lumiInInversePb, unsigned short
 
 void CrossSectionProvider::defineNumberOfProducedEvents() {
     numberOfProducedEvents[DataType::DATA] = 0;
-    numberOfProducedEvents[DataType::ttbar] = 1468404;
+    numberOfProducedEvents[DataType::ttbar] = 1459404;
     numberOfProducedEvents[DataType::Zjets] = 1084921;
-    numberOfProducedEvents[DataType::Wjets] = 5143895;
+    numberOfProducedEvents[DataType::Wjets] = 10068895;
 
-    numberOfProducedEvents[DataType::QCD_EMEnriched_Pt20to30] = 14607326;
-    numberOfProducedEvents[DataType::QCD_EMEnriched_Pt30to80] = 27403259;
-    numberOfProducedEvents[DataType::QCD_EMEnriched_Pt80to170] = 4686413;
+    numberOfProducedEvents[DataType::QCD_EMEnriched_Pt20to30] = 33801839;
+    numberOfProducedEvents[DataType::QCD_EMEnriched_Pt30to80] = 40785278;
+    numberOfProducedEvents[DataType::QCD_EMEnriched_Pt80to170] = 5546413;
 
     numberOfProducedEvents[DataType::QCD_BCtoE_Pt20to30] = 2606023;
-    numberOfProducedEvents[DataType::QCD_BCtoE_Pt30to80] = 2470597;
-    numberOfProducedEvents[DataType::QCD_BCtoE_Pt80to170] = 998674;
+    numberOfProducedEvents[DataType::QCD_BCtoE_Pt30to80] = 2475597;
+    numberOfProducedEvents[DataType::QCD_BCtoE_Pt80to170] = 1208674;
 
     numberOfProducedEvents[DataType::PhotonJets_Pt40to100] = 2255228;
-    numberOfProducedEvents[DataType::PhotonJets_Pt100to200] = 1071393;
-    numberOfProducedEvents[DataType::PhotonJets_Pt200toInf] = 960198;
+    numberOfProducedEvents[DataType::PhotonJets_Pt100to200] = 1068393;
+    numberOfProducedEvents[DataType::PhotonJets_Pt200toInf] = 1025198;
 
     numberOfProducedEvents[DataType::singleTop_And_W] = 0;
     numberOfProducedEvents[DataType::singleTopTChannel] = 0;
@@ -106,17 +106,17 @@ void CrossSectionProvider::defineNumberOfProducedEvents() {
 
 void CrossSectionProvider::defineNumberOfSkimmedEvents() {
     numberOfSkimmedEvents[DataType::DATA] = 0;
-    numberOfSkimmedEvents[DataType::ttbar] = 642707. / 1468404.;
-    numberOfSkimmedEvents[DataType::Zjets] = 329061. / 1084921.;
-    numberOfSkimmedEvents[DataType::Wjets] = 1101679. / 5143895.;
+    numberOfSkimmedEvents[DataType::ttbar] = 642707.;
+    numberOfSkimmedEvents[DataType::Zjets] = 329061.;
+    numberOfSkimmedEvents[DataType::Wjets] = 1101679.;
 
-    numberOfSkimmedEvents[DataType::QCD_EMEnriched_Pt20to30] = 917274. / 14607326.;
-    numberOfSkimmedEvents[DataType::QCD_EMEnriched_Pt30to80] = 3639776. / 27403259;
-    numberOfSkimmedEvents[DataType::QCD_EMEnriched_Pt80to170] = 1253958. / 4686413;
+    numberOfSkimmedEvents[DataType::QCD_EMEnriched_Pt20to30] = 917274.;
+    numberOfSkimmedEvents[DataType::QCD_EMEnriched_Pt30to80] = 3639776.;
+    numberOfSkimmedEvents[DataType::QCD_EMEnriched_Pt80to170] = 1253958.;
 
-    numberOfSkimmedEvents[DataType::QCD_BCtoE_Pt20to30] = 86392. / 2606023.;
-    numberOfSkimmedEvents[DataType::QCD_BCtoE_Pt30to80] = 441537. / 2470597.;
-    numberOfSkimmedEvents[DataType::QCD_BCtoE_Pt80to170] = 477762. / 998674.;
+    numberOfSkimmedEvents[DataType::QCD_BCtoE_Pt20to30] = 86392.;
+    numberOfSkimmedEvents[DataType::QCD_BCtoE_Pt30to80] = 441537.;
+    numberOfSkimmedEvents[DataType::QCD_BCtoE_Pt80to170] = 477762.;
 
     numberOfSkimmedEvents[DataType::PhotonJets_Pt40to100] = 311575;
     numberOfSkimmedEvents[DataType::PhotonJets_Pt100to200] = 241590;
@@ -126,7 +126,7 @@ void CrossSectionProvider::defineNumberOfSkimmedEvents() {
     numberOfSkimmedEvents[DataType::singleTopTChannel] = 0;
     numberOfSkimmedEvents[DataType::singleTopSChannel] = 0;
     numberOfSkimmedEvents[DataType::VQQ] = 36.;
-    numberOfSkimmedEvents[DataType::Zprime_M500GeV_W5GeV] = 0.453024209517;
+    numberOfSkimmedEvents[DataType::Zprime_M500GeV_W5GeV] = 50;
     numberOfSkimmedEvents[DataType::Zprime_M500GeV_W50GeV] = 50;
     numberOfSkimmedEvents[DataType::Zprime_M750GeV_W7500MeV] = 50;
     numberOfSkimmedEvents[DataType::Zprime_M1TeV_W10GeV] = 50;
