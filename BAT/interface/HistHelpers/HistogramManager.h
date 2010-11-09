@@ -11,7 +11,7 @@
 #include "TH1D.h"
 #include "TH2D.h"
 #include "../Taggers/BJetTagger.h"
-#include "../../interface/Enumerators.h"
+#include "../../interface/Constants.h"
 #include <boost/shared_ptr.hpp>
 #include <boost/array.hpp>
 #include <boost/multi_array.hpp>

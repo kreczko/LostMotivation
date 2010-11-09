@@ -6,13 +6,20 @@
  */
 
 #include "../../interface/HistHelpers/HistogramManager.h"
+#include "../../interface/Readers/NTupleEventReader.h"
 
 namespace BAT {
 
 HistogramManager::HistogramManager() :
-    jetBinned1DHists(boost::extents[DataType::NUMBER_OF_DATA_TYPES][JetBin::NUMBER_OF_JET_BINS]), seenDataTypes(),
-            histFiles(), collection(), collection2D(), currentDataType(DataType::DATA), currentJetbin(0),
-            currentBJetbin(0), currentIntegratedLumi(0) {
+    jetBinned1DHists(boost::extents[DataType::NUMBER_OF_DATA_TYPES][JetBin::NUMBER_OF_JET_BINS]),
+    seenDataTypes(),
+    histFiles(),
+    collection(),
+    collection2D(),
+    currentDataType(DataType::DATA),
+    currentJetbin(0),
+    currentBJetbin(0),
+    currentIntegratedLumi(0) {
 }
 
 HistogramManager::~HistogramManager() {
@@ -35,7 +42,7 @@ void HistogramManager::addH1D_JetBinned(std::string name, std::string title, uns
                 std::stringstream tmp_name, tmp_title;
                 tmp_name << name << "_" << JetBin::names[jetbin];
                 tmp_title << title << " (" << JetBin::names[jetbin] << ")";
-                jetBinned1DHists[jetbin][type]->add(tmp_name.str(), tmp_title.str(), numberOfBins, xmin, xmax);
+                jetBinned1DHists[type][jetbin]->add(name, tmp_title.str(), numberOfBins, xmin, xmax);
             }
         }
     }
@@ -56,7 +63,11 @@ void HistogramManager::setCurrentDataType(DataType::value type) {
 }
 
 void HistogramManager::setCurrentJetBin(unsigned int jetbin) {
-    currentJetbin = jetbin;
+    if(jetbin > 3){
+        currentJetbin = 4;
+    }
+    else
+        currentJetbin = jetbin;
 }
 
 void HistogramManager::setCurrentBJetBin(unsigned int jetbin) {
@@ -102,7 +113,9 @@ void HistogramManager::prepareForSeenDataTypes(const boost::array<bool, DataType
             collection.at(type) = TH1CollectionRef(new TH1Collection());
             collection2D.at(type) = TH2CollectionRef(new TH2Collection());
             for (unsigned short jetbin = 0; jetbin < JetBin::NUMBER_OF_JET_BINS; ++jetbin) {
-                jetBinned1DHists[jetbin][type] = TH1CollectionRef(new TH1Collection());
+                TH1CollectionRef coll(new TH1Collection());
+                coll->setSuffix(JetBin::names.at(jetbin));
+                jetBinned1DHists[type][jetbin] = coll;
             }
         }
 
@@ -112,7 +125,11 @@ void HistogramManager::prepareForSeenDataTypes(const boost::array<bool, DataType
 const std::string HistogramManager::assembleFilename(DataType::value type) const {
     const std::string name = DataType::names[type];
     std::stringstream str;
-    str << name << "_" << currentIntegratedLumi << "pb.root";
+    std::string electronAlgo = ElectronAlgorithm::names[NTupleEventReader::electronAlgorithm];
+    std::string jetAlgo = JetAlgorithm::names[NTupleEventReader::jetAlgorithm];
+    std::string metAlgo = METAlgorithm::names[NTupleEventReader::metAlgorithm];
+    str << name << "_" << currentIntegratedLumi << "pb";
+    str << "_" << electronAlgo << "_" << jetAlgo << "_" << metAlgo << ".root";
     return str.str();
 
 }
@@ -123,7 +140,7 @@ void HistogramManager::writeToDisk() {
             collection.at(type)->writeToFile(histFiles.at(type));
             collection2D.at(type)->writeToFile(histFiles.at(type));
             for (unsigned short jetbin = 0; jetbin < JetBin::NUMBER_OF_JET_BINS; ++jetbin) {
-                jetBinned1DHists[jetbin][type]->writeToFile(histFiles.at(type));
+                jetBinned1DHists[type][jetbin]->writeToFile(histFiles.at(type));
             }
             histFiles.at(type)->Write();
             histFiles.at(type)->Close();
