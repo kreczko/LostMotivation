@@ -9,6 +9,7 @@
 #define EVENTCOUNTER_H_
 #include "boost/multi_array.hpp"
 
+namespace BAT {
 typedef boost::multi_array<unsigned long, 3> integerCounter;
 typedef integerCounter::size_type size_type_int;
 
@@ -17,49 +18,61 @@ typedef floatCounter::size_type size_type_float;
 
 struct Counter {
 private:
-	integerCounter unweightedEntries;
-	floatCounter weightedEntries;
-	unsigned int eventType;
+    unsigned int dim1, dim2, dim3;
+    integerCounter unweightedEntries;
+    floatCounter weightedEntries;
+    unsigned int eventType;
 
 public:
-	Counter() {
-	}
+    Counter() {
+    }
 
-	Counter(const int dimension1, const int dimension2, const int dimension3) :
-		unweightedEntries(boost::extents[dimension1][dimension2][dimension3]), weightedEntries(
-				boost::extents[dimension1][dimension2][dimension3]) {
-	}
+    Counter(unsigned int dimension1, unsigned int dimension2, unsigned int dimension3) :
+        dim1(dimension1),
+        dim2(dimension2),
+        dim3(dimension3),
+        unweightedEntries(boost::extents[dimension1][dimension2][dimension3]),
+        weightedEntries(boost::extents[dimension1][dimension2][dimension3]) {
+    }
 
-	~Counter() {
-	}
+    ~Counter() {
+    }
 
-	void increase(const unsigned int dimension1, const unsigned int dimension2, const unsigned int dimension3,
-			const double weight = 1.0) {
-		unweightedEntries[dimension1][dimension2][dimension3]++;
-		weightedEntries[dimension1][dimension2][dimension3] += weight;
-	}
+    void increase(const unsigned int dimension1, const unsigned int dimension2, const unsigned int dimension3,
+            const double weight = 1.0) {
+        unweightedEntries[dimension1][dimension2][dimension3]++;
+        weightedEntries[dimension1][dimension2][dimension3] += weight;
+    }
 
-	unsigned int getUnweightedEntries(unsigned int dimension1, unsigned int dimension2, unsigned int dimension3) {
-		return unweightedEntries[dimension1][dimension2][dimension3];
-	}
+    unsigned int getEntries(unsigned int dimension1, unsigned int dimension2, unsigned int dimension3) {
+        return unweightedEntries[dimension1][dimension2][dimension3];
+    }
 
-	float getWeightedEntries(unsigned int dimension1, unsigned int dimension2, unsigned int dimension3) {
-		return weightedEntries[dimension1][dimension2][dimension3];
-	}
+    float getWeightedEntries(unsigned int dimension1, unsigned int dimension2, unsigned int dimension3) {
+        return weightedEntries[dimension1][dimension2][dimension3];
+    }
 
-	unsigned int getSizeOfFirstDimension() {
-		return unweightedEntries.size();
-	}
+    unsigned int sumThirdDimension(unsigned int dimension1, unsigned int dimension2){
+        for(unsigned int third = 0; third < dim3; ++third){
 
-	unsigned int getSizeOfSecondDimension() {
-		return unweightedEntries.shape()[1];
-	}
+        }
+        return 0;
+    }
 
-	unsigned int getSizeOfThirdDimension() {
-		return unweightedEntries.shape()[2];
-	}
+    unsigned int getSizeOfFirstDimension() {
+        return unweightedEntries.size();
+    }
 
-	//TODO: subcount
+    unsigned int getSizeOfSecondDimension() {
+        return unweightedEntries.shape()[1];
+    }
+
+    unsigned int getSizeOfThirdDimension() {
+        return unweightedEntries.shape()[2];
+    }
+
+    //TODO: subcount
 
 };
+}
 #endif /* EVENTCOUNTER_H_ */
