@@ -95,25 +95,78 @@ enum trigger {
 };
 }
 
-namespace JetBin{
-enum value{
+namespace JetBin {
+enum value {
     NoJet,
     OneJet,
     TwoJets,
     ThreeJets,
     FourOrMoreJets,
-    allInclusive,
     NUMBER_OF_JET_BINS
 };
 
-const boost::array<std::string, JetBin::NUMBER_OF_JET_BINS> names = { {
-        "0jet",
-        "1jet",
-        "2jets",
-        "3jets",
-        "4orMoreJets",
-        "allInclusive"} };
+const boost::array<std::string, JetBin::NUMBER_OF_JET_BINS> names = {
+        { "0jet", "1jet", "2jets", "3jets", "4orMoreJets"
+        } };
 }
+
+namespace JetAlgorithm {
+enum value {
+    Calo_AntiKT_Cone05,
+    JPT_AntiKt_ConeDR05,
+    ParticleFlow,
+    PF2PAT,
+    NUMBER_OF_JETALGORITHMS
+};
+//for nTuple branch names
+const boost::array<std::string, JetAlgorithm::NUMBER_OF_JETALGORITHMS> prefixes = { {
+        "jets",
+        "jetsJPTAK5",
+        "PFJets2",
+        "PFJets" } };
+
+const boost::array<std::string, JetAlgorithm::NUMBER_OF_JETALGORITHMS> names = { {
+        "CaloJets",
+        "JPT",
+        "PFJets",
+        "PF2PATJets" } };
+}
+
+namespace METAlgorithm {
+enum value {
+    Calo,
+    tcMET,
+    ParticleFlowMET,
+    NUMBER_OF_METALGORITHMS
+};
+
+const boost::array<std::string, METAlgorithm::NUMBER_OF_METALGORITHMS> prefixes = { {
+        "mets",
+        "tcmets",
+        "PFMets"  } };
+
+const boost::array<std::string, METAlgorithm::NUMBER_OF_METALGORITHMS> names = { {
+        "CaloMET",
+        "TCMET",
+        "PFMET" } };
+}
+
+namespace ElectronAlgorithm {
+enum value {
+    Calo,
+    ParticleFlow,
+    NUMBER_OF_ELECTRONALGORITHMS
+};
+
+const boost::array<std::string, ElectronAlgorithm::NUMBER_OF_ELECTRONALGORITHMS> prefixes = { {
+        "els",
+        "PFElsAll"  } };
+
+const boost::array<std::string, ElectronAlgorithm::NUMBER_OF_ELECTRONALGORITHMS> names = { {
+        "CaloElectron",
+        "PFElectron"} };
+}
+
 }
 
 #endif /* ENUMERATORS_H_ */
