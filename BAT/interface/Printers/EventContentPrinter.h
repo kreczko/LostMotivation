@@ -5,21 +5,24 @@
  *      Author: kreczko
  */
 
-#ifndef EVENTPRINTER_H_
-#define EVENTPRINTER_H_
+#ifndef EventContentPrinter_H_
+#define EventContentPrinter_H_
 #include "../RecoObjects/Particle.h"
 #include "../RecoObjects/Electron.h"
 #include "../RecoObjects/Jet.h"
 
 namespace BAT {
 
-namespace EventPrinter {
+namespace EventContentPrinter {
     extern void printJets(const JetCollection jets);
     extern void printElectrons(const ElectronCollection electrons);
 
     extern void printJet(const JetPointer jet);
+    extern void printPFJetExtra(const JetPointer jet);
     extern void printElectron(const ElectronPointer electron);
     extern void printParticle(const ParticlePointer particle);
+    extern void printCutFlowTable();
+    extern void printWeightedCutFlowTable();
 }
 }
 #endif /* EVENTPRINTER_H_ */

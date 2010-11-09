@@ -5,13 +5,13 @@
  *      Author: kreczko
  */
 
-#include "../../interface/Printers/EventPrinter.h"
+#include "../../interface/Printers/EventContentPrinter.h"
 #include <iostream>
 #include <iomanip>
 using namespace std;
 
 namespace BAT {
-namespace EventPrinter {
+namespace EventContentPrinter {
 
 extern void printJets(const JetCollection jets) {
     for (unsigned short index = 0; index < jets.size(); ++index) {
@@ -26,6 +26,19 @@ extern void printJet(const JetPointer jet) {
     cout << setw(30) << "emf" << setw(30) << "n90Hits" << setw(30) << "fHPD" << setw(30) << "B tag(SSV)" << endl;
     cout << setw(30) << jet->emf() << setw(30) << jet->n90Hits() << setw(30) << jet->fHPD() << setw(30)
             << jet->isBJetAccordingToBtagAlgorithm(BJetTagger::SimpleSecondaryVertex) << endl << endl;
+    if(jet->getUsedAlgorithm() == JetAlgorithm::ParticleFlow || jet->getUsedAlgorithm() == JetAlgorithm::PF2PAT){
+        printPFJetExtra(jet);
+    }
+}
+
+extern void printPFJetExtra(const JetPointer jet){
+    cout << setw(30) << "NOD" << setw(30) << "CEF" << setw(30) << "NHF" << setw(30) << "NEF" << endl;
+    cout << setw(30) << jet->NOD() << setw(30) << jet->CEF() << setw(30) << jet->NHF() << setw(30)
+                << jet->NEF() << endl << endl;
+
+    cout << setw(30) << "CHF" << setw(30) << "NCH" << setw(30) << "" << setw(30) << "" << endl;
+        cout << setw(30) << jet->CHF() << setw(30) << jet->NCH() << setw(30) << "" << setw(30)
+                    << "" << endl << endl;
 }
 
 extern void printElectrons(const ElectronCollection electrons) {
