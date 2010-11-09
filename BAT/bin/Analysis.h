@@ -25,8 +25,9 @@
 #include "../interface/CrossSections.h"
 #include <iostream>
 #include <string>
-#include "../interface/Enumerators.h"
+#include "../interface/Constants.h"
 #include "../interface/HistHelpers/HistogramManager.h"
+#include "../interface/EventCounter.h"
 
 struct InterestingEvent {
     InterestingEvent(unsigned long run, unsigned long event, std::string file) :
@@ -61,18 +62,6 @@ private:
     BAT::Event currentEvent;
     BAT::TopPairEventCandidate ttbarCandidate;
     BAT::HistogramManager histMan;
-//    boost::shared_ptr<TDirectory> testingDirectory;
-//    boost::shared_ptr<TH1F> h_et;
-//    boost::shared_ptr<TH1F> h_diElectronMass;
-//    boost::shared_ptr<TH2F> h_ptRel_vs_DRmin;
-//    boost::shared_ptr<TH1F> h_mttbar;
-//    boost::shared_ptr<TH1F> h_mleptonicTop;
-//    boost::shared_ptr<TH1F> h_mhadronicTop;
-//    boost::shared_ptr<TH1F> h_mAllTop;
-//    boost::shared_ptr<TH1F> h_swissCrossAllEle;
-//    boost::shared_ptr<TH1F> h_m3, h_ttbar_pt, h_HT, h_numberOfJets, h_numberOfBJets, h_met, h_leadingJetMass, h_mtW,
-//            h_electronD0, h_electronD0_iso, h_neutrino_pz;
-//    boost::shared_ptr<TFile> outputfile;
     cutarray cutflow;
     cutarray singleCuts;
     cutmap cutflowPerFile;
@@ -80,6 +69,7 @@ private:
     std::vector<InterestingEvent> interestingEvents;
     BAT::CrossSectionProvider weights;
     float weight;
+    BAT::Counter cutflowPerSample;
 public:
     static float luminosity;
     Analysis();
@@ -88,13 +78,13 @@ public:
     void addInputFile(const char * fileName);
     void setMaximalNumberOfEvents(long maxEvents);
     void setUsedNeutrinoSelectionForTopPairReconstruction(BAT::NeutrinoSelectionCriterion::value selection);
-    static void useJetAlgorithm(BAT::Jet::Algorithm algo) {
+    static void useJetAlgorithm(BAT::JetAlgorithm::value algo) {
         BAT::NTupleEventReader::jetAlgorithm = algo;
     }
-    static void useElectronAlgorithm(BAT::Electron::Algorithm algo) {
+    static void useElectronAlgorithm(BAT::ElectronAlgorithm::value algo) {
         BAT::NTupleEventReader::electronAlgorithm = algo;
     }
-    static void useMETAlgorithm(BAT::MET::Algorithm algo) {
+    static void useMETAlgorithm(BAT::METAlgorithm::value algo) {
         BAT::NTupleEventReader::metAlgorithm = algo;
     }
 private:
@@ -108,6 +98,8 @@ private:
     void printSummary();
     void inspectEvents();
     void createHistograms();
+    void doNotePlots();
+    void doQCDStudy();
 };
 
 #endif /* ANALYSIS_H_ */
