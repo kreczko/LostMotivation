@@ -10,7 +10,7 @@
 
 #include <boost/shared_ptr.hpp>
 #include "Event.h"
-#include "Enumerators.h"
+#include "Constants.h"
 #include "RecoObjects/Particle.h"
 #include "RecoObjects/Electron.h"
 #include "RecoObjects/Jet.h"
@@ -81,6 +81,7 @@ public:
     bool passesSelectionStep(TTbarEPlusJetsSelection::Step step) const;
     bool passesSelectionStepUpTo(TTbarEPlusJetsSelection::Step upToStep) const;
     bool passesNMinus1(TTbarEPlusJetsSelection::Step omittedStep) const;
+    bool passesAntiEventSelection() const;
 
     bool passesScrapingFilter() const;
     bool passesHighLevelTrigger() const;
@@ -115,7 +116,7 @@ public:
     double sumPt() const;
     double HT(unsigned short jetLimit) const;
     double fullHT() const;
-    double transverseWmass() const;
+    double transverseWmass(const ElectronPointer electron) const;
     double HTSystem() const;
     double PtRatio() const;
     double PtTtbarSystem(unsigned short neutrinoSolution) const;

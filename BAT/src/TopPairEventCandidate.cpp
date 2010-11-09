@@ -31,11 +31,29 @@ double const TopPairEventCandidate::W_mass = 80.389;
 NeutrinoSelectionCriterion::value TopPairEventCandidate::usedNeutrinoSelection = NeutrinoSelectionCriterion::chi2;
 
 TopPairEventCandidate::TopPairEventCandidate() :
-    Event(), electronFromW(), leptonicBJet(), hadronicBJet(), jet1FromW(), jet2FromW(), neutrino1(), neutrino2(),
-            leptonicW1(), leptonicW2(), hadronicW(), leptonicTop1(), leptonicTop2(), hadronicTop(),
-            selectedNeutrino(0), currentSelectedNeutrino(0), hadronicBIndex(0), leptonicBIndex(0), jet1FromWIndex(0),
-            jet2FromWIndex(0), doneReconstruction(false), conversionTagger(new ConversionTagger()),
-            doneConversionTagging(false) {
+    Event(),
+    electronFromW(),
+    leptonicBJet(),
+    hadronicBJet(),
+    jet1FromW(),
+    jet2FromW(),
+    neutrino1(),
+    neutrino2(),
+    leptonicW1(),
+    leptonicW2(),
+    hadronicW(),
+    leptonicTop1(),
+    leptonicTop2(),
+    hadronicTop(),
+    selectedNeutrino(0),
+    currentSelectedNeutrino(0),
+    hadronicBIndex(0),
+    leptonicBIndex(0),
+    jet1FromWIndex(0),
+    jet2FromWIndex(0),
+    doneReconstruction(false),
+    conversionTagger(new ConversionTagger()),
+    doneConversionTagging(false) {
 }
 
 TopPairEventCandidate::TopPairEventCandidate(const Event& event) :
@@ -72,8 +90,10 @@ bool TopPairEventCandidate::passesHighLevelTrigger() const {
             return HLT_Ele17_SW_CaloEleId_L1R;
         else if (runNumber > 147116 && runNumber <= 148818)
             return HLT_Ele17_SW_TightEleId_L1R;
-        else if (runNumber >= 148819)
+        else if (runNumber >= 148819 && runNumber < 149181)
             return HLT_Ele22_SW_TighterEleId_L1R_v2;
+        else if(runNumber >= 149181)
+            return true;
         else
             return false;
     }
@@ -100,6 +120,7 @@ bool TopPairEventCandidate::isolatedElectronNotTaggedAsFromConversion() const {
     if (goodIsolatedElectrons.size() > 0) {
         if (doneConversionTagging == false) {
             conversionTagger->calculateConversionVariables(goodIsolatedElectrons.front(), tracks, 3.8, 0.45);
+//            doneConversionTagging = true;
         }
         return conversionTagger->isFromConversion(0.02, 0.02) == false;
     } else
@@ -202,6 +223,26 @@ bool TopPairEventCandidate::passesSelectionStep(enum TTbarEPlusJetsSelection::St
     default:
         return false;
     }
+}
+
+bool TopPairEventCandidate::passesAntiEventSelection() const{
+    bool passesFirst3 = passesSelectionStepUpTo(TTbarEPlusJetsSelection::GoodPrimaryvertex);
+    bool passGoodElectrons = goodElectrons.size() > 0 && goodIsolatedElectrons.size() < 2;
+    bool passesBothIsolationvetos = false;
+    if (passGoodElectrons) {
+        const ElectronPointer electron = MostIsolatedElectron();
+        if (electron->isGood()) {
+            conversionTagger->calculateConversionVariables(electron, tracks, 3.8, 0.45);
+            passesBothIsolationvetos = electron->isFromConversion() == false && conversionTagger->isFromConversion(
+                    0.02, 0.02) == false;
+        }
+
+    }
+    bool muonVeto = hasNoIsolatedMuon();
+    bool Zveto = isNotAZBosonEvent();
+    return passesFirst3 && passGoodElectrons && passesBothIsolationvetos && muonVeto && Zveto;
+
+
 }
 
 void TopPairEventCandidate::reconstructUsingChi2() {
@@ -557,54 +598,54 @@ double TopPairEventCandidate::mttbar() const {
 void TopPairEventCandidate::inspectReconstructedEvent() const {
     cout << "run " << runNumber << ", event " << eventNumber << endl;
     cout << "leptonic b jet, goodJet index " << leptonicBIndex << endl;
-    EventPrinter::printJet(leptonicBJet);
+    EventContentPrinter::printJet(leptonicBJet);
 
     cout << "electron from W" << endl;
-    EventPrinter::printElectron(goodIsolatedElectrons.front());
+    EventContentPrinter::printElectron(goodIsolatedElectrons.front());
 
     cout << "MET" << endl;
-    EventPrinter::printParticle(met);
+    EventContentPrinter::printParticle(met);
     cout << endl;
 
     cout << "reconstructed neutrino 1(selected: " << selectedNeutrino << ")" << endl;
-    EventPrinter::printParticle(neutrino1);
+    EventContentPrinter::printParticle(neutrino1);
     cout << endl;
 
     cout << "reconstructed neutrino 2(selected: " << selectedNeutrino << ")" << endl;
-    EventPrinter::printParticle(neutrino2);
+    EventContentPrinter::printParticle(neutrino2);
     cout << endl;
 
     cout << "leptonic W 1 (selected: " << selectedNeutrino << ")" << endl;
-    EventPrinter::printParticle(leptonicW1);
+    EventContentPrinter::printParticle(leptonicW1);
     cout << endl;
 
     cout << "leptonic W 2 (selected: " << selectedNeutrino << ")" << endl;
-    EventPrinter::printParticle(leptonicW2);
+    EventContentPrinter::printParticle(leptonicW2);
     cout << endl;
 
     cout << "leptonic top 1 (selected: " << selectedNeutrino << ")" << endl;
-    EventPrinter::printParticle(leptonicTop1);
+    EventContentPrinter::printParticle(leptonicTop1);
     cout << endl;
 
     cout << "leptonic top 2 (selected: " << selectedNeutrino << ")" << endl;
-    EventPrinter::printParticle(leptonicTop2);
+    EventContentPrinter::printParticle(leptonicTop2);
     cout << endl;
 
     cout << "hadronic b jet, goodJet index " << hadronicBIndex << endl;
-    EventPrinter::printJet(hadronicBJet);
+    EventContentPrinter::printJet(hadronicBJet);
 
     cout << "jet1 from W, goodJet index " << jet1FromWIndex << endl;
-    EventPrinter::printJet(jet1FromW);
+    EventContentPrinter::printJet(jet1FromW);
 
     cout << "jet 2 from W, goodJet index " << jet2FromWIndex << endl;
-    EventPrinter::printJet(jet2FromW);
+    EventContentPrinter::printJet(jet2FromW);
 
     cout << "hadronic W" << endl;
-    EventPrinter::printParticle(hadronicW);
+    EventContentPrinter::printParticle(hadronicW);
     cout << endl;
 
     cout << "hadronic top" << endl;
-    EventPrinter::printParticle(hadronicTop);
+    EventContentPrinter::printParticle(hadronicTop);
     cout << endl;
 }
 
@@ -625,8 +666,7 @@ double TopPairEventCandidate::fullHT() const {
     return ht;
 }
 
-double TopPairEventCandidate::transverseWmass() const {
-    const ElectronPointer electron = goodIsolatedElectrons.front();
+double TopPairEventCandidate::transverseWmass(const ElectronPointer electron) const {
     double energySquared = pow(electron->et() + met->et(), 2);
     double momentumSquared = pow(electron->px() + met->px(), 2) + pow(electron->py() + met->py(), 2);
     double tMassSquared = energySquared - momentumSquared;
