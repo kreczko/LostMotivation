@@ -12,11 +12,11 @@ namespace BAT {
 float MET::goodMETMinimalEt = 0;
 
 MET::MET() :
-    Particle(), usedAlgorithm(MET::Calo) {
+    Particle(), usedAlgorithm(METAlgorithm::Calo) {
 }
 
 MET::MET(float ex, float ey) :
-    Particle(sqrt(ex * ex + ey * ey), ex, ey, 0), usedAlgorithm(MET::Calo) {
+    Particle(sqrt(ex * ex + ey * ey), ex, ey, 0), usedAlgorithm(METAlgorithm::Calo) {
 
 }
 
@@ -27,11 +27,11 @@ bool MET::isGood() const {
     return et() > MET::goodMETMinimalEt;
 }
 
-void MET::setUsedAlgorithm(MET::Algorithm algo) {
+void MET::setUsedAlgorithm(METAlgorithm::value algo) {
     usedAlgorithm = algo;
 }
 
-MET::Algorithm MET::getUsedAlgorithm() const {
+METAlgorithm::value MET::getUsedAlgorithm() const {
     return usedAlgorithm;
 }
 

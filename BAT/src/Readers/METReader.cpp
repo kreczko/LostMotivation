@@ -8,21 +8,19 @@
 #include "../../interface/Readers/METReader.h"
 
 namespace BAT {
-const std::string METReader::algorithmPrefixes[MET::NUMBER_OF_METALGORITHMS] = {
-        "mets",
-        "metsKT4",
-        "metsKT6",
-        "tcmets",
-        "PFMets" };
+//const std::string METReader::algorithmPrefixes[METAlgorithm::NUMBER_OF_METALGORITHMS] = {
+//        "mets",
+//        "tcmets",
+//        "PFMets" };
 
 METReader::METReader() :
     exReader(), eyReader(), met() {
 
 }
 
-METReader::METReader(TChainPointer input, MET::Algorithm algo) :
-    exReader(input, algorithmPrefixes[algo] + "_ex"),
-    eyReader(input, algorithmPrefixes[algo] + "_ey") {
+METReader::METReader(TChainPointer input, METAlgorithm::value algo) :
+    exReader(input, METAlgorithm::prefixes.at(algo) + "_ex"),
+    eyReader(input, METAlgorithm::prefixes.at(algo) + "_ey") {
 
 }
 

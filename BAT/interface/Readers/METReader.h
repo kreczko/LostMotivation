@@ -14,10 +14,10 @@ namespace BAT {
 
 class METReader {
 public:
-    const static std::string algorithmPrefixes[MET::NUMBER_OF_METALGORITHMS];
+//    const static std::string algorithmPrefixes[METAlgorithm::NUMBER_OF_METALGORITHMS];
 
     METReader();
-    METReader(TChainPointer input, MET::Algorithm algo = MET::Calo);
+    METReader(TChainPointer input, METAlgorithm::value algo = METAlgorithm::Calo);
     const METPointer getMET();
     virtual ~METReader();
     void initialise();
@@ -25,7 +25,7 @@ private:
     VariableReader<MultiFloatPointer> exReader;
     VariableReader<MultiFloatPointer> eyReader;
     METPointer met;
-    MET::Algorithm usedAlgorithm;
+    METAlgorithm::value usedAlgorithm;
     void readMET();
 };
 

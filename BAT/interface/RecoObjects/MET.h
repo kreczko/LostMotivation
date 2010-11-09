@@ -9,14 +9,15 @@
 #define MET_H_
 #include "Particle.h"
 #include <boost/shared_ptr.hpp>
+#include "../Constants.h"
 
 namespace BAT {
 
 class MET: public Particle {
 public:
-	enum Algorithm {
-		Calo,  KT4, KT6, tcMET, ParticleFlowMET, NUMBER_OF_METALGORITHMS
-	};
+//	enum Algorithm {
+//		Calo,  KT4, KT6, tcMET, ParticleFlowMET, NUMBER_OF_METALGORITHMS
+//	};
 
 	static float goodMETMinimalEt;
 
@@ -27,10 +28,10 @@ public:
 	MET(float ex, float ey);
 	virtual ~MET();
 	bool isGood() const;
-	void setUsedAlgorithm(MET::Algorithm algo);
-	MET::Algorithm getUsedAlgorithm() const;
+	void setUsedAlgorithm(METAlgorithm::value algo);
+	METAlgorithm::value getUsedAlgorithm() const;
 private:
-	MET::Algorithm usedAlgorithm;
+	METAlgorithm::value usedAlgorithm;
 };
 
 typedef boost::shared_ptr<MET> METPointer;
