@@ -9,7 +9,7 @@
 #include "cute/cute_suite.h"
 #include "../interface/HistHelpers/HistogramManager.h"
 #include <boost/array.hpp>
-#include "../interface/Enumerators.h"
+#include "../interface/Constants.h"
 #include <boost/filesystem.hpp>
 
 using namespace BAT;
@@ -64,7 +64,7 @@ public:
     void testPreparationDatajetBinned() {
         man.setCurrentDataType(DataType::DATA);
         man.setCurrentJetBin(0);
-        ASSERT(man.H1D_JetBinned("myHistJeted_0jet") != 0);
+        ASSERT(man.H1D_JetBinned("myHistJeted") != 0);
     }
 
     void testNumberOfHistsInFile(){
@@ -72,6 +72,12 @@ public:
         boost::shared_ptr<TFile> file(new TFile("data_1.5pb.root"));
         ASSERT_EQUAL(2 + JetBin::NUMBER_OF_JET_BINS, file->GetNkeys());
     }
+
+    void testJetBinnedHistInFile(){
+            man.writeToDisk();
+            boost::shared_ptr<TFile> file(new TFile("data_1.5pb.root"));
+            ASSERT(file->Get("myHistJeted_0jet") != 0);
+        }
 
 };
 
@@ -83,6 +89,7 @@ extern cute::suite make_suite_TestHistogramManager() {
     s.push_back(CUTE_SMEMFUN(TestHistogramManager, testPreparationData2D));
     s.push_back(CUTE_SMEMFUN(TestHistogramManager, testPreparationDatajetBinned));
     s.push_back(CUTE_SMEMFUN(TestHistogramManager, testNumberOfHistsInFile));
+    s.push_back(CUTE_SMEMFUN(TestHistogramManager, testJetBinnedHistInFile));
     return s;
 }
 
