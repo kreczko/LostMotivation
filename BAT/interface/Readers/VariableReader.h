@@ -62,6 +62,11 @@ public:
             throw VariableNotFoundException("Variable '" + variableName + "' was not found.");
     }
 
+    void initialiseBlindly() {
+        enableVariable();
+        readVariableFromInput();
+    }
+
     bool doesVariableExist() {
         return input->GetBranch(variableName) != NULL;
     }
