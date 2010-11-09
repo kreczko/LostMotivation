@@ -8,7 +8,7 @@
 #include "cute/cute.h"
 #include "cute/cute_suite.h"
 #include "../interface/CrossSections.h"
-#include "../interface/Enumerators.h"
+#include "../interface/Constants.h"
 
 using namespace BAT;
 
@@ -88,7 +88,7 @@ public:
     }
 
     void testGetWeightTtbar() {
-        ASSERT_EQUAL_DELTA(157.5 * lumi/1468404, xSectionProvider.getWeight(DataType::ttbar), 0.00000001);
+        ASSERT_EQUAL_DELTA(157.5 * lumi/1459404, xSectionProvider.getWeight(DataType::ttbar), 0.00000001);
     }
 
 };
