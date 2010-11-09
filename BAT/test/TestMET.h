@@ -46,12 +46,12 @@ public:
     }
 
     void testSetAlgorithm() {
-        goodMET.setUsedAlgorithm(MET::ParticleFlowMET);
-        ASSERT_EQUAL(MET::ParticleFlowMET, goodMET.getUsedAlgorithm());
+        goodMET.setUsedAlgorithm(METAlgorithm::ParticleFlowMET);
+        ASSERT_EQUAL(METAlgorithm::ParticleFlowMET, goodMET.getUsedAlgorithm());
     }
 
     void testStandardAlgorithm() {
-        ASSERT_EQUAL(MET::Calo, goodMET.getUsedAlgorithm());
+        ASSERT_EQUAL(METAlgorithm::Calo, goodMET.getUsedAlgorithm());
     }
 };
 
