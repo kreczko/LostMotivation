@@ -40,7 +40,7 @@ PrimaryVertexPointer TestObjectFactory::badFakePrimaryVertex(){
 
 ElectronPointer TestObjectFactory::goodCaloElectron() {
     ElectronPointer electron = ElectronPointer(new Electron(100., 99., 13., 5.));
-    electron->setUsedAlgorithm(Electron::Calo);
+    electron->setUsedAlgorithm(ElectronAlgorithm::Calo);
     electron->setSuperClusterEta(0);
     electron->setD0_BS(0);
     PrimaryVertexPointer pv = TestObjectFactory::goodPrimaryVertex();
