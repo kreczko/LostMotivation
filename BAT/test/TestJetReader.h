@@ -19,7 +19,7 @@ public:
 	TestJetReader() :
 		input(new TChain("configurableAnalysis/eventB")),
 		reader(new JetReader(input)),
-		PFreader(new JetReader(input, Jet::ParticleFlow)),
+		PFreader(new JetReader(input, JetAlgorithm::ParticleFlow)),
 		jets(),
 		pfjets(),
 		firstJet(),
@@ -76,11 +76,11 @@ public:
 	}
 
 	void testUsedAlgorithmDefault(){
-		ASSERT_EQUAL(Jet::Calo_AntiKT_Cone05, firstJet->getUsedAlgorithm());
+		ASSERT_EQUAL(JetAlgorithm::Calo_AntiKT_Cone05, firstJet->getUsedAlgorithm());
 	}
 
 	void testUsedAlgorithmPFJet(){
-		ASSERT_EQUAL(Jet::ParticleFlow, firstPFJet->getUsedAlgorithm());
+		ASSERT_EQUAL(JetAlgorithm::ParticleFlow, firstPFJet->getUsedAlgorithm());
 	}
 };
 extern cute::suite make_suite_TestJetReader() {

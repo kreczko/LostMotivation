@@ -92,9 +92,9 @@ public:
 	}
 
 	void testUsedJetAlgorithm() {
-		ASSERT_EQUAL(Jet::Calo_AntiKT_Cone05, goodJet.getUsedAlgorithm());
-		goodJet.setUsedAlgorithm(Jet::ParticleFlow);
-		ASSERT_EQUAL(Jet::ParticleFlow, goodJet.getUsedAlgorithm());
+		ASSERT_EQUAL(JetAlgorithm::Calo_AntiKT_Cone05, goodJet.getUsedAlgorithm());
+		goodJet.setUsedAlgorithm(JetAlgorithm::ParticleFlow);
+		ASSERT_EQUAL(JetAlgorithm::ParticleFlow, goodJet.getUsedAlgorithm());
 	}
 
 	void testJetEMF() {
