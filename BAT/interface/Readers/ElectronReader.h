@@ -10,13 +10,14 @@
 #include "VariableReader.h"
 #include "../RecoObjects/Electron.h"
 #include "../VBTF_ElectronID.h"
+#include "../Constants.h"
 
 namespace BAT {
 class ElectronReader {
 public:
-	const static std::string algorithmPrefixes[Electron::NUMBER_OF_ELECTRONALGORITHMS];
+//	const static std::string algorithmPrefixes[Electron::NUMBER_OF_ELECTRONALGORITHMS];
 	ElectronReader();
-	ElectronReader(TChainPointer input, TChainPointer input2,  Electron::Algorithm algo = Electron::Calo);
+	ElectronReader(TChainPointer input, TChainPointer input2,  ElectronAlgorithm::value algo = ElectronAlgorithm::Calo);
 	virtual ~ElectronReader();
 	const ElectronCollection& getElectrons();
 	void initialise();
@@ -52,7 +53,7 @@ private:
 	VariableReader<MultiFloatPointer> track_charge;
 
 	VariableReader<MultiFloatPointer> vertex_z;
-	Electron::Algorithm algorithm;
+	ElectronAlgorithm::value algorithm;
 	ElectronCollection electrons;
 	void readElectrons();
 

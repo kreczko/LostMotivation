@@ -15,6 +15,7 @@
 #include <boost/shared_ptr.hpp>
 #include "Jet.h"
 #include "Track.h"
+#include "../Constants.h"
 
 namespace BAT {
 //make sure the IDs and their string representations are identical
@@ -22,9 +23,9 @@ namespace BAT {
 
 class Electron: public Particle {
 public:
-    enum Algorithm {
-        Calo, ParticleFlow, NUMBER_OF_ELECTRONALGORITHMS
-    };
+//    enum Algorithm {
+//        Calo, ParticleFlow, NUMBER_OF_ELECTRONALGORITHMS
+//    };
 
     enum ElectronID {
         loose, tight, robustLoose, robustTight, VBTF_W70, HEEP, NUMBER_OF_ELECTRONIDS
@@ -67,7 +68,7 @@ public:
     Electron(const Electron& other);
     Electron(float energy, float px, float py, float pz);
     virtual ~Electron();
-    bool isGood() const;
+    bool isGood(const float minEt = Electron::goodElectronMinimalEt) const;
     bool isIsolated() const;
     bool isHEEPIsolated() const;
     bool isFromConversion() const;
@@ -87,7 +88,7 @@ public:
     bool RobustLooseID() const;
     bool RobustTightID() const;
     unsigned short getClosestJetID(const JetCollection& jets) const;
-    Algorithm getUsedAlgorithm() const;
+    ElectronAlgorithm::value getUsedAlgorithm() const;
     const TrackPointer GSFTrack() const;
     int closestCTFTrackID() const;
     float shFracInnerLayer() const;
@@ -100,7 +101,7 @@ public:
     void setHcalIsolation(float isolation);
     void setTrackerIsolation(float isolation);
     void setNumberOfMissingInnerLayerHits(float missingHits);
-    void setUsedAlgorithm(Algorithm algo);
+    void setUsedAlgorithm(ElectronAlgorithm::value algo);
     void setSigmaIEtaIEta(float sigma);
     void setDPhiIn(float dphi);
     void setDEtaIn(float deta);
@@ -120,7 +121,7 @@ public:
     float vz() const;
 
 private:
-    Algorithm usedAlgorithm;
+    ElectronAlgorithm::value usedAlgorithm;
     bool robustLooseId, robustTightId;
     float superCluser_Eta;
     float ecal_Isolation, hcal_Isolation, tracker_Isolation;

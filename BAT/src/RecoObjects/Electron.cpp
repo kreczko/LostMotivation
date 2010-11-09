@@ -36,7 +36,7 @@ float Electron::looseIsolatedElectronMaximalRelativeIsolation = 1.;
 const float initialBigValue = 123456789;
 Electron::Electron() :
     Particle(),
-    usedAlgorithm(Electron::Calo),
+    usedAlgorithm(ElectronAlgorithm::Calo),
     robustLooseId(false),
     robustTightId(false),
     superCluser_Eta(initialBigValue),
@@ -79,7 +79,7 @@ Electron::Electron(const Electron& other) :
 
 Electron::Electron(float energy, float px, float py, float pz) :
     Particle(energy, px, py, pz),
-    usedAlgorithm(Electron::Calo),
+    usedAlgorithm(ElectronAlgorithm::Calo),
     robustLooseId(false),
     robustTightId(false),
     superCluser_Eta(initialBigValue),
@@ -135,7 +135,7 @@ bool Electron::isHEEPIsolated() const {
         return false;
 }
 
-Electron::Algorithm Electron::getUsedAlgorithm() const {
+ElectronAlgorithm::value Electron::getUsedAlgorithm() const {
     return usedAlgorithm;
 }
 
@@ -186,12 +186,12 @@ bool Electron::isLoose() const {
     return passesEt && passesEta && passesIsolation && VBTF_W95_ElectronID();
 }
 
-bool Electron::isGood() const {
-    bool passesEt = et() > Electron::goodElectronMinimalEt;
+bool Electron::isGood(const float minEt) const {
+    bool passesEt = et() > minEt;
     bool passesEta = fabs(eta()) < goodElectronMaximalAbsoluteEta && !isInCrack();
 
     bool passesD0 = false;
-    if(usedAlgorithm == Electron::Calo)
+    if(usedAlgorithm == ElectronAlgorithm::Calo)
         passesD0 = fabs(d0_BS()) < goodElectronMaximalDistanceFromInteractionPoint;
     else
         passesD0 = fabs(d0()) < goodElectronMaximalDistanceFromInteractionPoint;
@@ -314,7 +314,7 @@ unsigned short Electron::getClosestJetID(const JetCollection& jets) const {//#TO
     return idOfClosest;
 }
 
-void Electron::setUsedAlgorithm(Electron::Algorithm algo) {
+void Electron::setUsedAlgorithm(ElectronAlgorithm::value algo) {
     usedAlgorithm = algo;
 }
 
