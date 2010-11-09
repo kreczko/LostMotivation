@@ -16,61 +16,58 @@ TH1F* getCumulativePlot(TH1F* initial, TString type);
 void plotMttbar() {
     setTDRStyle();
     gStyle->SetHatchesSpacing(1.0);
-    double lumi = 3.06 + 1.37 + 2.53 + 0.26;
-    double oldLumi = 2.9;
-    double scale = lumi/oldLumi;
+    double lumi = 26.5;//3.06 + 1.37 + 2.53 + 0.26;
+    double oldLumi = 19.;
+    double scale = lumi / oldLumi;
+    double qcdScale = 1.8;
     //    TFile* data = TFile::Open("data2.9pb_fullSetOfVars.root");
-    TFile* data = TFile::Open("data_7.22pb-1_PF_V4.root");
-    TFile* data2 = TFile::Open("data_4.4pb_withoutHLT.root");
-    TFile* ttbar = TFile::Open("ttjet_PF_V4Selection.root");
-    TFile* wjets = TFile::Open("wjets_PF_V4Selection.root");
-    TFile* zjets = TFile::Open("zjets_PF_V4Selection.root");
-    TFile* bce1 = TFile::Open("bce1_PF_V4Selection.root");
-    TFile* bce2 = TFile::Open("bce2_PF_V4Selection.root");
-    //    TFile* bce3 = TFile::Open("bce3_PF_V4Selection.root__fullSetOfVars.root");
-    TFile* bce3 = TFile::Open("bce3_PF_V4Selection.root");
-    TFile* enri1 = TFile::Open("enri1_PF_V4Selection.root");
-    //    TFile* enri2 = TFile::Open("enri2_PF_V4Selection.root__fullSetOfVars.root");
-    TFile* enri2 = TFile::Open("enri2_PF_V4Selection.root");
-    //    TFile* enri3 = TFile::Open("enri3_PF_V4Selection.root__fullSetOfVars.root");
-    TFile* enri3 = TFile::Open("enri3_PF_V4Selection.root");
-    TFile* pj1 = TFile::Open("pj1_PF_V4Selection.root");
-    TFile* pj2 = TFile::Open("pj2_PF_V4Selection.root");
-    TFile* pj3 = TFile::Open("pj3_PF_V4Selection.root");
-    TFile* vqq = TFile::Open("vqq_PF_V4Selection.root__fullSetOfVars.root");
-    TFile* Zprime500 = TFile::Open("Zprime_M500GeV_W5GeV_PF_V4Selection.root");
-    TFile* Zprime750 = TFile::Open("Zprime_M750GeV_W7500MeV_PF_V4Selection.root");
-    TFile* Zprime1000 = TFile::Open("Zprime_M1TeV_W10GeV_PF_V4Selection.root");
-    TFile* Zprime1250 = TFile::Open("Zprime_M1250GeV_W12500MeV_PF_V4Selection.root");
-    TFile* Zprime1500 = TFile::Open("Zprime_M1500GeV_W15GeV_PF_V4Selection.root");
+    TFile* data = TFile::Open("/storage/workspace/BristolAnalysisTools/outputfiles/backup/data_26.5pb_PFElectron_PF2PATJets_PFMET.root");
+    TFile* ttbar = TFile::Open("/storage/workspace/BristolAnalysisTools/outputfiles/backup/ttjet_19pb_PFElectron_PF2PATJets_PFMET.root");
+    TFile* wjets = TFile::Open("/storage/workspace/BristolAnalysisTools/outputfiles/backup/wj_19pb_PFElectron_PF2PATJets_PFMET.root");
+    TFile* zjets = TFile::Open("/storage/workspace/BristolAnalysisTools/outputfiles/backup/zj_19pb_PFElectron_PF2PATJets_PFMET.root");
+    TFile* bce1 = TFile::Open("/storage/workspace/BristolAnalysisTools/outputfiles/bce1_19pb.root");
+    TFile* bce2 = TFile::Open("/storage/workspace/BristolAnalysisTools/outputfiles/backup/bce2_19pb_PFElectron_PF2PATJets_PFMET.root");
+    TFile* bce3 = TFile::Open("/storage/workspace/BristolAnalysisTools/outputfiles/backup/bce3_19pb_PFElectron_PF2PATJets_PFMET.root");
+    TFile* enri1 = TFile::Open("/storage/workspace/BristolAnalysisTools/outputfiles/backup/enri1_19pb_PFElectron_PF2PATJets_PFMET.root");
+    TFile* enri2 = TFile::Open("/storage/workspace/BristolAnalysisTools/outputfiles/backup/enri2_19pb_PFElectron_PF2PATJets_PFMET.root");
+    TFile* enri3 = TFile::Open("/storage/workspace/BristolAnalysisTools/outputfiles/backup/enri3_19pb_PFElectron_PF2PATJets_PFMET.root");
+    TFile* pj1 = TFile::Open("/storage/workspace/BristolAnalysisTools/outputfiles/backup/pj1_19pb_PFElectron_PF2PATJets_PFMET.root");
+    TFile* pj2 = TFile::Open("/storage/workspace/BristolAnalysisTools/outputfiles/backup/pj2_19pb_PFElectron_PF2PATJets_PFMET.root");
+    TFile* pj3 = TFile::Open("/storage/workspace/BristolAnalysisTools/outputfiles/backup/pj3_19pb_PFElectron_PF2PATJets_PFMET.root");
+//    TFile* vqq = TFile::Open("vqq_7.22pb_V4PFCalo.root__fullSetOfVars.root");
+    TFile* Zprime500 = TFile::Open("/storage/workspace/BristolAnalysisTools/outputfiles/Zprime_M500GeV_W5GeV_19pb.root");
+    TFile* Zprime750 = TFile::Open("/storage/workspace/BristolAnalysisTools/outputfiles/Zprime_M750GeV_W7500MeV_19pb.root");
+    TFile* Zprime1000 = TFile::Open("/storage/workspace/BristolAnalysisTools/outputfiles/Zprime_M1TeV_W10GeV_19pb.root");
+    TFile* Zprime1250 = TFile::Open("/storage/workspace/BristolAnalysisTools/outputfiles/Zprime_M1250GeV_W12500MeV_19pb.root");
+    TFile* Zprime1500 = TFile::Open("/storage/workspace/BristolAnalysisTools/outputfiles/Zprime_M1500GeV_W15GeV_19pb.root");
 
     vector<TString> hists;
-    hists.push_back("mttbar_rebinned");
-//            hists.push_back("m3");
-//            hists.push_back("electron_et");
-//            hists.push_back("ttbar_pt");
-//            hists.push_back("HT");
-//            hists.push_back("numberOfJets");
-//            hists.push_back("numberOfBJets");
-//            hists.push_back("MET");
-//            hists.push_back("leadingJetMass");
-//            hists.push_back("mtW");
-//            hists.push_back("electronD0");
-//            hists.push_back("neutrino_pz");
-    TString folder("testing/");
+//    hists.push_back("mttbar");
+                hists.push_back("m3");
+//                hists.push_back("electron_et");
+//                hists.push_back("ttbar_pt");
+//                hists.push_back("HT");
+//                hists.push_back("numberOfJets");
+//                hists.push_back("numberOfBJets");
+//                hists.push_back("MET");
+//                hists.push_back("leadingJetMass");
+//                hists.push_back("mtW");
+//                hists.push_back("electronD0");
+//                hists.push_back("neutrino_pz");
+//    TString folder("");
 
     for (unsigned int hist = 0; hist < hists.size(); ++hist) {
         TString histname(hists.at(hist));
-        TString histpath(folder + histname);
+        TString histpath(histname);
         TH1F* hist_data = (TH1F*) data->Get(histpath);
 
-        TH1F* hist_data2;
-        if (histname == "mttbar_rebinned")
-            hist_data2 = (TH1F*) data2->Get(histpath);
-        else
-            hist_data2 = new TH1F(*hist_data);
+//        TH1F* hist_data2;
+//        if (histname == "mttbar_rebinned")
+//            hist_data2 = (TH1F*) data2->Get(histpath);
+//        else
+//            hist_data2 = new TH1F(*hist_data);
         hist_data->Sumw2();
-        hist_data2->Sumw2();
+//        hist_data2->Sumw2();
         TH1F* hist_ttbar = (TH1F*) ttbar->Get(histpath);
         TH1F* hist_wjets = (TH1F*) wjets->Get(histpath);
         TH1F* hist_zjets = (TH1F*) zjets->Get(histpath);
@@ -146,30 +143,32 @@ void plotMttbar() {
         hist_qcd->Add(hist_pj1);
         hist_qcd->Add(hist_pj2);
         hist_qcd->Add(hist_pj3);
-//        double ndata = hist_data->Integral();
-//        double ntop = hist_ttbar->Integral();
-//        double nwj = hist_wjets->Integral();
-//        double nzj = hist_zjets->Integral();
-//        double nqcd = hist_qcd->Integral();
-//        double sumMC = ntop + nwj + nzj + nqcd;
-//        cout << ndata << " " << sumMC << endl;
-//                        hist_wjets->Scale(ndata / sumMC);
-//                        hist_ttbar->Scale(ndata / sumMC);
-//                        hist_zjets->Scale(ndata / sumMC);
-//                        hist_qcd->Scale(ndata / sumMC);
+        hist_qcd->Scale(qcdScale);
+        //        double ndata = hist_data->Integral();
+        //        double ntop = hist_ttbar->Integral();
+        //        double nwj = hist_wjets->Integral();
+        //        double nzj = hist_zjets->Integral();
+        //        double nqcd = hist_qcd->Integral();
+        //        double sumMC = ntop + nwj + nzj + nqcd;
+        //        cout << ndata << " " << sumMC << endl;
+        //                        hist_wjets->Scale(ndata / sumMC);
+        //                        hist_ttbar->Scale(ndata / sumMC);
+        //                        hist_zjets->Scale(ndata / sumMC);
+        //                        hist_qcd->Scale(ndata / sumMC);
         TH1F* hist_mc = new TH1F(*hist_qcd);
         hist_mc->Add(hist_ttbar);
         hist_mc->Add(hist_zjets);
         hist_mc->Add(hist_wjets);
 
         unsigned int rebin = 1;
-        if (histname == "mttbar_rebinned") {
+        if (histname == "mttbar") {
             hist_data->SetXTitle("M_{t#bar{t}}/GeV");
             hist_data->SetYTitle("Events/(50 GeV)");
+            rebin = 50;
         } else if (histname == "m3") {
             hist_data->SetXTitle("M3/GeV");
-            hist_data->SetYTitle("Events/(20 GeV)");
-            rebin = 20;
+            hist_data->SetYTitle("Events/(100 GeV)");
+            rebin = 100;
         } else if (histname == "electron_et") {
             hist_data->SetXTitle("electron p_{T}/GeV");
             hist_data->SetYTitle("Events/(5 GeV)");
@@ -180,8 +179,8 @@ void plotMttbar() {
             rebin = 5;
         } else if (histname == "HT") {
             hist_data->SetXTitle("#Sigma p_{T}/GeV");
-            hist_data->SetYTitle("Events/(20 GeV)");
-            rebin = 20;
+            hist_data->SetYTitle("Events/(50 GeV)");
+            rebin = 50;
         } else if (histname == "numberOfJets") {
             hist_data->SetXTitle("number of jets");
             hist_data->SetYTitle("Events");
@@ -223,10 +222,10 @@ void plotMttbar() {
         hist_Zprime1500->Rebin(rebin);
 
         hist_data->SetMarkerStyle(8);
-        hist_data2->SetMarkerStyle(8);
-        hist_data2->SetMarkerSize(1.5);
-        hist_data2->SetMarkerColor(kAzure + 1);
-        hist_data2->SetLineColor(kAzure + 1);
+//        hist_data2->SetMarkerStyle(8);
+//        hist_data2->SetMarkerSize(1.5);
+//        hist_data2->SetMarkerColor(kAzure + 1);
+//        hist_data2->SetLineColor(kAzure + 1);
         hist_ttbar->SetFillStyle(1001);
         hist_ttbar->SetFillColor(kRed + 1);
         hist_wjets->SetFillStyle(1001);
@@ -303,7 +302,7 @@ void plotMttbar() {
         hs->Add(hist_wjets);
         hs->Add(hist_ttbar);
 
-        TCanvas* c = new TCanvas(TString("cname" + histname), histname, 1920, 1080);
+        TCanvas* c = new TCanvas(TString("cname" + histname), histname, 800, 600);
         c->cd()->SetRightMargin(0.04);
         //        hist_data2->Draw("error");
         hist_data->Draw("error");
@@ -328,7 +327,7 @@ void plotMttbar() {
         //        text1->SetTextSizePixels(24);// dflt=28
         //        text1->Draw();
 
-        TLatex * text2 = new TLatex(3.570061, 23.08044, "~7.22 pb^{-1} at #sqrt{s} = 7 TeV");
+        TLatex * text2 = new TLatex(3.570061, 23.08044, "~26.5 pb^{-1} at #sqrt{s} = 7 TeV");
         text2->SetNDC();
         text2->SetTextAlign(13);
         text2->SetX(0.184);
@@ -339,7 +338,7 @@ void plotMttbar() {
         text2->Draw();
 
         TH1F* cu_hist_data = getCumulativePlot(hist_data, "data");
-        TH1F* cu_hist_data2 = getCumulativePlot(hist_data2, "data2");
+//        TH1F* cu_hist_data2 = getCumulativePlot(hist_data2, "data2");
         TH1F* cu_hist_ttbar = getCumulativePlot(hist_ttbar, "ttbar");
         TH1F* cu_hist_wjets = getCumulativePlot(hist_wjets, "wjets");
         TH1F* cu_hist_zjets = getCumulativePlot(hist_zjets, "zjets");
@@ -349,10 +348,10 @@ void plotMttbar() {
         TH1F* cu_hist_Zprime1000 = getCumulativePlot(hist_Zprime1000, "Zprime1000");
         TH1F* cu_hist_Zprime1250 = getCumulativePlot(hist_Zprime1250, "Zprime1250");
         TH1F* cu_hist_Zprime1500 = getCumulativePlot(hist_Zprime1500, "Zprime1500");
-        if (histname == "mttbar_rebinned") {
-            cu_hist_data2->SetXTitle("M_{t#bar{t}}/GeV");
-            cu_hist_data2->SetYTitle("Integrated Events/(50 GeV)");
-        }
+//        if (histname == "mttbar_rebinned") {
+//            cu_hist_data2->SetXTitle("M_{t#bar{t}}/GeV");
+//            cu_hist_data2->SetYTitle("Integrated Events/(50 GeV)");
+//        }
 
         THStack* cu_hs = new THStack("cu_MC", "cu_MC");
         cu_hs->Add(cu_hist_qcd);
@@ -360,7 +359,7 @@ void plotMttbar() {
         cu_hs->Add(cu_hist_wjets);
         cu_hs->Add(cu_hist_ttbar);
 
-        TCanvas* cu_c = new TCanvas(TString("cu_cname" + histname), TString(histname + "(cu)"), 1920, 1080);
+        TCanvas* cu_c = new TCanvas(TString("cu_cname" + histname), TString(histname + "(cu)"), 800, 600);
         cu_c->cd()->SetRightMargin(0.04);
         //        cu_hist_data2->Draw("error");
         cu_hist_data->Draw("error");
@@ -541,6 +540,8 @@ TH1F* getCumulativePlot(TH1F* initial, TString type) {
     name = "cu_" + name + "_" + type;
     TString title(initial->GetTitle());
     title = "cu_" + title + "_" + type;
+    TString xaxis = initial->GetXaxis()->GetTitle();
+    TString yaxis = initial->GetYaxis()->GetTitle();
     unsigned int nBins = initial->GetNbinsX();
     TH1F* cu = new TH1F(name, title, nBins, initial->GetXaxis()->GetXmin(), initial->GetXaxis()->GetXmax());
     for (unsigned int bin = 1; bin <= nBins; ++bin) {
@@ -553,6 +554,8 @@ TH1F* getCumulativePlot(TH1F* initial, TString type) {
     cu->SetMarkerStyle(initial->GetMarkerStyle());
     cu->SetMarkerColor(initial->GetMarkerColor());
     cu->SetLineWidth(initial->GetLineWidth());
+    cu->GetXaxis()->SetTitle(xaxis);
+    cu->GetYaxis()->SetTitle(yaxis);
     return cu;
 }
 
