@@ -91,6 +91,28 @@ public:
         ASSERT(histFile->Get("mc/ttbar/test") != 0);
     }
 
+    void testPrefix() {
+        collectionWithPath.add("test", "test", 100, 0, 100);
+        collectionWithPath.setPrefix("first");
+        collectionWithPath.writeToFile(histFile);
+        ASSERT(histFile->Get("mc/ttbar/first_test") != 0);
+    }
+
+    void testSuffix() {
+        collectionWithPath.add("test", "test", 100, 0, 100);
+        collectionWithPath.setSuffix("old");
+        collectionWithPath.writeToFile(histFile);
+        ASSERT(histFile->Get("mc/ttbar/test_old") != 0);
+    }
+
+    void testPrefixAndSuffix() {
+        collectionWithPath.add("test", "test", 100, 0, 100);
+        collectionWithPath.setPrefix("first");
+        collectionWithPath.setSuffix("old");
+        collectionWithPath.writeToFile(histFile);
+        ASSERT(histFile->Get("mc/ttbar/first_test_old") != 0);
+    }
+
 };
 
 extern cute::suite make_suite_TestTHCollection() {
@@ -104,6 +126,9 @@ extern cute::suite make_suite_TestTHCollection() {
     s.push_back(CUTE_SMEMFUN(TestTHCollection, testWriteFileWithFolderFirstDirectory));
     s.push_back(CUTE_SMEMFUN(TestTHCollection, testWriteFileWithFolderSubDirectory));
     s.push_back(CUTE_SMEMFUN(TestTHCollection, testWriteFileWithFolder));
+    s.push_back(CUTE_SMEMFUN(TestTHCollection, testPrefix));
+    s.push_back(CUTE_SMEMFUN(TestTHCollection, testSuffix));
+    s.push_back(CUTE_SMEMFUN(TestTHCollection, testPrefixAndSuffix));
     return s;
 }
 
