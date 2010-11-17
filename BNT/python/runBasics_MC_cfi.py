@@ -301,7 +301,7 @@ process.TFileService = cms.Service( "TFileService",
 
 print "loading CFA config"
 #process.configurableAnalysis = getConfigurableAnalysis(runOnMC, useREDIGI)
-process.load( 'Leptoquarks.RootTupleMakerV2.Ntuple_cff' )
+process.load( 'BristolAnalysis.NTupleTools.Ntuple_cff' )
 process.load( "CommonTools.RecoAlgos.HBHENoiseFilter_cfi" )
 # RootTupleMakerV2 tree
 process.rootTupleTree = cms.EDAnalyzer( "RootTupleMakerV2_Tree",
@@ -311,14 +311,18 @@ process.rootTupleTree = cms.EDAnalyzer( "RootTupleMakerV2_Tree",
         'keep *_rootTupleEventSelection_*_*',
         'keep *_rootTupleCaloJets_*_*',
         'keep *_rootTuplePFJets_*_*',
+        'keep *_rootTuplePF2PATJets_*_*',
         'keep *_rootTupleElectrons_*_*',
+        'keep *_rootTuplePFElectrons_*_*',
         'keep *_rootTupleCaloMET_*_*',
         'keep *_rootTupleTCMET_*_*',
         'keep *_rootTuplePFMET_*_*',
         'keep *_rootTupleMuons_*_*',
+        'keep *_rootTuplePFMuons_*_*',
         'keep *_rootTupleSuperClusters_*_*',
         'keep *_rootTupleTrigger_*_*',
         'keep *_rootTupleVertex_*_*',
+        'keep *_rootTupleVertexWithBS_*_*',
         'keep *_rootTupleGenEventInfo_*_*',
         'keep *_rootTupleGenParticles_*_*',
         'keep *_rootTupleGenJets_*_*',
@@ -331,11 +335,23 @@ process.TFileService.fileName = outname
 if not wantPatTuple:
     del process.outpath
 
-
+process.load('CommonTools/RecoAlgos/HBHENoiseFilterResultProducer_cfi')
+process.load("Leptoquarks.LeptonJetFilter.leptonjetfilter_cfi")
+##################################################################
+#### Electron based skim
+process.LJFilter.muLabel = 'muons'
+process.LJFilter.elecLabel = 'gsfElectrons'
+process.LJFilter.jetLabel = 'ak5CaloJets'
+process.LJFilter.muonsMin = -1
+process.LJFilter.electronsMin = -1
+process.LJFilter.elecPT = 20.
+process.LJFilter.counteitherleptontype = False
 
 
 process.p = cms.Path( 
 #        process.hlTrigReport *
+        process.LJFilter*
+        process.HBHENoiseFilterResultProducer*
         process.genParticlesForJets *
         process.ak5GenJets *
         #process.myJPT *
@@ -353,14 +369,18 @@ process.p *= (
     process.rootTupleEventSelection +
     process.rootTupleCaloJets +
     process.rootTuplePFJets +
+    process.rootTuplePF2PATJets +
     process.rootTupleElectrons +
+    process.rootTuplePFElectrons +
     process.rootTupleCaloMET +
     process.rootTupleTCMET +
     process.rootTuplePFMET +
     process.rootTupleMuons +
+    process.rootTuplePFMuons +
 #    process.rootTupleSuperClusters+
     process.rootTupleTrigger +
     process.rootTupleVertex +
+    process.rootTupleVertexWithBS +
     process.rootTupleGenEventInfo +
     process.rootTupleGenParticles +
     process.rootTupleGenJets +
