@@ -82,7 +82,7 @@ if not realData and applyBSCTrigOnMC:
 
     
 print "loading PF2PAT"
-from Leptoquarks.RootTupleMakerV2.PF2PAT_cfi import * 
+from BristolAnalysis.NTupleTools.PF2PAT_cfi import * 
 process = PF2PAtProcess(realData)
 ###################
 #  Add JPT jets
@@ -102,11 +102,6 @@ from PhysicsTools.PatAlgos.tools.cmsswVersionTools import *
 
 
 
-#process.GlobalTag.globaltag =   cms.string('MC_3XY_V18::All')
-#process.GlobalTag.globaltag =   cms.string('MC_3XY_V25::All')
-#process.GlobalTag.globaltag =   cms.string('START3X_V25B::All')
-#process.GlobalTag.globaltag =   cms.string('GR10_P_V4::All')
-#process.GlobalTag.globaltag =   cms.string('GR10_P_V5::All') #TL, 16 Apr
 process.GlobalTag.globaltag =   cms.string('GR_R_38X_V13::All') #TL, 16 Apr
 #START3X_V20 
 
@@ -207,7 +202,6 @@ if runOn_Spring10_Physics_MC:
 ##
 ####################################
 # JPT jets
-#addJetCollection(process,cms.InputTag('JetPlusTrackZSPCorJetAntiKt5'),
 addJetCollection(process,cms.InputTag('JetPlusTrackZSPCorJetAntiKt5'),
                  'AK5', 'JPT',
                  doJTA        = True,
@@ -221,48 +215,6 @@ addJetCollection(process,cms.InputTag('JetPlusTrackZSPCorJetAntiKt5'),
                  jetIdLabel   = "ak5"
                  )
 
-# kt4Calo jets
-#addJetCollection(process,cms.InputTag('kt4CaloJets'),
-#addJetCollection(process,cms.InputTag('kt4CaloJets'),
-#                 'KT4','Calo',
-#                 doJTA        = True,
-#                 doBTagging   = False, #off
-#                 jetCorrLabel = ('KT4','Calo'),
-#                 doType1MET   = True,
-#                 doL1Cleaning = True,
-#                 doL1Counters = False,
-#                 genJetCollection=cms.InputTag("kt4GenJets"),
-#                 doJetID      = True,
-#                 jetIdLabel   = "kt4"
-#                 )
-# kt6Calo jets
-#addJetCollection(process,cms.InputTag('kt6CaloJets'),
-#addJetCollection(process,cms.InputTag('kt6CaloJets'),
-#                 'KT6','Calo',
-#                 doJTA        = True,
-#                 doBTagging   = False, #off
-#                 jetCorrLabel = ('KT6','Calo'),
-#                 doType1MET   = True,
-#                 doL1Cleaning = True,
-#                 doL1Counters = False,
-#                 genJetCollection=cms.InputTag("kt6GenJets"),
-#                 doJetID      = True,
-#                 jetIdLabel   = "kt6"
-#                 )
-
-# ak5 Paticle Flow jets
-#addJetCollection(process,cms.InputTag('ak5PFJets'),
-#addJetCollection35X(process,cms.InputTag('ak5PFJets'),
-#                 'AK5','PF',
-#                 doJTA        = True,
-#                 doBTagging   = True, #ON
-#                 jetCorrLabel =  ('AK5','PF'), #test
-#                 doType1MET   = False,
-#                 doL1Cleaning = True,
-#                 doL1Counters = False,
-#                 genJetCollection=cms.InputTag("ak5GenJets"),
-#                 doJetID      = False
-#                 )
 
 # no btag for extra jets
 #process.patJetsKT4Calo.addTagInfos = False
@@ -293,16 +245,6 @@ secFiles = cms.untracked.vstring()
 
 # test real data (copied from PatExample)
 readFiles.extend( [
-    #'/store/data/Commissioning10/MinimumBias/RECO/v7/000/132/440/F4C92A98-163C-DF11-9788-0030487C7392.root'
-    # one of the /MinimumBias/Commissioning10-SD_EG-v9/RECO
-    #LFN: /store/data/Commissioning10/MinimumBias/RECO/v9/000/133/887/1CD67BCA-EA50-DF11-A8EC-00E0817918A7.root 
-    #'rfio:/castor/cern.ch/user/t/tcheng/1CD67BCA-EA50-DF11-A8EC-00E0817918A7.root'
-    # sample file from: /EG/Run2010A-May27thReReco_v1/RECO 
-    #    /store/data/Run2010A/EG/RECO/May27thReReco_v1/0174/FCA740BC-956A-DF11-A982-003048F0E186.root
-    ##'rfio:/castor/cern.ch/user/b/bostock/24947446-5B87-DF11-A504-0030487CAF5E.root'
-    #'rfio:/castor/cern.ch/user/b/bostock/reco_run_139195_lumi_77_ev_69244083.root'
-    #'rfio:/castor/cern.ch/cms/store/data/Run2010A/EG/RECO/v2/000/136/100/64D2B03E-0468-DF11-94F9-000423D99996.root'
-    #'rfio:/castor/cern.ch/user/t/tcheng/FCA740BC-956A-DF11-A982-003048F0E186.root'
     'file:/storage/top/FED5D572-8DBA-DF11-B636-0030487FA609.root' ##re-reco Sep3 sample
    # 'file:/storage/top/6625EA96-45C7-DF11-860F-001D09F24F65.root' #2010B AOD sample
     ] );
@@ -325,19 +267,15 @@ else:
             
 
 # configure HLT
+process.load('L1TriggerConfig.L1GtConfigProducers.L1GtTriggerMaskTechTrigConfig_cff')
+process.load('HLTrigger/HLTfilters/hltLevel1GTSeed_cfi')
+process.hltLevel1GTSeed.L1TechTriggerSeeding = cms.bool(True)
 if realData:
-    process.load('L1TriggerConfig.L1GtConfigProducers.L1GtTriggerMaskTechTrigConfig_cff')
-    process.load('HLTrigger/HLTfilters/hltLevel1GTSeed_cfi')
-    process.hltLevel1GTSeed.L1TechTriggerSeeding = cms.bool(True)
+    
     process.hltLevel1GTSeed.L1SeedsLogicalExpression = cms.string('0')
-    #process.hltLevel1GTSeed.L1SeedsLogicalExpression = cms.string('0 AND (40 OR 41) AND NOT (36 OR 37 OR 38 OR 39)')
     
 else:
     #    if applyBSCTrigOnMC:
-    process.load('L1TriggerConfig.L1GtConfigProducers.L1GtTriggerMaskTechTrigConfig_cff')
-    process.load('HLTrigger/HLTfilters/hltLevel1GTSeed_cfi')
-    process.hltLevel1GTSeed.L1TechTriggerSeeding = cms.bool(True)
-    #process.hltLevel1GTSeed.L1SeedsLogicalExpression = cms.string('0 AND (40 OR 41) AND NOT (36 OR 37 OR 38 OR 39)')
     process.hltLevel1GTSeed.L1SeedsLogicalExpression = cms.string('(40 OR 41) AND NOT (36 OR 37 OR 38 OR 39)')
     
 
@@ -634,7 +572,7 @@ process.p *= (
     process.rootTupleTCMET+
     process.rootTuplePFMET+
     process.rootTupleMuons+
-    process.rootTupleSuperClusters+
+#    process.rootTupleSuperClusters+
     process.rootTupleTrigger+
     process.rootTupleVertex+
     process.rootTupleGenEventInfo+
