@@ -225,7 +225,7 @@ bool TopPairEventCandidate::passesSelectionStep(enum TTbarEPlusJetsSelection::St
     }
 }
 
-bool TopPairEventCandidate::passesAntiEventSelection() const{
+bool TopPairEventCandidate::passesRelIsoSelection() const{
     bool passesFirst3 = passesSelectionStepUpTo(TTbarEPlusJetsSelection::GoodPrimaryvertex);
     bool passGoodElectrons = goodElectrons.size() > 0 && goodIsolatedElectrons.size() < 2;
     bool passesBothIsolationvetos = false;
@@ -241,14 +241,40 @@ bool TopPairEventCandidate::passesAntiEventSelection() const{
     bool muonVeto = hasNoIsolatedMuon();
     bool Zveto = isNotAZBosonEvent();
     return passesFirst3 && passGoodElectrons && passesBothIsolationvetos && muonVeto && Zveto;
-
-
 }
 
-void TopPairEventCandidate::reconstructUsingChi2() {
+bool TopPairEventCandidate::passesQCDSelection() const{
+    bool passesFirst3 = passesSelectionStepUpTo(TTbarEPlusJetsSelection::GoodPrimaryvertex);
+    bool passGoodElectrons = allElectrons.size() > 0 && goodIsolatedElectrons.size() < 2;
+    bool passesBothIsolationvetos = false;
+    if (passGoodElectrons) {
+        const ElectronPointer electron = MostIsolatedElectron();
+        if (electron->isQCDElectron()) {
+            conversionTagger->calculateConversionVariables(electron, tracks, 3.8, 0.45);
+            passesBothIsolationvetos = electron->isFromConversion() == false && conversionTagger->isFromConversion(
+                    0.02, 0.02) == false;
+        }
+
+    }
+    bool muonVeto = hasNoIsolatedMuon();
+    bool Zveto = isNotAZBosonEvent();
+    return passesFirst3 && passGoodElectrons && passesBothIsolationvetos && muonVeto && Zveto;
+}
+
+bool TopPairEventCandidate::passesConversionSelection() const {
+    bool passesFirst6 = passesSelectionStepUpTo(TTbarEPlusJetsSelection::Zveto);
+    bool isConversion1 = isolatedElectronDoesNotComeFromConversion() == false;
+    bool isConversion2 = isolatedElectronNotTaggedAsFromConversion() == false;
+    bool atLeast4Jets = goodJets.size() >= 4;
+    return passesFirst6 && (isConversion1 || isConversion2) && atLeast4Jets;
+}
+
+void TopPairEventCandidate::reconstructUsingChi2(ElectronPointer electron) {
     if (goodJets.size() < 4)
         throw ReconstructionException("Not enough jets available to reconstruct top event using Chi2 method.");
-    electronFromW = goodIsolatedElectrons.front();
+    electronFromW = electron;
+    selectedNeutrino = 0;
+    currentSelectedNeutrino = 0;
     reconstructNeutrinos();
 
     double chosen_Chi2Total(9999999.);
@@ -268,8 +294,8 @@ void TopPairEventCandidate::reconstructUsingChi2() {
                     jet1FromW = goodJets.at(jet1Index);
                     jet2FromW = goodJets.at(jet2Index);
 
-                    leptonicW1 = ParticlePointer(new Particle(*neutrino1 + *goodIsolatedElectrons.front()));
-                    leptonicW2 = ParticlePointer(new Particle(*neutrino2 + *goodIsolatedElectrons.front()));
+                    leptonicW1 = ParticlePointer(new Particle(*neutrino1 + *electronFromW));
+                    leptonicW2 = ParticlePointer(new Particle(*neutrino2 + *electronFromW));
                     hadronicW = ParticlePointer(new Particle(*jet1FromW + *jet2FromW));
                     leptonicTop1 = ParticlePointer(new Particle(*leptonicBJet + *leptonicW1));
                     leptonicTop2 = ParticlePointer(new Particle(*leptonicBJet + *leptonicW2));
@@ -294,8 +320,8 @@ void TopPairEventCandidate::reconstructUsingChi2() {
     leptonicBJet = goodJets.at(leptonicBIndex);
     jet1FromW = goodJets.at(jet1FromWIndex);
     jet2FromW = goodJets.at(jet2FromWIndex);
-    leptonicW1 = ParticlePointer(new Particle(*neutrino1 + *goodIsolatedElectrons.front()));
-    leptonicW2 = ParticlePointer(new Particle(*neutrino2 + *goodIsolatedElectrons.front()));
+    leptonicW1 = ParticlePointer(new Particle(*neutrino1 + *electronFromW));
+    leptonicW2 = ParticlePointer(new Particle(*neutrino2 + *electronFromW));
     hadronicW = ParticlePointer(new Particle(*jet1FromW + *jet2FromW));
     leptonicTop1 = ParticlePointer(new Particle(*leptonicBJet + *leptonicW1));
     leptonicTop2 = ParticlePointer(new Particle(*leptonicBJet + *leptonicW2));
@@ -384,8 +410,8 @@ void TopPairEventCandidate::selectNeutrinoSolution() {
             break;
 
         case NeutrinoSelectionCriterion::pzClosestToLepton:
-            fabs(neutrino1->pz() - goodIsolatedElectrons.front()->pz()) < fabs(neutrino2->pz()
-                    - goodIsolatedElectrons.front()->pz()) ? currentSelectedNeutrino = 1 : currentSelectedNeutrino = 2;
+            fabs(neutrino1->pz() - electronFromW->pz()) < fabs(neutrino2->pz()
+                    - electronFromW->pz()) ? currentSelectedNeutrino = 1 : currentSelectedNeutrino = 2;
             break;
 
         case NeutrinoSelectionCriterion::mostCentral:
@@ -393,8 +419,8 @@ void TopPairEventCandidate::selectNeutrinoSolution() {
             break;
 
         case NeutrinoSelectionCriterion::pzClosestToLeptonOrMostcentralIfAbove300:
-            fabs(neutrino1->pz() - goodIsolatedElectrons.front()->pz()) < fabs(neutrino2->pz()
-                    - goodIsolatedElectrons.front()->pz()) ? currentSelectedNeutrino = 1 : currentSelectedNeutrino = 2;
+            fabs(neutrino1->pz() - electronFromW->pz()) < fabs(neutrino2->pz()
+                    - electronFromW->pz()) ? currentSelectedNeutrino = 1 : currentSelectedNeutrino = 2;
             if (fabs(neutrino1->pz()) > 300 || fabs(neutrino2->pz()) > 300)
                 fabs(neutrino1->pz()) < fabs(neutrino2->pz()) ? currentSelectedNeutrino = 1 : currentSelectedNeutrino
                         = 2;
@@ -441,7 +467,7 @@ double TopPairEventCandidate::getTotalChi2(unsigned short int neutrinoSolution) 
 
 double TopPairEventCandidate::getLeptonicChi2(unsigned short int neutrinoSolution) const {
     double topMass(0);
-    double angle = leptonicBJet->angle(goodIsolatedElectrons.front());
+    double angle = leptonicBJet->angle(electronFromW);
     if (neutrinoSolution == 1)
         topMass = leptonicTop1->mass();
     else
@@ -526,7 +552,7 @@ void TopPairEventCandidate::throwExpeptionIfNotReconstructed() const {
 }
 
 const ElectronPointer TopPairEventCandidate::getElectronFromWDecay() const {
-    return goodIsolatedElectrons.front();
+    return electronFromW;
 }
 
 const ParticlePointer TopPairEventCandidate::getNeutrinoFromWDecay() const {
@@ -601,7 +627,7 @@ void TopPairEventCandidate::inspectReconstructedEvent() const {
     EventContentPrinter::printJet(leptonicBJet);
 
     cout << "electron from W" << endl;
-    EventContentPrinter::printElectron(goodIsolatedElectrons.front());
+    EventContentPrinter::printElectron(electronFromW);
 
     cout << "MET" << endl;
     EventContentPrinter::printParticle(met);

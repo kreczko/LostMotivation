@@ -81,7 +81,9 @@ public:
     bool passesSelectionStep(TTbarEPlusJetsSelection::Step step) const;
     bool passesSelectionStepUpTo(TTbarEPlusJetsSelection::Step upToStep) const;
     bool passesNMinus1(TTbarEPlusJetsSelection::Step omittedStep) const;
-    bool passesAntiEventSelection() const;
+    bool passesRelIsoSelection() const;
+    bool passesQCDSelection() const;
+    bool passesConversionSelection() const;
 
     bool passesScrapingFilter() const;
     bool passesHighLevelTrigger() const;
@@ -100,7 +102,7 @@ public:
     bool passesFullTTbarEPlusJetSelection() const;
     bool hasIsolatedElectronInBarrelRegion() const;
 
-    void reconstructUsingChi2();
+    void reconstructUsingChi2(ElectronPointer electron);
     void reconstructUsingSubjets();
     void reconstructUsingMCTruth();
 
