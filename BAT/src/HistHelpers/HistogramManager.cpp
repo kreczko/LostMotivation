@@ -12,6 +12,7 @@ namespace BAT {
 
 HistogramManager::HistogramManager() :
     jetBinned1DHists(boost::extents[DataType::NUMBER_OF_DATA_TYPES][JetBin::NUMBER_OF_JET_BINS]),
+    bJetBinned1DHists(boost::extents[DataType::NUMBER_OF_DATA_TYPES][BJetBin::NUMBER_OF_BJET_BINS]),
     seenDataTypes(),
     histFiles(),
     collection(),
@@ -46,7 +47,20 @@ void HistogramManager::addH1D_JetBinned(std::string name, std::string title, uns
             }
         }
     }
+}
 
+void HistogramManager::addH1D_BJetBinned(std::string name, std::string title, unsigned int numberOfBins, float xmin,
+        float xmax) {
+    for (unsigned short jetbin = 0; jetbin < BJetBin::NUMBER_OF_BJET_BINS; ++jetbin) {
+        for (unsigned short type = DataType::DATA; type < DataType::NUMBER_OF_DATA_TYPES; ++type) {
+            if (seenDataTypes.at(type)) {
+                std::stringstream tmp_name, tmp_title;
+                tmp_name << name << "_" << BJetBin::names[jetbin];
+                tmp_title << title << " (" << BJetBin::names[jetbin] << ")";
+                bJetBinned1DHists[type][jetbin]->add(name, tmp_title.str(), numberOfBins, xmin, xmax);
+            }
+        }
+    }
 }
 
 void HistogramManager::addH2D(std::string name, std::string title, unsigned int nXBins, float xmin, float xmax,
@@ -63,15 +77,17 @@ void HistogramManager::setCurrentDataType(DataType::value type) {
 }
 
 void HistogramManager::setCurrentJetBin(unsigned int jetbin) {
-    if(jetbin > 3){
+    if (jetbin > 3) {
         currentJetbin = 4;
-    }
-    else
+    } else
         currentJetbin = jetbin;
 }
 
 void HistogramManager::setCurrentBJetBin(unsigned int jetbin) {
-    currentBJetbin = jetbin;
+    if (jetbin > 3) {
+        currentBJetbin = 4;
+    } else
+        currentBJetbin = jetbin;
 }
 
 void HistogramManager::setCurrentLumi(float lumi) {
@@ -88,6 +104,10 @@ boost::shared_ptr<TH1> HistogramManager::H1D(std::string histname) {
 
 boost::shared_ptr<TH1> HistogramManager::H1D_JetBinned(std::string histname) {
     return jetBinned1DHists[currentDataType][currentJetbin]->get(histname);
+}
+
+boost::shared_ptr<TH1> HistogramManager::H1D_BJetBinned(std::string histname) {
+    return bJetBinned1DHists[currentDataType][currentBJetbin]->get(histname);
 }
 
 boost::shared_ptr<TH2> HistogramManager::operator ()(std::string histname) {
@@ -117,6 +137,12 @@ void HistogramManager::prepareForSeenDataTypes(const boost::array<bool, DataType
                 coll->setSuffix(JetBin::names.at(jetbin));
                 jetBinned1DHists[type][jetbin] = coll;
             }
+
+            for (unsigned short jetbin = 0; jetbin < BJetBin::NUMBER_OF_BJET_BINS; ++jetbin) {
+                TH1CollectionRef coll(new TH1Collection());
+                coll->setSuffix(BJetBin::names.at(jetbin));
+                bJetBinned1DHists[type][jetbin] = coll;
+            }
         }
 
     }
@@ -141,6 +167,10 @@ void HistogramManager::writeToDisk() {
             collection2D.at(type)->writeToFile(histFiles.at(type));
             for (unsigned short jetbin = 0; jetbin < JetBin::NUMBER_OF_JET_BINS; ++jetbin) {
                 jetBinned1DHists[type][jetbin]->writeToFile(histFiles.at(type));
+            }
+
+            for (unsigned short jetbin = 0; jetbin < BJetBin::NUMBER_OF_BJET_BINS; ++jetbin) {
+                bJetBinned1DHists[type][jetbin]->writeToFile(histFiles.at(type));
             }
             histFiles.at(type)->Write();
             histFiles.at(type)->Close();

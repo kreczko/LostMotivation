@@ -52,6 +52,7 @@ public:
     void writeToDisk();
 private:
     boost::multi_array<TH1CollectionRef, 2> jetBinned1DHists;
+    boost::multi_array<TH1CollectionRef, 2> bJetBinned1DHists;
     boost::array<bool, DataType::NUMBER_OF_DATA_TYPES> seenDataTypes;
     boost::array<boost::shared_ptr<TFile>, DataType::NUMBER_OF_DATA_TYPES> histFiles;
     boost::array<TH1CollectionRef, DataType::NUMBER_OF_DATA_TYPES> collection;// move to array of DataTypes
