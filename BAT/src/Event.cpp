@@ -117,11 +117,14 @@ void Event::selectGoodJets() {
         const JetPointer jet = allJets.at(index);
         if (jet->isGood()) {
             goodJets.push_back(jet);
-            if (jet->isBJetAccordingToBtagAlgorithm(BJetTagger::SimpleSecondaryVertex))
-                goodBJets.push_back(jet);
         }
     }
     cleanGoodJets();
+    for (unsigned int index = 0; index < goodJets.size(); ++index) {
+        const JetPointer jet = goodJets.at(index);
+        if (jet->isBJetAccordingToBtagAlgorithm(BJetTagger::SimpleSecondaryVertex))
+            goodBJets.push_back(jet);
+    }
 }
 
 void Event::cleanGoodJets() {
