@@ -110,6 +110,21 @@ const boost::array<std::string, JetBin::NUMBER_OF_JET_BINS> names = {
         } };
 }
 
+namespace BJetBin {
+enum value {
+    NoBtag,
+    OneBTag,
+    TwoBtags,
+    ThreeBtags,
+    FourOrMoreBTags,
+    NUMBER_OF_BJET_BINS
+};
+
+const boost::array<std::string, BJetBin::NUMBER_OF_BJET_BINS> names = {
+        { "0btag", "1btag", "2btags", "3btags", "4OrMoreBtags"
+        } };
+}
+
 namespace JetAlgorithm {
 enum value {
     Calo_AntiKT_Cone05,
