@@ -90,6 +90,7 @@ public:
 private:
     void printNumberOfProccessedEventsEvery(unsigned long printEvery);
 //    void doEcalSpikeAnalysis();
+    void initiateEvent();
     void doDiElectronAnalysis();
     void doTTBarAnalysis();
     void doTTbarCutFlow();
