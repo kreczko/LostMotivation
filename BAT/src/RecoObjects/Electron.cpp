@@ -201,6 +201,21 @@ bool Electron::isGood(const float minEt) const {
     return passesEt && passesEta && passesD0 && passesID && passesDistanceToPV;
 }
 
+bool Electron::isQCDElectron(const float minEt) const {
+    bool passesEt = et() > minEt;
+    bool passesEta = fabs(eta()) < goodElectronMaximalAbsoluteEta && !isInCrack();
+
+    bool passesD0 = false;
+    if(usedAlgorithm == ElectronAlgorithm::Calo)
+        passesD0 = fabs(d0_BS()) < goodElectronMaximalDistanceFromInteractionPoint;
+    else
+        passesD0 = fabs(d0()) < goodElectronMaximalDistanceFromInteractionPoint;
+
+    bool passesDistanceToPV = fabs(zDistanceToPrimaryVertex) < 1;
+    bool passesID = QCD_AntiID_W70();
+    return passesEt && passesEta && passesD0 && passesID && passesDistanceToPV;
+}
+
 bool Electron::isInBarrelRegion() const {
     return fabs(superClusterEta()) < Detector::Barrel::MaximalAbsoluteEta;
 }
@@ -266,6 +281,31 @@ bool Electron::getVBTF_W95_ElectronID_Endcap() const {
     bool passesDPhiIn = fabs(dPhi_In) < VBTF_W95::MaximalDPhiIn_EndcapRegion;
     bool passesDEtaIn = fabs(dEta_In) < VBTF_W95::MaximalDEtaIn_EndcapRegion;
     bool passesHadOverEm = hadOverEm < VBTF_W95::MaximalHadOverEm_EndcapRegion;
+    return passesSigmaIEta && passesDPhiIn && passesDEtaIn && passesHadOverEm;
+}
+
+bool Electron::QCD_AntiID_W70() const {
+    if (isInBarrelRegion())
+        return QCD_AntiID_W70_Barrel();
+    else if (isInEndCapRegion())
+        return QCD_AntiID_W70_Endcap();
+    else
+        return false;
+}
+
+bool Electron::QCD_AntiID_W70_Barrel() const {
+    bool passesSigmaIEta = sigma_IEtaIEta < VBTF_W70::MaximalSigmaIEtaIEta_BarrelRegion;
+    bool passesDPhiIn = fabs(dPhi_In) > VBTF_W70::MaximalDPhiIn_BarrelRegion;
+    bool passesDEtaIn = fabs(dEta_In) > VBTF_W70::MaximalDEtaIn_BarrelRegion;
+    bool passesHadOverEm = hadOverEm < VBTF_W70::MaximalHadOverEm_BarrelRegion;
+    return passesSigmaIEta && passesDPhiIn && passesDEtaIn && passesHadOverEm;
+}
+
+bool Electron::QCD_AntiID_W70_Endcap() const {
+    bool passesSigmaIEta = sigma_IEtaIEta < VBTF_W70::MaximalSigmaIEtaIEta_EndcapRegion;
+    bool passesDPhiIn = fabs(dPhi_In) > VBTF_W70::MaximalDPhiIn_EndcapRegion;
+    bool passesDEtaIn = fabs(dEta_In) > VBTF_W70::MaximalDEtaIn_EndcapRegion;
+    bool passesHadOverEm = hadOverEm < VBTF_W70::MaximalHadOverEm_EndcapRegion;
     return passesSigmaIEta && passesDPhiIn && passesDEtaIn && passesHadOverEm;
 }
 

@@ -73,6 +73,7 @@ public:
     bool isHEEPIsolated() const;
     bool isFromConversion() const;
     bool isLoose() const;
+    bool isQCDElectron(const float minEt = Electron::goodElectronMinimalEt) const;
 
     float ecalIsolation() const;
     float hcalIsolation() const;
@@ -85,6 +86,9 @@ public:
     float HEEPet() const;
     bool VBTF_W70_ElectronID() const;
     bool VBTF_W95_ElectronID() const;
+    bool QCD_AntiID_W70() const;
+    bool QCD_AntiID_W70_Barrel() const;
+    bool QCD_AntiID_W70_Endcap() const;
     bool RobustLooseID() const;
     bool RobustTightID() const;
     unsigned short getClosestJetID(const JetCollection& jets) const;
