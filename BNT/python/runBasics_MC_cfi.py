@@ -4,7 +4,7 @@ runOnMC = False
 runOn_Spring10_Physics_MC = True
 runOnMC = True
 
-realData = True
+realData = False
 useREDIGI = False
 JECSetName = "Spring10"
 wantPatTuple = bool( 0 )
@@ -23,8 +23,8 @@ outname = "nTuple_mc.root"
 patname = "pat_mc.root"
 
 
-from BristolAnalysis.NTupleTools.PF2PAT_cfi import *
-process = PF2PAtProcess( realData )
+from BristolAnalysis.NTupleTools.PF2PAT_MC_cfi import *
+process = PF2PAtProcess()
 ###################
 #  Add JPT jets
 ###################
@@ -33,12 +33,16 @@ process.load( "RecoJets.Configuration.RecoJPTJets_cff" )
 
 # Jet Correction (in 3_6_0)
 process.load( 'JetMETCorrections.Configuration.DefaultJEC_cff' )
-
+# load the PAT config
+process.load("PhysicsTools.PatAlgos.patSequences_cff")
 # to run on 35X input sample
 # ref: https://twiki.cern.ch/twiki/bin/view/CMS/SWGuidePATRecipes#CMSSW_3_6_X
 from PhysicsTools.PatAlgos.tools.cmsswVersionTools import *
 
-
+from PhysicsTools.PatAlgos.tools.muonTools import *
+addMuonUserIsolation(process)
+from PhysicsTools.PatAlgos.tools.electronTools import *
+addElectronUserIsolation(process)
 
 
 process.GlobalTag.globaltag = cms.string( 'START3X_V26::All' )
@@ -231,6 +235,23 @@ process.out.fileName = patname
 
 
 import PhysicsTools.PatAlgos.producersLayer1.electronProducer_cfi as eleProducer
+#process.load("RecoEgamma.ElectronIdentification.simpleEleIdSequence_cff")
+#process.patElectronIDs = cms.Sequence(process.simpleEleIdSequence)
+#process.patElectrons.addElectronID = cms.bool(True)
+#process.patElectrons.electronIDSources = cms.PSet(
+#    simpleEleId95relIso= cms.InputTag("simpleEleId95relIso"),
+#    simpleEleId90relIso= cms.InputTag("simpleEleId90relIso"),
+#    simpleEleId85relIso= cms.InputTag("simpleEleId85relIso"),
+#    simpleEleId80relIso= cms.InputTag("simpleEleId80relIso"),
+#    simpleEleId70relIso= cms.InputTag("simpleEleId70relIso"),
+#    simpleEleId60relIso= cms.InputTag("simpleEleId60relIso"),
+#    simpleEleId95cIso= cms.InputTag("simpleEleId95cIso"),
+#    simpleEleId90cIso= cms.InputTag("simpleEleId90cIso"),
+#    simpleEleId85cIso= cms.InputTag("simpleEleId85cIso"),
+#    simpleEleId80cIso= cms.InputTag("simpleEleId80cIso"),
+#    simpleEleId70cIso= cms.InputTag("simpleEleId70cIso"),
+#    simpleEleId60cIso= cms.InputTag("simpleEleId60cIso"),
+#)
 process.patEle2 = eleProducer.patElectrons.clone( 
     pvSrc = "offlinePrimaryVerticesWithBS"
     )
@@ -273,7 +294,8 @@ process.cleanPatMu3 = muCleaner.cleanPatMuons.clone(
     )
 
 
-process.myExtraLepton = cms.Sequence( 
+process.myExtraLepton = cms.Sequence(  
+        process.patElectronIsolation *
         process.patEle2 *
         process.patEle3 *
         process.patMu2 *
@@ -285,6 +307,7 @@ process.myExtraLepton = cms.Sequence(
         process.morePFElectron
 
  )
+
 
 
 ### put the usual cff fragment here
@@ -307,18 +330,32 @@ process.load( "CommonTools.RecoAlgos.HBHENoiseFilter_cfi" )
 process.rootTupleTree = cms.EDAnalyzer( "RootTupleMakerV2_Tree",
     outputCommands = cms.untracked.vstring( 
         'drop *',
+        'keep *_rootTupleBeamSpot_*_*',
         'keep *_rootTupleEvent_*_*',
         'keep *_rootTupleEventSelection_*_*',
         'keep *_rootTupleCaloJets_*_*',
+        'keep *_rootTupleCaloJetsExtra_*_*',
+        
         'keep *_rootTuplePFJets_*_*',
+        'keep *_rootTuplePFJetsExtra_*_*',
         'keep *_rootTuplePF2PATJets_*_*',
+        'keep *_rootTuplePF2PATJetsExtra_*_*',
         'keep *_rootTupleElectrons_*_*',
+        'keep *_rootTupleElectronsExtra_*_*',
         'keep *_rootTuplePFElectrons_*_*',
+        'keep *_rootTuplePFElectronsExtra_*_*',
+        'keep *_rootTupleElectronsExtra_*_*',
+        'keep *_rootTuplePFElectronsExtra_*_*',
         'keep *_rootTupleCaloMET_*_*',
         'keep *_rootTupleTCMET_*_*',
         'keep *_rootTuplePFMET_*_*',
+        'keep *_rootTupleCaloMETExtra_*_*',
+        'keep *_rootTupleTCMETExtra_*_*',
+        'keep *_rootTuplePFMETExtra_*_*',
         'keep *_rootTupleMuons_*_*',
+        'keep *_rootTupleMuonsExtra_*_*',
         'keep *_rootTuplePFMuons_*_*',
+        'keep *_rootTuplePFMuonsExtra_*_*',
         'keep *_rootTupleSuperClusters_*_*',
         'keep *_rootTupleTrigger_*_*',
         'keep *_rootTupleVertex_*_*',
@@ -326,7 +363,10 @@ process.rootTupleTree = cms.EDAnalyzer( "RootTupleMakerV2_Tree",
         'keep *_rootTupleGenEventInfo_*_*',
         'keep *_rootTupleGenParticles_*_*',
         'keep *_rootTupleGenJets_*_*',
-        'keep *_rootTupleGenMETTrue_*_*'
+        'keep *_rootTupleGenJetsExtra_*_*',
+        'keep *_rootTupleGenMETTrue_*_*',
+        'keep *_rootTupleGenMETTrueExtra_*_*',
+        'keep *_rootTupleTracks_*_*'
     )
  )
 process.TFileService.fileName = outname
@@ -365,26 +405,23 @@ process.p = cms.Path(
 #        process.p *= process.pdfWeights
 
 process.p *= ( 
+    process.rootTupleBeamSpot +
     process.rootTupleEvent +
     process.rootTupleEventSelection +
-    process.rootTupleCaloJets +
-    process.rootTuplePFJets +
-    process.rootTuplePF2PATJets +
-    process.rootTupleElectrons +
-    process.rootTuplePFElectrons +
-    process.rootTupleCaloMET +
-    process.rootTupleTCMET +
-    process.rootTuplePFMET +
-    process.rootTupleMuons +
-    process.rootTuplePFMuons +
-#    process.rootTupleSuperClusters+
+    process.rootTupleCaloJetSequence +
+    process.rootTupleJPTJetSequence + 
+    process.rootTuplePFJetSequence +
+    process.rootTupleElectronSequence +
+    process.rootTupleMETSequence +
+    process.rootTupleMuonSequence +
     process.rootTupleTrigger +
     process.rootTupleVertex +
     process.rootTupleVertexWithBS +
     process.rootTupleGenEventInfo +
     process.rootTupleGenParticles +
-    process.rootTupleGenJets +
-    process.rootTupleGenMETTrue
+    process.rootTupleGenJetSequence +
+    process.rootTupleGenMETSequence +
+    process.rootTupleTracks
     ) * process.rootTupleTree
 
 process.schedule = cms.Schedule( process.p )
