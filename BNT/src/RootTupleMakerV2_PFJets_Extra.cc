@@ -5,6 +5,7 @@
 #include "CondFormats/JetMETObjects/interface/FactorizedJetCorrector.h"
 #include "CondFormats/JetMETObjects/interface/JetCorrectorParameters.h"
 #include "CondFormats/JetMETObjects/interface/JetCorrectionUncertainty.h"
+#include <iostream>
 
 RootTupleMakerV2_PFJets_Extra::RootTupleMakerV2_PFJets_Extra(const edm::ParameterSet& iConfig) :
     inputTag(iConfig.getParameter<edm::InputTag>("InputTag")),
@@ -15,15 +16,15 @@ RootTupleMakerV2_PFJets_Extra::RootTupleMakerV2_PFJets_Extra(const edm::Paramete
     applyResJEC (iConfig.getParameter<bool>     ("ApplyResidualJEC")),
     resJEC (iConfig.getParameter<std::string>   ("ResidualJEC"))
 {
-    produces<std::vector<double> > (prefix + "Px" + suffix);
-    produces<std::vector<double> > (prefix + "Py" + suffix);
-    produces<std::vector<double> > (prefix + "Pz" + suffix);
-    produces<std::vector<double> > (prefix + "Charge" + suffix);
-    produces<std::vector<double> > (prefix + "Mass" + suffix);
-    produces <std::vector<double> > ( prefix + "ChargedEmEnergyFraction.RAW"  + suffix );
-    produces <std::vector<double> > ( prefix + "ChargedHadronEnergyFraction.RAW"  + suffix );
-    produces <std::vector<double> > ( prefix + "NeutralEmEnergyFraction.RAW"  + suffix );
-    produces <std::vector<double> > ( prefix + "NeutralHadronEnergyFraction.RAW"  + suffix );
+    produces <std::vector<double> > (prefix + "Px" + suffix);
+    produces <std::vector<double> > (prefix + "Py" + suffix);
+    produces <std::vector<double> > (prefix + "Pz" + suffix);
+    produces <std::vector<double> > (prefix + "Charge" + suffix);
+    produces <std::vector<double> > (prefix + "Mass" + suffix);
+    produces <std::vector<double> > ( prefix + "ChargedEmEnergyFractionRAW"  + suffix );
+    produces <std::vector<double> > ( prefix + "ChargedHadronEnergyFractionRAW"  + suffix );
+    produces <std::vector<double> > ( prefix + "NeutralEmEnergyFractionRAW"  + suffix );
+    produces <std::vector<double> > ( prefix + "NeutralHadronEnergyFractionRAW"  + suffix );
 }
 
 void RootTupleMakerV2_PFJets_Extra::
@@ -34,10 +35,10 @@ produce(edm::Event& iEvent, const edm::EventSetup& iSetup) {
     std::auto_ptr < std::vector<double> > pz(new std::vector<double>());
     std::auto_ptr < std::vector<double> > charge(new std::vector<double>());
     std::auto_ptr < std::vector<double> > mass(new std::vector<double>());
-    std::auto_ptr<std::vector<double> >  chargedEmEnergyFractionRAW  ( new std::vector<double>()  ) ;
-    std::auto_ptr<std::vector<double> >  chargedHadronEnergyFractionRAW  ( new std::vector<double>()  ) ;
-    std::auto_ptr<std::vector<double> >  neutralEmEnergyFractionRAW  ( new std::vector<double>()  ) ;
-    std::auto_ptr<std::vector<double> >  neutralHadronEnergyFractionRAW  ( new std::vector<double>()  ) ;
+    std::auto_ptr < std::vector<double> > chargedEmEnergyFractionRAW  ( new std::vector<double>()  ) ;
+    std::auto_ptr < std::vector<double> > chargedHadronEnergyFractionRAW  ( new std::vector<double>()  ) ;
+    std::auto_ptr < std::vector<double> > neutralEmEnergyFractionRAW  ( new std::vector<double>()  ) ;
+    std::auto_ptr < std::vector<double> > neutralHadronEnergyFractionRAW  ( new std::vector<double>()  ) ;
 
   //-----------------------------------------------------------------
   edm::FileInPath fipUnc(jecUncPath);;
@@ -79,11 +80,10 @@ produce(edm::Event& iEvent, const edm::EventSetup& iSetup) {
       py->push_back( it->py()*corr );
       pz->push_back( it->pz() );
 
-      chargedEmEnergyFractionRAW->push_back( it->correctedJet("raw").chargedEmEnergyFraction() );
-      chargedHadronEnergyFractionRAW->push_back( it->correctedJet("raw").chargedHadronEnergyFraction() );
-      neutralEmEnergyFractionRAW->push_back( it->correctedJet("raw").neutralEmEnergyFraction() );
-      neutralHadronEnergyFractionRAW->push_back( it->correctedJet("raw").neutralHadronEnergyFraction() );
-
+      chargedEmEnergyFractionRAW->push_back( it->correctedJet("raw","").chargedEmEnergyFraction() );
+      chargedHadronEnergyFractionRAW->push_back( it->correctedJet("raw","").chargedHadronEnergyFraction() );
+      neutralEmEnergyFractionRAW->push_back( it->correctedJet("raw","").neutralEmEnergyFraction() );
+      neutralHadronEnergyFractionRAW->push_back( it->correctedJet("raw","").neutralHadronEnergyFraction() );
       charge->push_back( it->jetCharge() );
       mass->push_back( it->mass() );
 
@@ -104,8 +104,8 @@ produce(edm::Event& iEvent, const edm::EventSetup& iSetup) {
     iEvent.put(pz, prefix + "Pz" + suffix);
     iEvent.put(charge, prefix + "Charge" + suffix);
     iEvent.put(mass, prefix + "Mass" + suffix);
-    iEvent.put( chargedEmEnergyFractionRAW,  prefix + "ChargedEmEnergyFraction.RAW"  + suffix );
-    iEvent.put( chargedHadronEnergyFractionRAW,  prefix + "ChargedHadronEnergyFraction.RAW"  + suffix );
-    iEvent.put( neutralEmEnergyFractionRAW,  prefix + "NeutralEmEnergyFraction.RAW"  + suffix );
-    iEvent.put( neutralHadronEnergyFractionRAW,  prefix + "NeutralHadronEnergyFraction.RAW"  + suffix );
+    iEvent.put( chargedEmEnergyFractionRAW,  prefix + "ChargedEmEnergyFractionRAW"  + suffix );
+    iEvent.put( chargedHadronEnergyFractionRAW,  prefix + "ChargedHadronEnergyFractionRAW"  + suffix );
+    iEvent.put( neutralEmEnergyFractionRAW,  prefix + "NeutralEmEnergyFractionRAW"  + suffix );
+    iEvent.put( neutralHadronEnergyFractionRAW,  prefix + "NeutralHadronEnergyFractionRAW"  + suffix );
 }
