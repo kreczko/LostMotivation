@@ -14,16 +14,24 @@ rootTupleElectrons = cms.EDProducer("RootTupleMakerV2_Electrons",
     VertexInputTag = cms.InputTag('offlinePrimaryVertices')
 )
 
-rootTuplePFElectrons = cms.EDProducer("RootTupleMakerV2_Electrons",
-    TracksInputTag = cms.InputTag('generalTracks'),
-    DCSInputTag = cms.InputTag('scalersRawToDigi'),
+rootTuplePFElectrons = rootTupleElectrons.clone(
     InputTag = cms.InputTag('selectedPatElectronsToto'),
-    Prefix = cms.string('PFElectron.'),
+    Prefix = cms.string('PFElectron.'))
+
+rootTupleElectronsExtra = cms.EDProducer("RootTupleMakerV2_Electrons_Extra",
+    InputTag = cms.InputTag('cleanPatElectrons'),
+    InputTagPVWithBS = cms.InputTag('cleanPatEle2'),
+    InputTagBS = cms.InputTag('cleanPatEle3'),
+    Prefix = cms.string('Electron.'),
     Suffix = cms.string(''),
     MaxSize = cms.uint32(10),
-    ElectronIso = cms.double(0.1),
-    MuonPt = cms.double(10.),
-    MuonIso = cms.double(0.05),
-    MuonID = cms.string('GlobalMuonPromptTight'),
-    VertexInputTag = cms.InputTag('offlinePrimaryVertices')
+    storePFIsolation = cms.bool(False)
 )
+
+rootTuplePFElectronsExtra = rootTupleElectronsExtra.clone(
+    InputTag = cms.InputTag('selectedPatElectronsToto'),
+    Prefix = cms.string('PFElectron.'),
+    storePFIsolation = cms.bool(True))
+
+rootTupleElectronSequence =  cms.Sequence(rootTupleElectrons + rootTuplePFElectrons + rootTupleElectronsExtra + 
+                                          rootTuplePFElectronsExtra)
