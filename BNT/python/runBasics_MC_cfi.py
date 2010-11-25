@@ -1,6 +1,4 @@
 useREDIGI = False
-runOnMC = False
-
 runOn_Spring10_Physics_MC = True
 runOnMC = True
 
@@ -9,16 +7,12 @@ useREDIGI = False
 JECSetName = "Spring10"
 wantPatTuple = bool( 0 )
 doPDFweights = bool( 0 )
-applyBSCTrigOnMC = bool( 1 )
-runOn35xInput = bool( 0 )
 outname = "nTuple_data.root"
 patname = "pat_data.root"
 
 
 realData = False
 useREDIGI = True
-applyBSCTrigOnMC = False
-runOn35xInput = True
 outname = "nTuple_mc.root"
 patname = "pat_mc.root"
 
@@ -45,7 +39,7 @@ from PhysicsTools.PatAlgos.tools.electronTools import *
 addElectronUserIsolation(process)
 
 
-process.GlobalTag.globaltag = cms.string( 'START3X_V26::All' )
+process.GlobalTag.globaltag = cms.string( 'START38_V13::All' )
 
 from PhysicsTools.PatAlgos.tools.coreTools import *
 from PhysicsTools.PatAlgos.tools.tauTools import *
@@ -140,9 +134,7 @@ readFiles.extend( [
 
 
         ## test using Spring10 ttjet: /TTbarJets-madgraph/Spring10_START3X_V26_S09-v1/GEN-SIM-RECO (need run33xOnReReco)
-process.source.fileNames = cms.untracked.vstring( 
-            #'rfio:/castor/cern.ch/user/t/tcheng/A4121AB4-0747-DF11-8984-0030487F171B.root'
-        )
+process.source.fileNames = readFiles
 
 
 
@@ -171,7 +163,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = cms.untracked.int32( 100 )
 
 
 # process all the events
-process.maxEvents.input = 100 #20000
+process.maxEvents.input = -1 #20000
 #process.options.wantSummary = True
 
 #process.out.outputCommands += (['keep *_*_*_*'
@@ -335,7 +327,6 @@ process.rootTupleTree = cms.EDAnalyzer( "RootTupleMakerV2_Tree",
         'keep *_rootTupleEventSelection_*_*',
         'keep *_rootTupleCaloJets_*_*',
         'keep *_rootTupleCaloJetsExtra_*_*',
-        
         'keep *_rootTuplePFJets_*_*',
         'keep *_rootTuplePFJetsExtra_*_*',
         'keep *_rootTuplePF2PATJets_*_*',
