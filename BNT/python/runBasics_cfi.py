@@ -320,7 +320,7 @@ process.MessageLogger.categories.append("HLTrigReport")
 
 
 # process all the events
-process.maxEvents.input = 100 #20000
+process.maxEvents.input = -1 #20000
 process.options.wantSummary = True
 
 #process.out.outputCommands += (['keep *_*_*_*'
