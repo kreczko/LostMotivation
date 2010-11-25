@@ -78,7 +78,7 @@ produce(edm::Event& iEvent, const edm::EventSetup& iSetup) {
 
       px->push_back( it->px() );
       py->push_back( it->py() );
-      px->push_back( it->pz() );
+      pz->push_back( it->pz() );
       trkIso03->push_back( it->isolationR03().sumPt );
       ecalIso03->push_back( it->isolationR03().emEt );
       hcalIso03->push_back( it->isolationR03().hadEt );
