@@ -23,12 +23,18 @@ RootTupleMakerV2_Electrons_Extra::RootTupleMakerV2_Electrons_Extra(const edm::Pa
   produces <std::vector<double> > ( prefix + "TrkIso03" + suffix );
   produces <std::vector<double> > ( prefix + "EcalIso03" + suffix );
   produces <std::vector<double> > ( prefix + "HcalIso03" + suffix );
-  produces <std::vector<double> > ( prefix + "GSFTrack.d0" + suffix );
-  produces <std::vector<double> > ( prefix + "GSFTrack.d0PVWithBS" + suffix );
-  produces <std::vector<double> > ( prefix + "GSFTrack.d0BS" + suffix );
   produces <std::vector<double> > ( prefix + "dB" + suffix );
   produces <std::vector<double> > ( prefix + "dBPVWithBS" + suffix );
   produces <std::vector<double> > ( prefix + "dBBS" + suffix );
+
+  produces <std::vector<int> > ( prefix + "closestCtfTrackRef" + suffix );
+  produces <std::vector<double> > ( prefix + "shFracInnerHits" + suffix );
+  produces <std::vector<double> > ( prefix + "GSFTrack.d0" + suffix );
+  produces <std::vector<double> > ( prefix + "GSFTrack.Eta" + suffix );
+  produces <std::vector<double> > ( prefix + "GSFTrack.Phi" + suffix );
+  produces <std::vector<double> > ( prefix + "GSFTrack.Theta" + suffix );
+  produces <std::vector<int> > ( prefix + "GSFTrack.Charge" + suffix );
+
   if (storePFIsolation) {
         produces<std::vector<double> > (prefix + "PfChargedHadronIso" + suffix);
         produces<std::vector<double> > (prefix + "PfNeutralHadronIso" + suffix);
@@ -45,15 +51,21 @@ produce(edm::Event& iEvent, const edm::EventSetup& iSetup) {
   std::auto_ptr<std::vector<double> >  trkIso03   ( new std::vector<double>()  );
   std::auto_ptr<std::vector<double> >  ecalIso03  ( new std::vector<double>()  );
   std::auto_ptr<std::vector<double> >  hcalIso03  ( new std::vector<double>()  );
-  std::auto_ptr<std::vector<double> >  d0  ( new std::vector<double>()  );
-  std::auto_ptr<std::vector<double> >  d0PVWithBS  ( new std::vector<double>()  );
-  std::auto_ptr<std::vector<double> >  d0BS  ( new std::vector<double>()  );
   std::auto_ptr<std::vector<double> >  dB  ( new std::vector<double>()  );
   std::auto_ptr<std::vector<double> >  dBPVWithBS  ( new std::vector<double>()  );
   std::auto_ptr<std::vector<double> >  dBBS  ( new std::vector<double>()  );
   std::auto_ptr<std::vector<double> >  PfChargedHadronIso  ( new std::vector<double>()  );
   std::auto_ptr<std::vector<double> >  PfNeutralHadronIso  ( new std::vector<double>()  );
   std::auto_ptr<std::vector<double> >  PFGammaIso  ( new std::vector<double>()  );
+
+  std::auto_ptr<std::vector<int> >  closestCtfTrackRef  ( new std::vector<int>()  );
+  std::auto_ptr<std::vector<double> >  shFracInnerHits  ( new std::vector<double>()  );
+  std::auto_ptr<std::vector<double> >  gsfTrackD0  ( new std::vector<double>()  );
+  std::auto_ptr<std::vector<double> >  gsfTrackEta  ( new std::vector<double>()  );
+  std::auto_ptr<std::vector<double> >  gsfTrackPhi  ( new std::vector<double>()  );
+  std::auto_ptr<std::vector<double> >  gsfTrackTheta  ( new std::vector<double>()  );
+  std::auto_ptr<std::vector<int> >  gsfTrackCharge  ( new std::vector<int>()  );
+
 
   //-----------------------------------------------------------------
   edm::Handle < std::vector<pat::Electron> > electrons;
@@ -81,8 +93,15 @@ produce(edm::Event& iEvent, const edm::EventSetup& iSetup) {
       trkIso03->push_back( it->dr03TkSumPt() );
       ecalIso03->push_back( it->dr03EcalRecHitSumEt());
       hcalIso03->push_back( it->dr03HcalTowerSumEt());
-      double trkd0 = it->gsfTrack()->d0();
-      d0->push_back(trkd0);
+      closestCtfTrackRef->push_back(static_cast<int>(it->closestCtfTrackRef().key()));
+      shFracInnerHits->push_back(it->shFracInnerHits());
+
+
+      gsfTrackD0->push_back(it->gsfTrack()->d0());
+      gsfTrackEta->push_back(it->gsfTrack()->eta());
+      gsfTrackPhi->push_back(it->gsfTrack()->phi());
+      gsfTrackTheta->push_back(it->gsfTrack()->theta());
+      gsfTrackCharge->push_back(it->gsfTrack()->charge());
       dB->push_back(it->dB());
       if(storePFIsolation){
           pat::IsolationKeys isokeyPfChargedHadronIso = pat::IsolationKeys(4);
@@ -119,11 +138,9 @@ produce(edm::Event& iEvent, const edm::EventSetup& iSetup) {
       edm::LogInfo("RootTupleMakerV2_ElectronsExtraInfo") << "Total # Electrons: " << electronsWithBS->size();
       for( std::vector<pat::Electron>::const_iterator it = electronsWithBS->begin(); it != electronsWithBS->end(); ++it ) {
         // exit from loop when you reach the required number of electrons
-        if(d0PVWithBS->size() >= maxSize)
+        if(dBPVWithBS->size() >= maxSize)
           break;
 
-        double trkd0 = it->gsfTrack()->d0();
-        d0PVWithBS->push_back(trkd0);
         dBPVWithBS->push_back(it->dB());
 
       }
@@ -135,11 +152,9 @@ produce(edm::Event& iEvent, const edm::EventSetup& iSetup) {
        edm::LogInfo("RootTupleMakerV2_ElectronsExtraInfo") << "Total # Electrons: " << electronsBS->size();
        for( std::vector<pat::Electron>::const_iterator it = electronsBS->begin(); it != electronsBS->end(); ++it ) {
          // exit from loop when you reach the required number of electrons
-         if(d0BS->size() >= maxSize)
+         if(dBBS->size() >= maxSize)
            break;
 
-         double trkd0 = it->gsfTrack()->d0();
-         d0BS->push_back(trkd0);
          dBBS->push_back(it->dB());
 
        }
@@ -155,12 +170,18 @@ produce(edm::Event& iEvent, const edm::EventSetup& iSetup) {
   iEvent.put( trkIso03, prefix + "TrkIso03" + suffix );
   iEvent.put( ecalIso03, prefix + "EcalIso03" + suffix );
   iEvent.put( hcalIso03, prefix + "HcalIso03" + suffix );
-  iEvent.put( d0, prefix + "GSFTrack.d0" + suffix );
-  iEvent.put( d0PVWithBS, prefix + "GSFTrack.d0PVWithBS" + suffix );
-  iEvent.put( d0BS, prefix + "GSFTrack.d0BS" + suffix );
   iEvent.put( dB, prefix + "dB" + suffix );
   iEvent.put( dBPVWithBS, prefix + "dBPVWithBS" + suffix );
   iEvent.put( dBBS, prefix + "dBBS" + suffix );
+
+  iEvent.put( closestCtfTrackRef, prefix + "closestCtfTrackRef" + suffix );
+  iEvent.put( shFracInnerHits, prefix + "shFracInnerHits" + suffix );
+  iEvent.put( gsfTrackD0, prefix + "GSFTrack.d0" + suffix );
+  iEvent.put( gsfTrackEta, prefix + "GSFTrack.Eta" + suffix );
+  iEvent.put( gsfTrackPhi, prefix + "GSFTrack.Phi" + suffix );
+  iEvent.put( gsfTrackTheta, prefix + "GSFTrack.Theta" + suffix );
+  iEvent.put( gsfTrackCharge, prefix + "GSFTrack.Charge" + suffix );
+
   if(storePFIsolation){
       iEvent.put( PfChargedHadronIso, prefix + "PfChargedHadronIso" + suffix );
       iEvent.put( PfNeutralHadronIso, prefix + "PfNeutralHadronIso" + suffix );
