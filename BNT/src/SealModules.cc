@@ -9,6 +9,7 @@
 #include "BristolAnalysis/NTupleTools/interface/RootTupleMakerV2_BeamSpot.h"
 #include "BristolAnalysis/NTupleTools/interface/RootTupleMakerV2_Tracks.h"
 #include "BristolAnalysis/NTupleTools/interface/RootTupleMakerV2_PFJets_Extra.h"
+#include "BristolAnalysis/NTupleTools/interface/RootTupleMakerV2_Event_Extra.h"
 
 DEFINE_FWK_MODULE(RootTupleMakerV2_CaloJets_Extra);
 DEFINE_FWK_MODULE(RootTupleMakerV2_GenJets_Extra);
@@ -19,3 +20,4 @@ DEFINE_FWK_MODULE(RootTupleMakerV2_BeamSpot);
 DEFINE_FWK_MODULE(RootTupleMakerV2_Tracks);
 DEFINE_FWK_MODULE(RootTupleMakerV2_Electrons_Extra);
 DEFINE_FWK_MODULE(RootTupleMakerV2_PFJets_Extra);
+DEFINE_FWK_MODULE(RootTupleMakerV2_Event_Extra);

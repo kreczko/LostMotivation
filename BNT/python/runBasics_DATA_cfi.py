@@ -149,7 +149,7 @@ process.hlTrigReport = cms.EDAnalyzer("HLTrigReport",
 )
 
 # reduce verbosity
-process.MessageLogger.cerr.FwkReport.reportEvery = cms.untracked.int32(100)
+process.MessageLogger.cerr.FwkReport.reportEvery = cms.untracked.int32(1000)
 #process.MessageLogger.cerr.INFO.limit = 10
 #process.MessageLogger.cerr.threshold = "DEBUG"
 process.MessageLogger.categories.append("HLTrigReport")
@@ -307,6 +307,7 @@ process.rootTupleTree = cms.EDAnalyzer("RootTupleMakerV2_Tree",
        'drop *',
         'keep *_rootTupleBeamSpot_*_*',
         'keep *_rootTupleEvent_*_*',
+        'keep *_rootTupleEventExtra_*_*',
         'keep *_rootTupleEventSelection_*_*',
         'keep *_rootTupleCaloJets_*_*',
         'keep *_rootTupleCaloJetsExtra_*_*',
@@ -380,6 +381,7 @@ process.p = cms.Path(
 process.p *= (
     process.rootTupleBeamSpot +
     process.rootTupleEvent +
+    process.rootTupleEventExtra +
     process.rootTupleEventSelection +
     process.rootTupleCaloJetSequence +
     process.rootTupleJPTJetSequence + 

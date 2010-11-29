@@ -324,6 +324,7 @@ process.rootTupleTree = cms.EDAnalyzer( "RootTupleMakerV2_Tree",
         'drop *',
         'keep *_rootTupleBeamSpot_*_*',
         'keep *_rootTupleEvent_*_*',
+        'keep *_rootTupleEventExtra_*_*',
         'keep *_rootTupleEventSelection_*_*',
         'keep *_rootTupleCaloJets_*_*',
         'keep *_rootTupleCaloJetsExtra_*_*',
@@ -398,6 +399,7 @@ process.p = cms.Path(
 process.p *= ( 
     process.rootTupleBeamSpot +
     process.rootTupleEvent +
+    process.rootTupleEventExtra +
     process.rootTupleEventSelection +
     process.rootTupleCaloJetSequence +
     process.rootTupleJPTJetSequence + 

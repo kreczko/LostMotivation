@@ -480,6 +480,7 @@ process.rootTupleTree = cms.EDAnalyzer("RootTupleMakerV2_Tree",
     outputCommands = cms.untracked.vstring(
         'drop *',
         'keep *_rootTupleEvent_*_*',
+        'keep *_rootTupleEventExtra_*_*',
         'keep *_rootTupleEventSelection_*_*',
         'keep *_rootTupleCaloJets_*_*',
         'keep *_rootTuplePFJets_*_*',
