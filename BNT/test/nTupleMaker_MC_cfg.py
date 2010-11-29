@@ -11,4 +11,4 @@ process.ak5PFL3Absolute.useCondDB = False
 process.ak5PFResidual.useCondDB = False
 process.TFileService.fileName = 'testNtupler_MC.root'
 
-process.maxEvents.input = -1 
+process.maxEvents.input = 100
