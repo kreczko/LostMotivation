@@ -2,11 +2,6 @@
 #include "FWCore/Framework/interface/Event.h"
 #include "FWCore/MessageLogger/interface/MessageLogger.h"
 #include "DataFormats/PatCandidates/interface/Electron.h"
-#include "DataFormats/BeamSpot/interface/BeamSpot.h"
-#include "DataFormats/VertexReco/interface/Vertex.h"
-#include "DataFormats/VertexReco/interface/VertexFwd.h"
-#include "DataFormats/PatCandidates/interface/Isolation.h"
-#include <iostream>
 
 RootTupleMakerV2_Electrons_Extra::RootTupleMakerV2_Electrons_Extra(const edm::ParameterSet& iConfig) :
     inputTag(iConfig.getParameter<edm::InputTag>("InputTag")),
@@ -65,7 +60,6 @@ produce(edm::Event& iEvent, const edm::EventSetup& iSetup) {
   std::auto_ptr<std::vector<double> >  gsfTrackPhi  ( new std::vector<double>()  );
   std::auto_ptr<std::vector<double> >  gsfTrackTheta  ( new std::vector<double>()  );
   std::auto_ptr<std::vector<int> >  gsfTrackCharge  ( new std::vector<int>()  );
-
 
   //-----------------------------------------------------------------
   edm::Handle < std::vector<pat::Electron> > electrons;
