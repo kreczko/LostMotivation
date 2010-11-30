@@ -13,7 +13,7 @@ process.ak5PFL3Absolute.useCondDB = False
 process.ak5PFResidual.useCondDB = False
 
 # reduce stdout
-process.MessageLogger.cerr.FwkReport.reportEvery = cms.untracked.int32(1000)
+process.MessageLogger.cerr.FwkReport.reportEvery = cms.untracked.int32(10000)
 #process.MessageLogger.cerr.INFO.limit = 10
 #process.MessageLogger.cerr.threshold = 'ERROR'
 
