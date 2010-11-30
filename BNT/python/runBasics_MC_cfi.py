@@ -164,7 +164,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = cms.untracked.int32( 100 )
 
 # process all the events
 process.maxEvents.input = -1 #20000
-#process.options.wantSummary = True
+process.options.wantSummary = False
 
 #process.out.outputCommands += (['keep *_*_*_*'
 #                               ])
@@ -314,8 +314,6 @@ process.TFileService = cms.Service( "TFileService",
                            )
 
 
-print "loading CFA config"
-#process.configurableAnalysis = getConfigurableAnalysis(runOnMC, useREDIGI)
 process.load( 'BristolAnalysis.NTupleTools.Ntuple_cff' )
 process.load( "CommonTools.RecoAlgos.HBHENoiseFilter_cfi" )
 # RootTupleMakerV2 tree

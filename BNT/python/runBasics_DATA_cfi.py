@@ -40,9 +40,9 @@ from PhysicsTools.PatAlgos.tools.tauTools import *
 
 
 # turn off MC matching for the process
-print "*********************"
-print "Turn off MC matching"
-print "*********************"
+#print "*********************"
+#print "Turn off MC matching"
+#print "*********************"
 removeMCMatching(process, ["All"])
 
 
@@ -144,15 +144,15 @@ process.hltPhysicsDeclared.L1GtReadoutRecordTag = 'gtDigis'
 
     
 # HLT Trigger Report
-process.hlTrigReport = cms.EDAnalyzer("HLTrigReport",
-    HLTriggerResults = cms.InputTag("TriggerResults","","HLT")
-)
+#process.hlTrigReport = cms.EDAnalyzer("HLTrigReport",
+#    HLTriggerResults = cms.InputTag("TriggerResults","","HLT")
+#)
 
 # reduce verbosity
 process.MessageLogger.cerr.FwkReport.reportEvery = cms.untracked.int32(1000)
 #process.MessageLogger.cerr.INFO.limit = 10
 #process.MessageLogger.cerr.threshold = "DEBUG"
-process.MessageLogger.categories.append("HLTrigReport")
+#process.MessageLogger.categories.append("HLTrigReport")
 #process.MessageLogger.hlTrigReport.limit = 1000
 
 
@@ -160,7 +160,7 @@ process.MessageLogger.categories.append("HLTrigReport")
 
 # process all the events
 process.maxEvents.input = 100 #20000
-process.options.wantSummary = True
+process.options.wantSummary = False
 
 #process.out.outputCommands += (['keep *_*_*_*'
 #                               ])
@@ -210,8 +210,8 @@ process.out.fileName = patname
 
 #commented next line out as not available (yet) in 38X 
 #process.load("RecoEgamma.EgammaTools.correctedElectronsProducer_cfi")
-print "WARNING"
-print "Electrons have not been corrected for alignment"
+#print "WARNING"
+#print "Electrons have not been corrected for alignment"
 
 #from RecoEgamma.EgammaTools.correctedElectronsProducer_cfi import *
 #process.patElectrons.electronSource = "gsfElectrons::PAT"
@@ -297,8 +297,6 @@ process.TFileService = cms.Service( "TFileService",
                            )
 
     
-print "loading CFA config"
-#from NTupler_cfi import *
 process.load('BristolAnalysis.NTupleTools.Ntuple_cff')
 process.load("CommonTools.RecoAlgos.HBHENoiseFilter_cfi")
 # RootTupleMakerV2 tree
@@ -368,13 +366,10 @@ process.p = cms.Path(
         process.HBHENoiseFilterResultProducer*
         process.hltLevel1GTSeed*
         process.hltPhysicsDeclared*
-        process.hlTrigReport *
-#        process.recoJPTJets * #jpt in 3_6
-        #process.jptCaloJets* #jpt in 3_5
+#        process.hlTrigReport *
         process.patDefaultSequence *
         process.myExtraLepton *
         getattr(process,"patPF2PATSequence"+postfix)
-#        process.configurableAnalysis
         )
     
         
