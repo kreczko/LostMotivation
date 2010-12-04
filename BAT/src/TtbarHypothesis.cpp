@@ -15,15 +15,15 @@ TtbarHypothesis::TtbarHypothesis() :
 
 }
 
-TtbarHypothesis::~TtbarHypothesis(){
+TtbarHypothesis::~TtbarHypothesis() {
 
 }
 
-TtbarHypothesis::operator <(const TtbarHypothesis hyp) const{
+bool TtbarHypothesis::operator <(const TtbarHypothesis& hyp) const {
 	return chi2 < hyp.chi2;
 }
 
-TtbarHypothesis::operator ==(const TtbarHypothesis hyp) const{
+bool TtbarHypothesis::operator ==(const TtbarHypothesis& hyp) const {
 	return chi2 == hyp.chi2;
 }
 

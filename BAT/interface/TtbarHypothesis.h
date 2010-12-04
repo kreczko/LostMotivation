@@ -13,7 +13,7 @@
 #include "RecoObjects/Particle.h"
 
 namespace BAT {
-class TtbarHypothesis{
+class TtbarHypothesis {
 public:
 	TtbarHypothesis();
 	virtual ~TtbarHypothesis();
@@ -23,11 +23,11 @@ public:
 	ElectronPointer electronFromW;
 	METPointer met;
 
-	bool operator==(const TtbarHypothesis hyp) const;
-	bool operator<(const TtbarHypothesis hyp)  const;
+	bool operator==(const TtbarHypothesis& hyp) const;
+	bool operator<(const TtbarHypothesis& hyp) const;
 
 };
 
-}  // namespace BAT
+} // namespace BAT
 
 #endif /* TTBARHYPOTHESIS_H_ */
