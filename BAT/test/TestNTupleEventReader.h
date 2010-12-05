@@ -146,22 +146,22 @@ public:
 
     void testNumberOfTracksInEvent1() {
         Event currentEvent = TTbarReader->getNextEvent();
-        ASSERT_EQUAL(144, currentEvent.getTracks().size());
+        ASSERT_EQUAL(144, currentEvent.Tracks().size());
     }
 
     void testNumberOfElectronsInEvent1() {
         Event currentEvent = TTbarReader->getNextEvent();
-        ASSERT_EQUAL(3, currentEvent.getElectrons().size());
+        ASSERT_EQUAL(3, currentEvent.Electrons().size());
     }
 
     void testNumberOfJetsInEvent1() {
         Event currentEvent = TTbarReader->getNextEvent();
-        ASSERT_EQUAL(8, currentEvent.getJets().size());
+        ASSERT_EQUAL(8, currentEvent.Jets().size());
     }
 
     void testNumberOfMuonsInEvent1() {
         Event currentEvent = TTbarReader->getNextEvent();
-        ASSERT_EQUAL(1, currentEvent.getMuons().size());
+        ASSERT_EQUAL(1, currentEvent.Muons().size());
     }
 
     void testHasNextEvent() {
@@ -228,7 +228,7 @@ public:
 
     void testPrimaryVertex() {
         ASSERT_EQUAL(true, TTbarReader->hasNextEvent());
-        ASSERT_EQUAL(true, TTbarReader->getNextEvent().getPrimaryVertex()->isGood());
+        ASSERT_EQUAL(true, TTbarReader->getNextEvent().PrimaryVertex()->isGood());
     }
 
     void testHLTTrigger() {
@@ -250,7 +250,7 @@ public:
 
     void testTTbarEventMET() {
         Event event = TTbarReader->getNextEvent();
-        ASSERT_EQUAL_DELTA(47.9642,event.getMET()->et(), 0.001);
+        ASSERT_EQUAL_DELTA(47.9642,event.MET()->et(), 0.001);
     }
 
     void testSeenTTbar() {

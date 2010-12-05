@@ -363,10 +363,10 @@ private:
 public:
     void testEventConstructor() {
         TopPairEventCandidate candidate = TopPairEventCandidate(ttbarEvent);
-        ASSERT_EQUAL(2, candidate.getElectrons().size());
-        ASSERT_EQUAL(1, candidate.getGoodIsolatedElectrons().size());
-        ASSERT_EQUAL(5, candidate.getJets().size());
-        ASSERT_EQUAL(4, candidate.getGoodJets().size());
+        ASSERT_EQUAL(2, candidate.Electrons().size());
+        ASSERT_EQUAL(1, candidate.GoodIsolatedElectrons().size());
+        ASSERT_EQUAL(5, candidate.Jets().size());
+        ASSERT_EQUAL(4, candidate.GoodJets().size());
     }
 
     void testPassesHLT() {
@@ -530,8 +530,8 @@ public:
         assert(poorZEvent.passesScrapingFilter());
         assert(poorZEvent.passesHighLevelTrigger());
         assert(poorZEvent.hasOneGoodPrimaryVertex());
-        cout << poorZEvent.getGoodElectrons().size() << endl;
-        cout << poorZEvent.getGoodIsolatedElectrons().size() << endl;
+        cout << poorZEvent.GoodElectrons().size() << endl;
+        cout << poorZEvent.GoodIsolatedElectrons().size() << endl;
         assert(poorZEvent.hasOnlyOneGoodIsolatedElectron());
         assert(poorZEvent.isolatedElectronDoesNotComeFromConversion());
         ASSERT_EQUAL(true, poorZEvent.passesSelectionStepUpTo(TTbarEPlusJetsSelection::LooseMuonVeto));
@@ -611,7 +611,7 @@ public:
         cand.setPrimaryVertex(goodVertex);
         cand.setMET(met);
         cand.setElectrons(eCollection);
-        ASSERT_THROWS(cand.reconstructUsingChi2(),ReconstructionException);
+        ASSERT_THROWS(cand.reconstructUsingChi2(goodIsolatedElectron),ReconstructionException);
     }
 
     void testNMinus1CutsPositive() {

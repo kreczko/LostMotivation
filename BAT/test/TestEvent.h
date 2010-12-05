@@ -262,23 +262,23 @@ private:
 
 public:
     void testNumberOfElectrons() {
-        ASSERT_EQUAL(2, ttbarEvent.getElectrons().size());
+        ASSERT_EQUAL(2, ttbarEvent.Electrons().size());
     }
 
     void testNumberOfGoodElectrons() {
-        ASSERT_EQUAL(1, ttbarEvent.getGoodElectrons().size());
+        ASSERT_EQUAL(1, ttbarEvent.GoodElectrons().size());
     }
 
     void testNumberOfGoodIsolatedElectrons() {
-        ASSERT_EQUAL(1, ttbarEvent.getGoodIsolatedElectrons().size());
+        ASSERT_EQUAL(1, ttbarEvent.GoodIsolatedElectrons().size());
     }
 
     void testNumberOfJets() {
-        ASSERT_EQUAL(5, ttbarEvent.getJets().size());
+        ASSERT_EQUAL(5, ttbarEvent.Jets().size());
     }
 
     void testNumberOfGoodJets() {
-        ASSERT_EQUAL(4, ttbarEvent.getGoodJets().size());
+        ASSERT_EQUAL(4, ttbarEvent.GoodJets().size());
     }
 
     void testRunNumber() {
@@ -308,7 +308,7 @@ public:
 
     void testGetMostIsolatedElectron() {
         ASSERT_EQUAL_DELTA(goodIsolatedElectron2->relativeIsolation(),
-                goodZEvent.getMostIsolatedElectron()->relativeIsolation(), 0.001);
+                goodZEvent.MostIsolatedElectron()->relativeIsolation(), 0.001);
     }
 
     void testGoodJetCleaning() {
@@ -325,8 +325,8 @@ public:
         jets.push_back(goodBJet);
         jets.push_back(goodJetCloseToElectron);
         event.setJets(jets);
-        ASSERT_EQUAL(5, event.getJets().size());
-        ASSERT_EQUAL(4, event.getGoodJets().size());
+        ASSERT_EQUAL(5, event.Jets().size());
+        ASSERT_EQUAL(4, event.GoodJets().size());
     }
 
     void testGoodJetCleaningNoGoodElectrons() {
@@ -344,10 +344,10 @@ public:
         jets.push_back(goodBJet);
         jets.push_back(goodJetCloseToElectron);
         event.setJets(jets);
-        ASSERT_EQUAL(0, event.getGoodElectrons().size());
-        ASSERT_EQUAL(0, event.getGoodIsolatedElectrons().size());
-        ASSERT_EQUAL(jets.size(), event.getJets().size());
-        ASSERT_EQUAL(jets.size() - 1, event.getGoodJets().size());
+        ASSERT_EQUAL(0, event.GoodElectrons().size());
+        ASSERT_EQUAL(0, event.GoodIsolatedElectrons().size());
+        ASSERT_EQUAL(jets.size(), event.Jets().size());
+        ASSERT_EQUAL(jets.size() - 1, event.GoodJets().size());
     }
 
     void testGoodJetCleaningNoElectrons() {
@@ -360,8 +360,8 @@ public:
         jets.push_back(goodBJet);
         jets.push_back(goodJetCloseToElectron);
         event.setJets(jets);
-        ASSERT_EQUAL(jets.size(), event.getJets().size());
-        ASSERT_EQUAL(jets.size(), event.getGoodJets().size());
+        ASSERT_EQUAL(jets.size(), event.Jets().size());
+        ASSERT_EQUAL(jets.size(), event.GoodJets().size());
     }
 
     void testGoodJetCleaningNoGoodJets() {
@@ -374,12 +374,12 @@ public:
         JetCollection jets;
         jets.push_back(badJet);
         event.setJets(jets);
-        ASSERT_EQUAL(jets.size(), event.getJets().size());
-        ASSERT_EQUAL(0, event.getGoodJets().size());
+        ASSERT_EQUAL(jets.size(), event.Jets().size());
+        ASSERT_EQUAL(0, event.GoodJets().size());
     }
 
     void testMET() {
-        ASSERT_EQUAL(50, ttbarEvent.getMET()->et());
+        ASSERT_EQUAL(50, ttbarEvent.MET()->et());
     }
 
 };

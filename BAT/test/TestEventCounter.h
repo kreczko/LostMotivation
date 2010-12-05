@@ -29,7 +29,7 @@ public:
 	void testIncereaseCoutner() {
 		Counter counter = Counter(dimension1, dimension2, dimension3);
 		counter.increase(0, 0, 0, 2.4);
-		ASSERT_EQUAL(1, counter.getUnweightedEntries(0, 0, 0));
+		ASSERT_EQUAL(1, counter.getEntries(0, 0, 0));
 	}
 
 	void testIncreaseWeightedCounter() {
