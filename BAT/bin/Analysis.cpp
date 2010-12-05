@@ -158,18 +158,22 @@ void Analysis::doTTBarAnalysis() {
         histMan.H1D("ttbar_pz")->Fill(resonance->pz(), weight);
         histMan.H1D("electron_et")->Fill(ttbarCandidate.getElectronFromWDecay()->et(), weight);
         histMan.H1D("neutrino_pz")->Fill(ttbarCandidate.getNeutrinoFromWDecay()->pz(), weight);
+        if(ttbarCandidate.MET()->pt() > 20){
+        	if(ttbarCandidate.GoodJets().front()->pt() > 70 && ttbarCandidate.GoodJets().at(1)->pt() > 50){
 
+        	}
+        }
         if (mttbar != mttbar) {//isnan
             ttbarCandidate.inspectReconstructedEvent();
         }
         if (ttbarCandidate.isRealData()) {
             cout << "run " << ttbarCandidate.runnumber() << ", event " << ttbarCandidate.eventnumber() << ", lumi "
                     << ttbarCandidate.lumiblock();
-            cout << ", top pair invariant mass=" << mttbar << " GeV" << endl;
+            cout << ", top pair invariant mass = " << mttbar << " GeV" << endl;
             interestingEvents .push_back(InterestingEvent(ttbarCandidate, eventReader->getCurrentFile()));
 
             if (resonance->pt() > 100) {
-                cout << "top pair pt=" << resonance->pt() << " GeV" << endl;
+                cout << "top pair pt = " << resonance->pt() << " GeV" << endl;
                 ttbarCandidate.inspect();
                 ttbarCandidate.inspectReconstructedEvent();
             }
