@@ -126,7 +126,8 @@ const Particle Particle::operator +(const Particle &other) const {
     Particle result = *this;
     FourVector vector = result.getFourVector() + other.getFourVector();
     result.setFourVector(vector);
-    result.setMass(result.massFromEnergyAndMomentum());
+//    result.setMass(result.massFromEnergyAndMomentum());
+    result.setCharge(result.charge() + other.charge());
     return result;
 }
 
