@@ -1,4 +1,5 @@
 #include "TStyle.h"
+from ROOT import TPad, TStyle, kWhite, kTRUE
 
 # tdrGrid: Turns the grid lines on (true) or off (false)
 
@@ -27,8 +28,8 @@ def setTDRStyle():
   tdrStyle.SetPadBorderMode(0);
   # tdrStyle.SetPadBorderSize(Width_t size = 1);
   tdrStyle.SetPadColor(kWhite);
-  tdrStyle.SetPadGridX(false);
-  tdrStyle.SetPadGridY(false);
+  tdrStyle.SetPadGridX(False);
+  tdrStyle.SetPadGridY(False);
   tdrStyle.SetGridColor(0);
   tdrStyle.SetGridStyle(3);
   tdrStyle.SetGridWidth(1);

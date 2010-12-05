@@ -1,43 +1,3 @@
-#
-# 21 Jul 2010
-# 
-# Fit RelIso distribution in data, in various Njet bins
-#
-#  Try: (1) linear fit: 0.1-1.6, 0.2-1.6, 0.3-1.6
-#       (2) expo fit:   0.1-1.6, 0.2-1.6, 0.3-1.6
-#       (3) gaus fit:   0.1-1.6, 0.2-1.6, 0.3-1.6 (error propagation not yet implemented!)
-#
-# - overlay with MC
-# - update lumi to 11.4 (rounded from 11.39)
-# - add fit range 0.3-1.6
-# - adapt to run on exclusive jet bin
-# 
-# configurable options: (A) which njet to use
-#                       (B) how to normalize MC
-#
-# (A) nj: "all", "0jet", "1jet", "2jets", "3jets", "4orMoreJets",
-#         "1mj", 2mj", "3mj"
-#
-# (B) normMode: normalization of MC
-#     1: scale to lumi
-#     2: scale to n(Data)
-#     3: scale to lumi, with QCD scaled to the QCD estimate (put in by hand).
-#
-# eg: root -q -n 'fit_data_Njet.C("all",1)' #to fit all and norm MC to lumi
-#
-# funcs: linear/pol0: y = a + bx
-#        expo       : y = exp(a+bx) d
-#        gaus       : y = a*exp( -0.5*((x-b)/c)^2) ) [see Chapter 5 "Fitting Histograms" of ROOT User Guide)
-#------------------------------------------------------
-
-#include "tdrstyle.C";
-#include "add_text.C"
-#include "colour_scheme.h"
-#include <iomanip>
-
-# normalize to integrated luminosity (True), or data (False)?
-#bool normToLumi = 0; #if False, scale to nData
-#bool normQCDToEst = 1; #scale QCD MC to estimate
 
 # How to scale MC
 normMode = 1;
@@ -59,7 +19,6 @@ YMAX_2mj = 400;
 YMAX_3mj = -1;
 YMAX_4orMoreJets = -1;
 
-numBins;#number of bins in signal region
 TheEstimates;
 
 def fit_data_Njet(nj_user = "all", normMode_user = 1):
