@@ -300,7 +300,7 @@ void TopPairEventCandidate::reconstructUsingChi2(ElectronPointer electron) {
                     leptonicTop1 = ParticlePointer(new Particle(*leptonicBJet + *leptonicW1));
                     leptonicTop2 = ParticlePointer(new Particle(*leptonicBJet + *leptonicW2));
                     hadronicTop = ParticlePointer(new Particle(*hadronicBJet + *hadronicW));
-
+                    fillHypotheses();
                     selectNeutrinoSolution();
                     double chi2 = getTotalChi2(currentSelectedNeutrino);
                     if (chi2 < chosen_Chi2Total) {
@@ -315,7 +315,7 @@ void TopPairEventCandidate::reconstructUsingChi2(ElectronPointer electron) {
             }
         }
     }
-
+    std::sort(solutions.begin(), solutions.end());
     hadronicBJet = goodJets.at(hadronicBIndex);
     leptonicBJet = goodJets.at(leptonicBIndex);
     jet1FromW = goodJets.at(jet1FromWIndex);
@@ -393,6 +393,43 @@ const boost::array<double, 2> TopPairEventCandidate::computeNeutrinoPz() {
 //void TopPairEventCandidate::selectNextJetCombination(){
 //
 //}
+
+void TopPairEventCandidate::fillHypotheses() {
+	TtbarHypothesisPointer hypothesis1(fillHypothesis(1));
+	TtbarHypothesisPointer hypothesis2(fillHypothesis(2));
+	solutions.push_back(hypothesis1);
+	solutions.push_back(hypothesis2);
+
+}
+
+const TtbarHypothesisPointer TopPairEventCandidate::fillHypothesis(unsigned short int neutrinoSolution) {
+	TtbarHypothesisPointer hypothesis(new TtbarHypothesis());
+	hypothesis->electronFromW = electronFromW;
+	hypothesis->leptonicBjet = leptonicBJet;
+	hypothesis->hadronicBJet = hadronicBJet;
+	hypothesis->jet1FromW = jet1FromW;
+	hypothesis->jet2FromW = jet2FromW;
+	hypothesis->hadronicW = hadronicW;
+	hypothesis->hadronicTop = hadronicTop;
+	hypothesis->hadronicChi2 = getHadronicChi2();
+	if(neutrinoSolution == 1) {
+		hypothesis->neutrinoFromW = neutrino1;
+		hypothesis->leptonicW = leptonicW1;
+		hypothesis->leptonicTop = leptonicTop1;
+	}
+	else {
+		hypothesis->neutrinoFromW = neutrino2;
+		hypothesis->leptonicW = leptonicW2;
+		hypothesis->leptonicTop = leptonicTop2;
+	}
+
+	hypothesis->totalChi2 = getTotalChi2(neutrinoSolution);
+	hypothesis->globalChi2 = getGlobalChi2(neutrinoSolution);
+	hypothesis->leptonicChi2 = getLeptonicChi2(neutrinoSolution);
+	ParticlePointer resonance(new Particle(*hypothesis->leptonicTop + *hypothesis->hadronicTop));
+	hypothesis->ressonance = resonance;
+	return hypothesis;
+}
 
 void TopPairEventCandidate::selectNeutrinoSolution() {
 
@@ -619,6 +656,10 @@ double TopPairEventCandidate::M3() const {
 
 double TopPairEventCandidate::mttbar() const {
     return getRessonance()->mass();
+}
+
+const std::vector<TtbarHypothesisPointer> TopPairEventCandidate::Solutions() const{
+	return solutions;
 }
 
 void TopPairEventCandidate::inspectReconstructedEvent() const {

@@ -16,6 +16,7 @@
 #include "RecoObjects/Jet.h"
 #include "Selection.h"
 #include "Taggers/ConversionTagger.h"
+#include "TtbarHypothesis.h"
 
 namespace BAT {
 
@@ -60,6 +61,7 @@ protected:
     bool doneReconstruction;
     ConversionTaggerPointer conversionTagger;
     bool doneConversionTagging;
+    std::vector<TtbarHypothesisPointer> solutions;
 public:
     static NeutrinoSelectionCriterion::value usedNeutrinoSelection;
     TopPairEventCandidate();
@@ -128,9 +130,12 @@ public:
     void selectNextJetCombination();
     void inspectReconstructedEvent() const;
     unsigned int NJet() const;
+    const std::vector<TtbarHypothesisPointer> Solutions() const;
 protected:
     void throwExpeptionIfNotReconstructed() const;
     void selectNeutrinoSolution();
+    void fillHypotheses();
+    const TtbarHypothesisPointer fillHypothesis(unsigned short int neutrinoSolution);
 
 };
 
