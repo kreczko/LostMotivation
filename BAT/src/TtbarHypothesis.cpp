@@ -10,8 +10,9 @@
 namespace BAT {
 
 TtbarHypothesis::TtbarHypothesis() :
-	chi2(99999.), hadronicTop(), leptonicTop(), leptonicW(), hadronicW(), ressonance(), neutrinoFromW(),
-			leptonicBjet(), hadronicBJet(), jet1FromW(), jet2FromW(), electronFromW(), met() {
+	totalChi2(99999.), leptonicChi2(99999.), hadronicChi2(99999.), globalChi2(99999.), hadronicTop(), leptonicTop(),
+			leptonicW(), hadronicW(), ressonance(), neutrinoFromW(), leptonicBjet(), hadronicBJet(), jet1FromW(),
+			jet2FromW(), electronFromW(), met() {
 
 }
 
@@ -20,11 +21,11 @@ TtbarHypothesis::~TtbarHypothesis() {
 }
 
 bool TtbarHypothesis::operator <(const TtbarHypothesis& hyp) const {
-	return chi2 < hyp.chi2;
+	return totalChi2 < hyp.totalChi2;
 }
 
 bool TtbarHypothesis::operator ==(const TtbarHypothesis& hyp) const {
-	return chi2 == hyp.chi2;
+	return totalChi2 == hyp.totalChi2;
 }
 
 } // namespace BAT

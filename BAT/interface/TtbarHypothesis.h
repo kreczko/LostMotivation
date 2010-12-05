@@ -17,7 +17,7 @@ class TtbarHypothesis {
 public:
 	TtbarHypothesis();
 	virtual ~TtbarHypothesis();
-	double chi2;
+	double totalChi2, leptonicChi2, hadronicChi2, globalChi2;
 	ParticlePointer hadronicTop, leptonicTop, leptonicW, hadronicW, ressonance, neutrinoFromW;
 	JetPointer leptonicBjet, hadronicBJet, jet1FromW, jet2FromW;
 	ElectronPointer electronFromW;
@@ -28,6 +28,7 @@ public:
 
 };
 
+typedef boost::shared_ptr<TtbarHypothesis> TtbarHypothesisPointer;
 } // namespace BAT
 
 #endif /* TTBARHYPOTHESIS_H_ */
