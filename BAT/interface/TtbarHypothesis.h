@@ -18,7 +18,7 @@ public:
 	TtbarHypothesis();
 	virtual ~TtbarHypothesis();
 	double totalChi2, leptonicChi2, hadronicChi2, globalChi2;
-	ParticlePointer hadronicTop, leptonicTop, leptonicW, hadronicW, ressonance, neutrinoFromW;
+	ParticlePointer hadronicTop, leptonicTop, leptonicW, hadronicW, resonance, neutrinoFromW;
 	JetPointer leptonicBjet, hadronicBJet, jet1FromW, jet2FromW;
 	ElectronPointer electronFromW;
 	METPointer met;
@@ -29,6 +29,16 @@ public:
 };
 
 typedef boost::shared_ptr<TtbarHypothesis> TtbarHypothesisPointer;
+
+struct compare_totalChi2 {
+    bool operator ()(TtbarHypothesisPointer lhs, TtbarHypothesisPointer rhs) {
+        return lhs->totalChi2 < rhs->totalChi2;
+    }
+
+    bool operator ()(TtbarHypothesis lhs, TtbarHypothesis rhs) {
+        return lhs.totalChi2 < rhs.totalChi2;
+    }
+};
 } // namespace BAT
 
 #endif /* TTBARHYPOTHESIS_H_ */
