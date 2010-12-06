@@ -58,6 +58,10 @@ public:
     void add(std::string name, std::string title, unsigned int numberOfXBins, float xmin, float xmax,
             unsigned int numberOfYBins, float ymin, float ymax);
 
+    void add(std::string name, boost::shared_ptr<histType> hist){
+        histMap[name] = hist;
+    }
+
     boost::shared_ptr<histType> get(std::string name) {
         return histMap[name];
     }
@@ -80,6 +84,10 @@ public:
 
     void setSuffix(std::string suf){
         suffix = suf;
+    }
+
+    map getAllHistograms(){
+        return histMap;
     }
 
 private:
