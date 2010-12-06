@@ -18,9 +18,13 @@ struct TestHistogramManager {
 private:
     HistogramManager man;
     float lumi;
+    string expectedTtbarFile, expectedDataFile;
 public:
     TestHistogramManager() :
-        man(), lumi(1.5) {
+        man(),
+        lumi(1.5),
+        expectedTtbarFile("ttjet_1.5pb_CaloElectron_CaloJets_CaloMET.root"),
+        expectedDataFile("data_1.5pb_CaloElectron_CaloJets_CaloMET.root") {
         boost::array<bool, DataType::NUMBER_OF_DATA_TYPES> seenDataTypes = boost::array<bool,
                 DataType::NUMBER_OF_DATA_TYPES>();
 
@@ -35,10 +39,10 @@ public:
     }
 
     ~TestHistogramManager() {
-        if (boost::filesystem::exists("data_1.5pb.root"))
-            boost::filesystem::remove("data_1.5pb.root");
-        if (boost::filesystem::exists("ttjet_1.5pb.root"))
-            boost::filesystem::remove("ttjet_1.5pb.root");
+        if (boost::filesystem::exists(expectedDataFile))
+            boost::filesystem::remove(expectedDataFile);
+        if (boost::filesystem::exists(expectedTtbarFile))
+            boost::filesystem::remove(expectedTtbarFile);
     }
 
     void testPreparationData() {
@@ -53,7 +57,7 @@ public:
 
     void testDataFile() {
         man.writeToDisk();
-        ASSERT(boost::filesystem::exists("data_1.5pb.root"));
+        ASSERT(boost::filesystem::exists(expectedDataFile));
     }
 
     void testPreparationData2D() {
@@ -69,13 +73,13 @@ public:
 
     void testNumberOfHistsInFile(){
         man.writeToDisk();
-        boost::shared_ptr<TFile> file(new TFile("data_1.5pb.root"));
+        boost::shared_ptr<TFile> file(new TFile(expectedDataFile.c_str()));
         ASSERT_EQUAL(2 + JetBin::NUMBER_OF_JET_BINS, file->GetNkeys());
     }
 
     void testJetBinnedHistInFile(){
             man.writeToDisk();
-            boost::shared_ptr<TFile> file(new TFile("data_1.5pb.root"));
+            boost::shared_ptr<TFile> file(new TFile(expectedDataFile.c_str()));
             ASSERT(file->Get("myHistJeted_0jet") != 0);
         }
 
