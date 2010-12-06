@@ -1,1 +1,0 @@
-from Leptoquarks.RootTupleMakerV2.RootTupleMakerV2_Trigger_cfi import *
