@@ -28,6 +28,8 @@ public:
     void addH1D(std::string name, std::string title, unsigned int nBins, float xmin, float xmax);
     void addH1D_JetBinned(std::string name, std::string title, unsigned int nBins, float xmin, float xmax);
     void addH1D_BJetBinned(std::string name, std::string title, unsigned int nBins, float xmin, float xmax);
+    void addH2D_BJetBinned(std::string name, std::string title, unsigned int nXBins, float xmin, float xmax,
+            unsigned int nYBins, float ymin, float ymax);
 
     void addH2D(std::string name, std::string title, unsigned int nXBins, float xmin, float xmax, unsigned int nYBins,
             float ymin, float ymax);
@@ -47,22 +49,31 @@ public:
     boost::shared_ptr<TH2> H2D_JetBinned(std::string);
     boost::shared_ptr<TH2> H2D_BJetBinned(std::string);
 
-    void createSummaryHistograms();
-
     void writeToDisk();
 private:
     boost::multi_array<TH1CollectionRef, 2> jetBinned1DHists;
+    std::vector<std::string> jetBinned1DHistNames;
+    boost::multi_array<TH2CollectionRef, 2> jetBinned2DHists;
+    std::vector<std::string> jetBinned2DHistNames;
     boost::multi_array<TH1CollectionRef, 2> bJetBinned1DHists;
+    std::vector<std::string> bJetBinned1DHistNames;
+    boost::multi_array<TH2CollectionRef, 2> bJetBinned2DHists;
+    std::vector<std::string> bJetBinned2DHistNames;
     boost::array<bool, DataType::NUMBER_OF_DATA_TYPES> seenDataTypes;
     boost::array<boost::shared_ptr<TFile>, DataType::NUMBER_OF_DATA_TYPES> histFiles;
     boost::array<TH1CollectionRef, DataType::NUMBER_OF_DATA_TYPES> collection;// move to array of DataTypes
+    std::vector<std::string> collection1DHistNames;
     boost::array<TH2CollectionRef, DataType::NUMBER_OF_DATA_TYPES> collection2D;
+    std::vector<std::string> collection2DHistNames;
     DataType::value currentDataType;
     unsigned int currentJetbin;
     unsigned int currentBJetbin;
     float currentIntegratedLumi;
 
     const std::string assembleFilename(DataType::value) const;
+    void createSummedHistograms(DataType::value);
+    void createJetSummedHistograms(DataType::value);
+    void createBJetSummedHistograms(DataType::value);
 };
 
 }
