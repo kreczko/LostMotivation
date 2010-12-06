@@ -10,9 +10,22 @@
 namespace BAT {
 
 TtbarHypothesis::TtbarHypothesis() :
-	totalChi2(99999.), leptonicChi2(99999.), hadronicChi2(99999.), globalChi2(99999.), hadronicTop(), leptonicTop(),
-			leptonicW(), hadronicW(), ressonance(), neutrinoFromW(), leptonicBjet(), hadronicBJet(), jet1FromW(),
-			jet2FromW(), electronFromW(), met() {
+	totalChi2(99999.), 
+	leptonicChi2(99999.), 
+	hadronicChi2(99999.), 
+	globalChi2(99999.), 
+	hadronicTop(), 
+	leptonicTop(),
+	leptonicW(), 
+	hadronicW(), 
+	resonance(), 
+	neutrinoFromW(), 
+	leptonicBjet(), 
+	hadronicBJet(), 
+	jet1FromW(),
+	jet2FromW(), 
+	electronFromW(), 
+	met() {
 
 }
 
