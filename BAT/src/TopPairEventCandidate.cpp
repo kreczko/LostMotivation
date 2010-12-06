@@ -53,7 +53,9 @@ TopPairEventCandidate::TopPairEventCandidate() :
     jet2FromWIndex(0),
     doneReconstruction(false),
     conversionTagger(new ConversionTagger()),
-    doneConversionTagging(false) {
+    doneConversionTagging(false),
+    solutions(),
+    compareSolutions(){
 }
 
 TopPairEventCandidate::TopPairEventCandidate(const Event& event) :
@@ -315,7 +317,7 @@ void TopPairEventCandidate::reconstructUsingChi2(ElectronPointer electron) {
             }
         }
     }
-    std::sort(solutions.begin(), solutions.end());
+    std::sort(solutions.begin(), solutions.end(), compareSolutions);
     hadronicBJet = goodJets.at(hadronicBIndex);
     leptonicBJet = goodJets.at(leptonicBIndex);
     jet1FromW = goodJets.at(jet1FromWIndex);
@@ -427,7 +429,7 @@ const TtbarHypothesisPointer TopPairEventCandidate::fillHypothesis(unsigned shor
 	hypothesis->globalChi2 = getGlobalChi2(neutrinoSolution);
 	hypothesis->leptonicChi2 = getLeptonicChi2(neutrinoSolution);
 	ParticlePointer resonance(new Particle(*hypothesis->leptonicTop + *hypothesis->hadronicTop));
-	hypothesis->ressonance = resonance;
+	hypothesis->resonance = resonance;
 	return hypothesis;
 }
 
@@ -658,7 +660,7 @@ double TopPairEventCandidate::mttbar() const {
     return getRessonance()->mass();
 }
 
-const std::vector<TtbarHypothesisPointer> TopPairEventCandidate::Solutions() const{
+const std::vector<TtbarHypothesisPointer>& TopPairEventCandidate::Solutions() const{
 	return solutions;
 }
 
