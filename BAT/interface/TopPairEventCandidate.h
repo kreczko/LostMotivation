@@ -62,6 +62,7 @@ protected:
     ConversionTaggerPointer conversionTagger;
     bool doneConversionTagging;
     std::vector<TtbarHypothesisPointer> solutions;
+    compare_totalChi2 compareSolutions;
 public:
     static NeutrinoSelectionCriterion::value usedNeutrinoSelection;
     TopPairEventCandidate();
@@ -130,7 +131,7 @@ public:
     void selectNextJetCombination();
     void inspectReconstructedEvent() const;
     unsigned int NJet() const;
-    const std::vector<TtbarHypothesisPointer> Solutions() const;
+    const std::vector<TtbarHypothesisPointer>& Solutions() const;
 protected:
     void throwExpeptionIfNotReconstructed() const;
     void selectNeutrinoSolution();
