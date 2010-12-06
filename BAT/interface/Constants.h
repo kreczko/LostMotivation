@@ -110,6 +110,22 @@ const boost::array<std::string, JetBin::NUMBER_OF_JET_BINS> names = {
         } };
 }
 
+namespace JetBinSummed {
+enum value {
+    allJet,
+    OneOrMoreJets,
+    TwoOrMoreJets,
+    ThreeOrMoreJets,
+    NUMBER_OF_SUMMED_JET_BINS
+};
+
+const boost::array<std::string, JetBinSummed::NUMBER_OF_SUMMED_JET_BINS> names = { {
+        "allJets",
+        "1orMoreJets",
+        "2orMoreJets",
+        "3orMoreJets" } };
+}
+
 namespace BJetBin {
 enum value {
     NoBtag,
@@ -120,9 +136,28 @@ enum value {
     NUMBER_OF_BJET_BINS
 };
 
-const boost::array<std::string, BJetBin::NUMBER_OF_BJET_BINS> names = {
-        { "0btag", "1btag", "2btags", "3btags", "4OrMoreBtags"
-        } };
+const boost::array<std::string, BJetBin::NUMBER_OF_BJET_BINS> names = { {
+        "0btag",
+        "1btag",
+        "2btags",
+        "3btags",
+        "4orMoreBtags" } };
+}
+
+namespace BJetBinSummed {
+enum value {
+    allBtags,
+    OneOrMoreBTags,
+    TwoOrMoreBTags,
+    ThreeOrMoreBTags,
+    NUMBER_OF_SUMMED_BJET_BINS
+};
+
+const boost::array<std::string, BJetBinSummed::NUMBER_OF_SUMMED_BJET_BINS> names = { {
+        "allBtags",
+        "1orMoreBtag",
+        "2orMoreBtags",
+        "3orMoreBtags" } };
 }
 
 namespace JetAlgorithm {
