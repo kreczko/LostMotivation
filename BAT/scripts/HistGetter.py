@@ -165,4 +165,11 @@ if __name__ == "__main__":
     print hists['allMC']['QCDest_CombRelIso_3orMoreJets'].Integral(), hists['allMC']['QCDest_CombRelIso_3jets'].Integral()
     print hists['allMC']['QCDest_CombRelIso_4orMoreJets'].Integral()
     print hists['allMC'].keys()
+    c = []
+    for histname, hist in hists['allMC'].iteritems():
+        c.append(TCanvas("cname" + histname, histname, 800, 600))
+        c[-1].cd()
+        hist.Draw()
+        
+    a = raw_input()
         
