@@ -16,63 +16,75 @@ TH1F* getCumulativePlot(TH1F* initial, TString type);
 void plotMttbar() {
     setTDRStyle();
     gStyle->SetHatchesSpacing(1.0);
-    double lumi = 26.5;//3.06 + 1.37 + 2.53 + 0.26;
-    double oldLumi = 19.;
+    double lumi = 35.;//3.06 + 1.37 + 2.53 + 0.26;
+    double oldLumi = 35.;
     double scale = lumi / oldLumi;
-    double qcdScale = 1.8;
+    double qcdScale = 1.7;
     //    TFile* data = TFile::Open("data2.9pb_fullSetOfVars.root");
-    TFile* data = TFile::Open("/storage/workspace/BristolAnalysisTools/outputfiles/backup/data_26.5pb_PFElectron_PF2PATJets_PFMET.root");
-    TFile* ttbar = TFile::Open("/storage/workspace/BristolAnalysisTools/outputfiles/backup/ttjet_19pb_PFElectron_PF2PATJets_PFMET.root");
-    TFile* wjets = TFile::Open("/storage/workspace/BristolAnalysisTools/outputfiles/backup/wj_19pb_PFElectron_PF2PATJets_PFMET.root");
-    TFile* zjets = TFile::Open("/storage/workspace/BristolAnalysisTools/outputfiles/backup/zj_19pb_PFElectron_PF2PATJets_PFMET.root");
-    TFile* bce1 = TFile::Open("/storage/workspace/BristolAnalysisTools/outputfiles/bce1_19pb.root");
-    TFile* bce2 = TFile::Open("/storage/workspace/BristolAnalysisTools/outputfiles/backup/bce2_19pb_PFElectron_PF2PATJets_PFMET.root");
-    TFile* bce3 = TFile::Open("/storage/workspace/BristolAnalysisTools/outputfiles/backup/bce3_19pb_PFElectron_PF2PATJets_PFMET.root");
-    TFile* enri1 = TFile::Open("/storage/workspace/BristolAnalysisTools/outputfiles/backup/enri1_19pb_PFElectron_PF2PATJets_PFMET.root");
-    TFile* enri2 = TFile::Open("/storage/workspace/BristolAnalysisTools/outputfiles/backup/enri2_19pb_PFElectron_PF2PATJets_PFMET.root");
-    TFile* enri3 = TFile::Open("/storage/workspace/BristolAnalysisTools/outputfiles/backup/enri3_19pb_PFElectron_PF2PATJets_PFMET.root");
-    TFile* pj1 = TFile::Open("/storage/workspace/BristolAnalysisTools/outputfiles/backup/pj1_19pb_PFElectron_PF2PATJets_PFMET.root");
-    TFile* pj2 = TFile::Open("/storage/workspace/BristolAnalysisTools/outputfiles/backup/pj2_19pb_PFElectron_PF2PATJets_PFMET.root");
-    TFile* pj3 = TFile::Open("/storage/workspace/BristolAnalysisTools/outputfiles/backup/pj3_19pb_PFElectron_PF2PATJets_PFMET.root");
-//    TFile* vqq = TFile::Open("vqq_7.22pb_V4PFCalo.root__fullSetOfVars.root");
-    TFile* Zprime500 = TFile::Open("/storage/workspace/BristolAnalysisTools/outputfiles/Zprime_M500GeV_W5GeV_19pb.root");
-    TFile* Zprime750 = TFile::Open("/storage/workspace/BristolAnalysisTools/outputfiles/Zprime_M750GeV_W7500MeV_19pb.root");
-    TFile* Zprime1000 = TFile::Open("/storage/workspace/BristolAnalysisTools/outputfiles/Zprime_M1TeV_W10GeV_19pb.root");
-    TFile* Zprime1250 = TFile::Open("/storage/workspace/BristolAnalysisTools/outputfiles/Zprime_M1250GeV_W12500MeV_19pb.root");
-    TFile* Zprime1500 = TFile::Open("/storage/workspace/BristolAnalysisTools/outputfiles/Zprime_M1500GeV_W15GeV_19pb.root");
+    TFile* data = TFile::Open(
+            "/storage/workspace/BristolAnalysisTools/outputfiles/newset/data_35pb_PFElectron_PF2PATJets_PFMET.root");
+    TFile* ttbar = TFile::Open(
+            "/storage/workspace/BristolAnalysisTools/outputfiles/newset/ttjet_35pb_PFElectron_PF2PATJets_PFMET.root");
+    TFile* wjets = TFile::Open(
+            "/storage/workspace/BristolAnalysisTools/outputfiles/newset/wj_35pb_PFElectron_PF2PATJets_PFMET.root");
+    TFile* zjets = TFile::Open(
+            "/storage/workspace/BristolAnalysisTools/outputfiles/newset/zj_35pb_PFElectron_PF2PATJets_PFMET.root");
+    //    TFile* bce1 = TFile::Open("/storage/workspace/BristolAnalysisTools/outputfiles/bce1_35pb.root");
+    TFile* bce2 = TFile::Open(
+            "/storage/workspace/BristolAnalysisTools/outputfiles/newset/bce2_35pb_PFElectron_PF2PATJets_PFMET.root");
+    TFile* bce3 = TFile::Open(
+            "/storage/workspace/BristolAnalysisTools/outputfiles/newset/bce3_35pb_PFElectron_PF2PATJets_PFMET.root");
+    TFile* enri1 = TFile::Open(
+            "/storage/workspace/BristolAnalysisTools/outputfiles/newset/enri1_35pb_PFElectron_PF2PATJets_PFMET.root");
+    TFile* enri2 = TFile::Open(
+            "/storage/workspace/BristolAnalysisTools/outputfiles/newset/enri2_35pb_PFElectron_PF2PATJets_PFMET.root");
+    TFile* enri3 = TFile::Open(
+            "/storage/workspace/BristolAnalysisTools/outputfiles/newset/enri3_35pb_PFElectron_PF2PATJets_PFMET.root");
+    TFile* pj1 = TFile::Open(
+            "/storage/workspace/BristolAnalysisTools/outputfiles/newset/pj1_35pb_PFElectron_PF2PATJets_PFMET.root");
+    TFile* pj2 = TFile::Open(
+            "/storage/workspace/BristolAnalysisTools/outputfiles/newset/pj2_35pb_PFElectron_PF2PATJets_PFMET.root");
+    TFile* pj3 = TFile::Open(
+            "/storage/workspace/BristolAnalysisTools/outputfiles/newset/pj3_35pb_PFElectron_PF2PATJets_PFMET.root");
+    //    TFile* vqq = TFile::Open("vqq_7.22pb_V4PFCalo.root__fullSetOfVars.root");
+    //    TFile* Zprime500 = TFile::Open("/storage/workspace/BristolAnalysisTools/outputfiles/Zprime_M500GeV_W5GeV_35pb.root");
+    //    TFile* Zprime750 = TFile::Open("/storage/workspace/BristolAnalysisTools/outputfiles/Zprime_M750GeV_W7500MeV_35pb.root");
+    //    TFile* Zprime1000 = TFile::Open("/storage/workspace/BristolAnalysisTools/outputfiles/Zprime_M1TeV_W10GeV_35pb.root");
+    //    TFile* Zprime1250 = TFile::Open("/storage/workspace/BristolAnalysisTools/outputfiles/Zprime_M1250GeV_W12500MeV_35pb.root");
+    //    TFile* Zprime1500 = TFile::Open("/storage/workspace/BristolAnalysisTools/outputfiles/Zprime_M1500GeV_W15GeV_35pb.root");
 
     vector<TString> hists;
-//    hists.push_back("mttbar");
-                hists.push_back("m3");
-//                hists.push_back("electron_et");
-//                hists.push_back("ttbar_pt");
-//                hists.push_back("HT");
-//                hists.push_back("numberOfJets");
-//                hists.push_back("numberOfBJets");
-//                hists.push_back("MET");
-//                hists.push_back("leadingJetMass");
-//                hists.push_back("mtW");
-//                hists.push_back("electronD0");
-//                hists.push_back("neutrino_pz");
-//    TString folder("");
+    //    hists.push_back("mttbar");
+    hists.push_back("m3_2orMoreBtags");
+    //                hists.push_back("electron_et");
+    //                hists.push_back("ttbar_pt");
+    //                hists.push_back("HT");
+    //                hists.push_back("numberOfJets");
+    //                hists.push_back("numberOfBJets");
+    //                hists.push_back("MET");
+    //                hists.push_back("leadingJetMass");
+    //                hists.push_back("mtW");
+    //                hists.push_back("electronD0");
+    //                hists.push_back("neutrino_pz");
+    //    TString folder("");
 
     for (unsigned int hist = 0; hist < hists.size(); ++hist) {
         TString histname(hists.at(hist));
         TString histpath(histname);
         TH1F* hist_data = (TH1F*) data->Get(histpath);
 
-//        TH1F* hist_data2;
-//        if (histname == "mttbar_rebinned")
-//            hist_data2 = (TH1F*) data2->Get(histpath);
-//        else
-//            hist_data2 = new TH1F(*hist_data);
+        //        TH1F* hist_data2;
+        //        if (histname == "mttbar_rebinned")
+        //            hist_data2 = (TH1F*) data2->Get(histpath);
+        //        else
+        //            hist_data2 = new TH1F(*hist_data);
         hist_data->Sumw2();
-//        hist_data2->Sumw2();
+        //        hist_data2->Sumw2();
         TH1F* hist_ttbar = (TH1F*) ttbar->Get(histpath);
         TH1F* hist_wjets = (TH1F*) wjets->Get(histpath);
         TH1F* hist_zjets = (TH1F*) zjets->Get(histpath);
 
-        TH1F* hist_bce1 = (TH1F*) bce1->Get(histpath);
+        //        TH1F* hist_bce1 = (TH1F*) bce1->Get(histpath);
         TH1F* hist_bce2 = (TH1F*) bce2->Get(histpath);
         TH1F* hist_bce3 = (TH1F*) bce3->Get(histpath);
         TH1F* hist_enri1 = (TH1F*) enri1->Get(histpath);
@@ -82,11 +94,11 @@ void plotMttbar() {
         TH1F* hist_pj2 = (TH1F*) pj2->Get(histpath);
         TH1F* hist_pj3 = (TH1F*) pj3->Get(histpath);
 
-        TH1F* hist_Zprime500 = (TH1F*) Zprime500->Get(histpath);
-        TH1F* hist_Zprime750 = (TH1F*) Zprime750->Get(histpath);
-        TH1F* hist_Zprime1000 = (TH1F*) Zprime1000->Get(histpath);
-        TH1F* hist_Zprime1250 = (TH1F*) Zprime1250->Get(histpath);
-        TH1F* hist_Zprime1500 = (TH1F*) Zprime1500->Get(histpath);
+        //        TH1F* hist_Zprime500 = (TH1F*) Zprime500->Get(histpath);
+        //        TH1F* hist_Zprime750 = (TH1F*) Zprime750->Get(histpath);
+        //        TH1F* hist_Zprime1000 = (TH1F*) Zprime1000->Get(histpath);
+        //        TH1F* hist_Zprime1250 = (TH1F*) Zprime1250->Get(histpath);
+        //        TH1F* hist_Zprime1500 = (TH1F*) Zprime1500->Get(histpath);
 
         //        hist_ttbar->Scale(157.5 * lumi / 1468404.);
         //        hist_wjets->Scale(31314 * lumi / 5143895.);
@@ -106,7 +118,7 @@ void plotMttbar() {
         //        hist_enri2->Scale(0.0593e9 * 0.059 * lumi / 27403259.);
         //        hist_enri3->Scale(0.906e6 * 0.148 * lumi / 4686413.);
 
-        hist_bce1->Scale(scale);
+        //        hist_bce1->Scale(scale);
         hist_bce2->Scale(scale);
         hist_bce3->Scale(scale);
 
@@ -128,14 +140,14 @@ void plotMttbar() {
         //        hist_Zprime1250->Scale(50 * lumi / 298428);
         //        hist_Zprime1500->Scale(50 * lumi / 299024);
 
-        hist_Zprime500->Scale(scale);
-        hist_Zprime750->Scale(scale);
-        hist_Zprime1000->Scale(scale);
-        hist_Zprime1250->Scale(scale);
-        hist_Zprime1500->Scale(scale);
+        //        hist_Zprime500->Scale(scale);
+        //        hist_Zprime750->Scale(scale);
+        //        hist_Zprime1000->Scale(scale);
+        //        hist_Zprime1250->Scale(scale);
+        //        hist_Zprime1500->Scale(scale);
 
-        TH1F* hist_qcd = new TH1F(*hist_bce1);
-        hist_qcd->Add(hist_bce2);
+        TH1F* hist_qcd = new TH1F(*hist_bce2);
+        //        hist_qcd->Add(hist_bce2);
         hist_qcd->Add(hist_bce3);
         hist_qcd->Add(hist_enri1);
         hist_qcd->Add(hist_enri2);
@@ -165,10 +177,10 @@ void plotMttbar() {
             hist_data->SetXTitle("M_{t#bar{t}}/GeV");
             hist_data->SetYTitle("Events/(50 GeV)");
             rebin = 50;
-        } else if (histname == "m3") {
+        } else if (histname == "m3_2orMoreBtags") {
             hist_data->SetXTitle("M3/GeV");
-            hist_data->SetYTitle("Events/(100 GeV)");
-            rebin = 100;
+            hist_data->SetYTitle("Events/(50 GeV)");
+            rebin = 50;
         } else if (histname == "electron_et") {
             hist_data->SetXTitle("electron p_{T}/GeV");
             hist_data->SetYTitle("Events/(5 GeV)");
@@ -215,17 +227,17 @@ void plotMttbar() {
         hist_wjets->Rebin(rebin);
         hist_zjets->Rebin(rebin);
         hist_qcd->Rebin(rebin);
-        hist_Zprime500->Rebin(rebin);
-        hist_Zprime750->Rebin(rebin);
-        hist_Zprime1000->Rebin(rebin);
-        hist_Zprime1250->Rebin(rebin);
-        hist_Zprime1500->Rebin(rebin);
+        //        hist_Zprime500->Rebin(rebin);
+        //        hist_Zprime750->Rebin(rebin);
+        //        hist_Zprime1000->Rebin(rebin);
+        //        hist_Zprime1250->Rebin(rebin);
+        //        hist_Zprime1500->Rebin(rebin);
 
         hist_data->SetMarkerStyle(8);
-//        hist_data2->SetMarkerStyle(8);
-//        hist_data2->SetMarkerSize(1.5);
-//        hist_data2->SetMarkerColor(kAzure + 1);
-//        hist_data2->SetLineColor(kAzure + 1);
+        //        hist_data2->SetMarkerStyle(8);
+        //        hist_data2->SetMarkerSize(1.5);
+        //        hist_data2->SetMarkerColor(kAzure + 1);
+        //        hist_data2->SetLineColor(kAzure + 1);
         hist_ttbar->SetFillStyle(1001);
         hist_ttbar->SetFillColor(kRed + 1);
         hist_wjets->SetFillStyle(1001);
@@ -235,48 +247,48 @@ void plotMttbar() {
         hist_qcd->SetFillStyle(1001);
         hist_qcd->SetFillColor(kYellow);
 
-        const int nbins = hist_qcd->GetXaxis()->GetNbins();
-        float binwidth = (hist_qcd->GetXaxis()->GetXmax() - hist_qcd->GetXaxis()->GetXmin()) / nbins;
-        for (int i = 1; i <= nbins; i++) {
-            float yvalue = hist_qcd->GetBinContent(i);
-            //            float xvalue = hist_qcd->GetBinCenter(i);
-            //            float ymin = yvalue - yvalue*0.5;
-            //            float ymax = yvalue + yvalue*0.5;
-            //            float xmin = xvalue - 0.5*binwidth;
-            //            float xmax = xvalue + 0.5*binwidth;
-            float error = yvalue * 0.5;
-            hist_mc->SetBinError(i, error);
-            //            qcdUncert->SetPointError(i, xmin, xmax, ymin, ymax);
-        }
-        TGraphAsymmErrors* qcdUncert = new TGraphAsymmErrors(hist_mc);
+        //        const int nbins = hist_qcd->GetXaxis()->GetNbins();
+        //        float binwidth = (hist_qcd->GetXaxis()->GetXmax() - hist_qcd->GetXaxis()->GetXmin()) / nbins;
+        //        for (int i = 1; i <= nbins; i++) {
+        //            float yvalue = hist_qcd->GetBinContent(i);
+        //            //            float xvalue = hist_qcd->GetBinCenter(i);
+        //            //            float ymin = yvalue - yvalue*0.5;
+        //            //            float ymax = yvalue + yvalue*0.5;
+        //            //            float xmin = xvalue - 0.5*binwidth;
+        //            //            float xmax = xvalue + 0.5*binwidth;
+        //            float error = yvalue * 0.5;
+        //            hist_mc->SetBinError(i, error);
+        //            //            qcdUncert->SetPointError(i, xmin, xmax, ymin, ymax);
+        //        }
+        //        TGraphAsymmErrors* qcdUncert = new TGraphAsymmErrors(hist_mc);
 
-        hist_Zprime500->SetLineColor(kTeal - 9);
-        hist_Zprime500->SetLineWidth(3);
-        hist_Zprime500->SetFillStyle(0);
-        hist_Zprime500->SetFillColor(kWhite);
-
-        hist_Zprime750->SetLineColor(kBlue - 6);
-        hist_Zprime750->SetLineWidth(3);
-        hist_Zprime750->SetFillStyle(0);
-        hist_Zprime750->SetFillColor(kWhite);
-
-        hist_Zprime1000->SetLineColor(28);
-        hist_Zprime1000->SetLineWidth(3);
-        hist_Zprime1000->SetFillStyle(0);
-        hist_Zprime1000->SetFillColor(kWhite);
-
-        hist_Zprime1250->SetLineColor(kCyan - 5);
-        hist_Zprime1250->SetLineWidth(3);
-        hist_Zprime1250->SetFillStyle(0);
-        hist_Zprime1250->SetFillColor(kWhite);
-
-        hist_Zprime1500->SetLineColor(kOrange + 1);
-        hist_Zprime1500->SetLineWidth(3);
-        hist_Zprime1500->SetFillStyle(0);
-        hist_Zprime1500->SetFillColor(kWhite);
-
-        qcdUncert->SetFillColor(kGray + 3);
-        qcdUncert->SetFillStyle(3003);
+        //        hist_Zprime500->SetLineColor(kTeal - 9);
+        //        hist_Zprime500->SetLineWidth(3);
+        //        hist_Zprime500->SetFillStyle(0);
+        //        hist_Zprime500->SetFillColor(kWhite);
+        //
+        //        hist_Zprime750->SetLineColor(kBlue - 6);
+        //        hist_Zprime750->SetLineWidth(3);
+        //        hist_Zprime750->SetFillStyle(0);
+        //        hist_Zprime750->SetFillColor(kWhite);
+        //
+        //        hist_Zprime1000->SetLineColor(28);
+        //        hist_Zprime1000->SetLineWidth(3);
+        //        hist_Zprime1000->SetFillStyle(0);
+        //        hist_Zprime1000->SetFillColor(kWhite);
+        //
+        //        hist_Zprime1250->SetLineColor(kCyan - 5);
+        //        hist_Zprime1250->SetLineWidth(3);
+        //        hist_Zprime1250->SetFillStyle(0);
+        //        hist_Zprime1250->SetFillColor(kWhite);
+        //
+        //        hist_Zprime1500->SetLineColor(kOrange + 1);
+        //        hist_Zprime1500->SetLineWidth(3);
+        //        hist_Zprime1500->SetFillStyle(0);
+        //        hist_Zprime1500->SetFillColor(kWhite);
+        //
+        //        qcdUncert->SetFillColor(kGray + 3);
+        //        qcdUncert->SetFillStyle(3003);
 
         TLegend* leg = new TLegend(0.696, 0.35, 0.94, 0.92);
         leg->SetBorderSize(0);
@@ -290,11 +302,11 @@ void plotMttbar() {
         leg->AddEntry(hist_wjets, "W#rightarrowl#nu", "f");
         leg->AddEntry(hist_zjets, "Z/#gamma*#rightarrowl^{+}l^{-}", "f");
         leg->AddEntry(hist_qcd, "QCD/#gamma + jets");
-        leg->AddEntry(hist_Zprime500, "Z' 0.5TeV (50pb)");
-        leg->AddEntry(hist_Zprime750, "Z' 0.75TeV (50pb)");
-        leg->AddEntry(hist_Zprime1000, "Z' 1TeV (50pb)");
-        leg->AddEntry(hist_Zprime1250, "Z' 1.25TeV (50pb)");
-        leg->AddEntry(hist_Zprime1500, "Z' 1.5TeV (50pb)");
+        //        leg->AddEntry(hist_Zprime500, "Z' 0.5TeV (50pb)");
+        //        leg->AddEntry(hist_Zprime750, "Z' 0.75TeV (50pb)");
+        //        leg->AddEntry(hist_Zprime1000, "Z' 1TeV (50pb)");
+        //        leg->AddEntry(hist_Zprime1250, "Z' 1.25TeV (50pb)");
+        //        leg->AddEntry(hist_Zprime1500, "Z' 1.5TeV (50pb)");
 
         THStack* hs = new THStack("MC", "MC");
         hs->Add(hist_qcd);
@@ -307,27 +319,27 @@ void plotMttbar() {
         //        hist_data2->Draw("error");
         hist_data->Draw("error");
         hs->Draw("hist same");
-        hist_Zprime500->Draw("same");
-        hist_Zprime750->Draw("same");
-        hist_Zprime1000->Draw("same");
-        hist_Zprime1250->Draw("same");
-        hist_Zprime1500->Draw("same");
+        //        hist_Zprime500->Draw("same");
+        //        hist_Zprime750->Draw("same");
+        //        hist_Zprime1000->Draw("same");
+        //        hist_Zprime1250->Draw("same");
+        //        hist_Zprime1500->Draw("same");
         //        qcdUncert->Draw("1 same");
         //        hist_data2->Draw("error same");
         hist_data->Draw("error same");
         leg->Draw();
 
-        //        text1 = new TLatex(3.570061, 23.08044, "CMS Preliminary");
-        //        text1->SetNDC();
-        //        text1->SetTextAlign(13);
-        //        text1->SetX(0.184);
-        //        text1->SetY(0.928);
-        //        //text1->SetLineWidth(2);
-        //        text1->SetTextFont(42);
-        //        text1->SetTextSizePixels(24);// dflt=28
-        //        text1->Draw();
+        text1 = new TLatex(3.570061, 23.08044, "CMS Preliminary");
+        text1->SetNDC();
+        text1->SetTextAlign(13);
+        text1->SetX(0.184);
+        text1->SetY(0.928);
+        //text1->SetLineWidth(2);
+        text1->SetTextFont(42);
+        text1->SetTextSizePixels(24);// dflt=28
+        text1->Draw();
 
-        TLatex * text2 = new TLatex(3.570061, 23.08044, "~26.5 pb^{-1} at #sqrt{s} = 7 TeV");
+        TLatex * text2 = new TLatex(3.570061, 23.08044, "~35 pb^{-1} at #sqrt{s} = 7 TeV");
         text2->SetNDC();
         text2->SetTextAlign(13);
         text2->SetX(0.184);
@@ -338,20 +350,20 @@ void plotMttbar() {
         text2->Draw();
 
         TH1F* cu_hist_data = getCumulativePlot(hist_data, "data");
-//        TH1F* cu_hist_data2 = getCumulativePlot(hist_data2, "data2");
+        //        TH1F* cu_hist_data2 = getCumulativePlot(hist_data2, "data2");
         TH1F* cu_hist_ttbar = getCumulativePlot(hist_ttbar, "ttbar");
         TH1F* cu_hist_wjets = getCumulativePlot(hist_wjets, "wjets");
         TH1F* cu_hist_zjets = getCumulativePlot(hist_zjets, "zjets");
         TH1F* cu_hist_qcd = getCumulativePlot(hist_qcd, "qcd");
-        TH1F* cu_hist_Zprime500 = getCumulativePlot(hist_Zprime500, "Zprime500");
-        TH1F* cu_hist_Zprime750 = getCumulativePlot(hist_Zprime750, "Zprime750");
-        TH1F* cu_hist_Zprime1000 = getCumulativePlot(hist_Zprime1000, "Zprime1000");
-        TH1F* cu_hist_Zprime1250 = getCumulativePlot(hist_Zprime1250, "Zprime1250");
-        TH1F* cu_hist_Zprime1500 = getCumulativePlot(hist_Zprime1500, "Zprime1500");
-//        if (histname == "mttbar_rebinned") {
-//            cu_hist_data2->SetXTitle("M_{t#bar{t}}/GeV");
-//            cu_hist_data2->SetYTitle("Integrated Events/(50 GeV)");
-//        }
+        //        TH1F* cu_hist_Zprime500 = getCumulativePlot(hist_Zprime500, "Zprime500");
+        //        TH1F* cu_hist_Zprime750 = getCumulativePlot(hist_Zprime750, "Zprime750");
+        //        TH1F* cu_hist_Zprime1000 = getCumulativePlot(hist_Zprime1000, "Zprime1000");
+        //        TH1F* cu_hist_Zprime1250 = getCumulativePlot(hist_Zprime1250, "Zprime1250");
+        //        TH1F* cu_hist_Zprime1500 = getCumulativePlot(hist_Zprime1500, "Zprime1500");
+        //        if (histname == "mttbar_rebinned") {
+        //            cu_hist_data2->SetXTitle("M_{t#bar{t}}/GeV");
+        //            cu_hist_data2->SetYTitle("Integrated Events/(50 GeV)");
+        //        }
 
         THStack* cu_hs = new THStack("cu_MC", "cu_MC");
         cu_hs->Add(cu_hist_qcd);
@@ -364,16 +376,16 @@ void plotMttbar() {
         //        cu_hist_data2->Draw("error");
         cu_hist_data->Draw("error");
         cu_hs->Draw("hist same");
-        cu_hist_Zprime500->Draw("same");
-        cu_hist_Zprime750->Draw("same");
-        cu_hist_Zprime1000->Draw("same");
-        cu_hist_Zprime1250->Draw("same");
-        cu_hist_Zprime1500->Draw("same");
+        //        cu_hist_Zprime500->Draw("same");
+        //        cu_hist_Zprime750->Draw("same");
+        //        cu_hist_Zprime1000->Draw("same");
+        //        cu_hist_Zprime1250->Draw("same");
+        //        cu_hist_Zprime1500->Draw("same");
         //        cu_hist_data2->Draw("error same");
         cu_hist_data->Draw("error same");
         leg->Draw();
 
-        //        text1->Draw();
+        text1->Draw();
 
         text2->Draw();
     }
