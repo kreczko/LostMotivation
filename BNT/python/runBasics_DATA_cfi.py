@@ -68,29 +68,34 @@ process.countPatJets.minNumber = 0
 from PhysicsTools.PatAlgos.tools.metTools import *
 addTcMET(process, 'TC')
 
+switchJetCollection( process,
+                     jetCollection = cms.InputTag( 'ak5CaloJets' ),
+                     jetCorrLabel = ( 'AK5Calo', ['L2Relative', 'L3Absolute', 'L2L3Residual'] ),
+                     doBTagging = True )
+
 ####################################
 ##
 ##    Add extra jet collections
 ##
 ####################################
 # JPT jets
-addJetCollection(process,cms.InputTag('JetPlusTrackZSPCorJetAntiKt5'),
-                 'AK5', 'JPT',
-                 doJTA        = True,
-                 doBTagging   = True, #off
-                 jetCorrLabel = ('AK5','JPT'), #None,
-                 doType1MET   = False,
-                 doL1Cleaning = False,
-                 doL1Counters = False,
-                 genJetCollection = cms.InputTag("ak5GenJets"),
-                 doJetID      = True,
-                 jetIdLabel   = "ak5"
-                 )
+#addJetCollection(process,cms.InputTag('JetPlusTrackZSPCorJetAntiKt5'),
+#                 'AK5', 'JPT',
+#                 doJTA        = True,
+#                 doBTagging   = True, #off
+#                 jetCorrLabel = ( 'AK5JPT', ['L2Relative', 'L3Absolute', 'L2L3Residual']), #None,
+#                 doType1MET   = False,
+#                 doL1Cleaning = False,
+#                 doL1Counters = False,
+#                 genJetCollection = cms.InputTag("ak5GenJets"),
+#                 doJetID      = True,
+#                 jetIdLabel   = "ak5"
+#                 )
 process.load("RecoJets.JetProducers.ak5PFJets_cfi")
 addJetCollection( process, 
                   cms.InputTag( 'ak5PFJets::PAT' ), 
                   'AK5', 'PF', 
-                  jetCorrLabel = ( 'AK5', 'PF' ), 
+                  jetCorrLabel = ( 'AK5PF', ['L2Relative', 'L3Absolute', 'L2L3Residual'] ), 
                   doType1MET = False, 
                   doJetID = True,
                   doBTagging = True)
@@ -98,7 +103,7 @@ addJetCollection( process,
 process.patDefaultSequence = cms.Sequence( process.ak5PFJets * process.patDefaultSequence )
 
 # btag for extra jets
-process.patJetsAK5JPT.addTagInfos  =  True
+#process.patJetsAK5JPT.addTagInfos  =  True
 process.patJetsPF.addTagInfos   = True
 process.patJets.addBTagInfo = True
 
@@ -159,7 +164,7 @@ process.MessageLogger.cerr.FwkReport.reportEvery = cms.untracked.int32(1000)
 
 
 # process all the events
-process.maxEvents.input = 100 #20000
+process.maxEvents.input = -1 #20000
 process.options.wantSummary = False
 
 #process.out.outputCommands += (['keep *_*_*_*'
@@ -279,8 +284,8 @@ process.myExtraLepton = cms.Sequence(
         process.cleanPatEle2 *
         process.cleanPatEle3 *
         process.cleanPatMu2 *
-        process.cleanPatMu3 *
-        process.morePFElectron
+        process.cleanPatMu3
+#        process.morePFElectron
 
 )
 
@@ -357,7 +362,7 @@ process.LJFilter.elecLabel = 'gsfElectrons'
 process.LJFilter.jetLabel = 'ak5CaloJets'
 process.LJFilter.muonsMin = -1
 process.LJFilter.electronsMin = -1
-process.LJFilter.elecPT = 20.
+process.LJFilter.elecPT = 25.
 process.LJFilter.counteitherleptontype = False
 
 # let it run
@@ -379,7 +384,7 @@ process.p *= (
     process.rootTupleEventExtra +
     process.rootTupleEventSelection +
     process.rootTupleCaloJetSequence +
-    process.rootTupleJPTJetSequence + 
+#    process.rootTupleJPTJetSequence + 
     process.rootTuplePFJetSequence +
     process.rootTupleElectronSequence +
     process.rootTupleMETSequence +
