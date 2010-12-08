@@ -18,10 +18,7 @@ rootTuplePFJetsExtra = cms.EDProducer("RootTupleMakerV2_PFJets_Extra",
     InputTag = cms.InputTag('cleanPatJetsAK5PF'),
     Prefix = cms.string('PFJet.'),
     Suffix = cms.string(''),
-    MaxSize = cms.uint32(10),
-    JECUncertainty = cms.string('CondFormats/JetMETObjects/data/Spring10DataV2_Uncertainty_AK5PF.txt'),
-    ApplyResidualJEC = cms.bool(False),
-    ResidualJEC = cms.string('CondFormats/JetMETObjects/data/Spring10DataV2_L2L3Residual_AK5PF.txt')
+    MaxSize = cms.uint32(10)
 )
 
 rootTuplePF2PATJetsExtra = rootTuplePFJetsExtra.clone(InputTag = cms.InputTag('selectedPatJetsPF'),

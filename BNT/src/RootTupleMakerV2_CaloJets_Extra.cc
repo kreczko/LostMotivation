@@ -13,10 +13,7 @@ RootTupleMakerV2_CaloJets_Extra::RootTupleMakerV2_CaloJets_Extra(const edm::Para
     inputTag(iConfig.getParameter<edm::InputTag>("InputTag")),
     prefix  (iConfig.getParameter<std::string>  ("Prefix")),
     suffix  (iConfig.getParameter<std::string>  ("Suffix")),
-    maxSize (iConfig.getParameter<unsigned int> ("MaxSize")),
-    jecUncPath(iConfig.getParameter<std::string>("JECUncertainty")),
-    applyResJEC (iConfig.getParameter<bool>     ("ApplyResidualJEC")),
-    resJEC (iConfig.getParameter<std::string>   ("ResidualJEC"))
+    maxSize (iConfig.getParameter<unsigned int> ("MaxSize"))
 {
   produces <std::vector<double> > ( prefix + "Px" + suffix );
   produces <std::vector<double> > ( prefix + "Py" + suffix );
@@ -34,20 +31,6 @@ produce(edm::Event& iEvent, const edm::EventSetup& iSetup) {
   std::auto_ptr<std::vector<double> >  charge  ( new std::vector<double>()  );
   std::auto_ptr<std::vector<double> >  mass  ( new std::vector<double>()  );
 
-  //-----------------------------------------------------------------
-  edm::FileInPath fipUnc(jecUncPath);;
-  JetCorrectionUncertainty *jecUnc = new JetCorrectionUncertainty(fipUnc.fullPath());
-
-  JetCorrectorParameters *ResJetCorPar = 0;
-  FactorizedJetCorrector *JEC = 0;
-  if(applyResJEC) {
-    edm::FileInPath fipRes(resJEC);
-    ResJetCorPar = new JetCorrectorParameters(fipRes.fullPath());
-    std::vector<JetCorrectorParameters> vParam;
-    vParam.push_back(*ResJetCorPar);
-    JEC = new FactorizedJetCorrector(vParam);
-  }
-
   edm::Handle<std::vector<pat::Jet> > jets;
   iEvent.getByLabel(inputTag, jets);
 
@@ -61,19 +44,9 @@ produce(edm::Event& iEvent, const edm::EventSetup& iSetup) {
 
 
 
-      double corr = 1.;
-      if( applyResJEC && iEvent.isRealData() ) {
-        JEC->setJetEta( it->eta() );
-        JEC->setJetPt( it->pt() ); // here you put the L2L3 Corrected jet pt
-        corr = JEC->getCorrection();
-      }
-
-      jecUnc->setJetEta( it->eta() );
-      jecUnc->setJetPt( it->pt()*corr ); // the uncertainty is a function of the corrected pt
-
       // fill in all the vectors
-      px->push_back( it->px()*corr );
-      py->push_back( it->py()*corr );
+      px->push_back( it->px() );
+      py->push_back( it->py() );
       pz->push_back( it->pz() );
       charge->push_back( it->jetCharge() );
       mass->push_back( it->mass() );
@@ -82,10 +55,6 @@ produce(edm::Event& iEvent, const edm::EventSetup& iSetup) {
   } else {
     edm::LogError("RootTupleMakerV2_CaloJetsError") << "Error! Can't get the product " << inputTag;
   }
-
-  delete jecUnc;
-  delete ResJetCorPar;
-  delete JEC;
 
   //-----------------------------------------------------------------
   // put vectors in the event
