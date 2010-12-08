@@ -15,7 +15,7 @@ rootTupleElectrons = cms.EDProducer("RootTupleMakerV2_Electrons",
 )
 
 rootTuplePFElectrons = rootTupleElectrons.clone(
-    InputTag = cms.InputTag('selectedPatElectronsToto'),
+    InputTag = cms.InputTag('selectedPatElectronsPF'),
     Prefix = cms.string('PFElectron.'))
 
 rootTupleElectronsExtra = cms.EDProducer("RootTupleMakerV2_Electrons_Extra",
@@ -29,7 +29,7 @@ rootTupleElectronsExtra = cms.EDProducer("RootTupleMakerV2_Electrons_Extra",
 )
 
 rootTuplePFElectronsExtra = rootTupleElectronsExtra.clone(
-    InputTag = cms.InputTag('selectedPatElectronsToto'),
+    InputTag = cms.InputTag('selectedPatElectronsPF'),
     Prefix = cms.string('PFElectron.'),
     storePFIsolation = cms.bool(True))
 
