@@ -368,6 +368,7 @@ process.LJFilter.counteitherleptontype = False
 # let it run
 process.p = cms.Path(
         process.LJFilter*
+        process.HBHENoiseFilter*
         process.HBHENoiseFilterResultProducer*
         process.hltLevel1GTSeed*
         process.hltPhysicsDeclared*

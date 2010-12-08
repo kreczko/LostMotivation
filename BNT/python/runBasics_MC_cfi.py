@@ -381,6 +381,7 @@ process.LJFilter.counteitherleptontype = False
 process.p = cms.Path( 
 #        process.hlTrigReport *
         process.LJFilter*
+        process.HBHENoiseFilter*
         process.HBHENoiseFilterResultProducer*
         process.genParticlesForJets *
         process.ak5GenJets *
