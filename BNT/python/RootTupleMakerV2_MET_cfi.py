@@ -57,5 +57,5 @@ rootTuplePFMETType1CorExtra = cms.EDProducer( "RootTupleMakerV2_MET_Extra",
     )
 
 
-rootTupleMETSequence = cms.Sequence( rootTupleCaloMET + rootTupleTCMET + rootTuplePFMET  
-                                     + rootTupleCaloMETExtra + rootTupleTCMETExtra + rootTuplePFMETExtra)
+rootTupleMETSequence = cms.Sequence( rootTupleCaloMET + rootTuplePFMET  
+                                     + rootTupleCaloMETExtra + rootTuplePFMETExtra)
