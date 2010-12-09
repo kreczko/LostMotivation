@@ -1,20 +1,5 @@
-import FWCore.ParameterSet.Config as cms
-
-from BristolAnalysis.NTupleTools.runBasics_MC_cfi import process
-
-process.source.fileNames = cms.untracked.vstring(
-            'file:/storage/top/mc/ttbarAODSIM38X.root'
-            )
-# reduce stdout
-process.MessageLogger.cerr.FwkReport.reportEvery = cms.untracked.int32(10000)
-#process.MessageLogger.cerr.INFO.limit = 10
-#process.MessageLogger.cerr.threshold = 'ERROR'
-
-process.options.SkipEvent = cms.untracked.vstring('ProductNotFound')
+from pset_default_MC import *
 
 # rename output file
 process.TFileService.fileName = 'nTuple_wj.root'
 process.out.fileName          = 'pat_wj.root'
-#use online skimming
-process.LJFilter.electronsMin = 1
-process.LJFilter.elecPT = 25.
