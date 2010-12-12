@@ -19,8 +19,8 @@ METReader::METReader() :
 }
 
 METReader::METReader(TChainPointer input, METAlgorithm::value algo) :
-    exReader(input, METAlgorithm::prefixes.at(algo) + "_ex"),
-    eyReader(input, METAlgorithm::prefixes.at(algo) + "_ey") {
+    exReader(input, METAlgorithm::prefixes.at(algo) + "Ex"),
+    eyReader(input, METAlgorithm::prefixes.at(algo) + "Ey") {
 
 }
 

@@ -9,29 +9,30 @@
 #define MUONREADER_H_
 #include "VariableReader.h"
 #include "../RecoObjects/Muon.h"
+#include "../Constants.h"
 
 namespace BAT {
 
 class MuonReader {
 public:
 	MuonReader();
-	MuonReader(TChainPointer input);
+	MuonReader(TChainPointer input, MuonAlgorithm::value algo = MuonAlgorithm::Default);
 	virtual ~MuonReader();
 	const MuonCollection& getMuons();
 	void initialise();
 
 private:
-	VariableReader<unsigned int> numberOfMuonsReader;
-	VariableReader<MultiFloatPointer> energyReader;
-	VariableReader<MultiFloatPointer> pxReader;
-	VariableReader<MultiFloatPointer> pyReader;
-	VariableReader<MultiFloatPointer> pzReader;
+//	VariableReader<unsigned int> numberOfMuonsReader;
+	VariableReader<MultiDoublePointer> energyReader;
+	VariableReader<MultiDoublePointer> pxReader;
+	VariableReader<MultiDoublePointer> pyReader;
+	VariableReader<MultiDoublePointer> pzReader;
 
-	VariableReader<MultiFloatPointer> ecalIsolationReader;
-	VariableReader<MultiFloatPointer> hcalIsolationReader;
-	VariableReader<MultiFloatPointer> trackerIsolationReader;
+	VariableReader<MultiDoublePointer> ecalIsolationReader;
+	VariableReader<MultiDoublePointer> hcalIsolationReader;
+	VariableReader<MultiDoublePointer> trackerIsolationReader;
 
-	VariableReader<MultiFloatPointer> isGlobalReader;
+	VariableReader<MultiBoolPointer> isGlobalReader;
 
 	MuonCollection muons;
 	void readMuons();

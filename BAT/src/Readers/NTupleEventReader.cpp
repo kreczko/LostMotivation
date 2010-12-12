@@ -13,13 +13,14 @@
 using namespace std;
 namespace BAT {
 
-const char * NTupleEventReader::EVENT_CHAIN = "configurableAnalysis/eventB";
+const char * NTupleEventReader::EVENT_CHAIN = "rootTupleTree/tree";
 const char * NTupleEventReader::HLT_TRIGGER_CHAIN = "configurableAnalysis/eventV";
 const char * NTupleEventReader::ADDITIONAL_CHAIN = "configurableAnalysis/eventA";
 
 JetAlgorithm::value NTupleEventReader::jetAlgorithm = JetAlgorithm::Calo_AntiKT_Cone05;
 ElectronAlgorithm::value NTupleEventReader::electronAlgorithm = ElectronAlgorithm::Calo;
 METAlgorithm::value NTupleEventReader::metAlgorithm = METAlgorithm::Calo;
+MuonAlgorithm::value NTupleEventReader::muonAlgorithm = MuonAlgorithm::Default;
 
 const std::string NTupleEventReader::FilePrefix = "nTuple_";
 
@@ -29,29 +30,29 @@ NTupleEventReader::NTupleEventReader() :
     currentEventEntry(0),
     numberOfFiles(0),
     input(new TChain(NTupleEventReader::EVENT_CHAIN)),
-    hltTriggerInput(new TChain(NTupleEventReader::HLT_TRIGGER_CHAIN)),
-    additionalInput(new TChain(NTupleEventReader::ADDITIONAL_CHAIN)),
+//    hltTriggerInput(new TChain(NTupleEventReader::HLT_TRIGGER_CHAIN)),
+//    additionalInput(new TChain(NTupleEventReader::ADDITIONAL_CHAIN)),
 //    HLTPhoton10_TO20Reader(new VariableReader<bool> (additionalInput, "pass_photon10_TO20")),
 //    HLTPhoton15_TO20Reader(new VariableReader<bool> (additionalInput, "pass_photon15_TO20")),
 //    HLTPhoton15_TO20CleanedReader(new VariableReader<bool> (additionalInput, "pass_photon15clean_TO20")),
 //    HLTPhoton20CleanedReader(new VariableReader<double> (hltTriggerInput, "HLT_Photon20_Cleaned_L1R")),
 //    HLTEmulatedPhoton15Reader(new VariableReader<bool> (additionalInput, "pass_photon15")),
-    HLT_Ele10_LW_L1R(new VariableReader<double> (hltTriggerInput, "HLT_Ele10_LW_L1R")),
-    HLT_Ele15_SW_L1R(new VariableReader<double> (hltTriggerInput, "HLT_Ele15_SW_L1R")),
-    HLT_Ele15_SW_CaloEleId_L1R(new VariableReader<double> (hltTriggerInput, "HLT_Ele15_SW_CaloEleId_L1R")),
-    HLT_Ele17_SW_CaloEleId_L1R(new VariableReader<double> (hltTriggerInput, "HLT_Ele17_SW_CaloEleId_L1R")),
-    HLT_Ele17_SW_TightEleId_L1R(new VariableReader<double> (hltTriggerInput, "HLT_Ele17_SW_TightEleId_L1R")),
-    HLT_Ele22_SW_TighterEleId_L1R_v2(new VariableReader<double> (hltTriggerInput, "HLT_Ele22_SW_TighterEleId_L1R_v2")),
-    HLT_Ele22_SW_TighterEleId_L1R_v3(new VariableReader<double> (hltTriggerInput, "HLT_Ele22_SW_TighterEleId_L1R_v3")),
+//    HLT_Ele10_LW_L1R(new VariableReader<double> (hltTriggerInput, "HLT_Ele10_LW_L1R")),
+//    HLT_Ele15_SW_L1R(new VariableReader<double> (hltTriggerInput, "HLT_Ele15_SW_L1R")),
+//    HLT_Ele15_SW_CaloEleId_L1R(new VariableReader<double> (hltTriggerInput, "HLT_Ele15_SW_CaloEleId_L1R")),
+//    HLT_Ele17_SW_CaloEleId_L1R(new VariableReader<double> (hltTriggerInput, "HLT_Ele17_SW_CaloEleId_L1R")),
+//    HLT_Ele17_SW_TightEleId_L1R(new VariableReader<double> (hltTriggerInput, "HLT_Ele17_SW_TightEleId_L1R")),
+//    HLT_Ele22_SW_TighterEleId_L1R_v2(new VariableReader<double> (hltTriggerInput, "HLT_Ele22_SW_TighterEleId_L1R_v2")),
+//    HLT_Ele22_SW_TighterEleId_L1R_v3(new VariableReader<double> (hltTriggerInput, "HLT_Ele22_SW_TighterEleId_L1R_v3")),
     primaryReader(new PrimaryVertexReader(input)),
     trackReader(new TrackReader(input)),
-    electronReader(new ElectronReader(input, additionalInput, NTupleEventReader::electronAlgorithm)),
+    electronReader(new ElectronReader(input, NTupleEventReader::electronAlgorithm)),
     jetReader(new JetReader(input, NTupleEventReader::jetAlgorithm)),
-    muonReader(new MuonReader(input)),
+    muonReader(new MuonReader(input, NTupleEventReader::muonAlgorithm)),
     metReader(new METReader(input, NTupleEventReader::metAlgorithm)),
     runNumberReader(new VariableReader<unsigned int> (input, "run")),
     eventNumberReader(new VariableReader<unsigned int> (input, "event")),
-    lumiBlockReader(new VariableReader<unsigned int> (input, "lumiblock")),
+    lumiBlockReader(new VariableReader<unsigned int> (input, "ls")),
     areReadersSet(false),
     areDatatypesKnown(false),
     currentEvent(),
@@ -66,15 +67,15 @@ void NTupleEventReader::addInputFile(const char * fileName) {
     if (filesAdded <= 0)
         throw NoFileFoundException("No file found in '" + TString(fileName) + "'");
     numberOfFiles += filesAdded;
-    hltTriggerInput->Add(fileName);
-    additionalInput->Add(fileName);
+//    hltTriggerInput->Add(fileName);
+//    additionalInput->Add(fileName);
     //    seenDataTypes.at(getDataType(fileName)) = true;
 }
 
 void NTupleEventReader::addInputFileWithoutCheck(const char * fileName) {
     numberOfFiles += input->Add(fileName);
-    hltTriggerInput->Add(fileName);
-    additionalInput->Add(fileName);
+//    hltTriggerInput->Add(fileName);
+//    additionalInput->Add(fileName);
     //    seenDataTypes.at(getDataType(fileName)) = true;
 }
 
@@ -87,12 +88,12 @@ const Event& NTupleEventReader::getNextEvent() {
 //    currentEvent.setHLT_Photon15_Cleaned_TO20(HLTPhoton15_TO20CleanedReader->getVariable());
 //    currentEvent.setHLT_Photon20_Cleaned_L1R(HLTPhoton20CleanedReader->getVariable() > 0.5);
 //    currentEvent.setHLT_Emulated_Photon15(HLTEmulatedPhoton15Reader->getVariable());
-    currentEvent.setHLT_Ele10_LW_L1R(HLT_Ele10_LW_L1R->getVariable());
-    currentEvent.setHLT_Ele15_SW_L1R(HLT_Ele15_SW_L1R->getVariable());
-    currentEvent.setHLT_Ele15_SW_CaloEleId_L1R(HLT_Ele15_SW_CaloEleId_L1R->getVariable());
-    currentEvent.setHLT_Ele17_SW_CaloEleId_L1R(HLT_Ele17_SW_CaloEleId_L1R->getVariable());
-    currentEvent.setHLT_Ele17_SW_TightEleId_L1R(HLT_Ele17_SW_TightEleId_L1R->getVariable());
-    currentEvent.setHLT_Ele22_SW_TighterEleId_L1R_v2(HLT_Ele22_SW_TighterEleId_L1R_v2->getVariable());
+//    currentEvent.setHLT_Ele10_LW_L1R(HLT_Ele10_LW_L1R->getVariable());
+//    currentEvent.setHLT_Ele15_SW_L1R(HLT_Ele15_SW_L1R->getVariable());
+//    currentEvent.setHLT_Ele15_SW_CaloEleId_L1R(HLT_Ele15_SW_CaloEleId_L1R->getVariable());
+//    currentEvent.setHLT_Ele17_SW_CaloEleId_L1R(HLT_Ele17_SW_CaloEleId_L1R->getVariable());
+//    currentEvent.setHLT_Ele17_SW_TightEleId_L1R(HLT_Ele17_SW_TightEleId_L1R->getVariable());
+//    currentEvent.setHLT_Ele22_SW_TighterEleId_L1R_v2(HLT_Ele22_SW_TighterEleId_L1R_v2->getVariable());
 
     currentEvent.setPrimaryVertex(primaryReader->getVertex());
     currentEvent.setTracks(trackReader->getTracks());
@@ -111,8 +112,8 @@ void NTupleEventReader::selectNextNtupleEvent() {
     if (hasNextEvent()) {
         initiateReadersIfNotSet();
         input->GetEntry(currentEventEntry);
-        hltTriggerInput->GetEntry(currentEventEntry);
-        additionalInput->GetEntry(currentEventEntry);
+//        hltTriggerInput->GetEntry(currentEventEntry);
+//        additionalInput->GetEntry(currentEventEntry);
         currentEventEntry++;
         processedEvents++;
     }
@@ -129,8 +130,8 @@ bool NTupleEventReader::hasNextEvent() {
 void NTupleEventReader::initiateReadersIfNotSet() {
     if (areReadersSet == false) {
         input->SetBranchStatus("*", 0);
-        hltTriggerInput->SetBranchStatus("*", 0);
-        additionalInput->SetBranchStatus("*", 0);
+//        hltTriggerInput->SetBranchStatus("*", 0);
+//        additionalInput->SetBranchStatus("*", 0);
 //        if (HLTPhoton10_TO20Reader->doesVariableExist())
 //            HLTPhoton10_TO20Reader->initialise();
 //        if (HLTPhoton15_TO20Reader->doesVariableExist())
@@ -142,20 +143,20 @@ void NTupleEventReader::initiateReadersIfNotSet() {
 ////        if (HLTEmulatedPhoton15Reader->doesVariableExist())
 //            HLTEmulatedPhoton15Reader->initialise();
         //        if (HLT_Ele10_LW_L1R->doesVariableExist())
-        if (seenDataTypes.at(DataType::DATA)) {
-            HLT_Ele10_LW_L1R->initialiseBlindly();
-            //        if (HLT_Ele15_SW_L1R->doesVariableExist())
-            HLT_Ele15_SW_L1R->initialiseBlindly();
-            //        if (HLT_Ele15_SW_CaloEleId_L1R->doesVariableExist())
-            HLT_Ele15_SW_CaloEleId_L1R->initialiseBlindly();
-            //        if (HLT_Ele17_SW_CaloEleId_L1R->doesVariableExist())
-            HLT_Ele17_SW_CaloEleId_L1R->initialiseBlindly();
-            //        if (HLT_Ele17_SW_TightEleId_L1R->doesVariableExist())
-            HLT_Ele17_SW_TightEleId_L1R->initialiseBlindly();
-            //        if (HLT_Ele22_SW_TighterEleId_L1R_v2->doesVariableExist())
-            HLT_Ele22_SW_TighterEleId_L1R_v2->initialiseBlindly();
-            HLT_Ele22_SW_TighterEleId_L1R_v3->initialiseBlindly();
-        }
+//        if (seenDataTypes.at(DataType::DATA)) {
+//            HLT_Ele10_LW_L1R->initialiseBlindly();
+//            //        if (HLT_Ele15_SW_L1R->doesVariableExist())
+//            HLT_Ele15_SW_L1R->initialiseBlindly();
+//            //        if (HLT_Ele15_SW_CaloEleId_L1R->doesVariableExist())
+//            HLT_Ele15_SW_CaloEleId_L1R->initialiseBlindly();
+//            //        if (HLT_Ele17_SW_CaloEleId_L1R->doesVariableExist())
+//            HLT_Ele17_SW_CaloEleId_L1R->initialiseBlindly();
+//            //        if (HLT_Ele17_SW_TightEleId_L1R->doesVariableExist())
+//            HLT_Ele17_SW_TightEleId_L1R->initialiseBlindly();
+//            //        if (HLT_Ele22_SW_TighterEleId_L1R_v2->doesVariableExist())
+//            HLT_Ele22_SW_TighterEleId_L1R_v2->initialiseBlindly();
+//            HLT_Ele22_SW_TighterEleId_L1R_v3->initialiseBlindly();
+//        }
 
         primaryReader->initialise();
         trackReader->initialise();

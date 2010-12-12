@@ -22,8 +22,8 @@ public:
     virtual ~METReader();
     void initialise();
 private:
-    VariableReader<MultiFloatPointer> exReader;
-    VariableReader<MultiFloatPointer> eyReader;
+    VariableReader<MultiDoublePointer> exReader;
+    VariableReader<MultiDoublePointer> eyReader;
     METPointer met;
     METAlgorithm::value usedAlgorithm;
     void readMET();

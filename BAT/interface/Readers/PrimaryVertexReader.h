@@ -19,10 +19,10 @@ public:
 	const PrimaryVertexPointer getVertex();
 	void initialise();
 private:
-	VariableReader<MultiFloatPointer> ndofReader;
-	VariableReader<MultiFloatPointer> zReader;
-	VariableReader<MultiFloatPointer> rhoReader;
-	VariableReader<MultiFloatPointer> isfakeReader;
+	VariableReader<MultiDoublePointer> ndofReader;
+	VariableReader<MultiDoublePointer> zReader;
+	VariableReader<MultiDoublePointer> rhoReader;
+	VariableReader<MultiBoolPointer> isfakeReader;
 
 	PrimaryVertexPointer vertex;
 	void readVertex();

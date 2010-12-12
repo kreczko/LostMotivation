@@ -89,7 +89,7 @@ void Event::selectElectronsByQuality() {
     goodIsolatedElectrons.clear();
     for (unsigned int index = 0; index < allElectrons.size(); ++index) {
         ElectronPointer electron = allElectrons.at(index);
-        electron->setZDistanceToPrimaryVertex(fabs(electron->vz() - primaryVertex->z()));
+//        electron->setZDistanceToPrimaryVertex(fabs(electron->vz() - primaryVertex->z()));
 
         if (electron->isGood())
             goodElectrons.push_back(electron);

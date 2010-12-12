@@ -58,11 +58,11 @@ public:
 
 	void setUsedAlgorithm(JetAlgorithm::value algo);
 	void setEMF(float emf);
-	void setN90Hits(float n90Hits);
+	void setN90Hits(int n90Hits);
 	void setFHPD(float fHPD);
 	void setDiscriminatorForBtagType(float discriminator, BJetTagger::Algorithm type);
 	void setBtagForData(float btag);
-	void setNOD(float nod);
+	void setNOD(int nod);
 	void setCEF(float cef);
 	void setNHF(float nhf);
 	void setNEF(float nef);
@@ -71,11 +71,12 @@ public:
 private:
 	JetAlgorithm::value usedAlgorithm;
 	float electromagneticFraction;
-	float numberOfRecHitsContaining90PercentOfTheJetEnergy;
+	int numberOfRecHitsContaining90PercentOfTheJetEnergy;
 	float fractionOfEnergyIntheHottestHPDReadout;
 	std::vector<float> btag_discriminators;
 	float btagInData;
-	float numberOfDaughters, chargedEmEnergyFraction, neutralHadronEnergyFraction, neutralEmEnergyFraction;
+	int numberOfDaughters;
+	float chargedEmEnergyFraction, neutralHadronEnergyFraction, neutralEmEnergyFraction;
 	float chargedHadronEnergyFraction, chargedMultiplicity;
 };
 typedef boost::shared_ptr<Jet> JetPointer;

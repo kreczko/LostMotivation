@@ -51,31 +51,31 @@ Electron::Electron() :
     gsfTrack(),
     closesTrackID(-1),
     sharedFractionInnerHits(0),
-    vertex_z(initialBigValue),
-    zDistanceToPrimaryVertex(initialBigValue) {
+    zDistanceToPrimaryVertex(initialBigValue),
+    dCotThetaToNextTrack(0),
+    distToNextTrack(0){
 }
 
-Electron::Electron(const Electron& other) :
-    Particle((Particle) other),
-    usedAlgorithm(other.getUsedAlgorithm()),
-    robustLooseId(other.RobustLooseID()),
-    robustTightId(other.RobustLooseID()),
-    superCluser_Eta(other.superClusterEta()),
-    ecal_Isolation(other.ecalIsolation()),
-    hcal_Isolation(other.hcalIsolation()),
-    tracker_Isolation(other.trackerIsolation()),
-    innerLayerMissingHits(other.innerLayerMissingHits),
-    sigma_IEtaIEta(other.sigma_IEtaIEta),
-    dPhi_In(other.dPhi_In),
-    dEta_In(other.dEta_In),
-    hadOverEm(other.hadOverEm),
-    gsfTrack(),
-    closesTrackID(-1),
-    sharedFractionInnerHits(0),
-    vertex_z(initialBigValue),
-    zDistanceToPrimaryVertex(initialBigValue) {
-
-}
+//Electron::Electron(const Electron& other) :
+//    Particle((Particle) other),
+//    usedAlgorithm(other.getUsedAlgorithm()),
+//    robustLooseId(other.RobustLooseID()),
+//    robustTightId(other.RobustLooseID()),
+//    superCluser_Eta(other.superClusterEta()),
+//    ecal_Isolation(other.ecalIsolation()),
+//    hcal_Isolation(other.hcalIsolation()),
+//    tracker_Isolation(other.trackerIsolation()),
+//    innerLayerMissingHits(other.innerLayerMissingHits),
+//    sigma_IEtaIEta(other.sigma_IEtaIEta),
+//    dPhi_In(other.dPhi_In),
+//    dEta_In(other.dEta_In),
+//    hadOverEm(other.hadOverEm),
+//    gsfTrack(),
+//    closesTrackID(-1),
+//    sharedFractionInnerHits(0),
+//    zDistanceToPrimaryVertex(initialBigValue) {
+//
+//}
 
 Electron::Electron(float energy, float px, float py, float pz) :
     Particle(energy, px, py, pz),
@@ -94,8 +94,9 @@ Electron::Electron(float energy, float px, float py, float pz) :
     gsfTrack(),
     closesTrackID(-1),
     sharedFractionInnerHits(0),
-    vertex_z(initialBigValue),
-    zDistanceToPrimaryVertex(initialBigValue) {
+    zDistanceToPrimaryVertex(initialBigValue),
+    dCotThetaToNextTrack(0),
+    distToNextTrack(0){
 }
 
 Electron::~Electron() {
@@ -382,16 +383,16 @@ float Electron::shFracInnerLayer() const {
     return sharedFractionInnerHits;
 }
 
-void Electron::setElectronVertexZPosition(float z) {
-    vertex_z = z;
-}
+//void Electron::setElectronVertexZPosition(float z) {
+//    vertex_z = z;
+//}
 
 void Electron::setZDistanceToPrimaryVertex(float dist) {
     zDistanceToPrimaryVertex = dist;
 }
 
-float Electron::vz() const{
-    return vertex_z;
-}
+//float Electron::vz() const{
+//    return vertex_z;
+//}
 
 }

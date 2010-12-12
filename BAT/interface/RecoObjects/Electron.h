@@ -65,7 +65,7 @@ public:
     }
 
     Electron();
-    Electron(const Electron& other);
+//    Electron(const Electron& other);
     Electron(float energy, float px, float py, float pz);
     virtual ~Electron();
     bool isGood(const float minEt = Electron::goodElectronMinimalEt) const;
@@ -113,7 +113,7 @@ public:
     void setGSFTrack(const TrackPointer track);
     void setClosestTrackID(const int trackID);
     void setSharedFractionInnerHits(float hits);
-    void setElectronVertexZPosition(float z);
+//    void setElectronVertexZPosition(float z);
     void setZDistanceToPrimaryVertex(float dist);
 
     float relativeIsolation() const;
@@ -122,7 +122,7 @@ public:
     bool isInCrack() const;
     bool isInEndCapRegion() const;
 
-    float vz() const;
+//    float vz() const;
 
 private:
     ElectronAlgorithm::value usedAlgorithm;
@@ -135,7 +135,8 @@ private:
     TrackPointer gsfTrack;
     int closesTrackID;
     float sharedFractionInnerHits;
-    float vertex_z, zDistanceToPrimaryVertex;
+    float zDistanceToPrimaryVertex, dCotThetaToNextTrack, distToNextTrack;
+
 
 
     bool getVBTF_W70_ElectronID_Barrel() const;

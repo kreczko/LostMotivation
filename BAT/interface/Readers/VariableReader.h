@@ -15,6 +15,9 @@
 
 typedef std::vector<float>* MultiFloatPointer;
 typedef std::vector<double>* MultiDoublePointer;
+typedef std::vector<int>* MultiIntPointer;
+typedef std::vector<bool>* MultiBoolPointer;
+typedef std::vector<unsigned int>* MultiUIntPointer;
 
 typedef boost::shared_ptr<TChain> TChainPointer;
 namespace BAT {
@@ -52,6 +55,9 @@ public:
     }
 
     double getVariableAt(unsigned int index) const;
+    int getIntVariableAt(unsigned int index) const;
+    unsigned int getUIntVariableAt(unsigned int index) const;
+    bool getBoolVariableAt(unsigned int index) const;
     unsigned int size() const;
 
     void initialise() {

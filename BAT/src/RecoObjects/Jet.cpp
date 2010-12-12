@@ -112,7 +112,7 @@ void Jet::setEMF(float emf) {
     electromagneticFraction = emf;
 }
 
-void Jet::setN90Hits(float n90Hits) {
+void Jet::setN90Hits(int n90Hits) {
     numberOfRecHitsContaining90PercentOfTheJetEnergy = n90Hits;
 }
 
@@ -128,7 +128,7 @@ void Jet::setDiscriminatorForBtagType(float discriminator, BJetTagger::Algorithm
 //    btagInData = btag;
 //}
 
-void Jet::setNOD(float nod) {
+void Jet::setNOD(int nod) {
     numberOfDaughters = nod;
 }
 void Jet::setCEF(float cef) {
