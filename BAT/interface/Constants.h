@@ -170,10 +170,10 @@ enum value {
 };
 //for nTuple branch names
 const boost::array<std::string, JetAlgorithm::NUMBER_OF_JETALGORITHMS> prefixes = { {
-        "jets",
-        "jetsJPTAK5",
-        "PFJets2",
-        "PFJets" } };
+        "CaloJet",
+        "",
+        "PFJet",
+        "PF2PATJet" } };
 
 const boost::array<std::string, JetAlgorithm::NUMBER_OF_JETALGORITHMS> names = { {
         "CaloJets",
@@ -191,9 +191,9 @@ enum value {
 };
 
 const boost::array<std::string, METAlgorithm::NUMBER_OF_METALGORITHMS> prefixes = { {
-        "mets",
-        "tcmets",
-        "PFMets"  } };
+        "CaloMET",
+        "TCMET",
+        "PFMET"  } };
 
 const boost::array<std::string, METAlgorithm::NUMBER_OF_METALGORITHMS> names = { {
         "CaloMET",
@@ -209,12 +209,29 @@ enum value {
 };
 
 const boost::array<std::string, ElectronAlgorithm::NUMBER_OF_ELECTRONALGORITHMS> prefixes = { {
-        "els",
-        "PFElsAll"  } };
+        "Electron",
+        "PFElectron"  } };
 
 const boost::array<std::string, ElectronAlgorithm::NUMBER_OF_ELECTRONALGORITHMS> names = { {
         "CaloElectron",
         "PFElectron"} };
+}
+
+
+namespace MuonAlgorithm {
+enum value {
+    Default,
+    ParticleFlow,
+    NUMBER_OF_MUONALGORITHMS
+};
+
+const boost::array<std::string, MuonAlgorithm::NUMBER_OF_MUONALGORITHMS> prefixes = { {
+        "Muon",
+        "PFMuon"  } };
+
+const boost::array<std::string, MuonAlgorithm::NUMBER_OF_MUONALGORITHMS> names = { {
+        "Muon",
+        "PFMuon"} };
 }
 
 }
