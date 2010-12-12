@@ -87,6 +87,9 @@ public:
     static void useMETAlgorithm(BAT::METAlgorithm::value algo) {
         BAT::NTupleEventReader::metAlgorithm = algo;
     }
+    static void useMuonAlgorithm(BAT::MuonAlgorithm::value algo){
+        BAT::NTupleEventReader::muonAlgorithm = algo;
+    }
 private:
     void printNumberOfProccessedEventsEvery(unsigned long printEvery);
 //    void doEcalSpikeAnalysis();
