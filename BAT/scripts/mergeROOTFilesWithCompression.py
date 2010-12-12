@@ -41,7 +41,7 @@ def fuseFiles(groupedFiles):
 def getProcess(filepath):
     file = filepath.split('/')[-1]
     a = file.split('_')
-    process = a[0] + '_' + a[1] + '_' + a[2]
+    process = a[0] + '_' + a[1]
     return process
 
     
