@@ -1,5 +1,8 @@
+from __future__ import division
+
 from tdrStyle import *
 from ROOT import *
+
 canvases = []
 
 def plotMttbar():
@@ -32,28 +35,83 @@ def plotMttbar():
 
     hists = [];
     hists.append("mttbar");
-#    hists.append("m3_allBtags");
-#                hists.append("electron_et");
-#                hists.append("ttbar_pt");
-#                hists.append("HT");
-#                hists.append("numberOfJets");
-#                hists.append("numberOfBJets");
-#                hists.append("MET");
-#                hists.append("leadingJetMass");
-#                hists.append("mtW");
-#                hists.append("electronD0");
-#                hists.append("neutrino_pz");
-#    folder("");
+    hists.append("mttbar_2ndSolution");
+    hists.append("mttbar_3rdSolution");
+    hists.append("mttbar_allSolutions");
+    
+    hists.append("mttbar_withMETCut");
+    hists.append("mttbar_2ndSolution_withMETCut");
+    hists.append("mttbar_3rdSolution_withMETCut");
+    hists.append("mttbar_allSolutions_withMETCut");
+    
+    hists.append("mttbar_withMETAndAsymJets");
+    hists.append("mttbar_2ndSolution_withMETAndAsymJets");
+    hists.append("mttbar_3rdSolution_withMETAndAsymJets");
+    hists.append("mttbar_allSolutions_withMETAndAsymJets");
+    
+    hists.append("mttbar_withAsymJetsCut");
+    hists.append("mttbar_2ndSolution_withAsymJetsCut");
+    hists.append("mttbar_3rdSolution_withAsymJetsCut");
+    hists.append("mttbar_allSolutions_withAsymJetsCut");
+    
+    hists.append("ttbar_pt");
+    hists.append("ttbar_pt_2ndSolution");
+    hists.append("ttbar_pt_3rdSolution");
+    hists.append("ttbar_pt_allSolutions");
+    
+    hists.append("ttbar_pt_withMETCut");
+    hists.append("ttbar_pt_2ndSolution_withMETCut");
+    hists.append("ttbar_pt_3rdSolution_withMETCut");
+    hists.append("ttbar_pt_allSolutions_withMETCut");
+    
+    hists.append("ttbar_pt_withMETAndAsymJets");
+    hists.append("ttbar_pt_2ndSolution_withMETAndAsymJets");
+    hists.append("ttbar_pt_3rdSolution_withMETAndAsymJets");
+    hists.append("ttbar_pt_allSolutions_withMETAndAsymJets");
+    
+    hists.append("ttbar_pt_withAsymJetsCut");
+    hists.append("ttbar_pt_2ndSolution_withAsymJetsCut");
+    hists.append("ttbar_pt_3rdSolution_withAsymJetsCut");
+    hists.append("ttbar_pt_allSolutions_withAsymJetsCut");
+    hists.append("angleTops");
+    hists.append("angleTops_withMETCut");
+    hists.append("angleTops_withMETAndAsymJets");
+    hists.append("angleTops_withAsymJetsCut");
+    
+    hists.append("pt_leadingTop");
+    hists.append("pt_leadingTop_withMETCut");
+    hists.append("pt_leadingTop_withMETAndAsymJets");
+    hists.append("pt_leadingTop_withAsymJetsCut");
+    
+    hists.append("pt_NextToLeadingTop");
+    hists.append("pt_NextToLeadingTop_withMETCut");
+    hists.append("pt_NextToLeadingTop_withMETAndAsymJets");
+    hists.append("pt_NextToLeadingTop_withAsymJetsCut");
+    
+    hists.append("mLeptonicTop");
+    hists.append("mHadronicTop");
+    hists.append("mAllTop");
+    
+    hists.append("ttbar_px");
+    hists.append("ttbar_py");
+    hists.append("ttbar_pz");
+    
+    hists.append("m3");
+    hists.append("HT");
+    hists.append("MET");
+    hists.append("leadingJetMass");
+    hists.append("mtW");
+    hists.append("neutrino_pz");
     suffixes = ["allBtags",
         "1orMoreBtag",
         "2orMoreBtags",
-        "3orMoreBtags" ]
+        "3orMoreBtags",'4orMoreBtags' ]
     hists = [hist + '_' + suffix for hist in hists for suffix in suffixes]
     gcd = gROOT.cd
 
     for histname in hists:
-        print histname
         gcd()
+        print histname
         hist_data =  data.Get(histname);
 
 #        hist_data2;
@@ -119,13 +177,19 @@ def plotMttbar():
         #        ntop = hist_ttbar.Integral();
         #        nwj = hist_wjets.Integral();
         #        nzj = hist_zjets.Integral();
-        #        nqcd = hist_qcd.Integral();
+        nqcd = hist_qcd.Integral();
         #        sumMC = ntop + nwj + nzj + nqcd;
         #        cout << ndata << " " << sumMC << endl;
         #                        hist_wjets.Scale(ndata / sumMC);
         #                        hist_ttbar.Scale(ndata / sumMC);
         #                        hist_zjets.Scale(ndata / sumMC);
         #                        hist_qcd.Scale(ndata / sumMC);
+        mttbars = ['mttbar_' + suffix for suffix in suffixes]
+        if histname in mttbars:
+            name = histname.replace('mttbar', 'mttbar_conversions')
+            hist_qcd = data.Get(name)
+            if( hist_qcd.Integral() > 0):
+                hist_qcd.Scale(nqcd/hist_qcd.Integral())
         hist_mc = hist_qcd.Clone("all_mc")
         hist_mc.Add(hist_ttbar);
         hist_mc.Add(hist_zjets);
@@ -147,41 +211,74 @@ def plotMttbar():
             hist_data.SetXTitle("electron p_{T}/GeV");
             hist_data.SetYTitle("Events/(5 GeV)");
             rebin = 5;
-        elif (histname == "ttbar_pt"):
+        elif ("ttbar_pt" in histname):
             hist_data.SetXTitle("p_{T} of t#bar{t} system/GeV");
-            hist_data.SetYTitle("Events/(5 GeV)");
-            rebin = 5;
-        elif (histname == "HT"):
+            hist_data.SetYTitle("Events/(10 GeV)");
+            rebin = 10;
+            Urange = (0, 500)
+        elif ("ttbar_px" in histname):
+            hist_data.SetXTitle("p_{x} of t#bar{t} system/GeV");
+            hist_data.SetYTitle("Events/(10 GeV)");
+            rebin = 10;
+            Urange = (0, 500)
+        elif ("ttbar_py" in histname):
+            hist_data.SetXTitle("p_{y} of t#bar{t} system/GeV");
+            hist_data.SetYTitle("Events/(10 GeV)");
+            rebin = 10;
+            Urange = (0, 500)
+        elif ("ttbar_pz" in histname):
+            hist_data.SetXTitle("p_{z} of t#bar{t} system/GeV");
+            hist_data.SetYTitle("Events/(50 GeV)");
+            rebin = 50;
+            Urange = (0, 2000)
+        elif ("HT" in histname):
             hist_data.SetXTitle("#Sigma p_{T}/GeV");
             hist_data.SetYTitle("Events/(50 GeV)");
             rebin = 50;
+            Urange = (0, 2000)
         elif (histname == "numberOfJets"):
             hist_data.SetXTitle("number of jets");
             hist_data.SetYTitle("Events");
         elif (histname == "numberOfBJets"):
             hist_data.SetXTitle("number of b-tagged jets (SSVHE medium)");
             hist_data.SetYTitle("Events");
-        elif (histname == "MET"):
+        elif ('MET_' in histname):
             hist_data.SetXTitle("MET/GeV");
             hist_data.SetYTitle("Events/(10 GeV)");
-            rebin = 10;
-        elif (histname == "leadingJetMass"):
+            rebin = 2;
+            Urange = (0, 500)
+        elif ("leadingJetMass" in histname):
             hist_data.SetXTitle("leading jet mass/GeV");
-            hist_data.SetYTitle("Events/(4 GeV)");
-            rebin = 4;
-        elif (histname == "mtW"):
+            hist_data.SetYTitle("Events/(5 GeV)");
+            rebin = 5;
+            Urange = (0, 150)
+        elif ("mtW" in histname):
             hist_data.SetXTitle("transverse W-boson mass/GeV");
             hist_data.SetYTitle("Events/(10 GeV)");
             rebin = 10;
-        elif (histname == "electronD0"):
+        elif ("electronD0" in histname):
             hist_data.SetXTitle("electron d_{0} / cm");
             hist_data.SetYTitle("Events/(0.001 cm)");
             rebin = 10;
+        elif ("angleTops" in histname):
+            hist_data.SetXTitle("angle between top quarks");
+            hist_data.SetYTitle("Events/(0.1 rad)");
+            rebin = 10;
 
-        elif (histname == "neutrino_pz"):
+        elif ("neutrino_pz" in histname):
             hist_data.SetXTitle("neutrino p_{Z} /GeV");
             hist_data.SetYTitle("Events/(10 GeV)");
             rebin = 10;
+            Urange = (-500, 500)
+        elif ('mHadronicTop' in histname or 'mLeptonicTop' in histname or 'mAllTop' in histname):
+            hist_data.SetXTitle("top mass /GeV");
+            hist_data.SetYTitle("Events/(20 GeV)");
+            rebin = 20;
+            
+        elif ('pt_leadingTop' in histname or 'pt_NextToLeadingTop' in histname):
+            hist_data.SetXTitle("top p_{T} /GeV");
+            hist_data.SetYTitle("Events/(20 GeV)");
+            rebin = 20;
         
 
         hist_data.Rebin(rebin);
@@ -277,7 +374,6 @@ def plotMttbar():
 #        leg.AddEntry(hist_Zprime1500, "Z' 1.5TeV (50pb)");
 
         
-        print 'creating canvas'
         canvases.append(TCanvas("cname" + histname, histname, 1200, 900))
         canvases[-1].cd().SetRightMargin(0.04);
         hs = THStack("MC", "MC");
@@ -397,6 +493,8 @@ def getCumulativePlot(initial, type):
     return cu;
 
 if __name__ == "__main__":
+    gROOT.SetBatch(True)
+    gROOT.ProcessLine('gErrorIgnoreLevel = 1001;')
     plotMttbar()
-    print "press enter to quit"
-    a = raw_input()
+#    print "press enter to quit"
+#    a = raw_input()
