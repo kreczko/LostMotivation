@@ -235,6 +235,10 @@ bool Electron::isFromConversion() const {
     return innerLayerMissingHits > Electron::MaximalNumberOfMissingInnerLayerHitsBeforeCalledConversion;
 }
 
+bool Electron::isTaggedAsConversion(float maxDist, float maxDCotTheta) const{
+    return fabs(distToNextTrack) < maxDist && fabs(dCotThetaToNextTrack) < maxDCotTheta;
+}
+
 bool Electron::VBTF_W70_ElectronID() const {
     if (isInBarrelRegion())
         return getVBTF_W70_ElectronID_Barrel();
@@ -389,6 +393,14 @@ float Electron::shFracInnerLayer() const {
 
 void Electron::setZDistanceToPrimaryVertex(float dist) {
     zDistanceToPrimaryVertex = dist;
+}
+
+void Electron::setDistToNextTrack(float dist){
+    distToNextTrack = dist;
+}
+
+void Electron::setDCotThetaToNextTrack(float dCotTheta){
+    dCotThetaToNextTrack = dCotTheta;
 }
 
 //float Electron::vz() const{

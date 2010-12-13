@@ -71,6 +71,7 @@ public:
     bool isGood(const float minEt = Electron::goodElectronMinimalEt) const;
     bool isIsolated() const;
     bool isHEEPIsolated() const;
+    bool isTaggedAsConversion(float maxDist, float maxDCotTheta) const;
     bool isFromConversion() const;
     bool isLoose() const;
     bool isQCDElectron(const float minEt = Electron::goodElectronMinimalEt) const;
@@ -115,6 +116,8 @@ public:
     void setSharedFractionInnerHits(float hits);
 //    void setElectronVertexZPosition(float z);
     void setZDistanceToPrimaryVertex(float dist);
+    void setDistToNextTrack(float dist);
+    void setDCotThetaToNextTrack(float dCotTheta);
 
     float relativeIsolation() const;
 
