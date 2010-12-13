@@ -59,11 +59,29 @@ TopPairEventCandidate::TopPairEventCandidate() :
 }
 
 TopPairEventCandidate::TopPairEventCandidate(const Event& event) :
-    Event(event), electronFromW(), leptonicBJet(), hadronicBJet(), jet1FromW(), jet2FromW(), neutrino1(), neutrino2(),
-            leptonicW1(), leptonicW2(), hadronicW(), leptonicTop1(), leptonicTop2(), hadronicTop(),
-            selectedNeutrino(0), currentSelectedNeutrino(0), hadronicBIndex(0), leptonicBIndex(0), jet1FromWIndex(0),
-            jet2FromWIndex(0), doneReconstruction(false), conversionTagger(new ConversionTagger()),
-            doneConversionTagging(false) {
+    Event(event),
+    electronFromW(),
+    leptonicBJet(),
+    hadronicBJet(),
+    jet1FromW(),
+    jet2FromW(),
+    neutrino1(),
+    neutrino2(),
+    leptonicW1(),
+    leptonicW2(),
+    hadronicW(),
+    leptonicTop1(),
+    leptonicTop2(),
+    hadronicTop(),
+    selectedNeutrino(0),
+    currentSelectedNeutrino(0),
+    hadronicBIndex(0),
+    leptonicBIndex(0),
+    jet1FromWIndex(0),
+    jet2FromWIndex(0),
+    doneReconstruction(false),
+    conversionTagger(new ConversionTagger()),
+    doneConversionTagging(false) {
 
 }
 
@@ -120,11 +138,12 @@ bool TopPairEventCandidate::isolatedElectronDoesNotComeFromConversion() const {
 
 bool TopPairEventCandidate::isolatedElectronNotTaggedAsFromConversion() const {
     if (goodIsolatedElectrons.size() > 0) {
-        if (doneConversionTagging == false) {
+        if (useCustomConversionTagger) {
             conversionTagger->calculateConversionVariables(goodIsolatedElectrons.front(), tracks, 3.8, 0.45);
-//            doneConversionTagging = true;
+            return conversionTagger->isFromConversion(0.02, 0.02) == false;
+        } else {
+            return goodIsolatedElectrons.front()->isTaggedAsConversion(0.02, 0.02) == false;
         }
-        return conversionTagger->isFromConversion(0.02, 0.02) == false;
     } else
         return false;
 
@@ -234,9 +253,15 @@ bool TopPairEventCandidate::passesRelIsoSelection() const{
     if (passGoodElectrons) {
         const ElectronPointer electron = MostIsolatedElectron();
         if (electron->isGood()) {
-            conversionTagger->calculateConversionVariables(electron, tracks, 3.8, 0.45);
-            passesBothIsolationvetos = electron->isFromConversion() == false && conversionTagger->isFromConversion(
-                    0.02, 0.02) == false;
+            if (useCustomConversionTagger) {
+                conversionTagger->calculateConversionVariables(electron, tracks, 3.8, 0.45);
+                passesBothIsolationvetos = electron->isFromConversion() == false && conversionTagger->isFromConversion(
+                        0.02, 0.02) == false;
+            }
+            else{
+                passesBothIsolationvetos = electron->isFromConversion() == false && electron->isTaggedAsConversion(
+                        0.02, 0.02) == false;
+            }
         }
 
     }
@@ -252,9 +277,14 @@ bool TopPairEventCandidate::passesQCDSelection() const{
     if (passGoodElectrons) {
         const ElectronPointer electron = MostIsolatedElectron();
         if (electron->isQCDElectron()) {
-            conversionTagger->calculateConversionVariables(electron, tracks, 3.8, 0.45);
-            passesBothIsolationvetos = electron->isFromConversion() == false && conversionTagger->isFromConversion(
-                    0.02, 0.02) == false;
+            if (useCustomConversionTagger) {
+                conversionTagger->calculateConversionVariables(electron, tracks, 3.8, 0.45);
+                passesBothIsolationvetos = electron->isFromConversion() == false && conversionTagger->isFromConversion(
+                        0.02, 0.02) == false;
+            } else {
+                passesBothIsolationvetos = electron->isFromConversion() == false && electron->isTaggedAsConversion(
+                        0.02, 0.02) == false;
+            }
         }
 
     }
