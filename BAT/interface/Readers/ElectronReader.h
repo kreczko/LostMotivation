@@ -53,6 +53,8 @@ private:
 	VariableReader<MultiIntPointer> track_charge;
 
 	VariableReader<MultiDoublePointer> vertex_dist_z;
+	VariableReader<MultiDoublePointer> dist;
+	VariableReader<MultiDoublePointer> dCotTheta;
 	ElectronAlgorithm::value algorithm;
 	ElectronCollection electrons;
 	void readElectrons();

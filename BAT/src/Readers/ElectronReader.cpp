@@ -38,6 +38,8 @@ ElectronReader::ElectronReader() :
     track_theta(),
     track_charge(),
     vertex_dist_z(),
+    dist(),
+    dCotTheta(),
     algorithm(ElectronAlgorithm::Calo),
     electrons() {
 
@@ -71,6 +73,8 @@ ElectronReader::ElectronReader(TChainPointer input, ElectronAlgorithm::value alg
     track_theta(input, ElectronAlgorithm::prefixes.at(algo) + ".GSFTrack.Theta"),
     track_charge(input, ElectronAlgorithm::prefixes.at(algo) + ".GSFTrack.Charge"),
     vertex_dist_z(input, ElectronAlgorithm::prefixes.at(algo) + ".VtxDistZ"),
+    dist(input, ElectronAlgorithm::prefixes.at(algo) + ".Dist"),
+    dCotTheta(input, ElectronAlgorithm::prefixes.at(algo) + ".DCotTheta"),
     algorithm(algo),
     electrons() {
 
@@ -111,6 +115,8 @@ void ElectronReader::readElectrons() {
         electron->setHadOverEm(hadOverEmReader.getVariableAt(index));
 //        electron->setRobustLooseID(robustLooseIDReader.getVariableAt(index) == 1);
 //        electron->setRobustTightID(robustTightIDReader.getVariableAt(index) == 1);
+        electron->setDistToNextTrack(dist.getVariableAt(index));
+        electron->setDCotThetaToNextTrack(dCotTheta.getVariableAt(index));
 
         electron->setSharedFractionInnerHits(sharedFractionInnerHits.getVariableAt(index));
         electron->setClosestTrackID(trackIDReader.getIntVariableAt(index));
@@ -163,6 +169,8 @@ void ElectronReader::initialise() {
     track_theta.initialise();
     track_charge.initialise();
     vertex_dist_z.initialise();
+    dist.initialise();
+    dCotTheta.initialise();
 }
 
 }
