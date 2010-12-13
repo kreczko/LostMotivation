@@ -105,6 +105,7 @@ public:
     unsigned long lumiblock() const;
     float weight() const;
     void inspect() const;
+    static const bool useCustomConversionTagger;
 
 private:
     void selectElectronsByQuality();

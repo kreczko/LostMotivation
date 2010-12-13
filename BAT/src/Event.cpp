@@ -11,6 +11,7 @@
 using namespace std;
 
 namespace BAT {
+const bool Event::useCustomConversionTagger = false;
 
 Event::Event() :
     HLT_Photon10_TO20(false),
