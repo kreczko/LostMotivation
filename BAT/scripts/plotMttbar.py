@@ -102,11 +102,11 @@ def plotMttbar():
     hists.append("leadingJetMass");
     hists.append("mtW");
     hists.append("neutrino_pz");
-#    suffixes = ["allBtags",
-#        "1orMoreBtag",
-#        "2orMoreBtags",
-#        "3orMoreBtags",'4orMoreBtags' ]
-#    hists = [hist + '_' + suffix for hist in hists for suffix in suffixes]
+    suffixes = ["allBtags",
+        "1orMoreBtag",
+        "2orMoreBtags",
+        "3orMoreBtags",'4orMoreBtags' ]
+    hists = [hist + '_' + suffix for hist in hists for suffix in suffixes]
     gcd = gROOT.cd
 
     for histname in hists:
@@ -184,7 +184,7 @@ def plotMttbar():
         #                        hist_ttbar.Scale(ndata / sumMC);
         #                        hist_zjets.Scale(ndata / sumMC);
         #                        hist_qcd.Scale(ndata / sumMC);
-        mttbars = ['mttbar']# + suffix for suffix in suffixes]
+        mttbars = ['mttbar_' + suffix for suffix in suffixes]
         if histname in mttbars:
             name = histname.replace('mttbar', 'mttbar_conversions')
             hist_qcd = data.Get(name)
