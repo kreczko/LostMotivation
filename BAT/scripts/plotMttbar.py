@@ -13,19 +13,19 @@ def plotMttbar():
     scale = lumi / oldLumi;
     qcdScale = 1.7;
     #    data = TFile.Open("data2.9pb_fullSetOfVars.root");
-    data = TFile.Open("/storage/workspace/BristolAnalysisTools/outputfiles/newset/data_35pb_PFElectron_PF2PATJets_PFMET.root");
-    ttbar = TFile.Open("/storage/workspace/BristolAnalysisTools/outputfiles/newset/ttjet_35pb_PFElectron_PF2PATJets_PFMET.root");
-    wjets = TFile.Open("/storage/workspace/BristolAnalysisTools/outputfiles/newset/wj_35pb_PFElectron_PF2PATJets_PFMET.root");
-    zjets = TFile.Open("/storage/workspace/BristolAnalysisTools/outputfiles/newset/zj_35pb_PFElectron_PF2PATJets_PFMET.root");
+    data = TFile.Open("/storage/Dropbox/Documents/Analysis/data_35pb_PFElectron_PF2PATJets_PFMET.root");
+    ttbar = TFile.Open("/storage/Dropbox/Documents/Analysis/ttjet_35pb_PFElectron_PF2PATJets_PFMET.root");
+    wjets = TFile.Open("/storage/Dropbox/Documents/Analysis/wj_35pb_PFElectron_PF2PATJets_PFMET.root");
+    zjets = TFile.Open("/storage/Dropbox/Documents/Analysis/zj_35pb_PFElectron_PF2PATJets_PFMET.root");
 #    bce1 = TFile.Open("/storage/workspace/BristolAnalysisTools/outputfiles/bce1_35pb.root");
-    bce2 = TFile.Open("/storage/workspace/BristolAnalysisTools/outputfiles/newset/bce2_35pb_PFElectron_PF2PATJets_PFMET.root");
-    bce3 = TFile.Open("/storage/workspace/BristolAnalysisTools/outputfiles/newset/bce3_35pb_PFElectron_PF2PATJets_PFMET.root");
-    enri1 = TFile.Open("/storage/workspace/BristolAnalysisTools/outputfiles/newset/enri1_35pb_PFElectron_PF2PATJets_PFMET.root");
-    enri2 = TFile.Open("/storage/workspace/BristolAnalysisTools/outputfiles/newset/enri2_35pb_PFElectron_PF2PATJets_PFMET.root");
-    enri3 = TFile.Open("/storage/workspace/BristolAnalysisTools/outputfiles/newset/enri3_35pb_PFElectron_PF2PATJets_PFMET.root");
-    pj1 = TFile.Open("/storage/workspace/BristolAnalysisTools/outputfiles/newset/pj1_35pb_PFElectron_PF2PATJets_PFMET.root");
-    pj2 = TFile.Open("/storage/workspace/BristolAnalysisTools/outputfiles/newset/pj2_35pb_PFElectron_PF2PATJets_PFMET.root");
-    pj3 = TFile.Open("/storage/workspace/BristolAnalysisTools/outputfiles/newset/pj3_35pb_PFElectron_PF2PATJets_PFMET.root");
+    bce2 = TFile.Open("/storage/Dropbox/Documents/Analysis/bce2_35pb_PFElectron_PF2PATJets_PFMET.root");
+    bce3 = TFile.Open("/storage/Dropbox/Documents/Analysis/bce3_35pb_PFElectron_PF2PATJets_PFMET.root");
+    enri1 = TFile.Open("/storage/Dropbox/Documents/Analysis/enri1_35pb_PFElectron_PF2PATJets_PFMET.root");
+    enri2 = TFile.Open("/storage/Dropbox/Documents/Analysis/enri2_35pb_PFElectron_PF2PATJets_PFMET.root");
+    enri3 = TFile.Open("/storage/Dropbox/Documents/Analysis/enri3_35pb_PFElectron_PF2PATJets_PFMET.root");
+    pj1 = TFile.Open("/storage/Dropbox/Documents/Analysis/pj1_35pb_PFElectron_PF2PATJets_PFMET.root");
+    pj2 = TFile.Open("/storage/Dropbox/Documents/Analysis/pj2_35pb_PFElectron_PF2PATJets_PFMET.root");
+    pj3 = TFile.Open("/storage/Dropbox/Documents/Analysis/pj3_35pb_PFElectron_PF2PATJets_PFMET.root");
 #    vqq = TFile.Open("vqq_7.22pb_V4PFCalo.root__fullSetOfVars.root");
 #    Zprime500 = TFile.Open("/storage/workspace/BristolAnalysisTools/outputfiles/Zprime_M500GeV_W5GeV_35pb.root");
 #    Zprime750 = TFile.Open("/storage/workspace/BristolAnalysisTools/outputfiles/Zprime_M750GeV_W7500MeV_35pb.root");
@@ -35,66 +35,66 @@ def plotMttbar():
 
     hists = [];
     hists.append("mttbar");
-    hists.append("mttbar_2ndSolution");
-    hists.append("mttbar_3rdSolution");
-    hists.append("mttbar_allSolutions");
+#    hists.append("mttbar_2ndSolution");
+#    hists.append("mttbar_3rdSolution");
+#    hists.append("mttbar_allSolutions");
     
-    hists.append("mttbar_withMETCut");
-    hists.append("mttbar_2ndSolution_withMETCut");
-    hists.append("mttbar_3rdSolution_withMETCut");
-    hists.append("mttbar_allSolutions_withMETCut");
-    
-    hists.append("mttbar_withMETAndAsymJets");
-    hists.append("mttbar_2ndSolution_withMETAndAsymJets");
-    hists.append("mttbar_3rdSolution_withMETAndAsymJets");
-    hists.append("mttbar_allSolutions_withMETAndAsymJets");
-    
-    hists.append("mttbar_withAsymJetsCut");
-    hists.append("mttbar_2ndSolution_withAsymJetsCut");
-    hists.append("mttbar_3rdSolution_withAsymJetsCut");
-    hists.append("mttbar_allSolutions_withAsymJetsCut");
+#    hists.append("mttbar_withMETCut");
+#    hists.append("mttbar_2ndSolution_withMETCut");
+#    hists.append("mttbar_3rdSolution_withMETCut");
+#    hists.append("mttbar_allSolutions_withMETCut");
+#    
+#    hists.append("mttbar_withMETAndAsymJets");
+#    hists.append("mttbar_2ndSolution_withMETAndAsymJets");
+#    hists.append("mttbar_3rdSolution_withMETAndAsymJets");
+#    hists.append("mttbar_allSolutions_withMETAndAsymJets");
+#    
+#    hists.append("mttbar_withAsymJetsCut");
+#    hists.append("mttbar_2ndSolution_withAsymJetsCut");
+#    hists.append("mttbar_3rdSolution_withAsymJetsCut");
+#    hists.append("mttbar_allSolutions_withAsymJetsCut");
     
     hists.append("ttbar_pt");
-    hists.append("ttbar_pt_2ndSolution");
-    hists.append("ttbar_pt_3rdSolution");
-    hists.append("ttbar_pt_allSolutions");
+#    hists.append("ttbar_pt_2ndSolution");
+#    hists.append("ttbar_pt_3rdSolution");
+#    hists.append("ttbar_pt_allSolutions");
     
-    hists.append("ttbar_pt_withMETCut");
-    hists.append("ttbar_pt_2ndSolution_withMETCut");
-    hists.append("ttbar_pt_3rdSolution_withMETCut");
-    hists.append("ttbar_pt_allSolutions_withMETCut");
-    
-    hists.append("ttbar_pt_withMETAndAsymJets");
-    hists.append("ttbar_pt_2ndSolution_withMETAndAsymJets");
-    hists.append("ttbar_pt_3rdSolution_withMETAndAsymJets");
-    hists.append("ttbar_pt_allSolutions_withMETAndAsymJets");
-    
-    hists.append("ttbar_pt_withAsymJetsCut");
-    hists.append("ttbar_pt_2ndSolution_withAsymJetsCut");
-    hists.append("ttbar_pt_3rdSolution_withAsymJetsCut");
-    hists.append("ttbar_pt_allSolutions_withAsymJetsCut");
-    hists.append("angleTops");
-    hists.append("angleTops_withMETCut");
-    hists.append("angleTops_withMETAndAsymJets");
-    hists.append("angleTops_withAsymJetsCut");
-    
-    hists.append("pt_leadingTop");
-    hists.append("pt_leadingTop_withMETCut");
-    hists.append("pt_leadingTop_withMETAndAsymJets");
-    hists.append("pt_leadingTop_withAsymJetsCut");
-    
-    hists.append("pt_NextToLeadingTop");
-    hists.append("pt_NextToLeadingTop_withMETCut");
-    hists.append("pt_NextToLeadingTop_withMETAndAsymJets");
-    hists.append("pt_NextToLeadingTop_withAsymJetsCut");
+#    hists.append("ttbar_pt_withMETCut");
+#    hists.append("ttbar_pt_2ndSolution_withMETCut");
+#    hists.append("ttbar_pt_3rdSolution_withMETCut");
+#    hists.append("ttbar_pt_allSolutions_withMETCut");
+#    
+#    hists.append("ttbar_pt_withMETAndAsymJets");
+#    hists.append("ttbar_pt_2ndSolution_withMETAndAsymJets");
+#    hists.append("ttbar_pt_3rdSolution_withMETAndAsymJets");
+#    hists.append("ttbar_pt_allSolutions_withMETAndAsymJets");
+#    
+#    hists.append("ttbar_pt_withAsymJetsCut");
+#    hists.append("ttbar_pt_2ndSolution_withAsymJetsCut");
+#    hists.append("ttbar_pt_3rdSolution_withAsymJetsCut");
+#    hists.append("ttbar_pt_allSolutions_withAsymJetsCut");
+#    hists.append("angleTops");
+#    hists.append("angleTops_withMETCut");
+#    hists.append("angleTops_withMETAndAsymJets");
+#    hists.append("angleTops_withAsymJetsCut");
+#    
+#    hists.append("pt_leadingTop");
+#    hists.append("pt_leadingTop_withMETCut");
+#    hists.append("pt_leadingTop_withMETAndAsymJets");
+#    hists.append("pt_leadingTop_withAsymJetsCut");
+#    
+#    hists.append("pt_NextToLeadingTop");
+#    hists.append("pt_NextToLeadingTop_withMETCut");
+#    hists.append("pt_NextToLeadingTop_withMETAndAsymJets");
+#    hists.append("pt_NextToLeadingTop_withAsymJetsCut");
     
     hists.append("mLeptonicTop");
     hists.append("mHadronicTop");
     hists.append("mAllTop");
     
-    hists.append("ttbar_px");
-    hists.append("ttbar_py");
-    hists.append("ttbar_pz");
+#    hists.append("ttbar_px");
+#    hists.append("ttbar_py");
+#    hists.append("ttbar_pz");
     
     hists.append("m3");
     hists.append("HT");
@@ -102,11 +102,11 @@ def plotMttbar():
     hists.append("leadingJetMass");
     hists.append("mtW");
     hists.append("neutrino_pz");
-    suffixes = ["allBtags",
-        "1orMoreBtag",
-        "2orMoreBtags",
-        "3orMoreBtags",'4orMoreBtags' ]
-    hists = [hist + '_' + suffix for hist in hists for suffix in suffixes]
+#    suffixes = ["allBtags",
+#        "1orMoreBtag",
+#        "2orMoreBtags",
+#        "3orMoreBtags",'4orMoreBtags' ]
+#    hists = [hist + '_' + suffix for hist in hists for suffix in suffixes]
     gcd = gROOT.cd
 
     for histname in hists:
@@ -184,7 +184,7 @@ def plotMttbar():
         #                        hist_ttbar.Scale(ndata / sumMC);
         #                        hist_zjets.Scale(ndata / sumMC);
         #                        hist_qcd.Scale(ndata / sumMC);
-        mttbars = ['mttbar_' + suffix for suffix in suffixes]
+        mttbars = ['mttbar']# + suffix for suffix in suffixes]
         if histname in mttbars:
             name = histname.replace('mttbar', 'mttbar_conversions')
             hist_qcd = data.Get(name)

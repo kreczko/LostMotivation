@@ -203,25 +203,25 @@ def getHisto():
         #--------------------------------------------------------------------------
         #                                DATA
         #--------------------------------------------------------------------------
-        data =  fdata.Get(Form("QCDest_CombRelIso_%s", nj.c_str()));
+        data =  fdata.Get(Form("QCDest_CombRelIso_%s", nj));
 
         #--------------------------------------------------------------------------
         #                                 MC
         #--------------------------------------------------------------------------
-        #    mc    = fmc.Get(Form("QCDest_CombRelIso_%s",nj.c_str()));
-        QCD =  fbce2.Get(Form("QCDest_CombRelIso_%s", nj.c_str()));
-        QCD.Add( fbce3.Get(Form("QCDest_CombRelIso_%s", nj.c_str())));
-        QCD.Add( fenri1.Get(Form("QCDest_CombRelIso_%s", nj.c_str())));
-        QCD.Add( fenri2.Get(Form("QCDest_CombRelIso_%s", nj.c_str())));
-        QCD.Add( fenri3.Get(Form("QCDest_CombRelIso_%s", nj.c_str())));
-        pj =  fpj1.Get(Form("QCDest_CombRelIso_%s", nj.c_str()));
-        pj.Add( fpj2.Get(Form("QCDest_CombRelIso_%s", nj.c_str())));
-        pj.Add( fpj3.Get(Form("QCDest_CombRelIso_%s", nj.c_str())));
-        wj =  fwjets.Get(Form("QCDest_CombRelIso_%s", nj.c_str()));
-        zj =  fzjets.Get(Form("QCDest_CombRelIso_%s", nj.c_str()));
-        tt =  fttbar.Get(Form("QCDest_CombRelIso_%s", nj.c_str()));
-        stop =  fsTopTW.Get(Form("QCDest_CombRelIso_%s", nj.c_str()));
-        stop.Add( fsToptC.Get(Form("QCDest_CombRelIso_%s", nj.c_str())));
+        #    mc    = fmc.Get(Form("QCDest_CombRelIso_%s",nj));
+        QCD =  fbce2.Get(Form("QCDest_CombRelIso_%s", nj));
+        QCD.Add( fbce3.Get(Form("QCDest_CombRelIso_%s", nj)));
+        QCD.Add( fenri1.Get(Form("QCDest_CombRelIso_%s", nj)));
+        QCD.Add( fenri2.Get(Form("QCDest_CombRelIso_%s", nj)));
+        QCD.Add( fenri3.Get(Form("QCDest_CombRelIso_%s", nj)));
+        pj =  fpj1.Get(Form("QCDest_CombRelIso_%s", nj));
+        pj.Add( fpj2.Get(Form("QCDest_CombRelIso_%s", nj)));
+        pj.Add( fpj3.Get(Form("QCDest_CombRelIso_%s", nj)));
+        wj =  fwjets.Get(Form("QCDest_CombRelIso_%s", nj));
+        zj =  fzjets.Get(Form("QCDest_CombRelIso_%s", nj));
+        tt =  fttbar.Get(Form("QCDest_CombRelIso_%s", nj));
+        stop =  fsTopTW.Get(Form("QCDest_CombRelIso_%s", nj));
+        stop.Add( fsToptC.Get(Form("QCDest_CombRelIso_%s", nj)));
         mc =  QCD.Clone("sumMC");
         mc.Add(pj);
         mc.Add(wj);
@@ -355,7 +355,7 @@ def get_histo_inclusive(nj):
     else:
         return -1;
 
-    ijlabel[4] = { ">=0jet", ">=1jet", ">=2jets", ">=3jets" };
+    ijlabel = [ ">=0jet", ">=1jet", ">=2jets", ">=3jets" ]
 
     # 0-jet
     data_0jet =  fdata.Get("QCDest_CombRelIso_0jet");
@@ -365,8 +365,8 @@ def get_histo_inclusive(nj):
     QCD_0jet.Add( fenri2.Get("QCDest_CombRelIso_0jet"));
     QCD_0jet.Add( fenri3.Get("QCDest_CombRelIso_0jet"));
     pj_0jet =  fpj1.Get("QCDest_CombRelIso_0jet");
-    pj_0jet.Add( fpj2.Get(Form("QCDest_CombRelIso_0jet", nj.c_str())));
-    pj_0jet.Add( fpj3.Get(Form("QCDest_CombRelIso_0jet", nj.c_str())));
+    pj_0jet.Add( fpj2.Get(Form("QCDest_CombRelIso_0jet", nj)));
+    pj_0jet.Add( fpj3.Get(Form("QCDest_CombRelIso_0jet", nj)));
     wj_0jet =  fwjets.Get("QCDest_CombRelIso_0jet");
     zj_0jet =  fzjets.Get("QCDest_CombRelIso_0jet");
     tt_0jet =  fttbar.Get("QCDest_CombRelIso_0jet");
@@ -387,8 +387,8 @@ def get_histo_inclusive(nj):
     QCD_1jet.Add( fenri2.Get("QCDest_CombRelIso_1jet"));
     QCD_1jet.Add( fenri3.Get("QCDest_CombRelIso_1jet"));
     pj_1jet =  fpj1.Get("QCDest_CombRelIso_1jet");
-    pj_1jet.Add( fpj2.Get(Form("QCDest_CombRelIso_1jet", nj.c_str())));
-    pj_1jet.Add( fpj3.Get(Form("QCDest_CombRelIso_1jet", nj.c_str())));
+    pj_1jet.Add( fpj2.Get(Form("QCDest_CombRelIso_1jet", nj)));
+    pj_1jet.Add( fpj3.Get(Form("QCDest_CombRelIso_1jet", nj)));
     wj_1jet =  fwjets.Get("QCDest_CombRelIso_1jet");
     zj_1jet =  fzjets.Get("QCDest_CombRelIso_1jet");
     tt_1jet =  fttbar.Get("QCDest_CombRelIso_1jet");
@@ -409,8 +409,8 @@ def get_histo_inclusive(nj):
     QCD_2jets.Add( fenri2.Get("QCDest_CombRelIso_2jets"));
     QCD_2jets.Add( fenri3.Get("QCDest_CombRelIso_2jets"));
     pj_2jets =  fpj1.Get("QCDest_CombRelIso_2jets");
-    pj_2jets.Add( fpj2.Get(Form("QCDest_CombRelIso_2jets", nj.c_str())));
-    pj_2jets.Add( fpj3.Get(Form("QCDest_CombRelIso_2jets", nj.c_str())));
+    pj_2jets.Add( fpj2.Get(Form("QCDest_CombRelIso_2jets", nj)));
+    pj_2jets.Add( fpj3.Get(Form("QCDest_CombRelIso_2jets", nj)));
     wj_2jets =  fwjets.Get("QCDest_CombRelIso_2jets");
     zj_2jets =  fzjets.Get("QCDest_CombRelIso_2jets");
     tt_2jets =  fttbar.Get("QCDest_CombRelIso_2jets");
@@ -431,8 +431,8 @@ def get_histo_inclusive(nj):
     QCD_3jets.Add( fenri2.Get("QCDest_CombRelIso_3jets"));
     QCD_3jets.Add( fenri3.Get("QCDest_CombRelIso_3jets"));
     pj_3jets =  fpj1.Get("QCDest_CombRelIso_3jets");
-    pj_3jets.Add( fpj2.Get(Form("QCDest_CombRelIso_3jets", nj.c_str())));
-    pj_3jets.Add( fpj3.Get(Form("QCDest_CombRelIso_3jets", nj.c_str())));
+    pj_3jets.Add( fpj2.Get(Form("QCDest_CombRelIso_3jets", nj)));
+    pj_3jets.Add( fpj3.Get(Form("QCDest_CombRelIso_3jets", nj)));
     wj_3jets =  fwjets.Get("QCDest_CombRelIso_3jets");
     zj_3jets =  fzjets.Get("QCDest_CombRelIso_3jets");
     tt_3jets =  fttbar.Get("QCDest_CombRelIso_3jets");
@@ -453,8 +453,8 @@ def get_histo_inclusive(nj):
     QCD_4orMoreJets.Add( fenri2.Get("QCDest_CombRelIso_4orMoreJets"));
     QCD_4orMoreJets.Add( fenri3.Get("QCDest_CombRelIso_4orMoreJets"));
     pj_4orMoreJets =  fpj1.Get("QCDest_CombRelIso_4orMoreJets");
-    pj_4orMoreJets.Add( fpj2.Get(Form("QCDest_CombRelIso_4orMoreJets", nj.c_str())));
-    pj_4orMoreJets.Add( fpj3.Get(Form("QCDest_CombRelIso_4orMoreJets", nj.c_str())));
+    pj_4orMoreJets.Add( fpj2.Get(Form("QCDest_CombRelIso_4orMoreJets", nj)));
+    pj_4orMoreJets.Add( fpj3.Get(Form("QCDest_CombRelIso_4orMoreJets", nj)));
     wj_4orMoreJets =  fwjets.Get("QCDest_CombRelIso_4orMoreJets");
     zj_4orMoreJets =  fzjets.Get("QCDest_CombRelIso_4orMoreJets");
     tt_4orMoreJets =  fttbar.Get("QCDest_CombRelIso_4orMoreJets");
@@ -562,13 +562,13 @@ def make_QCDnormToEstimate_plot():
     add_cms_label(intlumi, nj);
     add_legend_nofit();
 
-    out = Form("ele_reliso_normToLumi_QCDnormToEst_%s", nj.c_str());
+    out = Form("ele_reliso_normToLumi_QCDnormToEst_%s", nj);
 
     print "out: ",out
-    c1.SaveAs(Form("%s.C", out.c_str()));
-    c1.SaveAs(Form("%s.eps", out.c_str()));
-    gROOT.ProcessLine(Form(".!ps2pdf -dEPSCrop %s.eps", out.c_str()));
-    gROOT.ProcessLine(Form(".!rm -f %s.eps", out.c_str()));
+    c1.SaveAs(Form("%s.C", out));
+    c1.SaveAs(Form("%s.eps", out));
+    gROOT.ProcessLine(Form(".!ps2pdf -dEPSCrop %s.eps", out));
+    gROOT.ProcessLine(Form(".!rm -f %s.eps", out));
 
     c1.Close(); #crucial!
 
@@ -641,11 +641,11 @@ def fit_njet(function = "pol1", Fit_From_user = 0.1):
     #  L : likelihood method
     #  S : store fit results
     #  0 : do not draw
-    myFitResult = data.Fit(function.c_str(), "0SL", "ah", Fit_From, 1.6); # <----Fit Range
-    print "func ",function.c_str()
+    myFitResult = data.Fit(function, "0SL", "ah", Fit_From, 1.6); # <----Fit Range
+    print "func ",function
     # Fit line in red
     #  myf = data.GetFunction("pol1");
-    myf = data.GetFunction(function.c_str());
+    myf = data.GetFunction(function);
     myf.SetLineColor(kRed);
     myf.SetLineWidth(lw);
 
@@ -683,7 +683,7 @@ def fit_njet(function = "pol1", Fit_From_user = 0.1):
 
     # vary p0 (normalization)
     #  newF1_up =TF1("pol1","pol1",0,1.6);
-    newF1_up =TF1(function.c_str(), function.c_str(), 0, 1.6);
+    newF1_up =TF1(function, function, 0, 1.6);
     newF1_up.SetParameters(p0 + e0, p1);
     newF1_up.SetLineColor(kGreen);
     newF1_up.SetLineWidth(lw);
@@ -691,7 +691,7 @@ def fit_njet(function = "pol1", Fit_From_user = 0.1):
     #newF1_up.Draw("same");
 
     #  newF1_down =TF1("pol1","pol1",0,1.6);
-    newF1_down =TF1(function.c_str(), function.c_str(), 0, 1.6);
+    newF1_down =TF1(function, function, 0, 1.6);
     newF1_down.SetParameters(p0 - e0, p1);
     newF1_down.SetLineColor(kGreen);
     newF1_down.SetLineWidth(lw);
@@ -800,9 +800,9 @@ def fit_njet(function = "pol1", Fit_From_user = 0.1):
     print "Fit_From=",Fit_From
     out;
     if (function == "pol1"):
-        out = Form("ele_reliso_fit_%s_linear_from_0%.0f", nj.c_str(), Fit_From * 10.0);
+        out = Form("ele_reliso_fit_%s_linear_from_0%.0f", nj, Fit_From * 10.0);
     else:
-        out = Form("ele_reliso_fit_%s_%s_from_0%.0f", function.c_str(), nj.c_str(), Fit_From * 10.0);
+        out = Form("ele_reliso_fit_%s_%s_from_0%.0f", function, nj, Fit_From * 10.0);
 
     if (normMode == 1):
         out += "_normToLumi";
@@ -810,10 +810,10 @@ def fit_njet(function = "pol1", Fit_From_user = 0.1):
         out += "_normToData";
 
     print "out: ",out
-    c1.SaveAs(Form("%s.C", out.c_str())); #save as C++ root macro
-    c1.SaveAs(Form("%s.eps", out.c_str()));
-    gROOT.ProcessLine(Form(".!ps2pdf -dEPSCrop %s.eps", out.c_str()));
-    gROOT.ProcessLine(Form(".!rm -f %s.eps", out.c_str()));
+    c1.SaveAs(Form("%s.C", out)); #save as C++ root macro
+    c1.SaveAs(Form("%s.eps", out));
+    gROOT.ProcessLine(Form(".!ps2pdf -dEPSCrop %s.eps", out));
+    gROOT.ProcessLine(Form(".!rm -f %s.eps", out));
 
     c1.Close(); #crucial!
 
