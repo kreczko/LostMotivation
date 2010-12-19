@@ -307,10 +307,10 @@ void Analysis::doTTBarAnalysis() {
 
 
 
-        cout << "Number of solutions: " << solutions.size() << " (" << ttbarCandidate.GoodJets().size() << " jets)"
-                << endl;
-        cout << "First solution, compare to chosen one" << endl;
-        cout << solutions.front()->totalChi2 << ", " << ttbarCandidate.getTotalChi2() << endl;
+//        cout << "Number of solutions: " << solutions.size() << " (" << ttbarCandidate.GoodJets().size() << " jets)"
+//                << endl;
+//        cout << "First solution, compare to chosen one" << endl;
+//        cout << solutions.front()->totalChi2 << ", " << ttbarCandidate.getTotalChi2() << endl;
 
         if (mttbar != mttbar) {//isnan
             ttbarCandidate.inspectReconstructedEvent();
@@ -337,10 +337,10 @@ void Analysis::doNotePlots() {
         ElectronCollection nonConversionElectrons;
         for (unsigned int index = 0; index < electrons.size(); ++index) {
             const ElectronPointer electron = electrons.at(index);
-            if (electron->isFromConversion() == false) {
-                ConversionTagger tagger = ConversionTagger();
-                tagger.calculateConversionVariables(electron, ttbarCandidate.Tracks(), 3.8, 0.45);
-                if (tagger.isFromConversion(0.02, 0.02) == false)
+            if (electron->isFromConversion() == false && electron->isTaggedAsConversion(0.02,0.02) == false) {
+//                ConversionTagger tagger = ConversionTagger();
+//                tagger.calculateConversionVariables(electron, ttbarCandidate.Tracks(), 3.8, 0.45);
+//                if (tagger.isFromConversion(0.02, 0.02) == false)
                     nonConversionElectrons.push_back(electron);
             }
         }
@@ -392,7 +392,7 @@ void Analysis::doQCDStudy() {
         const ElectronPointer electron = ttbarCandidate.MostIsolatedElectron();
         if (electron->isIsolated() == false && !isnan(electron->relativeIsolation()) && !isinf(
                 electron->relativeIsolation())) {
-            cout << "QCD: electron et: " << electron->et() << endl;
+//            cout << "QCD: electron et: " << electron->et() << endl;
             try {
                 ttbarCandidate.reconstructUsingChi2(electron);
                 const ParticlePointer resonance = ttbarCandidate.getRessonance();
@@ -407,7 +407,7 @@ void Analysis::doQCDStudy() {
         const ElectronPointer electron = ttbarCandidate.GoodIsolatedElectrons().front();
         if (electron->pt() < 10000 && !isnan(electron->relativeIsolation()) && !isinf(
                 electron->relativeIsolation())) {
-            cout << "QCD: electron et: " << electron->et() << endl;
+//            cout << "QCD: electron et: " << electron->et() << endl;
             try {
                 ttbarCandidate.reconstructUsingChi2(electron);
                 const ParticlePointer resonance = ttbarCandidate.getRessonance();
