@@ -101,19 +101,19 @@ bool TopPairEventCandidate::passesScrapingFilter() const {
 bool TopPairEventCandidate::passesHighLevelTrigger() const {
     if (isRealData()) {
         if (runNumber < 140041)
-            return HLT_Ele10_LW_L1R;
+            return HLT(HLTriggers::HLT_Ele10_LW_L1R);
         else if (runNumber >= 140041 && runNumber <= 143962)
-            return HLT_Ele15_SW_L1R;
+            return HLT(HLTriggers::HLT_Ele15_SW_L1R);
         else if (runNumber > 143962 && runNumber <= 146427)
-            return HLT_Ele15_SW_CaloEleId_L1R;
+            return HLT(HLTriggers::HLT_Ele15_SW_CaloEleId_L1R);
         else if (runNumber > 146427 && runNumber <= 147116)
-            return HLT_Ele17_SW_CaloEleId_L1R;
+            return HLT(HLTriggers::HLT_Ele17_SW_CaloEleId_L1R);
         else if (runNumber > 147116 && runNumber <= 148818)
-            return HLT_Ele17_SW_TightEleId_L1R;
+            return HLT(HLTriggers::HLT_Ele17_SW_TightEleId_L1R);
         else if (runNumber >= 148819 && runNumber < 149181)
-            return HLT_Ele22_SW_TighterEleId_L1R_v2;
+            return HLT(HLTriggers::HLT_Ele22_SW_TighterEleId_L1R_v2);
         else if(runNumber >= 149181)
-            return true;
+            return HLT(HLTriggers::HLT_Ele22_SW_TighterEleId_L1R_v3);
         else
             return false;
     }
