@@ -213,7 +213,7 @@ private:
         jets.push_back(goodBJet);
         jets.push_back(badJet);
         ttbarEvent.setJets(jets);
-        ttbarEvent.setHLT_Emulated_Photon15(true);
+//        ttbarEvent.setHLT_Emulated_Photon15(true);
 
         MuonCollection muons;
         muons.push_back(badMuon);
@@ -237,7 +237,7 @@ private:
         jets.push_back(goodJet);
         jets.push_back(goodBJet);
         goodZEvent.setJets(jets);
-        goodZEvent.setHLT_Emulated_Photon15(true);
+//        goodZEvent.setHLT_Emulated_Photon15(true);
 
         goodZEvent.setDataType(DataType::Zjets);
     }
@@ -256,7 +256,7 @@ private:
         jets.push_back(goodJet);
         jets.push_back(goodBJet);
         poorZEvent.setJets(jets);
-        poorZEvent.setHLT_Emulated_Photon15(true);
+//        poorZEvent.setHLT_Emulated_Photon15(true);
 
         poorZEvent.setDataType(DataType::Zjets);
     }
@@ -267,7 +267,7 @@ private:
         jets.push_back(goodJet);
         jets.push_back(goodJet);
         DiJetEvent.setJets(jets);
-        DiJetEvent.setHLT_Emulated_Photon15(false);
+//        DiJetEvent.setHLT_Emulated_Photon15(false);
 
         DiJetEvent.setDataType(DataType::QCD_BCtoE_Pt80to170);
     }
@@ -278,7 +278,7 @@ private:
         jets.push_back(goodJet);
         jets.push_back(goodJet);
         DiJetEventWithConversion.setJets(jets);
-        DiJetEventWithConversion.setHLT_Emulated_Photon15(false);
+//        DiJetEventWithConversion.setHLT_Emulated_Photon15(false);
 
         ElectronCollection electrons;
         electrons.push_back(electronFromConversion);
@@ -299,7 +299,7 @@ private:
         jets.push_back(goodBJet);
         jets.push_back(badJet);
         muonEvent.setJets(jets);
-        muonEvent.setHLT_Emulated_Photon15(true);
+//        muonEvent.setHLT_Emulated_Photon15(true);
 
         MuonCollection muons;
         muons.push_back(goodIsolatedMuon);
@@ -494,13 +494,6 @@ public:
     void testEventPasses2ndStep() {
         ASSERT_EQUAL(true, ttbarEvent.passesSelectionStep(TTbarEPlusJetsSelection::GoodPrimaryvertex));
     }
-
-//    void testEventPasses2ndStepInRealData() {
-//        goodVertex.setZPosition(23);
-//        ttbarEvent.setPrimaryVertex(goodVertex);
-//        ttbarEvent.setDataType(DataType::DATA);
-//        ASSERT_EQUAL(true, ttbarEvent.passesSelectionStep(TTbarEPlusJetsSelection::GoodPrimaryvertex));
-//    }
 
     void testEventPasses3ndStep() {
         ASSERT_EQUAL(true, ttbarEvent.passesSelectionStep(TTbarEPlusJetsSelection::OneIsolatedElectron));

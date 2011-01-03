@@ -17,7 +17,7 @@ private:
 
 public:
 	TestJetReader() :
-		input(new TChain("configurableAnalysis/eventB")),
+		input(new TChain(NTupleEventReader::EVENT_CHAIN)),
 		reader(new JetReader(input)),
 		PFreader(new JetReader(input, JetAlgorithm::ParticleFlow)),
 		jets(),
@@ -40,27 +40,27 @@ public:
 	}
 
 	void testReadFirstJetEnergy() {
-		ASSERT_EQUAL_DELTA(210.836, firstJet->energy(), 0.001);
+		ASSERT_EQUAL_DELTA(212.538, firstJet->energy(), 0.001);
 	}
 
 	void testReadFirstJetEMF() {
-		ASSERT_EQUAL_DELTA(0.436829, firstJet->emf(), 0.00001);
+		ASSERT_EQUAL_DELTA(0.496578, firstJet->emf(), 0.00001);
 	}
 
 	void testReadFirstJetn90Hits() {
-		ASSERT_EQUAL_DELTA(136, firstJet->n90Hits(), 0.1);
+		ASSERT_EQUAL_DELTA(24, firstJet->n90Hits(), 0.1);
 	}
 
 	void testReadFirstJetfHPD() {
-		ASSERT_EQUAL_DELTA(0.378509, firstJet->fHPD(), 0.00001);
+		ASSERT_EQUAL_DELTA(0.243706, firstJet->fHPD(), 0.00001);
 	}
 
 	void testReadPFJetsSize() {
-		ASSERT_EQUAL(7, pfjets.size());
+		ASSERT_EQUAL(9, pfjets.size());
 	}
 
 	void testReadFirstPFJetEnergy() {
-		ASSERT_EQUAL_DELTA(197.366, firstPFJet->energy(), 0.001);
+		ASSERT_EQUAL_DELTA(88.1604, firstPFJet->energy(), 0.001);
 	}
 
 	void testReadFirstPFJetEMF() {

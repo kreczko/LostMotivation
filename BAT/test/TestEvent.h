@@ -174,7 +174,7 @@ private:
         jets.push_back(goodBJet);
         jets.push_back(badJet);
         ttbarEvent.setJets(jets);
-        ttbarEvent.setHLT_Photon15_TO20(true);
+//        ttbarEvent.setHLT_Photon15_TO20(true);
 
         MuonCollection muons;
         muons.push_back(badMuon);
@@ -196,7 +196,7 @@ private:
         jets.push_back(goodJet);
         jets.push_back(goodBJet);
         goodZEvent.setJets(jets);
-        goodZEvent.setHLT_Photon15_TO20(true);
+//        goodZEvent.setHLT_Photon15_TO20(true);
 
     }
 
@@ -214,7 +214,7 @@ private:
         jets.push_back(goodJet);
         jets.push_back(goodBJet);
         poorZEvent.setJets(jets);
-        poorZEvent.setHLT_Photon15_TO20(true);
+//        poorZEvent.setHLT_Photon15_TO20(true);
 
     }
 
@@ -224,7 +224,7 @@ private:
         jets.push_back(goodJet);
         jets.push_back(goodJet);
         DiJetEvent.setJets(jets);
-        DiJetEvent.setHLT_Photon15_TO20(false);
+//        DiJetEvent.setHLT_Photon15_TO20(false);
 
     }
 
@@ -234,7 +234,7 @@ private:
         jets.push_back(goodJet);
         jets.push_back(goodJet);
         DiJetEventWithConversion.setJets(jets);
-        DiJetEventWithConversion.setHLT_Photon15_TO20(false);
+//        DiJetEventWithConversion.setHLT_Photon15_TO20(false);
 
         ElectronCollection electrons;
         electrons.push_back(electronFromConversion);
@@ -254,7 +254,7 @@ private:
         jets.push_back(goodBJet);
         jets.push_back(badJet);
         muonEvent.setJets(jets);
-        muonEvent.setHLT_Photon15_TO20(true);
+//        muonEvent.setHLT_Photon15_TO20(true);
         MuonCollection muons;
         muons.push_back(goodIsolatedMuon);
         muonEvent.setMuons(muons);
