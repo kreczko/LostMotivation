@@ -113,7 +113,7 @@ bool TopPairEventCandidate::passesHighLevelTrigger() const {
         else if (runNumber >= 148819 && runNumber < 149181)
             return HLT(HLTriggers::HLT_Ele22_SW_TighterEleId_L1R_v2);
         else if(runNumber >= 149181)
-            return HLT(HLTriggers::HLT_Ele22_SW_TighterEleId_L1R_v3);
+            return true;//HLT(HLTriggers::HLT_Ele22_SW_TighterEleId_L1R_v3);
         else
             return false;
     }
