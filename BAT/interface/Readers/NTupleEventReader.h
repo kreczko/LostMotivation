@@ -40,8 +40,6 @@ struct NoFileFoundException: public std::exception {
 class NTupleEventReader {
 public:
 	static const char * EVENT_CHAIN;
-	static const char * HLT_TRIGGER_CHAIN;
-	static const char * ADDITIONAL_CHAIN;
 	static const std::string FilePrefix;
 
 	static JetAlgorithm::value jetAlgorithm;
@@ -70,20 +68,7 @@ private:
 	unsigned long currentEventEntry;
 	unsigned long numberOfFiles;
 	boost::shared_ptr<TChain> input;
-//	boost::shared_ptr<TChain> hltTriggerInput;
-//	boost::shared_ptr<TChain> additionalInput;
-//	boost::scoped_ptr<VariableReader<bool> > HLTPhoton10_TO20Reader;
-//	boost::scoped_ptr<VariableReader<bool> > HLTPhoton15_TO20Reader;
-//	boost::scoped_ptr<VariableReader<bool> > HLTPhoton15_TO20CleanedReader;
-//	boost::scoped_ptr<VariableReader<double> > HLTPhoton20CleanedReader;
-//	boost::scoped_ptr<VariableReader<bool> > HLTEmulatedPhoton15Reader;
-//	boost::scoped_ptr<VariableReader<double> > HLT_Ele10_LW_L1R;
-//	boost::scoped_ptr<VariableReader<double> > HLT_Ele15_SW_L1R;
-//	boost::scoped_ptr<VariableReader<double> > HLT_Ele15_SW_CaloEleId_L1R;
-//	boost::scoped_ptr<VariableReader<double> > HLT_Ele17_SW_CaloEleId_L1R;
-//	boost::scoped_ptr<VariableReader<double> > HLT_Ele17_SW_TightEleId_L1R;
-//	boost::scoped_ptr<VariableReader<double> > HLT_Ele22_SW_TighterEleId_L1R_v2;
-//	boost::scoped_ptr<VariableReader<double> > HLT_Ele22_SW_TighterEleId_L1R_v3;
+	boost::shared_ptr<VariableReader<MultiIntPointer> > hltReader;
 	boost::scoped_ptr<PrimaryVertexReader> primaryReader;
 //	boost::scoped_ptr<TrackReader> trackReader;
 	boost::scoped_ptr<ElectronReader> electronReader;
