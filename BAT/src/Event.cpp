@@ -14,19 +14,7 @@ namespace BAT {
 const bool Event::useCustomConversionTagger = false;
 
 Event::Event() :
-    HLT_Photon10_TO20(false),
-    HLT_Photon15_TO20(false),
-    HLT_Photon15_Cleaned_TO20(false),
-    HLT_Emulated_Photon15(false),
-    HLT_Photon20_Cleaned_L1R(false),
-    HLT_Emulated_Photon20(false),
-    HLT_Ele10_LW_L1R(false),
-    HLT_Ele15_SW_L1R(false),
-    HLT_Ele15_SW_CaloEleId_L1R(false),
-    HLT_Ele17_SW_CaloEleId_L1R(false),
-    HLT_Ele17_SW_TightEleId_L1R(false),
-    HLT_Ele22_SW_TighterEleId_L1R_v2(false),
-    HLT_Ele22_SW_TighterEleId_L1R_v3(false),
+    HLTs(new std::vector<int>()),
     primaryVertex(),
     tracks(),
     allElectrons(),
@@ -48,7 +36,6 @@ Event::Event() :
     eventWeight(1.),
     jetCleaningEfficiency(1.),
     numberOfHighPurityTracks(0) {
-
 }
 
 Event::~Event() {
@@ -90,7 +77,6 @@ void Event::selectElectronsByQuality() {
     goodIsolatedElectrons.clear();
     for (unsigned int index = 0; index < allElectrons.size(); ++index) {
         ElectronPointer electron = allElectrons.at(index);
-//        electron->setZDistanceToPrimaryVertex(fabs(electron->vz() - primaryVertex->z()));
 
         if (electron->isGood())
             goodElectrons.push_back(electron);
@@ -193,56 +179,60 @@ void Event::selectMuonsByQuality() {
     }
 }
 
-void Event::setHLT_Photon10_TO20(bool hltTrigger) {
-    HLT_Photon10_TO20 = hltTrigger;
-}
+//void Event::setHLT_Photon10_TO20(bool hltTrigger) {
+//    HLT_Photon10_TO20 = hltTrigger;
+//}
+//
+//void Event::setHLT_Photon15_TO20(bool hltTrigger) {
+//    HLT_Photon15_TO20 = hltTrigger;
+//}
+//
+//void Event::setHLT_Photon15_Cleaned_TO20(bool hltTrigger) {
+//    HLT_Photon15_Cleaned_TO20 = hltTrigger;
+//}
+//
+//void Event::setHLT_Emulated_Photon15(bool hltTrigger) {
+//    HLT_Emulated_Photon15 = hltTrigger;
+//}
+//
+//void Event::setHLT_Photon20_Cleaned_L1R(bool hltTrigger) {
+//    HLT_Photon20_Cleaned_L1R = hltTrigger;
+//}
+//
+//void Event::setHLT_Emulated_Photon20(bool hltTrigger) {
+//    HLT_Emulated_Photon20 = hltTrigger;
+//}
+//
+//void Event::setHLT_Ele10_LW_L1R(bool hltTrigger){
+//    HLT_Ele10_LW_L1R = hltTrigger;
+//}
+//
+//void Event::setHLT_Ele15_SW_L1R(bool hltTrigger){
+//    HLT_Ele15_SW_L1R = hltTrigger;
+//}
+//
+//void Event::setHLT_Ele15_SW_CaloEleId_L1R(bool hltTrigger){
+//    HLT_Ele15_SW_CaloEleId_L1R = hltTrigger;
+//}
+//
+//void Event::setHLT_Ele17_SW_CaloEleId_L1R(bool hltTrigger){
+//    HLT_Ele17_SW_CaloEleId_L1R = hltTrigger;
+//}
+//
+//void Event::setHLT_Ele17_SW_TightEleId_L1R(bool hltTrigger){
+//    HLT_Ele17_SW_TightEleId_L1R = hltTrigger;
+//}
+//
+//void Event::setHLT_Ele22_SW_TighterEleId_L1R_v2(bool hltTrigger){
+//    HLT_Ele22_SW_TighterEleId_L1R_v2 = hltTrigger;
+//}
+//
+//void Event::setHLT_Ele22_SW_TighterEleId_L1R_v3(bool hltTrigger){
+//    HLT_Ele22_SW_TighterEleId_L1R_v3 = hltTrigger;
+//}
 
-void Event::setHLT_Photon15_TO20(bool hltTrigger) {
-    HLT_Photon15_TO20 = hltTrigger;
-}
-
-void Event::setHLT_Photon15_Cleaned_TO20(bool hltTrigger) {
-    HLT_Photon15_Cleaned_TO20 = hltTrigger;
-}
-
-void Event::setHLT_Emulated_Photon15(bool hltTrigger) {
-    HLT_Emulated_Photon15 = hltTrigger;
-}
-
-void Event::setHLT_Photon20_Cleaned_L1R(bool hltTrigger) {
-    HLT_Photon20_Cleaned_L1R = hltTrigger;
-}
-
-void Event::setHLT_Emulated_Photon20(bool hltTrigger) {
-    HLT_Emulated_Photon20 = hltTrigger;
-}
-
-void Event::setHLT_Ele10_LW_L1R(bool hltTrigger){
-    HLT_Ele10_LW_L1R = hltTrigger;
-}
-
-void Event::setHLT_Ele15_SW_L1R(bool hltTrigger){
-    HLT_Ele15_SW_L1R = hltTrigger;
-}
-
-void Event::setHLT_Ele15_SW_CaloEleId_L1R(bool hltTrigger){
-    HLT_Ele15_SW_CaloEleId_L1R = hltTrigger;
-}
-
-void Event::setHLT_Ele17_SW_CaloEleId_L1R(bool hltTrigger){
-    HLT_Ele17_SW_CaloEleId_L1R = hltTrigger;
-}
-
-void Event::setHLT_Ele17_SW_TightEleId_L1R(bool hltTrigger){
-    HLT_Ele17_SW_TightEleId_L1R = hltTrigger;
-}
-
-void Event::setHLT_Ele22_SW_TighterEleId_L1R_v2(bool hltTrigger){
-    HLT_Ele22_SW_TighterEleId_L1R_v2 = hltTrigger;
-}
-
-void Event::setHLT_Ele22_SW_TighterEleId_L1R_v3(bool hltTrigger){
-    HLT_Ele22_SW_TighterEleId_L1R_v3 = hltTrigger;
+void Event::setHLTs(const boost::shared_ptr<std::vector<int> > triggers){
+    HLTs = triggers;
 }
 
 void Event::setMET(const METPointer met) {
@@ -360,6 +350,10 @@ void Event::inspect() const {
 
     cout << "number of electrons: " << allElectrons.size() << endl;
     EventContentPrinter::printElectrons(allElectrons);
+}
+
+bool Event::HLT(HLTriggers::value trigger) const{
+    return HLTs->at(trigger) > 0;
 }
 
 }

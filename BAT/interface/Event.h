@@ -20,12 +20,7 @@ namespace BAT {
 
 class Event {
 protected:
-    bool HLT_Photon10_TO20, HLT_Photon15_TO20, HLT_Photon15_Cleaned_TO20, HLT_Emulated_Photon15,
-            HLT_Photon20_Cleaned_L1R, HLT_Emulated_Photon20;
-    bool HLT_Ele10_LW_L1R,  HLT_Ele15_SW_L1R, HLT_Ele15_SW_CaloEleId_L1R, HLT_Ele17_SW_CaloEleId_L1R;
-    bool HLT_Ele17_SW_TightEleId_L1R;
-    bool HLT_Ele22_SW_TighterEleId_L1R_v2;
-    bool HLT_Ele22_SW_TighterEleId_L1R_v3;
+    boost::shared_ptr<std::vector<int> > HLTs;
     PrimaryVertexPointer primaryVertex;
     TrackCollection tracks;
     ElectronCollection allElectrons;
@@ -66,19 +61,7 @@ public:
     void setJets(JetCollection electrons);
     void setMuons(MuonCollection muons);
     void setMET(const METPointer met);
-    void setHLT_Photon10_TO20(bool hltTrigger);
-    void setHLT_Photon15_TO20(bool hltTrigger);
-    void setHLT_Photon15_Cleaned_TO20(bool hltTrigger);
-    void setHLT_Emulated_Photon15(bool hltTrigger);
-    void setHLT_Photon20_Cleaned_L1R(bool hltTrigger);
-    void setHLT_Emulated_Photon20(bool hltTrigger);
-    void setHLT_Ele10_LW_L1R(bool hltTrigger);
-    void setHLT_Ele15_SW_L1R(bool hltTrigger);
-    void setHLT_Ele15_SW_CaloEleId_L1R(bool hltTrigger);
-    void setHLT_Ele17_SW_CaloEleId_L1R(bool hltTrigger);
-    void setHLT_Ele17_SW_TightEleId_L1R(bool hltTrigger);
-    void setHLT_Ele22_SW_TighterEleId_L1R_v2(bool hltTrigger);
-    void setHLT_Ele22_SW_TighterEleId_L1R_v3(bool hltTrigger);
+    void setHLTs(const boost::shared_ptr<std::vector<int> >);
     void setRunNumber(unsigned long number);
     void setEventNumber(unsigned long number);
     void setLocalEventNumber(unsigned long number);
@@ -105,6 +88,7 @@ public:
     unsigned long lumiblock() const;
     float weight() const;
     void inspect() const;
+    bool HLT(HLTriggers::value trigger) const;
     static const bool useCustomConversionTagger;
 
 private:
