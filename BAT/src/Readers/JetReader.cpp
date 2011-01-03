@@ -90,6 +90,11 @@ void JetReader::readJets() {
             jet->setN90Hits(n90HitsReader.getIntVariableAt(jetIndex));
             jet->setFHPD(fHPDReader.getVariableAt(jetIndex));
         }
+        else{
+            jet->setEMF(0);
+            jet->setN90Hits(0);
+            jet->setFHPD(0);
+        }
 
         jet->setDiscriminatorForBtagType(btagSimpleSecondaryVertexReader.getVariableAt(jetIndex),
                 BJetTagger::SimpleSecondaryVertex);
