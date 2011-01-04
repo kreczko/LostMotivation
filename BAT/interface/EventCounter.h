@@ -44,30 +44,39 @@ public:
         weightedEntries[dimension1][dimension2][dimension3] += weight;
     }
 
-    unsigned int getEntries(unsigned int dimension1, unsigned int dimension2, unsigned int dimension3) {
+    unsigned int getEntries(unsigned int dimension1, unsigned int dimension2, unsigned int dimension3) const{
         return unweightedEntries[dimension1][dimension2][dimension3];
     }
 
-    float getWeightedEntries(unsigned int dimension1, unsigned int dimension2, unsigned int dimension3) {
+    float getWeightedEntries(unsigned int dimension1, unsigned int dimension2, unsigned int dimension3) const{
         return weightedEntries[dimension1][dimension2][dimension3];
     }
 
-    unsigned int sumThirdDimension(unsigned int dimension1, unsigned int dimension2){
+    unsigned int sumThirdDimension(unsigned int dimension1, unsigned int dimension2) const{
+        unsigned int sum = 0;
         for(unsigned int third = 0; third < dim3; ++third){
-
+            sum += weightedEntries[dimension1][dimension2][third];
         }
-        return 0;
+        return sum;
     }
 
-    unsigned int getSizeOfFirstDimension() {
+    unsigned int sumThirdDimensionUnweighted(unsigned int dimension1, unsigned int dimension2) const{
+            unsigned int sum = 0;
+            for(unsigned int third = 0; third < dim3; ++third){
+                sum += unweightedEntries[dimension1][dimension2][third];
+            }
+            return sum;
+        }
+
+    unsigned int getSizeOfFirstDimension() const{
         return unweightedEntries.size();
     }
 
-    unsigned int getSizeOfSecondDimension() {
+    unsigned int getSizeOfSecondDimension() const{
         return unweightedEntries.shape()[1];
     }
 
-    unsigned int getSizeOfThirdDimension() {
+    unsigned int getSizeOfThirdDimension() const{
         return unweightedEntries.shape()[2];
     }
 
