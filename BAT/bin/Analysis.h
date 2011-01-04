@@ -67,6 +67,7 @@ private:
     cutmap cutflowPerFile;
     cutmap singleCutsPerFile;
     std::vector<InterestingEvent> interestingEvents;
+    std::map<unsigned long, std::vector<unsigned long> > eventCheck;
     BAT::CrossSectionProvider weights;
     float weight;
     BAT::Counter cutflowPerSample;
@@ -104,6 +105,7 @@ private:
     void createHistograms();
     void doNotePlots();
     void doQCDStudy();
+    void checkForDuplicatedEvents();
 };
 
 #endif /* ANALYSIS_H_ */

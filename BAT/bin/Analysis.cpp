@@ -36,7 +36,10 @@ void Analysis::analyze() {
         doTTBarAnalysis();
         doNotePlots();
         doQCDStudy();
+
+        eventCheck[currentEvent.runnumber()].push_back(currentEvent.eventnumber());
     }
+    checkForDuplicatedEvents();
     printInterestingEvents();
     printSummary();
 }
@@ -319,7 +322,7 @@ void Analysis::doTTBarAnalysis() {
             cout << "run " << ttbarCandidate.runnumber() << ", event " << ttbarCandidate.eventnumber() << ", lumi "
                     << ttbarCandidate.lumiblock();
             cout << ", top pair invariant mass = " << mttbar << " GeV" << endl;
-            interestingEvents .push_back(InterestingEvent(ttbarCandidate, eventReader->getCurrentFile()));
+            interestingEvents.push_back(InterestingEvent(ttbarCandidate, eventReader->getCurrentFile()));
 
             if (resonance->pt() > 100) {
                 cout << "top pair pt = " << resonance->pt() << " GeV" << endl;
@@ -607,6 +610,7 @@ Analysis::Analysis() :
     cutflowPerFile(),
     singleCutsPerFile(),
     interestingEvents(),
+    eventCheck(),
     weights(Analysis::luminosity/*current lumi*/),
     weight(0),
     cutflowPerSample(DataType::NUMBER_OF_DATA_TYPES, TTbarEPlusJetsSelection::NUMBER_OF_SELECTION_STEPS,
@@ -634,5 +638,27 @@ void Analysis::setMaximalNumberOfEvents(long maxEvents) {
 
 void Analysis::setUsedNeutrinoSelectionForTopPairReconstruction(NeutrinoSelectionCriterion::value selection) {
     TopPairEventCandidate::usedNeutrinoSelection = selection;
+}
+
+void Analysis::checkForDuplicatedEvents(){
+    map<unsigned long, std::vector<unsigned long> >::const_iterator iter;
+    std::vector<pair<unsigned long, unsigned long> > duplicateEvents;
+
+    for(iter = eventCheck.begin(); iter != eventCheck.end(); ++iter){
+        std::vector<unsigned long> events = (*iter).second;
+        std::sort(events.begin(), events.end());
+        for(unsigned long ev = 0; ev < events.size() -1; ++ev){
+            if(events.at(ev) == events.at(ev +1)){
+                duplicateEvents.push_back(make_pair((*iter).first, events.at(ev)));
+            }
+        }
+    }
+
+    if (duplicateEvents.size() > 0){
+        cout << "found duplicate events" << endl;
+        for(unsigned long ev = 0; ev < duplicateEvents.size() -1; ++ev){
+            cout << "run: " << duplicateEvents.at(ev).first << " event: " << duplicateEvents.at(ev).second << endl;
+        }
+    }
 }
 
