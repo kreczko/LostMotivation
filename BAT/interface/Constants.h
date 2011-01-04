@@ -217,6 +217,14 @@ const boost::array<std::string, ElectronAlgorithm::NUMBER_OF_ELECTRONALGORITHMS>
         "PFElectron"} };
 }
 
+namespace ElectronIsolation{
+enum value {
+    RelativeIsolation,
+    ParticleFlowIsolation,
+    NUMBER_OF_ELECTRONISOLATIONS
+};
+}
+
 
 namespace MuonAlgorithm {
 enum value {
@@ -384,6 +392,7 @@ enum value {
                                     NUMBER_OF_HLTS
 };
 }
+
 
 }
 
