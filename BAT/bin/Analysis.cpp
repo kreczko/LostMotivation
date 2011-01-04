@@ -13,6 +13,7 @@
 #include "../interface/EventCounter.h"
 #include <cmath>
 #include <math.h>
+#include "../interface/Printers/EventTablePrinter.h"
 
 using namespace BAT;
 using namespace std;
@@ -432,6 +433,9 @@ void Analysis::printInterestingEvents() {
 }
 
 void Analysis::printSummary() {
+    EventTablePrinter::printCutFlowLatexTable(cutflowPerSample);
+    EventTablePrinter::printUnweightedCutFlowLatexTable(cutflowPerSample);
+
     cout << "total number of processed events: " << eventReader->getNumberOfProccessedEvents() << endl;
     cout << endl;
     for (unsigned int cut = 0; cut < TTbarEPlusJetsSelection::NUMBER_OF_SELECTION_STEPS; ++cut) {
