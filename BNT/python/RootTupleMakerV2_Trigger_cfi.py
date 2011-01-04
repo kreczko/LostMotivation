@@ -139,31 +139,31 @@ rootTupleTrigger = cms.EDProducer("RootTupleMakerV2_Trigger",
                                      'HLT_Photon22_SC22HE_L1R_v1', #101
                                      'HLT_Photon40_CaloId_Cleaned_L1R_v1', #102
                                      'HLT_Photon40_Isol_Cleaned_L1R_v1', #103
-                                     'HLT_Photon50_Cleaned_L1R_v1', #104
-                                     'HLT_Photon70_Cleaned_L1R_v1', #105
+#                                     'HLT_Photon50_Cleaned_L1R_v1', #104 this trigger is already included (#27)
+                                     'HLT_Photon70_Cleaned_L1R_v1', #104
                                      #Mu
-                                     'HLT_IsoMu13_v3', #106
-                                     'HLT_Mu17_v1', #107
-                                     'HLT_Mu21_v1', #108
-                                     'HLT_Mu8_Ele8_v1', #109
-                                     'HLT_Mu5_HT100U_v3', #110
-                                     'HLT_Mu5_HT70U_v3', #111
+                                     'HLT_IsoMu13_v3', #105
+                                     'HLT_Mu17_v1', #106
+                                     'HLT_Mu21_v1', #107
+                                     'HLT_Mu8_Ele8_v1', #108
+                                     'HLT_Mu5_HT100U_v3', #109
+                                     'HLT_Mu5_HT70U_v3', #110
                                      #Jet
-                                     'HLT_Jet50U_v3', #112
-                                     'HLT_Jet140U_v3', #113
+                                     'HLT_Jet50U_v3', #111
+                                     'HLT_Jet140U_v3', #112
                                      #METFwd
-                                     'HLT_MET100_v3', #114
-                                     'HLT_MET120_v3', #115
-                                     'HLT_MET45_DiJet30U_v3', #116
+                                     'HLT_MET100_v3', #113
+                                     'HLT_MET120_v3', #114
+                                     'HLT_MET45_DiJet30U_v3', #115
                                      ##############
                                      ## Others (from Sam, W' analysis)
                                      ##############
-                                     'HLT_Ele10_LW_L1R', #117
-                                     'HLT_Ele15_SW_L1R', #118
-                                     'HLT_Ele15_SW_EleId_L1R', #119
-                                     'HLT_Ele20_SW_L1R', #120
-                                     'HLT_Ele15_SW_CaloEleId_L1R', #121                                     
-                                     'HLT_Ele22_SW_TighterEleId_L1R_v3' #122                                     
+                                     'HLT_Ele10_LW_L1R', #116
+                                     'HLT_Ele15_SW_L1R', #117
+                                     'HLT_Ele15_SW_EleId_L1R', #118
+                                     'HLT_Ele20_SW_L1R', #119
+                                     'HLT_Ele15_SW_CaloEleId_L1R', #120                                     
+                                     'HLT_Ele22_SW_TighterEleId_L1R_v3' #121                                     
                                      )
 
     #used in Spring10 - Summer10 analysis                                  
