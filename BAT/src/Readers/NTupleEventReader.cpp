@@ -63,7 +63,7 @@ const Event& NTupleEventReader::getNextEvent() {
     currentEvent = Event();
     currentEvent.setDataType(getDataType(getCurrentFile()));
     boost::shared_ptr<std::vector<int> > triggers(new std::vector<int>());
-    std::cout << hltReader->size() << "expected: " << HLTriggers::NUMBER_OF_HLTS << endl;
+//    std::cout << hltReader->size() << "expected: " << HLTriggers::NUMBER_OF_HLTS << endl;
     for(unsigned int i = 0; i < hltReader->size(); i++){
 //        if(i == HLTriggers::NUMBER_OF_HLTS){
 //            cout << endl;
@@ -72,7 +72,7 @@ const Event& NTupleEventReader::getNextEvent() {
 //        cout << hltReader->getIntVariableAt(i) << " ";
         triggers->push_back(hltReader->getIntVariableAt(i));
     }
-    cout << endl;
+//    cout << endl;
     currentEvent.setHLTs(triggers);
     currentEvent.setPrimaryVertex(primaryReader->getVertex());
 //    currentEvent.setTracks(trackReader->getTracks());
