@@ -68,40 +68,40 @@ CrossSectionProvider::CrossSectionProvider(float lumiInInversePb, unsigned short
 
 void CrossSectionProvider::defineNumberOfProducedEvents() {
     numberOfProducedEvents[DataType::DATA] = 0;
-    numberOfProducedEvents[DataType::ttbar] = 1459404;
-    numberOfProducedEvents[DataType::Zjets] = 1084921;
-    numberOfProducedEvents[DataType::Wjets] = 10068895;
+    numberOfProducedEvents[DataType::ttbar] = 1306182;
+    numberOfProducedEvents[DataType::Zjets] = 2543727;
+    numberOfProducedEvents[DataType::Wjets] = 14805546;
 
-    numberOfProducedEvents[DataType::QCD_EMEnriched_Pt20to30] = 33801839;
-    numberOfProducedEvents[DataType::QCD_EMEnriched_Pt30to80] = 40785278;
+    numberOfProducedEvents[DataType::QCD_EMEnriched_Pt20to30] = 37169939;
+    numberOfProducedEvents[DataType::QCD_EMEnriched_Pt30to80] = 71845473;
     numberOfProducedEvents[DataType::QCD_EMEnriched_Pt80to170] = 5546413;
 
-    numberOfProducedEvents[DataType::QCD_BCtoE_Pt20to30] = 2606023;
-    numberOfProducedEvents[DataType::QCD_BCtoE_Pt30to80] = 2475597;
-    numberOfProducedEvents[DataType::QCD_BCtoE_Pt80to170] = 1208674;
+    numberOfProducedEvents[DataType::QCD_BCtoE_Pt20to30] = 2243439;
+    numberOfProducedEvents[DataType::QCD_BCtoE_Pt30to80] = 1995502;
+    numberOfProducedEvents[DataType::QCD_BCtoE_Pt80to170] = 1043390;
 
-    numberOfProducedEvents[DataType::PhotonJets_Pt40to100] = 2255228;
-    numberOfProducedEvents[DataType::PhotonJets_Pt100to200] = 1068393;
-    numberOfProducedEvents[DataType::PhotonJets_Pt200toInf] = 1025198;
+    numberOfProducedEvents[DataType::PhotonJets_Pt40to100] = 2217101;
+    numberOfProducedEvents[DataType::PhotonJets_Pt100to200] = 1065691;
+    numberOfProducedEvents[DataType::PhotonJets_Pt200toInf] = 1142171;
 
-    numberOfProducedEvents[DataType::singleTop_And_W] = 0;
-    numberOfProducedEvents[DataType::singleTopTChannel] = 0;
-    numberOfProducedEvents[DataType::singleTopSChannel] = 0;
-    numberOfProducedEvents[DataType::VQQ] = 901242;
-    numberOfProducedEvents[DataType::Zprime_M500GeV_W5GeV] = 227266;
-    numberOfProducedEvents[DataType::Zprime_M500GeV_W50GeV] = 213336;
-    numberOfProducedEvents[DataType::Zprime_M750GeV_W7500MeV] = 182024;
-    numberOfProducedEvents[DataType::Zprime_M1TeV_W10GeV] = 200759;
-    numberOfProducedEvents[DataType::Zprime_M1TeV_W100GeV] = 195391;
-    numberOfProducedEvents[DataType::Zprime_M1250GeV_W12500MeV] = 228428;
-    numberOfProducedEvents[DataType::Zprime_M1500GeV_W15GeV] = 154512;
-    numberOfProducedEvents[DataType::Zprime_M1500GeV_W150GeV] = 178675;
-    numberOfProducedEvents[DataType::Zprime_M2TeV_W20GeV] = 211900;
-    numberOfProducedEvents[DataType::Zprime_M2TeV_W200GeV] = 211564;
-    numberOfProducedEvents[DataType::Zprime_M3TeV_W30GeV] = 196487;
-    numberOfProducedEvents[DataType::Zprime_M3TeV_W300GeV] = 213819;
-    numberOfProducedEvents[DataType::Zprime_M4TeV_W40GeV] = 181820;
-    numberOfProducedEvents[DataType::Zprime_M4TeV_W400GeV] = 229594;
+    numberOfProducedEvents[DataType::singleTop_And_W] = 494961;
+    numberOfProducedEvents[DataType::singleTopTChannel] = 484060;
+    numberOfProducedEvents[DataType::singleTopSChannel] = 494967;
+    numberOfProducedEvents[DataType::VQQ] = 720613;
+    numberOfProducedEvents[DataType::Zprime_M500GeV_W5GeV] = 227068;
+    numberOfProducedEvents[DataType::Zprime_M500GeV_W50GeV] = 238963;
+    numberOfProducedEvents[DataType::Zprime_M750GeV_W7500MeV] = 204819;
+    numberOfProducedEvents[DataType::Zprime_M1TeV_W10GeV] = 213384;
+    numberOfProducedEvents[DataType::Zprime_M1TeV_W100GeV] = 200387;
+    numberOfProducedEvents[DataType::Zprime_M1250GeV_W12500MeV] = 233361;
+    numberOfProducedEvents[DataType::Zprime_M1500GeV_W15GeV] = 193779;
+    numberOfProducedEvents[DataType::Zprime_M1500GeV_W150GeV] = 199121;
+    numberOfProducedEvents[DataType::Zprime_M2TeV_W20GeV] = 238752;
+    numberOfProducedEvents[DataType::Zprime_M2TeV_W200GeV] = 213363;
+    numberOfProducedEvents[DataType::Zprime_M3TeV_W30GeV] = 205270;
+    numberOfProducedEvents[DataType::Zprime_M3TeV_W300GeV] = 229034;
+    numberOfProducedEvents[DataType::Zprime_M4TeV_W40GeV] = 183920;
+    numberOfProducedEvents[DataType::Zprime_M4TeV_W400GeV] = 238142;
 }
 
 void CrossSectionProvider::defineNumberOfSkimmedEvents() {
