@@ -37,6 +37,10 @@ private:
 	VariableReader<MultiDoublePointer> hcalIsolationReader;
 	VariableReader<MultiDoublePointer> trackerIsolationReader;
 
+	VariableReader<MultiDoublePointer> PFGammaIsolationReader;
+    VariableReader<MultiDoublePointer> PFChargedHadronIsolationReader;
+    VariableReader<MultiDoublePointer> PFNeutralHadronIsolationReader;
+
 //	VariableReader<MultiDoublePointer> robustLooseIDReader;
 //	VariableReader<MultiDoublePointer> robustTightIDReader;
 	VariableReader<MultiDoublePointer> sigmaIEtaIEtaReader;

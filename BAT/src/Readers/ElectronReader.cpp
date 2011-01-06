@@ -24,6 +24,9 @@ ElectronReader::ElectronReader() :
     ecalIsolationReader(),
     hcalIsolationReader(),
     trackerIsolationReader(),
+    PFGammaIsolationReader(),
+    PFChargedHadronIsolationReader(),
+    PFNeutralHadronIsolationReader(),
 //    robustLooseIDReader(),
 //    robustTightIDReader(),
     sigmaIEtaIEtaReader(),
@@ -59,6 +62,9 @@ ElectronReader::ElectronReader(TChainPointer input, ElectronAlgorithm::value alg
     ecalIsolationReader(input, ElectronAlgorithm::prefixes.at(algo) + ".EcalIso03"),
     hcalIsolationReader(input, ElectronAlgorithm::prefixes.at(algo) + ".HcalIso03"),
     trackerIsolationReader(input,ElectronAlgorithm::prefixes.at(algo) + ".TrkIso03"),
+    PFGammaIsolationReader(input,ElectronAlgorithm::prefixes.at(algo) + ".PFGammaIso"),
+    PFChargedHadronIsolationReader(input,ElectronAlgorithm::prefixes.at(algo) + ".PfChargedHadronIso"),
+    PFNeutralHadronIsolationReader(input,ElectronAlgorithm::prefixes.at(algo) + ".PfNeutralHadronIso"),
 //    robustLooseIDReader(input, ElectronAlgorithm::prefixes.at(algo) + ".robustLooseId"),
 //    robustTightIDReader(input, ElectronAlgorithm::prefixes.at(algo) + ".robustTightId"),
     sigmaIEtaIEtaReader(input, ElectronAlgorithm::prefixes.at(algo) + ".SigmaIEtaIEta"),
@@ -131,6 +137,12 @@ void ElectronReader::readElectrons() {
             track->setD0(electron->d0_BS());
         else
             track->setD0(electron->d0());
+
+        if(algorithm == ElectronAlgorithm::ParticleFlow){
+            electron->setPFGammaIsolation(PFGammaIsolationReader.getVariableAt(index));
+            electron->setPFChargedHadronIsolation(PFChargedHadronIsolationReader.getVariableAt(index));
+            electron->setPFNeutralHadronIsolation(PFNeutralHadronIsolationReader.getVariableAt(index));
+        }
         electron->setGSFTrack(track);
         electrons.push_back(electron);
     }
@@ -171,6 +183,11 @@ void ElectronReader::initialise() {
     vertex_dist_z.initialise();
     dist.initialise();
     dCotTheta.initialise();
+    if(algorithm == ElectronAlgorithm::ParticleFlow){
+        PFGammaIsolationReader.initialise();
+        PFChargedHadronIsolationReader.initialise();
+        PFNeutralHadronIsolationReader.initialise();
+    }
 }
 
 }
