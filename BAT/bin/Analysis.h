@@ -91,6 +91,16 @@ public:
     static void useMuonAlgorithm(BAT::MuonAlgorithm::value algo){
         BAT::NTupleEventReader::muonAlgorithm = algo;
     }
+
+    static void usePFIsolation(bool use){
+        BAT::Event::usePFIsolation = use;
+    }
+
+    static void useCustomConversionTagger(bool use){
+        BAT::TopPairEventCandidate::useCustomConversionTagger = use;
+        //custom conversion tagger needs track information
+        BAT::NTupleEventReader::loadTracks = use;
+    }
 private:
     void printNumberOfProccessedEventsEvery(unsigned long printEvery);
 //    void doEcalSpikeAnalysis();

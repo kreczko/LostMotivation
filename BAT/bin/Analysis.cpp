@@ -32,13 +32,17 @@ void Analysis::analyze() {
         inspectEvents();
         //        doEcalSpikeAnalysis();
         //                doSynchExercise();
+//        if (currentEvent.GoodElectrons().size() > 0) {
+//            cout << "PFIsolation: " << currentEvent.GoodElectrons().front()->pfIsolation();
+//            cout << " RelIso: " << currentEvent.GoodElectrons().front()->relativeIsolation() << endl;
+//        }
         doTTbarCutFlow();
         doDiElectronAnalysis();
         doTTBarAnalysis();
         doNotePlots();
         doQCDStudy();
-
-        eventCheck[currentEvent.runnumber()].push_back(currentEvent.eventnumber());
+        if(currentEvent.getDataType() == DataType::DATA)
+            eventCheck[currentEvent.runnumber()].push_back(currentEvent.eventnumber());
     }
     checkForDuplicatedEvents();
     printInterestingEvents();
@@ -133,7 +137,10 @@ void Analysis::doTTBarAnalysis() {
     }
     if (ttbarCandidate.passesFullTTbarEPlusJetSelection()) {
         histMan.H1D("numberOfBJets")->Fill(ttbarCandidate.GoodBJets().size(), weight);
-        ttbarCandidate.reconstructUsingChi2(ttbarCandidate.GoodIsolatedElectrons().front());
+        if(Event::usePFIsolation)
+            ttbarCandidate.reconstructUsingChi2(ttbarCandidate.GoodPFIsolatedElectrons().front());
+        else
+            ttbarCandidate.reconstructUsingChi2(ttbarCandidate.GoodIsolatedElectrons().front());
 
         vector<TtbarHypothesisPointer> solutions = ttbarCandidate.Solutions();
         const ParticlePointer resonance = ttbarCandidate.getRessonance();
@@ -161,7 +168,12 @@ void Analysis::doTTBarAnalysis() {
         histMan.H1D_BJetBinned("HT")->Fill(ttbarCandidate.fullHT(), weight);
         histMan.H2D_BJetBinned("HTvsMttbar")->Fill(mttbar, ttbarCandidate.fullHT(), weight);
         histMan.H1D_BJetBinned("leadingJetMass")->Fill(ttbarCandidate.GoodJets().front()->mass(), weight);
-        histMan.H1D_BJetBinned("mtW")->Fill(ttbarCandidate.transverseWmass(ttbarCandidate.GoodIsolatedElectrons().front()), weight);
+        if (Event::usePFIsolation)
+            histMan.H1D_BJetBinned("mtW")->Fill(ttbarCandidate.transverseWmass(
+                    ttbarCandidate.GoodPFIsolatedElectrons().front()), weight);
+        else
+            histMan.H1D_BJetBinned("mtW")->Fill(ttbarCandidate.transverseWmass(
+                    ttbarCandidate.GoodIsolatedElectrons().front()), weight);
         histMan.H1D_BJetBinned("m3")->Fill(ttbarCandidate.M3(), weight);
 
 
@@ -377,10 +389,19 @@ void Analysis::doQCDStudy() {
     if (ttbarCandidate.passesRelIsoSelection()) {
         const ElectronPointer electron = ttbarCandidate.MostIsolatedElectron();
         histMan.H1D_JetBinned("QCDest_CombRelIso")->Fill(electron->relativeIsolation(), weight);
+
         if (ttbarCandidate.GoodBJets().size() >= 1)
             histMan.H1D_JetBinned("QCDest_CombRelIso_1btag")->Fill(electron->relativeIsolation(), weight);
         if (ttbarCandidate.GoodBJets().size() >= 2)
             histMan.H1D_JetBinned("QCDest_CombRelIso_2btag")->Fill(electron->relativeIsolation(), weight);
+
+        if (NTupleEventReader::electronAlgorithm == ElectronAlgorithm::ParticleFlow) {
+            histMan.H1D_JetBinned("QCDest_PFIsolation")->Fill(electron->pfIsolation(), weight);
+            if (ttbarCandidate.GoodBJets().size() >= 1)
+                histMan.H1D_JetBinned("QCDest_PFIsolation_1btag")->Fill(electron->pfIsolation(), weight);
+            if (ttbarCandidate.GoodBJets().size() >= 2)
+                histMan.H1D_JetBinned("QCDest_PFIsolation_2btag")->Fill(electron->pfIsolation(), weight);
+        }
     }
 
     if (ttbarCandidate.passesQCDSelection()) {
@@ -390,13 +411,20 @@ void Analysis::doQCDStudy() {
             histMan.H1D_JetBinned("QCDest_CombRelIso_controlRegion_1btag")->Fill(electron->relativeIsolation(), weight);
         if (ttbarCandidate.GoodBJets().size() >= 2)
             histMan.H1D_JetBinned("QCDest_CombRelIso_controlRegion_2btag")->Fill(electron->relativeIsolation(), weight);
+
+        if (NTupleEventReader::electronAlgorithm == ElectronAlgorithm::ParticleFlow) {
+            histMan.H1D_JetBinned("QCDest_PFIsolation_controlRegion")->Fill(electron->pfIsolation(), weight);
+            if (ttbarCandidate.GoodBJets().size() >= 1)
+                histMan.H1D_JetBinned("QCDest_PFIsolation_controlRegion_1btag")->Fill(electron->pfIsolation(), weight);
+            if (ttbarCandidate.GoodBJets().size() >= 2)
+                histMan.H1D_JetBinned("QCDest_PFIsolation_controlRegion_2btag")->Fill(electron->pfIsolation(), weight);
+        }
     }
 
     if (ttbarCandidate.passesRelIsoSelection() && ttbarCandidate.hasAtLeastFourGoodJets()) {
         const ElectronPointer electron = ttbarCandidate.MostIsolatedElectron();
         if (electron->isIsolated() == false && !isnan(electron->relativeIsolation()) && !isinf(
                 electron->relativeIsolation())) {
-//            cout << "QCD: electron et: " << electron->et() << endl;
             try {
                 ttbarCandidate.reconstructUsingChi2(electron);
                 const ParticlePointer resonance = ttbarCandidate.getRessonance();
@@ -562,6 +590,13 @@ void Analysis::createHistograms() {
     histMan.addH1D_JetBinned("QCDest_CombRelIso_controlRegion_1btag", "RelIso control region", 1000, 0, 10);
     histMan.addH1D_JetBinned("QCDest_CombRelIso_2btag", "RelIso (>=2 btag)", 1000, 0, 10);
     histMan.addH1D_JetBinned("QCDest_CombRelIso_controlRegion_2btag", "RelIso control region", 1000, 0, 10);
+
+    histMan.addH1D_JetBinned("QCDest_PFIsolation", "PFIso", 1000, 0, 10);
+    histMan.addH1D_JetBinned("QCDest_PFIsolation_controlRegion", "PFIso control region", 1000, 0, 10);
+    histMan.addH1D_JetBinned("QCDest_PFIsolation_1btag", "PFIso (>=1 btag)", 1000, 0, 10);
+    histMan.addH1D_JetBinned("QCDest_PFIsolation_controlRegion_1btag", "PFIso control region", 1000, 0, 10);
+    histMan.addH1D_JetBinned("QCDest_PFIsolation_2btag", "PFIso (>=2 btag)", 1000, 0, 10);
+    histMan.addH1D_JetBinned("QCDest_PFIsolation_controlRegion_2btag", "PFIso control region", 1000, 0, 10);
 
     histMan.addH1D_BJetBinned("pt_leadingTop", "pt_leadingTop", 1000, 0, 1000);
     histMan.addH1D_BJetBinned("pt_NextToLeadingTop", "pt_NextToLeadingTop", 1000, 0, 1000);
