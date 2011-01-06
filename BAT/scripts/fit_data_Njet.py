@@ -2,11 +2,8 @@
 # How to scale MC
 normMode = 1;
 
-mcIntlumi = 19.; #pb-1
-#intlumi = 35.09e-3;  #27.30e-3; #pb-1
-#intlumi = 63.68e-3;#35.09e-3;  #27.30e-3; #pb-1
-#intlumi = 78e-3;  #77.48e-3
-intlumi = 26.5;#0.84;  #pb-1
+mcIntlumi = 36.145#pb-1
+intlumi = 36.145  #pb-1
 
 #-----------------------
 # which jet bin to fit
@@ -70,34 +67,35 @@ def setStyle():
 def getHisto():
 
     fdata = TFile.Open(
-            "/storage/workspace/BristolAnalysisTools/outputfiles/backup/data_26.5pb_PFElectron_PF2PATJets_PFMET.root");
+            "/storage/workspace/BristolAnalysisTools/outputfiles/Fall10_NovRereco/data_36.145pb_PFElectron_PF2PATJets_PFMET.root");
     fttbar = TFile.Open(
-            "/storage/workspace/BristolAnalysisTools/outputfiles/backup/ttjet_19pb_PFElectron_PF2PATJets_PFMET.root");
+            "/storage/workspace/BristolAnalysisTools/outputfiles/Fall10_NovRereco/ttjet_36.145pb_PFElectron_PF2PATJets_PFMET.root");
     fwjets = TFile.Open(
-            "/storage/workspace/BristolAnalysisTools/outputfiles/backup/wj_19pb_PFElectron_PF2PATJets_PFMET.root");
+            "/storage/workspace/BristolAnalysisTools/outputfiles/Fall10_NovRereco/wj_36.145pb_PFElectron_PF2PATJets_PFMET.root");
     fzjets = TFile.Open(
-            "/storage/workspace/BristolAnalysisTools/outputfiles/backup/zj_19pb_PFElectron_PF2PATJets_PFMET.root");
-    #    fbce1 = TFile.Open("bce1_19pb.root");
+            "/storage/workspace/BristolAnalysisTools/outputfiles/Fall10_NovRereco/zj_36.145pb_PFElectron_PF2PATJets_PFMET.root");
+    fbce1 = TFile.Open(
+            "/storage/workspace/BristolAnalysisTools/outputfiles/Fall10_NovRereco/bce1_36.145pb_PFElectron_PF2PATJets_PFMET.root");
     fbce2 = TFile.Open(
-            "/storage/workspace/BristolAnalysisTools/outputfiles/backup/bce2_19pb_PFElectron_PF2PATJets_PFMET.root");
+            "/storage/workspace/BristolAnalysisTools/outputfiles/Fall10_NovRereco/bce2_36.145pb_PFElectron_PF2PATJets_PFMET.root");
     fbce3 = TFile.Open(
-            "/storage/workspace/BristolAnalysisTools/outputfiles/backup/bce3_19pb_PFElectron_PF2PATJets_PFMET.root");
+            "/storage/workspace/BristolAnalysisTools/outputfiles/Fall10_NovRereco/bce3_36.145pb_PFElectron_PF2PATJets_PFMET.root");
     fenri1 = TFile.Open(
-            "/storage/workspace/BristolAnalysisTools/outputfiles/backup/enri1_19pb_PFElectron_PF2PATJets_PFMET.root");
+            "/storage/workspace/BristolAnalysisTools/outputfiles/Fall10_NovRereco/enri1_36.145pb_PFElectron_PF2PATJets_PFMET.root");
     fenri2 = TFile.Open(
-            "/storage/workspace/BristolAnalysisTools/outputfiles/backup/enri2_19pb_PFElectron_PF2PATJets_PFMET.root");
+            "/storage/workspace/BristolAnalysisTools/outputfiles/Fall10_NovRereco/enri2_36.145pb_PFElectron_PF2PATJets_PFMET.root");
     fenri3 = TFile.Open(
-            "/storage/workspace/BristolAnalysisTools/outputfiles/backup/enri3_19pb_PFElectron_PF2PATJets_PFMET.root");
+            "/storage/workspace/BristolAnalysisTools/outputfiles/Fall10_NovRereco/enri3_36.145pb_PFElectron_PF2PATJets_PFMET.root");
     fpj1 = TFile.Open(
-            "/storage/workspace/BristolAnalysisTools/outputfiles/backup/pj1_19pb_PFElectron_PF2PATJets_PFMET.root");
+            "/storage/workspace/BristolAnalysisTools/outputfiles/Fall10_NovRereco/pj1_36.145pb_PFElectron_PF2PATJets_PFMET.root");
     fpj2 = TFile.Open(
-            "/storage/workspace/BristolAnalysisTools/outputfiles/backup/pj2_19pb_PFElectron_PF2PATJets_PFMET.root");
+            "/storage/workspace/BristolAnalysisTools/outputfiles/Fall10_NovRereco/pj2_36.145pb_PFElectron_PF2PATJets_PFMET.root");
     fpj3 = TFile.Open(
-            "/storage/workspace/BristolAnalysisTools/outputfiles/backup/pj3_19pb_PFElectron_PF2PATJets_PFMET.root");
+            "/storage/workspace/BristolAnalysisTools/outputfiles/Fall10_NovRereco/pj3_36.145pb_PFElectron_PF2PATJets_PFMET.root");
     fsTopTW = TFile.Open(
-            "/storage/workspace/BristolAnalysisTools/outputfiles/backup/tW_19pb_PFElectron_PF2PATJets_PFMET.root");
+            "/storage/workspace/BristolAnalysisTools/outputfiles/Fall10_NovRereco/tW_36.145pb_PFElectron_PF2PATJets_PFMET.root");
     fsToptC = TFile.Open(
-            "/storage/workspace/BristolAnalysisTools/outputfiles/backup/tchan_19pb_PFElectron_PF2PATJets_PFMET.root");
+            "/storage/workspace/BristolAnalysisTools/outputfiles/Fall10_NovRereco/tchan_36.145pb_PFElectron_PF2PATJets_PFMET.root");
 
     if (nj == "1mj" or nj == "2mj" or nj == "3mj"):
         get_histo_inclusive(nj);
