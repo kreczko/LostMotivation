@@ -11,8 +11,8 @@
 using namespace std;
 
 namespace BAT {
-const bool Event::useCustomConversionTagger = false;
-
+bool Event::useCustomConversionTagger = false;
+bool Event::usePFIsolation = false;
 Event::Event() :
     HLTs(new std::vector<int>()),
     primaryVertex(),
@@ -20,6 +20,7 @@ Event::Event() :
     allElectrons(),
     goodElectrons(),
     goodIsolatedElectrons(),
+    goodPFIsolatedElectrons(),
     looseElectrons(),
     qcdElectrons(),
     allJets(),
@@ -75,6 +76,7 @@ void Event::setElectrons(ElectronCollection electrons) {
 void Event::selectElectronsByQuality() {
     goodElectrons.clear();
     goodIsolatedElectrons.clear();
+    goodPFIsolatedElectrons.clear();
     for (unsigned int index = 0; index < allElectrons.size(); ++index) {
         ElectronPointer electron = allElectrons.at(index);
 
@@ -86,6 +88,11 @@ void Event::selectElectronsByQuality() {
 
         if (electron->isGood() && electron->isIsolated())
             goodIsolatedElectrons.push_back(electron);
+
+        if(electron->algorithm() == ElectronAlgorithm::ParticleFlow){
+            if(electron->isGood() && electron->isPFIsolated())
+                goodPFIsolatedElectrons.push_back(electron);
+        }
 
         if (electron->isGood() == false && electron->isLoose())
             looseElectrons.push_back(electron);
@@ -151,8 +158,14 @@ const ElectronPointer Event::MostIsolatedElectron() const {
     float bestIsolation = 999999999;
     unsigned int bestIsolatedElectron = 990;
     for (unsigned int index = 0; index < allElectrons.size(); ++index) {
-        if (allElectrons.at(index)->relativeIsolation() < bestIsolation) {
-            bestIsolation = allElectrons.at(index)->relativeIsolation();
+        float currentIsolation = 9999999999;
+        if(Event::usePFIsolation)
+            currentIsolation = allElectrons.at(index)->pfIsolation();
+        else
+            currentIsolation = allElectrons.at(index)->relativeIsolation();
+
+        if (currentIsolation < bestIsolation) {
+            bestIsolation = currentIsolation;
             bestIsolatedElectron = index;
         }
     }
@@ -277,6 +290,10 @@ const ElectronCollection& Event::GoodElectrons() const {
 
 const ElectronCollection& Event::GoodIsolatedElectrons() const {
     return goodIsolatedElectrons;
+}
+
+const ElectronCollection& Event::GoodPFIsolatedElectrons() const {
+    return goodPFIsolatedElectrons;
 }
 
 const ElectronCollection& Event::QCDElectrons() const{

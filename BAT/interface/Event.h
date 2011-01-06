@@ -26,6 +26,7 @@ protected:
     ElectronCollection allElectrons;
     ElectronCollection goodElectrons;
     ElectronCollection goodIsolatedElectrons;
+    ElectronCollection goodPFIsolatedElectrons;
     ElectronCollection looseElectrons;
     ElectronCollection qcdElectrons;
 
@@ -73,6 +74,7 @@ public:
     const ElectronCollection& Electrons() const;
     const ElectronCollection& GoodElectrons() const;
     const ElectronCollection& GoodIsolatedElectrons() const;
+    const ElectronCollection& GoodPFIsolatedElectrons() const;
     const ElectronCollection& QCDElectrons() const;
     const JetCollection& Jets() const;
     const JetCollection& GoodJets() const;
@@ -89,7 +91,8 @@ public:
     float weight() const;
     void inspect() const;
     bool HLT(HLTriggers::value trigger) const;
-    static const bool useCustomConversionTagger;
+    static bool useCustomConversionTagger;
+    static bool usePFIsolation;
 
 private:
     void selectElectronsByQuality();
