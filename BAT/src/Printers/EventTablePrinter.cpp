@@ -15,7 +15,7 @@ extern void printCutFlowLatexTable(const Counter& cutFlow) {
     cout << "\n%------------------------------------------------------------------------\n";
     cout << "%       " << "cut flow table (weighted)";
     cout << "\n%------------------------------------------------------------------------\n";
-    cout << "\\begin{tabular}{|l|rrrrrrr|r|}" << endl;
+    cout << "\\begin{tabular}{|l|rrrrrr|r|}" << endl;
     cout << "\\hline" << endl;
     cout << "\\multicolumn{8}{|l|}";
     cout << "{Expected number of events for " << "36.145" << "/pb}";
@@ -74,7 +74,7 @@ extern void printCutFlowLatexTable(const Counter& cutFlow) {
             cout << " & " << setw(12) << fixed << cutFlow.sumThirdDimension(type, cut);
         }
         cout << " & " << setw(12) << fixed << nTotalMC;
-        cout << "   \\hline" << endl;
+        cout << "  \\\\\n\\hline" << endl;
     }
 
     cout << "\\end{tabular}\\\\[5mm]" << endl;
@@ -148,7 +148,7 @@ extern void printUnweightedCutFlowLatexTable(const Counter& cutFlow) {
             cout << " & " << setw(12) << fixed << cutFlow.sumThirdDimensionUnweighted(type, cut);
         }
         cout << " & " << setw(12) << fixed << nTotalMC;
-        cout << "   \\hline" << endl;
+        cout << "  \\\\\n\\hline" << endl;
     }
 
     cout << "\\end{tabular}\\\\[5mm]" << endl;
