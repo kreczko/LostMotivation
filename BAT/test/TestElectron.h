@@ -164,7 +164,7 @@ public:
     }
 
     void testLooseElectron() {
-        ASSERT_EQUAL(false, badD0Electron->isLoose());
+        ASSERT_EQUAL(true, badD0Electron->isLoose());
         ASSERT_EQUAL(true, looseElectron->isLoose());
     }
 

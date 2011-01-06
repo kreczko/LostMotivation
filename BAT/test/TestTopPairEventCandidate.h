@@ -145,7 +145,7 @@ private:
         track->setD0(goodLooseElectron->d0_BS());
         track->setCharge(goodLooseElectron->charge());
         assert(goodLooseElectron->isGood() == false);
-        assert(goodLooseElectron->isLoose());
+        assert(goodLooseElectron->isLoose() && goodLooseElectron->relativeIsolation() < 1.);
     }
 
     void setUpGoodIsolatedElectronFromConversion() {
