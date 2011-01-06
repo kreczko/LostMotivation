@@ -46,6 +46,7 @@ public:
 	static ElectronAlgorithm::value electronAlgorithm;
 	static METAlgorithm::value metAlgorithm;
 	static MuonAlgorithm::value muonAlgorithm;
+	static bool loadTracks;
 
 	NTupleEventReader();
 	virtual ~NTupleEventReader();
@@ -70,7 +71,7 @@ private:
 	boost::shared_ptr<TChain> input;
 	boost::shared_ptr<VariableReader<MultiIntPointer> > hltReader;
 	boost::scoped_ptr<PrimaryVertexReader> primaryReader;
-//	boost::scoped_ptr<TrackReader> trackReader;
+	boost::scoped_ptr<TrackReader> trackReader;
 	boost::scoped_ptr<ElectronReader> electronReader;
 	boost::scoped_ptr<JetReader> jetReader;
 	boost::scoped_ptr<MuonReader> muonReader;

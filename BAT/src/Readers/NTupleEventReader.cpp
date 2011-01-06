@@ -19,6 +19,7 @@ JetAlgorithm::value NTupleEventReader::jetAlgorithm = JetAlgorithm::Calo_AntiKT_
 ElectronAlgorithm::value NTupleEventReader::electronAlgorithm = ElectronAlgorithm::Calo;
 METAlgorithm::value NTupleEventReader::metAlgorithm = METAlgorithm::Calo;
 MuonAlgorithm::value NTupleEventReader::muonAlgorithm = MuonAlgorithm::Default;
+bool NTupleEventReader::loadTracks = false;
 
 const std::string NTupleEventReader::FilePrefix = "nTuple_";
 
@@ -30,7 +31,7 @@ NTupleEventReader::NTupleEventReader() :
     input(new TChain(NTupleEventReader::EVENT_CHAIN)),
     hltReader(new VariableReader<MultiIntPointer>(input, "HLTResults")),
     primaryReader(new PrimaryVertexReader(input)),
-//    trackReader(new TrackReader(input)),
+    trackReader(new TrackReader(input)),
     electronReader(new ElectronReader(input, NTupleEventReader::electronAlgorithm)),
     jetReader(new JetReader(input, NTupleEventReader::jetAlgorithm)),
     muonReader(new MuonReader(input, NTupleEventReader::muonAlgorithm)),
@@ -75,7 +76,8 @@ const Event& NTupleEventReader::getNextEvent() {
 //    cout << endl;
     currentEvent.setHLTs(triggers);
     currentEvent.setPrimaryVertex(primaryReader->getVertex());
-//    currentEvent.setTracks(trackReader->getTracks());
+    if(NTupleEventReader::loadTracks)
+        currentEvent.setTracks(trackReader->getTracks());
     currentEvent.setElectrons(electronReader->getElectrons());
     currentEvent.setJets(jetReader->getJets());
     currentEvent.setMuons(muonReader->getMuons());
@@ -109,7 +111,8 @@ void NTupleEventReader::initiateReadersIfNotSet() {
         input->SetBranchStatus("*", 0);
         hltReader->initialise();
         primaryReader->initialise();
-//        trackReader->initialise();
+        if(NTupleEventReader::loadTracks)
+            trackReader->initialise();
         electronReader->initialise();
         jetReader->initialise();
         muonReader->initialise();
