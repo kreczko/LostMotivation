@@ -9,7 +9,6 @@
 namespace BAT {
 
 TrackReader::TrackReader() :
-//    numberOfTracksReader(),
     phiReader(),
     etaReader(),
     ptReader(),
@@ -21,7 +20,6 @@ TrackReader::TrackReader() :
 }
 
 TrackReader::TrackReader(TChainPointer input) :
-//    numberOfTracksReader(input, "Ntracks"),
     phiReader(input, "Track.Phi"),
     etaReader(input, "Track.Eta"),
     ptReader(input, "Track.Pt"),
@@ -43,7 +41,6 @@ const TrackCollection& TrackReader::getTracks() {
 }
 
 void TrackReader::readTracks() {
-//    unsigned int numberOfTracks = numberOfTracksReader.getVariable();
     for (unsigned int index = 0; index < phiReader.size(); index++) {
         float phi = phiReader.getVariableAt(index);
         float eta = etaReader.getVariableAt(index);
@@ -59,7 +56,6 @@ void TrackReader::readTracks() {
 }
 
 void TrackReader::initialise() {
-//    numberOfTracksReader.initialise();
     phiReader.initialise();
     etaReader.initialise();
     ptReader.initialise();

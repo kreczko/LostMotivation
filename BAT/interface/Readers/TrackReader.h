@@ -14,7 +14,6 @@ namespace BAT {
 
 class TrackReader {
 private:
-//    VariableReader<unsigned int> numberOfTracksReader;
     VariableReader<MultiDoublePointer> phiReader;
     VariableReader<MultiDoublePointer> etaReader;
     VariableReader<MultiDoublePointer> ptReader;
