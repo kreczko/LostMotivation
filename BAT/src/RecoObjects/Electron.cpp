@@ -11,13 +11,13 @@
 #include "../../interface/VBTF_ElectronID.h"
 
 namespace BAT {
-const boost::array<std::string, Electron::NUMBER_OF_ELECTRONIDS> Electron::ElectronIDNames = { {
-        "loose ID",
-        "tight ID",
-        "robust loose ID",
-        "robust tight ID",
-        "VBTF working point 70%",
-        "High Energy" } };
+//const boost::array<std::string, Electron::NUMBER_OF_ELECTRONIDS> Electron::ElectronIDNames = { {
+//        "loose ID",
+//        "tight ID",
+//        "robust loose ID",
+//        "robust tight ID",
+//        "VBTF working point 70%",
+//        "High Energy" } };
 
 float Electron::goodElectronMinimalEt = 30;
 float Electron::goodElectronMaximalAbsoluteEta = 2.5;
@@ -53,7 +53,10 @@ Electron::Electron() :
     sharedFractionInnerHits(0),
     zDistanceToPrimaryVertex(initialBigValue),
     dCotThetaToNextTrack(0),
-    distToNextTrack(0){
+    distToNextTrack(0),
+    PFGamma_Isolation(initialBigValue),
+    PFChargedHadron_Isolation(initialBigValue),
+    PFNeutralHadron_Isolation(initialBigValue){
 }
 
 //Electron::Electron(const Electron& other) :
@@ -183,8 +186,9 @@ void Electron::setHadOverEm(float HoverE) {
 bool Electron::isLoose() const {
     bool passesEt = et() > Electron::looseElectronMinimalEt;
     bool passesEta = fabs(eta()) < Electron::looseElectronMaximalAbsoluteEta;
-    bool passesIsolation = relativeIsolation() < Electron::looseIsolatedElectronMaximalRelativeIsolation;
-    return passesEt && passesEta && passesIsolation && VBTF_W95_ElectronID();
+//    bool passesIsolation = relativeIsolation() < Electron::looseIsolatedElectronMaximalRelativeIsolation;
+    return passesEt && passesEta && VBTF_W95_ElectronID();
+
 }
 
 bool Electron::isGood(const float minEt) const {
@@ -403,8 +407,40 @@ void Electron::setDCotThetaToNextTrack(float dCotTheta){
     dCotThetaToNextTrack = dCotTheta;
 }
 
-//float Electron::vz() const{
-//    return vertex_z;
-//}
+void Electron::setPFGammaIsolation(float pfGammaIso){
+    PFGamma_Isolation = pfGammaIso;
+}
+
+void Electron::setPFChargedHadronIsolation(float chargedHadronIso){
+    PFChargedHadron_Isolation = chargedHadronIso;
+}
+
+void Electron::setPFNeutralHadronIsolation(float neutralHadronIso){
+    PFNeutralHadron_Isolation = neutralHadronIso;
+}
+
+float Electron::PFGammaIsolation() const{
+    return PFGamma_Isolation;
+}
+
+float Electron::PFChargedHadronIsolation() const{
+    return PFChargedHadron_Isolation;
+}
+
+float Electron::PFNeutralHadronIsolation() const{
+    return PFNeutralHadron_Isolation;
+}
+
+float Electron::pfIsolation() const{
+    return (PFGamma_Isolation+PFChargedHadron_Isolation+PFNeutralHadron_Isolation)/et();
+}
+
+bool Electron::isPFIsolated() const{
+    return pfIsolation() < 0.1;
+}
+
+ElectronAlgorithm::value Electron::algorithm() const{
+    return usedAlgorithm;
+}
 
 }
