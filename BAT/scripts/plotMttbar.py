@@ -36,6 +36,9 @@ def plotMttbar():
 #    Zprime1500 = TFile.Open("/storage/workspace/BristolAnalysisTools/outputfiles/Zprime_M1500GeV_W15GeV_36.145pb.root");
 
     hists = [];
+    hists.append('mttbar_conversions')
+    hists.append('mttbar_QCDEnriched')
+    hists.append('mttbar_controlRegion')
 #    hists.append("mttbar");
 #    hists.append("mttbar_2ndSolution");
 #    hists.append("mttbar_3rdSolution");
