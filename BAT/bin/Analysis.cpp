@@ -79,7 +79,6 @@ void Analysis::inspectEvents() {
 
 void Analysis::doSynchExercise() {
     if (ttbarCandidate.passesSelectionStepUpTo(TTbarEPlusJetsSelection::ConversionFinder)) {
-        ElectronPointer electron = ttbarCandidate.GoodIsolatedElectrons().front();
         cout << ttbarCandidate.runnumber() << ":" << ttbarCandidate.eventnumber() << ":" << endl;//electron->et() << endl;
         if (ttbarCandidate.eventnumber() == 450622) {
             ttbarCandidate.inspect();
@@ -436,19 +435,19 @@ void Analysis::doQCDStudy() {
     }
 
     if (ttbarCandidate.passesConversionSelection()) {
-        const ElectronPointer electron = ttbarCandidate.GoodIsolatedElectrons().front();
-        if (electron->pt() < 10000 && !isnan(electron->relativeIsolation()) && !isinf(
-                electron->relativeIsolation())) {
-//            cout << "QCD: electron et: " << electron->et() << endl;
-            try {
-                ttbarCandidate.reconstructUsingChi2(electron);
-                const ParticlePointer resonance = ttbarCandidate.getRessonance();
-                histMan.H1D_BJetBinned("mttbar_conversions")->Fill(resonance->mass(), weight);
-            } catch (ReconstructionException& e) {
-                cout << "Could not reconstruct event: " << e.what() << endl;
-            }
-
+        ElectronPointer electron;
+        if (Event::usePFIsolation)
+            electron = currentEvent.GoodPFIsolatedElectrons().front();
+        else
+            electron = currentEvent.GoodIsolatedElectrons().front();
+        try {
+            ttbarCandidate.reconstructUsingChi2(electron);
+            const ParticlePointer resonance = ttbarCandidate.getRessonance();
+            histMan.H1D_BJetBinned("mttbar_conversions")->Fill(resonance->mass(), weight);
+        } catch (ReconstructionException& e) {
+            cout << "Could not reconstruct event: " << e.what() << endl;
         }
+
     }
 
 }
