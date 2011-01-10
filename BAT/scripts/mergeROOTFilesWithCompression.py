@@ -2,12 +2,8 @@
 
 import os
 import sys
-import glob
+from fileInfo import *
 
-def getFiles(path):
-    path += "/*.root"
-    files = glob.glob(path)
-    return files
 
 def groupFilesToSize(files, finalSize = 1024*1024*1024*2):# < 3 GB
     groupSize = 0
@@ -52,9 +48,12 @@ if __name__ == "__main__":
         sys.exit()
         
     path = sys.argv[1]
-    files = getFiles(path)
-    groupedFiles = groupFilesToSize(files)
+    files = getROOTFiles(path)
+    uniqueFiles = getUniqueFiles(files)
+    groupedFiles = groupFilesToSize(uniqueFiles)
+    
     print 'Total number of files:', len(files)
+    print 'Total number of unique files:', len(uniqueFiles)
     print 'Process recognised:', getProcess(files[0])
     print 'Input files per output file:', len(groupedFiles)
     fuseFiles(groupedFiles)
