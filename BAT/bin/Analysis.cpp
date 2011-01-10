@@ -123,8 +123,8 @@ void Analysis::doTTBarAnalysis() {
         const ElectronCollection coll = ttbarCandidate.Electrons();
         for (unsigned int index = 0; index < coll.size(); ++index) {
             const ElectronPointer electron = coll.at(index);
-            bool passesEt = electron->et() > Electron::goodElectronMinimalEt;
-            bool passesEta = fabs(electron->superClusterEta()) < Electron::goodElectronMaximalAbsoluteEta
+            bool passesEt = electron->et() > 30;
+            bool passesEta = fabs(electron->superClusterEta()) < 2.5
                     && electron->isInCrack() == false;
             bool passesID = electron->VBTF_W70_ElectronID();
             //            bool isNotEcalSpike = electron->isEcalSpike() == false;
@@ -428,6 +428,15 @@ void Analysis::doQCDStudy() {
                 ttbarCandidate.reconstructUsingChi2(electron);
                 const ParticlePointer resonance = ttbarCandidate.getRessonance();
                 histMan.H1D_BJetBinned("mttbar_controlRegion")->Fill(resonance->mass(), weight);
+                if (ttbarCandidate.MET()->pt() > 20) {
+                    histMan.H1D_BJetBinned("mttbar_controlRegion_withMETCut")->Fill(resonance->mass(), weight);
+                    if (ttbarCandidate.GoodJets().front()->pt() > 70 && ttbarCandidate.GoodJets().at(1)->pt() > 50)
+                        histMan.H1D_BJetBinned("mttbar_controlRegion_withMETAndAsymJets")->Fill(resonance->mass(),
+                                weight);
+                }
+                if (ttbarCandidate.GoodJets().front()->pt() > 70 && ttbarCandidate.GoodJets().at(1)->pt() > 50)
+                    histMan.H1D_BJetBinned("mttbar_controlRegion_withAsymJetsCut")->Fill(resonance->mass(), weight);
+
             } catch (ReconstructionException& e) {
                 cout << "Could not reconstruct event: " << e.what() << endl;
             }
@@ -444,6 +453,13 @@ void Analysis::doQCDStudy() {
             ttbarCandidate.reconstructUsingChi2(electron);
             const ParticlePointer resonance = ttbarCandidate.getRessonance();
             histMan.H1D_BJetBinned("mttbar_conversions")->Fill(resonance->mass(), weight);
+            if (ttbarCandidate.MET()->pt() > 20) {
+                histMan.H1D_BJetBinned("mttbar_conversions_withMETCut")->Fill(resonance->mass(), weight);
+                if (ttbarCandidate.GoodJets().front()->pt() > 70 && ttbarCandidate.GoodJets().at(1)->pt() > 50)
+                    histMan.H1D_BJetBinned("mttbar_conversions_withMETAndAsymJets")->Fill(resonance->mass(), weight);
+            }
+            if (ttbarCandidate.GoodJets().front()->pt() > 70 && ttbarCandidate.GoodJets().at(1)->pt() > 50)
+                histMan.H1D_BJetBinned("mttbar_conversions_withAsymJetsCut")->Fill(resonance->mass(), weight);
         } catch (ReconstructionException& e) {
             cout << "Could not reconstruct event: " << e.what() << endl;
         }
@@ -485,6 +501,15 @@ void Analysis::createHistograms() {
     histMan.addH1D_BJetBinned("mttbar_conversions", "mttbar", 5000, 0, 5000);
     histMan.addH1D_BJetBinned("mttbar_QCDEnriched", "mttbar", 5000, 0, 5000);
     histMan.addH1D_BJetBinned("mttbar_controlRegion", "mttbar", 5000, 0, 5000);
+
+    histMan.addH1D_BJetBinned("mttbar_conversions_withMETCut", "mttbar", 5000, 0, 5000);
+    histMan.addH1D_BJetBinned("mttbar_controlRegion_withMETCut", "mttbar", 5000, 0, 5000);
+
+    histMan.addH1D_BJetBinned("mttbar_conversions_withMETAndAsymJets", "mttbar", 5000, 0, 5000);
+    histMan.addH1D_BJetBinned("mttbar_controlRegion_withMETAndAsymJets", "mttbar", 5000, 0, 5000);
+
+    histMan.addH1D_BJetBinned("mttbar_conversions_withAsymJetsCut", "mttbar", 5000, 0, 5000);
+    histMan.addH1D_BJetBinned("mttbar_controlRegion_withAsymJetsCut", "mttbar", 5000, 0, 5000);
 
     histMan.addH1D_BJetBinned("mttbar", "mttbar", 5000, 0, 5000);
     histMan.addH1D_BJetBinned("mttbar_withMETCut", "mttbar_withMETCut", 5000, 0, 5000);
@@ -639,7 +664,7 @@ void Analysis::createHistograms() {
 
 Analysis::Analysis() :
     eventReader(new NTupleEventReader()),
-    eventFilter(Filter::makeTopPairEPlusJetsFilter()),
+//    eventFilter(Filter::makeTopPairEPlusJetsFilter()),
     currentEvent(),
     ttbarCandidate(),
     histMan(),

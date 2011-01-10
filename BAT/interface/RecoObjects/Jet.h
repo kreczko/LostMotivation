@@ -14,30 +14,7 @@ namespace BAT {
 
 class Jet: public Particle {
 public:
-//	enum Algorithm {
-//		Calo_AntiKT_Cone05,
-//		JPT_AntiKt_ConeDR05,
-//		KT_Cone04,
-//		KT_Cone06,
-//		ParticleFlow,
-//		SiS_Cone05,
-//		SiS_Cone07,
-//		NUMBER_OF_JETALGORITHMS
-//	};
 
-	static float goodJetMinimalPt;
-	static float goodJetMaximalAbsoluteEta;
-	static float goodJetMinimalElectromagneticFraction;
-	static float goodJetMinimalNumberOfRecHitsContaining90PercentOfTheJetEnergy;
-	static float goodJetMaximalFractionOfEnergyIntheHottestHPDReadout;
-
-	static void resetSelectionValues() {
-		Jet::goodJetMaximalAbsoluteEta = 2.4;
-		Jet::goodJetMinimalPt = 30.;
-		Jet::goodJetMinimalElectromagneticFraction = 0.01;
-		Jet::goodJetMinimalNumberOfRecHitsContaining90PercentOfTheJetEnergy = 1;
-		Jet::goodJetMaximalFractionOfEnergyIntheHottestHPDReadout = 0.98;
-	}
 	Jet();
 	Jet(const Particle& particle);
 	Jet(float energy, float px, float py, float pz);

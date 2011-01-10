@@ -8,9 +8,6 @@
 #include "../../interface/RecoObjects/Muon.h"
 
 namespace BAT {
-float Muon::goodMuonMinimalPt = 0;
-float Muon::goodMuonMaximalAbsoluteEta = 5;
-float Muon::isolatedMuonMaximalRelativeIsolation = 5000;
 
 Muon::Muon() :
 	Particle(), is_Global(false), ecal_Isolation(0.), hcal_Isolation(0), tracker_Isolation(0) {
@@ -62,12 +59,12 @@ float Muon::relativeIsolation() const {
 }
 
 bool Muon::isIsolated() const{
-	return relativeIsolation() < Muon::isolatedMuonMaximalRelativeIsolation;
+	return relativeIsolation() < 0.2;
 }
 
 bool Muon::isGood() const{
-	bool passesPt = pt() > Muon::goodMuonMinimalPt;
-	bool passesEta = fabs(eta()) < Muon::goodMuonMaximalAbsoluteEta;
+	bool passesPt = pt() > 10;
+	bool passesEta = fabs(eta()) < 2.5;
 	return passesPt && passesEta && is_Global;
 }
 }

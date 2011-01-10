@@ -4,7 +4,6 @@
 #include <boost/scoped_ptr.hpp>
 
 #include "../interface/Event.h"
-#include "../interface/Filter.h"
 #include "../interface/OnlyForTests/DummyTTbarEvent.h"
 #include "../interface/Selection.h"
 #include "TestObjectFactory.h"
@@ -16,7 +15,6 @@ using namespace std;
 struct TestTopPairEventCandidate {
     DummyTTbarEvent ttbarEvent, goodZEvent, poorZEvent, DiJetEvent, DiJetEventWithConversion, muonEvent;
     DummyTTbarEvent emptyEvent, customEvent;
-    boost::scoped_ptr<Filter> eventFilter;
 
     ElectronPointer goodIsolatedElectron, goodIsolatedElectron2;
     ElectronPointer goodLooseElectron;
@@ -43,7 +41,6 @@ struct TestTopPairEventCandidate {
         muonEvent(),
         emptyEvent(),
         customEvent(),
-        eventFilter(Filter::makeTopPairEPlusJetsFilter()),
         goodIsolatedElectron(TestObjectFactory::goodIsolatedElectron()),
         goodIsolatedElectron2(TestObjectFactory::goodIsolatedElectron2()),
         goodLooseElectron(new Electron(100., 79., -13., -5.)),

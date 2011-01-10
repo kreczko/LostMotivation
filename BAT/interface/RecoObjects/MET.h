@@ -15,15 +15,6 @@ namespace BAT {
 
 class MET: public Particle {
 public:
-//	enum Algorithm {
-//		Calo,  KT4, KT6, tcMET, ParticleFlowMET, NUMBER_OF_METALGORITHMS
-//	};
-
-	static float goodMETMinimalEt;
-
-	static void resetSelectionValues() {
-		MET::goodMETMinimalEt = 0;
-	}
 	MET();
 	MET(float ex, float ey);
 	virtual ~MET();

@@ -7,17 +7,16 @@ using namespace BAT;
 
 struct TestMuon {
 private:
+    const static double goodMuonMinimalPt = 15;
+    const static double goodMuonMaximalAbsoluteEta = 2.5;
+    const static double isolatedMuonMaximalRelativeIsolation = 0.2;
+
 	Muon goodNonIsolatedMuon;
 	Muon goodIsolatedMuon;
 	Muon nonGlobalMuon;
 	Muon badMuonLowPt;
 	Muon badEtaMuon;
 
-	void setMuonConditions() {
-		Muon::goodMuonMinimalPt = 15;
-		Muon::goodMuonMaximalAbsoluteEta = 2.5;
-		Muon::isolatedMuonMaximalRelativeIsolation = 0.2;
-	}
 	void setUpGoodMuon() {
 		goodNonIsolatedMuon.makeGlobal(true);
 		goodNonIsolatedMuon.setEcalIsolation(200);
@@ -42,14 +41,13 @@ private:
 
 	void setUpBadEtaMuon() {
 		badEtaMuon.makeGlobal(true);
-		assert(fabs(badEtaMuon.eta()) > Muon::goodMuonMaximalAbsoluteEta);
-		assert(badEtaMuon.pt() > Muon::goodMuonMinimalPt);
+		assert(fabs(badEtaMuon.eta()) > goodMuonMaximalAbsoluteEta);
+		assert(badEtaMuon.pt() > goodMuonMinimalPt);
 	}
 public:
 	TestMuon() :
 		goodNonIsolatedMuon(200, 199, 1, 1), goodIsolatedMuon(goodNonIsolatedMuon), nonGlobalMuon(goodNonIsolatedMuon),
 				badMuonLowPt(15., 14., 1., 1.), badEtaMuon(450., 50., 50., 444.) {
-		setMuonConditions();
 		setUpGoodMuon();
 		setUpGoodIsolatedMuon();
 		setUpNonGlobalMuon();

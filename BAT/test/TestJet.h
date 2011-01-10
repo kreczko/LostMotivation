@@ -15,7 +15,6 @@ struct TestJet {
 	TestJet() :
 		goodJet(290., 200., 200., 0.), badEtaJet(2900., 200., 0., 2000.), badEtJet(20., 20., 20., 0.), badEMFJet(
 				goodJet), badn90HitsJet(goodJet), badfHPDJet(goodJet) {
-		setJetConditions();
 		setUpGoodJet();
 		setUpBadEtaJet();
 		setUpBadEtJet();
@@ -24,13 +23,13 @@ struct TestJet {
 		setUpBadfHPDJet();
 	}
 private:
-	void setJetConditions() {
-		Jet::goodJetMaximalAbsoluteEta = 2.4;
-		Jet::goodJetMinimalPt = 30.0;
-		Jet::goodJetMinimalElectromagneticFraction = 0.01;
-		Jet::goodJetMinimalNumberOfRecHitsContaining90PercentOfTheJetEnergy = 1;
-		Jet::goodJetMaximalFractionOfEnergyIntheHottestHPDReadout = 0.98;
-	}
+
+	const static double goodJetMaximalAbsoluteEta = 2.4;
+    const static double goodJetMinimalPt = 30.0;
+    const static double goodJetMinimalElectromagneticFraction = 0.01;
+    const static double goodJetMinimalNumberOfRecHitsContaining90PercentOfTheJetEnergy = 1;
+    const static double goodJetMaximalFractionOfEnergyIntheHottestHPDReadout = 0.98;
+
 	void setUpJet(Jet& jet) {
 		jet.setEMF(0.1);
 		jet.setN90Hits(2.);
@@ -43,28 +42,28 @@ private:
 
 	void setUpBadEtaJet() {
 		setUpJet(badEtaJet);
-		assert(badEtaJet.et() > Jet::goodJetMinimalPt);
-		assert(badEtaJet.eta() > Jet::goodJetMaximalAbsoluteEta);
+		assert(badEtaJet.et() > goodJetMinimalPt);
+		assert(badEtaJet.eta() > goodJetMaximalAbsoluteEta);
 	}
 
 	void setUpBadEtJet() {
 		setUpJet(badEtJet);
-		assert(fabs(badEtJet.eta()) < Jet::goodJetMaximalAbsoluteEta);
+		assert(fabs(badEtJet.eta()) < goodJetMaximalAbsoluteEta);
 	}
 
 	void setUpBadEMFJet() {
 		setUpJet(badEMFJet);
-		badEMFJet.setEMF(Jet::goodJetMinimalElectromagneticFraction - 0.1);
+		badEMFJet.setEMF(goodJetMinimalElectromagneticFraction - 0.1);
 	}
 
 	void setUpBadn90HitsJet() {
 		setUpJet(badn90HitsJet);
-		badn90HitsJet.setN90Hits(Jet::goodJetMinimalNumberOfRecHitsContaining90PercentOfTheJetEnergy - 1);
+		badn90HitsJet.setN90Hits(goodJetMinimalNumberOfRecHitsContaining90PercentOfTheJetEnergy - 1);
 	}
 
 	void setUpBadfHPDJet() {
 		setUpJet(badfHPDJet);
-		badfHPDJet.setFHPD(Jet::goodJetMaximalFractionOfEnergyIntheHottestHPDReadout + 0.01);
+		badfHPDJet.setFHPD(goodJetMaximalFractionOfEnergyIntheHottestHPDReadout + 0.01);
 	}
 public:
 	void testGoodJet() {

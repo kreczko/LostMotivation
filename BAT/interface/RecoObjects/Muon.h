@@ -14,15 +14,6 @@ namespace BAT {
 
 class Muon: public Particle {
 public:
-	static float goodMuonMinimalPt;
-	static float goodMuonMaximalAbsoluteEta;
-	static float isolatedMuonMaximalRelativeIsolation;
-
-	static void resetSelectionValues() {
-		Muon::goodMuonMinimalPt = 0;
-		Muon::goodMuonMaximalAbsoluteEta = 5;
-		Muon::isolatedMuonMaximalRelativeIsolation = 5000;
-	}
 	Muon();
 	Muon(float energy, float px, float py, float pz);
 	virtual ~Muon();

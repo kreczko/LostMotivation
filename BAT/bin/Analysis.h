@@ -12,7 +12,6 @@
 #include <boost/array.hpp>
 #include <boost/unordered_map.hpp>
 #include "../interface/Readers/NTupleEventReader.h"
-#include "../interface/Filter.h"
 #include "TH1F.h"
 #include "TH2F.h"
 #include "TFile.h"
@@ -58,7 +57,6 @@ typedef boost::unordered_map<std::string, cutarray> cutmap;
 class Analysis {
 private:
     boost::scoped_ptr<BAT::NTupleEventReader> eventReader;
-    boost::scoped_ptr<BAT::Filter> eventFilter;
     BAT::Event currentEvent;
     BAT::TopPairEventCandidate ttbarCandidate;
     BAT::HistogramManager histMan;

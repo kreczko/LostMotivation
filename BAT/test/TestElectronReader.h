@@ -49,11 +49,6 @@ public:
         ASSERT_EQUAL(false, firstElectron->isIsolated());
     }
 
-    void testReadFirstElectronIsIsolatedAfterChangingCut() {
-        Electron::isolatedElectronMaximalRelativeIsolation = 10.2;
-        ASSERT_EQUAL(true, firstElectron->isIsolated());
-    }
-
     void testFirstElectronSigmaEtaEta() {
         ASSERT_EQUAL_DELTA(0.0436961, firstElectron->sigmaIEtaIEta(), 0.0000001);
     }
@@ -125,14 +120,12 @@ extern cute::suite make_suite_TestElectronReader() {
     s.push_back(CUTE_SMEMFUN(TestElectronReader, testReadElectronsSize));
     s.push_back(CUTE_SMEMFUN(TestElectronReader, testReadFirstElectronEnergy));
     s.push_back(CUTE_SMEMFUN(TestElectronReader, testReadFirstElectronIsIsolated));
-    s.push_back(CUTE_SMEMFUN(TestElectronReader, testReadFirstElectronIsIsolatedAfterChangingCut));
     s.push_back(CUTE_SMEMFUN(TestElectronReader, testFirstElectronSigmaEtaEta));
     s.push_back(CUTE_SMEMFUN(TestElectronReader, testFirstElectronDPhiIn));
     s.push_back(CUTE_SMEMFUN(TestElectronReader, testFirstElectronDEtaIn));
     s.push_back(CUTE_SMEMFUN(TestElectronReader, testFirstElectronHadOverEm));
     s.push_back(CUTE_SMEMFUN(TestElectronReader, testFirstElectronCharge));
     s.push_back(CUTE_SMEMFUN(TestElectronReader, testFirstElectronD0));
-//    s.push_back(CUTE_SMEMFUN(TestElectronReader, testEcalSpikeBranchNumberOfElectrons));
     s.push_back(CUTE_SMEMFUN(TestElectronReader, testShFracInnerHits));
     s.push_back(CUTE_SMEMFUN(TestElectronReader, testGSFTrack));
     s.push_back(CUTE_SMEMFUN(TestElectronReader, testGSFTrackPhi));

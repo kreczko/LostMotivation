@@ -11,7 +11,6 @@ private:
 public:
     TestMET() :
         goodMET(40, 30), badMET(4, 3) {
-        MET::goodMETMinimalEt = 20;
     }
 
     void testStandardConstructorEt() {

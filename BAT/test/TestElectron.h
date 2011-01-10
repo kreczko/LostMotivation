@@ -9,6 +9,15 @@ using namespace BAT;
 
 struct TestElectron {
 private:
+    const static double isolatedElectronMaximalRelativeIsolation = 0.1;
+    const static double goodElectronMaximalAbsoluteEta = 2.1;
+    const static double goodElectronMinimalEt = 20.;
+    const static double goodElectronMaximalDistanceFromInteractionPoint = 0.02;
+    const static double MaximalNumberOfMissingInnerLayerHitsBeforeCalledConversion = 0;
+    const static double looseElectronMaximalAbsoluteEta = 2.5;
+    const static double looseElectronMinimalEt = 25;
+    const static double looseIsolatedElectronMaximalRelativeIsolation = 1.0;
+
     float invalidSwissCross;
     ElectronPointer isolatedElectron;
     ElectronPointer goodElectron;
@@ -20,6 +29,7 @@ private:
     ElectronPointer looseElectron;
     ElectronPointer badLooseElectronNoID;
     ElectronPointer badElectronNoID;
+
 public:
     TestElectron() :
         invalidSwissCross(2),
@@ -33,7 +43,7 @@ public:
         looseElectron(new Electron(40., 20., 20., 0.)),
         badLooseElectronNoID(new Electron(30., 20., 5., 2.)),
         badElectronNoID(new Electron(30., 20., 5., 2.)) {
-        setElectronConditions();
+//        setElectronConditions();
         setBadEtElectron();
         setBadEtaElectron();
         setBadD0Electron();
@@ -45,53 +55,53 @@ public:
     }
 
 private:
-    void setElectronConditions() {
-        Electron::isolatedElectronMaximalRelativeIsolation = 0.1;
-        Electron::goodElectronMaximalAbsoluteEta = 2.1;
-        Electron::goodElectronMinimalEt = 20.;
-        Electron::goodElectronMaximalDistanceFromInteractionPoint = 0.02;
-        Electron::MaximalNumberOfMissingInnerLayerHitsBeforeCalledConversion = 0;
-        Electron::looseElectronMaximalAbsoluteEta = 2.5;
-        Electron::looseElectronMinimalEt = 25;
-        Electron::looseIsolatedElectronMaximalRelativeIsolation = 1.0;
-    }
+//    void setElectronConditions() {
+//        isolatedElectronMaximalRelativeIsolation = 0.1;
+//        goodElectronMaximalAbsoluteEta = 2.1;
+//        goodElectronMinimalEt = 20.;
+//        goodElectronMaximalDistanceFromInteractionPoint = 0.02;
+//        MaximalNumberOfMissingInnerLayerHitsBeforeCalledConversion = 0;
+//        looseElectronMaximalAbsoluteEta = 2.5;
+//        looseElectronMinimalEt = 25;
+//        looseIsolatedElectronMaximalRelativeIsolation = 1.0;
+//    }
 
     void setBadEtElectron() {
         badEtElectron->setD0(0.01);
         badEtElectron->setSuperClusterEta(1);
-        assert(fabs(badEtElectron->eta()) < Electron::goodElectronMaximalAbsoluteEta);
-        assert(fabs(badEtElectron->d0()) < Electron::goodElectronMaximalDistanceFromInteractionPoint);
+        assert(fabs(badEtElectron->eta()) < goodElectronMaximalAbsoluteEta);
+        assert(fabs(badEtElectron->d0()) < goodElectronMaximalDistanceFromInteractionPoint);
         //and fails the selected
-        assert(badEtElectron->et() < Electron::goodElectronMinimalEt);
+        assert(badEtElectron->et() < goodElectronMinimalEt);
     }
 
     void setBadEtaElectron() {
         badEtaElectron->setSuperClusterEta(2.6);
         badEtaElectron->setD0(0.001);
         //make sure it passes all other requirements
-        assert(badEtaElectron->et() > Electron::goodElectronMinimalEt);
-        assert(fabs(badEtaElectron->d0()) < Electron::goodElectronMaximalDistanceFromInteractionPoint);
+        assert(badEtaElectron->et() > goodElectronMinimalEt);
+        assert(fabs(badEtaElectron->d0()) < goodElectronMaximalDistanceFromInteractionPoint);
         //and fails the selected
-        assert(fabs(badEtaElectron->superClusterEta()) > Electron::goodElectronMaximalAbsoluteEta);
+        assert(fabs(badEtaElectron->superClusterEta()) > goodElectronMaximalAbsoluteEta);
     }
 
     void setBadD0Electron() {
         badD0Electron->setD0(300.);
         //make sure it passes all other requirements
-        assert(badD0Electron->et() > Electron::goodElectronMinimalEt);
-        assert(fabs(badD0Electron->eta()) < Electron::goodElectronMaximalAbsoluteEta);
+        assert(badD0Electron->et() > goodElectronMinimalEt);
+        assert(fabs(badD0Electron->eta()) < goodElectronMaximalAbsoluteEta);
         //and fails the selected
-        assert(fabs(badD0Electron->d0()) > Electron::goodElectronMaximalDistanceFromInteractionPoint);
+        assert(fabs(badD0Electron->d0()) > goodElectronMaximalDistanceFromInteractionPoint);
     }
 
     void setBadInCrackElectron() {
         badInCrackElectron->setSuperClusterEta(1.5);
         badInCrackElectron->setD0_BS(0.0001);
         //make sure it passes all other requirements
-        assert(badInCrackElectron->et() > Electron::goodElectronMinimalEt);
-        assert(fabs(badInCrackElectron->d0_BS()) < Electron::goodElectronMaximalDistanceFromInteractionPoint);
+        assert(badInCrackElectron->et() > goodElectronMinimalEt);
+        assert(fabs(badInCrackElectron->d0_BS()) < goodElectronMaximalDistanceFromInteractionPoint);
         //and fails the selected
-        assert(fabs(badInCrackElectron->eta()) < Electron::goodElectronMaximalAbsoluteEta);
+        assert(fabs(badInCrackElectron->eta()) < goodElectronMaximalAbsoluteEta);
         assert(badInCrackElectron->isInCrack());
     }
 

@@ -21,7 +21,6 @@ public:
 //        KT6Reader(new METReader(input, MET::KT6)),
         met(),
         pfmet() {
-        MET::goodMETMinimalEt = 20;
         input->Add(InputFile::ttbar);
         input->SetBranchStatus("*", 0);
         reader->initialise();

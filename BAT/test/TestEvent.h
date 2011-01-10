@@ -4,7 +4,6 @@
 #include <boost/scoped_ptr.hpp>
 
 #include "../interface/Event.h"
-#include "../interface/Filter.h"
 #include "../interface/Selection.h"
 #include "../interface/VBTF_ElectronID.h"
 
@@ -13,7 +12,6 @@ using namespace BAT;
 struct TestEvent {
     Event ttbarEvent, goodZEvent, poorZEvent, DiJetEvent, DiJetEventWithConversion, muonEvent;
     Event emptyEvent;
-    boost::scoped_ptr<Filter> eventFilter;
     ElectronPointer goodIsolatedElectron, goodIsolatedElectron2;
     ElectronPointer goodLooseElectron;
     ElectronPointer badElectron;
@@ -32,7 +30,6 @@ struct TestEvent {
     DiJetEventWithConversion(),
     muonEvent(),
     emptyEvent(),
-    eventFilter(Filter::makeTopPairEPlusJetsFilter()),
     goodIsolatedElectron(TestObjectFactory::goodIsolatedElectron()),
     goodIsolatedElectron2(TestObjectFactory::goodIsolatedElectron2()),
     goodLooseElectron(new Electron(100., 79., -13., -5.)),
@@ -144,10 +141,10 @@ private:
 //    }
 
     void setUpBadVertex() {
-        badVertex->setDegreesOfFreedom(PrimaryVertex::goodVertexMinimalNumberOfDegreesOfFreedom);
+        badVertex->setDegreesOfFreedom(4);
         badVertex->setFake(true);
-        badVertex->setRho(PrimaryVertex::goodVertexMaximalAbsoluteRho);
-        badVertex->setZPosition(PrimaryVertex::goodVertexMaximalAbsoluteZPosition);
+        badVertex->setRho(2.0);
+        badVertex->setZPosition(24);
     }
 
     void setUpIsolatedGoodMuon() {
