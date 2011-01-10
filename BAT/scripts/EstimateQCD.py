@@ -2,7 +2,7 @@ from HistGetter import *
 from tdrStyle import *
 from ROOT import *
 from math import pow, exp
-YMAX_all = 700;
+YMAX_all = 350;
 normMode = 1
 nj = 'allJets'
 lumi = 36.145;
@@ -43,6 +43,7 @@ def getHisto():
                         'enri2','enri3', 'pj1', 'pj2', 'pj3']
     singleTopSamples = ['tW', 'tchan']
     
+    samplesOfInterest = ['data','qcd','zjets', 'wjets', 'singleTop','ttbar']
     colors = {'ttbar' :  kRed + 1,
     'wjets' :  kGreen - 3,
     'zjets' :  kAzure - 2,
@@ -55,7 +56,7 @@ def getHisto():
     hists = HG.addSampleSum(hists)
     this_rebin = 10;
     mcStack = {}
-    for sample in hists.keys():#sample
+    for sample in samplesOfInterest:#sample
         for histname in hists[sample].keys():
             hists[sample][histname].Rebin(this_rebin)
             if not sample == 'data':
@@ -67,6 +68,7 @@ def getHisto():
                         mcStack[histname].Add(hists[sample][histname])
                     else:
                         mcStack[histname] = THStack("MC_" + histname, "MC_" + histname);
+                        mcStack[histname].Add(hists[sample][histname])
             else:
                 hists[sample][histname].SetMarkerStyle(8);
                 
@@ -88,14 +90,13 @@ def calculate_gaus_unc(a, b, c):
     #print , "est: ", est , 
     
 def add_legend(hists, func = "pol1"):
-    tt = hists['ttbar']['QCDest_CombRelIso_4orMoreJets']
-    wj = hists['wjets']['QCDest_CombRelIso_4orMoreJets']
-    zj = hists['zjets']['QCDest_CombRelIso_4orMoreJets']
-    tt = hists['ttbar']['QCDest_CombRelIso_4orMoreJets']
-    tt = hists['ttbar']['QCDest_CombRelIso_4orMoreJets']
-    data = hists['data']['QCDest_CombRelIso_4orMoreJets']
-    QCD = hists['qcd']['QCDest_CombRelIso_4orMoreJets']
-    stop = hists['singleTop']['QCDest_CombRelIso_4orMoreJets']
+    histname = 'QCDest_CombRelIso_%s' % nj
+    tt = hists['ttbar'][histname]
+    wj = hists['wjets'][histname]
+    zj = hists['zjets'][histname]
+    data = hists['data'][histname]
+    QCD = hists['qcd'][histname]
+    stop = hists['singleTop'][histname]
     leg = TLegend(0.64, 0.4, 0.9, 0.9);
 
     leg.SetFillStyle(0);
@@ -128,7 +129,7 @@ def add_legend(hists, func = "pol1"):
     leg.AddEntry(wj, "W#rightarrowl#nu", "F");
     leg.AddEntry(zj, "Z/#gamma*#rightarrowl^{+}l^{-}", "F");
     leg.AddEntry(QCD, "QCD & #gamma+jets", "F");
-    leg.Draw();
+    return leg
 
 def add_cms_label(intlumi, njet = ""):
 
@@ -141,12 +142,17 @@ def add_cms_label(intlumi, njet = ""):
     mytext.SetBorderSize(0);
     mytext.SetTextFont(42);
     mytext.SetTextAlign(13);
-    mytext.Draw();
+    return mytext
 
 def fit_njet(hists, function = "pol1", Fit_From_user = 0.1):
-    mcStack = hists['MCStack']['QCDest_CombRelIso_4orMoreJets']
-    data = hists['data']['QCDest_CombRelIso_4orMoreJets']
-    QCD = hists['qcd']['QCDest_CombRelIso_4orMoreJets']
+    histname = 'QCDest_CombRelIso_%s' % nj
+    mcStack = hists['MCStack'][histname]
+    data = hists['data'][histname]
+    QCD = hists['qcd'][histname]
+    tt = hists['ttbar'][histname]
+    wj = hists['wjets'][histname]
+    zj = hists['zjets'][histname]
+    stop = hists['singleTop'][histname]
     TheEstimates = open('MyEstimates.txt', 'a')
     print "\nSwitched from chi2 fit to likelihood fit (better with low stats)\n" 
 
@@ -165,13 +171,17 @@ def fit_njet(hists, function = "pol1", Fit_From_user = 0.1):
 
     data.GetXaxis().SetRangeUser(0, 1.6 - 0.01);
     data.Draw();
-
-    data.GetYaxis().SetRangeUser(0, YMAX_all);
+    max = 0;
+    if mcStack.GetMaximum() > data.GetMaximum():
+        max = mcStack.GetMaximum()*1.1
+    else:
+       max =  data.GetMaximum()*1.1
+    data.GetYaxis().SetRangeUser(0, max);
 
     # draw mc
-    mcStack.Draw("ahist same");
+    mcStack.Draw("hist same");
     data.Draw("ae same");
-    data.Draw("axis same");
+#    data.Draw("axis same");
 
     print "Fit Range: ", Fit_From, "-1.6" 
 
@@ -196,7 +206,53 @@ def fit_njet(hists, function = "pol1", Fit_From_user = 0.1):
 
     myf.Draw("same");
     myf2.Draw("same");
+    # Add "CMS Preliminary", integrated luminosity and sqrt(s), and legend
+#    add_cms_label(lumi, nj).Draw('same');
+    mytext = TPaveText(0.3, 0.8, 0.6, 0.93, "NDC");
+    mytext.AddText("CMS Preliminary");
+    mytext.AddText("%.1f pb^{-1} at  #sqrt{s} = 7 TeV"% lumi);
+    if nj != "":
+        mytext.AddText("e+jets, N_{jets} = %s"% nj)
+    mytext.SetFillStyle(0);
+    mytext.SetBorderSize(0);
+    mytext.SetTextFont(42);
+    mytext.SetTextAlign(13);
+    mytext.Draw()
+    #  add_fit_res( Fit_From, chi2, ndf );
+#    leg = add_legend(hists, function)
+    leg = TLegend(0.64, 0.4, 0.9, 0.9);
 
+    leg.SetFillStyle(0);
+    leg.SetBorderSize(0);
+    leg.SetTextFont(42);
+
+    # Here I define coloured lines for use in the legend
+    blue = TF1("blue", "pol0", 0, 1);
+    red = TF1("red", "pol0", 0, 1);
+
+    blue.SetLineColor(kBlue);
+    red.SetLineColor(kRed);
+
+    red.SetLineWidth(2);
+    blue.SetLineWidth(2);
+
+    blue.SetLineStyle(kDashed);
+
+    # Add entry to legend
+    leg.AddEntry(data, "Data", "LP");
+    if function == "pol1":
+        leg.AddEntry(red, "Linear Fit", "l");
+    elif function == "expo":
+        leg.AddEntry(red, "Exponenetial Fit", "l");
+    elif function == "gaus":
+        leg.AddEntry(red, "Gaussian Fit", "l");
+    leg.AddEntry(blue, "Extrapolation", "l");
+    leg.AddEntry(tt, "t#bar{t}", "F");
+    leg.AddEntry(stop,  "Single-Top", "F");
+    leg.AddEntry(wj, "W#rightarrowl#nu", "F");
+    leg.AddEntry(zj, "Z/#gamma*#rightarrowl^{+}l^{-}", "F");
+    leg.AddEntry(QCD, "QCD & #gamma+jets", "F");
+    leg.Draw()
     # Get estimate from extrapolation
     n_extrap = myf2.Integral(0, 0.1) / 0.1; #note divided by bin width=0.1
 
@@ -309,10 +365,6 @@ def fit_njet(hists, function = "pol1", Fit_From_user = 0.1):
     print "  +/-  ", sigmaN, " (error propagation)\n\n";
     print "--------------------------------------------" 
 
-    # Add "CMS Preliminary", integrated luminosity and sqrt(s), and legend
-    add_cms_label(lumi, nj);
-    #  add_fit_res( Fit_From, chi2, ndf );
-    add_legend(hists, function);
 
     # save as eps, then convert to pdf
     print "Fit_From=", Fit_From 
@@ -336,8 +388,15 @@ def fit_njet(hists, function = "pol1", Fit_From_user = 0.1):
     TheEstimates.close()
     
 if __name__ == '__main__':
+    global nj
     hists = getHisto()
-    print hists
-    fit_njet(hists, 'gaus')
+    nj = 'allJets'
+    fit_njet(hists, 'gaus', 0.1)
+    fit_njet(hists, 'gaus', 0.2)
+    fit_njet(hists, 'gaus', 0.3)
+    nj = '4orMoreJets'
+    fit_njet(hists, 'gaus', 0.1)
+    fit_njet(hists, 'gaus', 0.2)
+    fit_njet(hists, 'gaus', 0.3)
 #    make_QCDnormToEstimate_plot()
     
