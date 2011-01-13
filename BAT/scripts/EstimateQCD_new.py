@@ -5,6 +5,7 @@ from tdrStyle import *
 from ROOT import *
 from math import pow, exp
 from copy import deepcopy
+from array import array
 
 class QCDEstimator:
     luminosity = 36.145#pb-1
@@ -50,9 +51,11 @@ class QCDEstimator:
 
         for bin in self.jetBins:
             self.pfIsoResults[bin] = {'actualNumberOfQCDEvents': 0, 'estimatedNumberOfQCDEvents':0,
-                                      'fitFunction': None, 'fitParameters': {}}
+                                      'fitFunction': None, 'fitParameters': {}, 'numberOfAllDataEvents':0,
+                                      'numberOfAllMCEvents':0}
             self.relIsoResults[bin] = {'actualNumberOfQCDEvents': 0, 'estimatedNumberOfQCDEvents':0,
-                                       'fitFunction': None, 'fitParameters': {}}
+                                       'fitFunction': None, 'fitParameters': {}, 'numberOfAllDataEvents':0,
+                                       'numberOfAllMCEvents':0}
 
     def getHistograms( self ):
         relIsoHists = ['QCDest_CombRelIso_' + jetbin for jetbin in self.jetBins]
@@ -65,7 +68,7 @@ class QCDEstimator:
         self.histograms = self.histGetter.addSampleSum( self.histograms )
 
     def applyStyleAndCreateStack( self ):
-        samplesOfInterest = ['data', 'qcd', 'zjets', 'wjets', 'singleTop', 'ttbar']
+        samplesOfInterest = ['data', 'qcd', 'zjets', 'wjets', 'singleTop', 'ttbar', 'allMC']
         colors = {'ttbar' :  kRed + 1,
                   'wjets' :  kGreen - 3,
                   'zjets' :  kAzure - 2,
@@ -77,7 +80,7 @@ class QCDEstimator:
         for sample in samplesOfInterest:#sample
             for histname in self.histograms[sample].keys():
                 self.histograms[sample][histname].Rebin( self.rebin )
-                if not sample == 'data':
+                if not sample in ['data', 'allMC']:
                     self.histograms[sample][histname].Scale( self.scale )
                     self.histograms[sample][histname].SetFillStyle( 1001 )
                     self.histograms[sample][histname].SetFillColor( colors[sample] )
@@ -126,8 +129,9 @@ class QCDEstimator:
                 self.plot( self.relIsoHistogramPrefix + bin, self.relIsoResults[bin] )
                 self.allPfIsoResults['%1.1f-%1.1f' % fitRange] = deepcopy( self.pfIsoResults )
                 self.allRelIsoResults['%1.1f-%1.1f' % fitRange] = deepcopy( self.relIsoResults )
-                
-        
+        self.plotClosureTest( self.pfIsoHistogramPrefix, self.allPfIsoResults )
+        self.plotClosureTest( self.relIsoHistogramPrefix, self.allRelIsoResults )
+
 
     def doEstimate( self, function = 'gaus' ):
         self.useEntryAsData = 'data'
@@ -148,12 +152,16 @@ class QCDEstimator:
         function = self.currentFitFuntion
 
         QCD = self.histograms['qcd']
+        data = self.histograms[self.useEntryAsData]
+        allMC = self.histograms['allMC']
         pfIsoHist = self.pfIsoHistogramPrefix + jetbin
         relIsoHist = self.relIsoHistogramPrefix + jetbin
 
         self.pfIsoResults[jetbin]['actualNumberOfQCDEvents'] = QCD[pfIsoHist].GetBinContent( 1 )
+        self.pfIsoResults[jetbin]['numberOfAllDataEvents'] = data[pfIsoHist].GetBinContent( 1 )
+        self.pfIsoResults[jetbin]['numberOfAllMCEvents'] = allMC[pfIsoHist].GetBinContent( 1 )
 
-        pfIsoFit = self.doFit( self.histograms[self.useEntryAsData][pfIsoHist] )
+        pfIsoFit = self.doFit( data[pfIsoHist] )
         self.pfIsoResults[jetbin]['fitFunction'] = pfIsoFit
         self.pfIsoResults[jetbin]['fitParameters'] = self.getFitParameters( pfIsoFit )
 
@@ -162,8 +170,10 @@ class QCDEstimator:
 
 #---------------------------------------------------------------------------------------------------------------------- 
         self.relIsoResults[jetbin]['actualNumberOfQCDEvents'] = QCD[relIsoHist].GetBinContent( 1 )
+        self.relIsoResults[jetbin]['numberOfAllDataEvents'] = data[relIsoHist].GetBinContent( 1 )
+        self.relIsoResults[jetbin]['numberOfAllMCEvents'] = allMC[relIsoHist].GetBinContent( 1 )
 
-        relIsoFit = self.doFit( self.histograms[self.useEntryAsData][relIsoHist] )
+        relIsoFit = self.doFit( data[relIsoHist] )
         self.relIsoResults[jetbin]['fitFunction'] = relIsoFit
         self.relIsoResults[jetbin]['fitParameters'] = self.getFitParameters( relIsoFit )
 
@@ -206,10 +216,11 @@ class QCDEstimator:
         canvas = TCanvas( "c1", "Iso fit", 600, 400 )
         data.Draw();
 
-        if mcStack.GetMaximum() > data.GetMaximum():
+        max = 0
+        if mcStack.GetMaximum() > data.GetBinContent( 1 ):
             max = mcStack.GetMaximum()*1.1
         else:
-            max = data.GetMaximum()*1.1
+            max = data.GetBinContent( 1 ) * 1.1
 
         data.GetYaxis().SetRangeUser( 0, max );
         # draw mc
@@ -227,16 +238,126 @@ class QCDEstimator:
 #        legend.Draw()
 
         if self.currentFitFuntion == "pol1":
-            out = "%s_fit_linear_from_0%.0f" % ( histname, self.currentFitRange[0] * 10.0 );
+            out = "%s_fit_linear_from_0%.0f_%s" % ( histname, self.currentFitRange[0] * 10.0, self.useEntryAsData );
         else:
-            out = "%s_fit_%s_from_%1.1f_to_%1.1f" % ( histname, self.currentFitFuntion, self.currentFitRange[0],
-                                            self.currentFitRange[1] );
+            out = "%s_fit_%s_from_%1.1f_to_%1.1f_%s" % ( histname, self.currentFitFuntion, self.currentFitRange[0],
+                                            self.currentFitRange[1], self.useEntryAsData );
 
         canvas.SaveAs( out + '.eps' );
         gROOT.ProcessLine( ".!ps2pdf -dEPSCrop %s.eps" % out );
         gROOT.ProcessLine( ".!rm -f %s.eps" % out );
 
         canvas.Close(); #crucial!
+
+
+    def plotClosureTest( self, histname, results ):
+        c2 = TCanvas( "c2", "QCD estimates", 600, 600 );
+        x = array( 'd', [1, 2, 3, 4] )
+        jetBinsOfInterest = ['1jet', '2jets', '3jets', '4orMoreJets']
+        function = self.currentFitFuntion
+        
+        gStyle.SetMarkerSize(1.7);
+        gStyle.SetMarkerStyle(20);
+        c2.SetTopMargin(0.1);
+        c2.SetLeftMargin(0.12);
+        c2.SetRightMargin(0.35);
+
+        y = {}
+        for fitRange in self.fitRangesClosureTest:
+            range = '%1.1f-%1.1f' % fitRange
+            y[range] = []
+            for bin in jetBinsOfInterest:
+
+                est = results[range][bin]['estimatedNumberOfQCDEvents']
+                true = results[range][bin]['actualNumberOfQCDEvents']
+                variation = ( est - true ) / true
+                y[range].append( variation )
+        gr1 = TGraph( 4, x, array( 'd', y['0.1-1.0'] ) )
+        gr2 = TGraph( 4, x, array( 'd', y['0.1-1.2'] ) )
+        gr3 = TGraph( 4, x, array( 'd', y['0.1-1.4'] ) )
+        gr4 = TGraph( 4, x, array( 'd', y['0.2-1.1'] ) )
+        gr5 = TGraph( 4, x, array( 'd', y['0.2-1.3'] ) )
+        gr6 = TGraph( 4, x, array( 'd', y['0.2-1.5'] ) )
+        gr7 = TGraph( 4, x, array( 'd', y['0.3-1.2'] ) )
+        gr8 = TGraph( 4, x, array( 'd', y['0.3-1.4'] ) )
+        gr9 = TGraph( 4, x, array( 'd', y['0.3-1.6'] ) )
+
+        gr1.SetMarkerColor( kGreen + 1 );
+        gr2.SetMarkerColor( kGreen + 2 );
+        gr3.SetMarkerColor( kGreen + 3 );
+        gr4.SetMarkerColor( kAzure + 7 );
+        gr5.SetMarkerColor( kAzure - 3 );
+        gr6.SetMarkerColor( kBlue );
+        gr7.SetMarkerColor( kOrange );
+        gr8.SetMarkerColor( kOrange - 1 );
+        gr9.SetMarkerColor( kOrange - 6 );
+        
+        gStyle.SetTitleW(0.9);
+        gStyle.SetTitleH(0.05)
+
+        h = None
+        if function == "gaus":
+            h = TH1D( "h", "Variation of QCD estimates with fit range (Gaussian)", 4, 0.5, 4.5 );
+        elif function == "pol3":
+            h = TH1D( "h", "Variation of QCD estimates with fit range (Pol3)", 4, 0.5, 4.5 );
+        elif function == "landau":
+            h = TH1D( "h", "Variation of QCD estimates with fit range (Landau)", 4, 0.5, 4.5 );
+
+        h.SetStats( kFALSE ); # no statistics
+        h.Draw();
+        h.SetYTitle( "Deviation = (Est-True)/True" );
+        h.GetYaxis().SetRangeUser( -1, 1 );
+        h.GetXaxis().SetRangeUser( 0.5, 5.5 );
+        h.GetXaxis().SetBinLabel( 1, "1j" );
+        h.GetXaxis().SetBinLabel( 2, "2j" );
+        h.GetXaxis().SetBinLabel( 3, "3j" );
+        h.GetXaxis().SetBinLabel( 4, "#geq4j" );
+        h.GetXaxis().SetLabelSize( 0.07 );
+        h.GetYaxis().SetTitleOffset( 1.3 );
+
+        gr1.Draw( "P" );
+        gr2.Draw( "P" ); #to superimpose graphs, do not re-draw axis
+        gr3.Draw( "P" );
+        gr4.Draw( "P" );
+        gr5.Draw( "P" );
+        gr6.Draw( "P" );
+        gr7.Draw( "P" );
+        gr8.Draw( "P" );
+        gr9.Draw( "P" );
+
+        c2.SetGrid( 1, 1 );
+
+        leg = TLegend( 0.65, 0.1, 0.98, 0.9 );
+        leg.SetFillColor( 0 );
+        leg.AddEntry( gr1, "Free: 0.1-1.0", "p" );
+        leg.AddEntry( gr2, "Free: 0.1-1.2", "p" );
+        leg.AddEntry( gr3, "Free: 0.1-1.4", "p" );
+        leg.AddEntry( gr4, "Free: 0.2-1.1", "p" );
+        leg.AddEntry( gr5, "Free: 0.2-1.3", "p" );
+        leg.AddEntry( gr6, "Free: 0.2-1.5", "p" );
+        leg.AddEntry( gr7, "Free: 0.3-1.2", "p" );
+        leg.AddEntry( gr8, "Free: 0.3-1.4", "p" );
+        leg.AddEntry( gr9, "Free: 0.3-1.6", "p" );
+
+        leg.Draw();
+
+        c2.SaveAs( "%s_qcd_estimate_%s.gif" % ( histname, function ) )
+
+        h.GetYaxis().SetRangeUser( -1, 1 );
+        c2.SaveAs( "%s_qcd_estimate_%s_zoom_11.gif" % ( histname, function ) );
+
+        h.GetYaxis().SetRangeUser( -2, 2 );
+        c2.SaveAs( "%s_qcd_estimate_%s_zoom_22.gif" % ( histname, function ) );
+
+        h.GetYaxis().SetRangeUser( -3, 3 );
+        c2.SaveAs( "%s_qcd_estimate_%s_zoom_33.gif" % ( histname, function ) );
+
+        h.GetYaxis().SetRangeUser( -6, 6 );
+        c2.SaveAs( "%s_qcd_estimate_%s_zoom_66.gif" % ( histname, function ) );
+
+        h.GetYaxis().SetRangeUser( -8, 8 );
+        c2.SaveAs( "%s_qcd_estimate_%s_zoom_88.gif" % ( histname, function ) );
+
 
     def getFitParameters( self, fitFunction ):
         fitParameters = {'chi2':-1, 'numberOfdegreesOfFreedom': 0, 'constrain1': 0, 'constrain2': 0,
@@ -324,12 +445,18 @@ class QCDEstimator:
     def printResults( self, results ):
         estimate = 0
         predicted = results[results.keys()[0]]['4orMoreJets']['actualNumberOfQCDEvents']
+        allData = results[results.keys()[0]]['4orMoreJets']['numberOfAllDataEvents']
+        allMC = results[results.keys()[0]]['4orMoreJets']['numberOfAllMCEvents']
+
         print 'Estimation for >= 4 jets'
         print 'predicted number of QCD events', predicted
         for fitRange in self.fitRangesEstimation:
             range = '%1.1f-%1.1f' % fitRange
             est = results[range]['4orMoreJets']['estimatedNumberOfQCDEvents']
+            true = results[range]['4orMoreJets']['actualNumberOfQCDEvents']
+            variation = ( est - true ) / true
             estimate += est
+
 
             print
             print 'estimated number of QCD events'
@@ -337,7 +464,12 @@ class QCDEstimator:
             print est
         print
         print 'average estimate', estimate / len( self.fitRangesEstimation )
-        print 'average weight factor', estimate / len( self.fitRangesEstimation ) / predicted
+        weight = estimate / len( self.fitRangesEstimation ) / predicted
+        print 'average weight factor', weight
+        print 'Total number of data in signal', allData
+        print 'Total number of MC in signal bin before reweighting QCD', allMC
+        print 'Total number of MC in signal bin before reweighting QCD', ( allMC - predicted ) + predicted * weight
+
 if __name__ == '__main__':
     gROOT.SetBatch( True )
     gROOT.ProcessLine( 'gErrorIgnoreLevel = 1001;' )
@@ -369,4 +501,6 @@ if __name__ == '__main__':
     print 'RelIso results'
     q.printResults( q.allRelIsoResults )
     print '=' * 40
-    q.doClosureTests('gaus')
+
+    print 'Starting closure tests'
+    q.doClosureTests( 'gaus' )
