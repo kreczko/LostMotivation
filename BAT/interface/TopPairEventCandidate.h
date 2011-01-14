@@ -105,10 +105,12 @@ public:
     bool passesFullTTbarEPlusJetSelection() const;
     bool hasIsolatedElectronInBarrelRegion() const;
 
+    void reconstructUsingTopMassDifference(ElectronPointer electron);
     void reconstructUsingChi2(ElectronPointer electron);
     void reconstructUsingSubjets();
     void reconstructUsingMCTruth();
 
+    double calculateTopMassDifference(unsigned short neutrinoSolution) const;
     double getLeptonicChi2(unsigned short neutrinoSolution) const;
     double getLeptonicChi2(double topMass, double angle) const;
     double getHadronicChi2() const;

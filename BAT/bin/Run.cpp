@@ -37,54 +37,56 @@ int main(int argc, char **argv) {
 
     boost::scoped_ptr<Analysis> myAnalysis(new Analysis());
     //    myAnalysis->setMaximalNumberOfEvents(10000);
-    myAnalysis->setUsedNeutrinoSelectionForTopPairReconstruction(NeutrinoSelectionCriterion::chi2);
+    myAnalysis->setUsedNeutrinoSelectionForTopPairReconstruction(NeutrinoSelectionCriterion::TopMassDifference);
 
     //Synchronisation exercise:
 //            myAnalysis->addInputFile("/storage/top/mc/Synch/nTuple_ttjet.root");
 //    myAnalysis->addInputFile("/storage/top/mc/38Xrereco/e20skim_QCD_BCtoE_Pt80to170_Spring10-START3X_V26_S09-v1/*_1_2_*.root");
 //    myAnalysis->addInputFile("/storage/top/mc/38Xrereco/e20skim_QCD_BCtoE_Pt80to170_Spring10-START3X_V26_S09-v1/*_2_2_*.root");
 
+    //data Run2010A 38X
+    // //      myAnalysis->addInputFile("/storage/top/data_38X/e20skim/e20skim_Run2010A-Sep17ReReco/*.root");
+          myAnalysis->addInputFile("/storage/top/data_38X/e20skim/e20skim_Run2010A-Sep17ReReco_v2_3rdtry/*.root");
 
-//data Run2010A 38X
-//    myAnalysis->addInputFile("/storage/top/data_38X/e20skim/e20skim_Run2010A-Sep17ReReco/*.root");
-////3.1pb-1 till here
-////Run2010B 38X
-//    myAnalysis->addInputFile("/storage/top/data_38X/e20skim/e20skim_Electron_Run2010B-PromptReco-v2_AOD_3/*.root");
-//    myAnalysis->addInputFile(
-//            "/storage/top/data_38X/e20skim/e20skim_Electron_Run2010B-PromptReco-v2_AOD_146804_147116/*.root");
-//    myAnalysis->addInputFile(
-//            "/storage/top/data_38X/e20skim/e20skim_Electron_Run2010B-PromptReco-v2_AOD_147116_extra/*.root");
-////7.22pb-1 till here
-//    myAnalysis->addInputFile("/storage/top/data_38X/e20skim_Electron_Run2010B-PromptReco-v2_AOD_147115_147454/*.root");
-//// 11pb-1 till here
-//    myAnalysis->addInputFile("/storage/top/data_38X/e20skim_Electron_Run2010B-PromptReco-v2_AOD_147757_148058/*.root");
-//    myAnalysis->addInputFile("/storage/top/data_38X/e20skim_Electron_Run2010B-PromptReco-v2_AOD_148822_148864/*.root");
-//    //should be 22pb - is 21.5
-//    myAnalysis->addInputFile("/storage/top/data_38X/e20skim_Electron_Run2010B-PromptReco-v2_AOD_148952_149442/*.root");
-//    myAnalysis->addInputFile("/storage/top/data_38X/e20skim_Electron_Run2010B-PromptReco-v2_AOD_149181_149442/*.root");
-//    //should be 35pb-1 is 35
-    //    //MC
-//    myAnalysis->addInputFile("/storage/top/mc/38Xrereco/e20skim_TTbarJets-madgraph_Spring10-START3X_V26_S09-v1/*.root");
-//    myAnalysis->addInputFile("/storage/top/mc/38Xrereco/e20skim_WJets-madgraph_Spring10-START3X_V26_S09-v1/*.root");
-//    myAnalysis->addInputFile("/storage/top/mc/38Xrereco/e20skim_ZJets-madgraph_Spring10-START3X_V26_S09-v1/*.root");
-    myAnalysis->addInputFile("/storage/top/mc/38Xrereco/e20skim_SingleTop_tChannel-madgraph_Spring10-START3X_V26_S09-v1/*.root");
-    myAnalysis->addInputFile("/storage/top/mc/38Xrereco/e20skim_SingleTop_tWChannel-madgraph_Spring10-START3X_V26_S09-v1/*.root");
-//    //QCD
-//    myAnalysis->addInputFile("/storage/top/mc/38Xrereco/e20skim_QCD_BCtoE_Pt30to80_Spring10-START3X_V26_S09-v1/*.root");
-//    myAnalysis->addInputFile("/storage/top/mc/38Xrereco/e20skim_QCD_BCtoE_Pt80to170_Spring10-START3X_V26_S09-v1/*.root");
-//    myAnalysis->addInputFile(
-//            "/storage/top/mc/38Xrereco/e20skim_QCD_EMEnriched_Pt20to30_Spring10-START3X_V26_S09-v1/*.root");
-//    myAnalysis->addInputFile(
-//            "/storage/top/mc/38Xrereco/e20skim_QCD_EMEnriched_Pt30to80_Spring10-START3X_V26_S09-v1/*.root");
-//    myAnalysis->addInputFile(
-//            "/storage/top/mc/38Xrereco/e20skim_QCD_EMEnriched_Pt80to170_Spring10-START3X_V26_S09-v3/*.root");
-//// photon + jets
-//    myAnalysis->addInputFile(
-//            "/storage/top/mc/38Xrereco/e20skim_PhotonJets_Pt40to100-madgraph_Spring10-START3X_V26_S09-v1/*.root");
-//    myAnalysis->addInputFile(
-//            "/storage/top/mc/38Xrereco/e20skim_PhotonJets_Pt100to200-madgraph_Spring10-START3X_V26_S09-v1/*.root");
-//    myAnalysis->addInputFile(
-//            "/storage/top/mc/38Xrereco/e20skim_PhotonJets_Pt200toInf-madgraph_Spring10-START3X_V26_S09-v1/*.root");
+    ////3.1pb-1 till here
+    ////Run2010B 38X
+          myAnalysis->addInputFile("/storage/top/data_38X/e20skim/e20skim_Electron_Run2010B-PromptReco-v2_AOD_3/*.root");
+          myAnalysis->addInputFile(
+                  "/storage/top/data_38X/e20skim/e20skim_Electron_Run2010B-PromptReco-v2_AOD_146804_147116/*.root");
+          myAnalysis->addInputFile(
+                  "/storage/top/data_38X/e20skim/e20skim_Electron_Run2010B-PromptReco-v2_AOD_147116_extra/*.root");
+    ////7.22pb-1 till here
+          myAnalysis->addInputFile("/storage/top/data_38X/e20skim_Electron_Run2010B-PromptReco-v2_AOD_147115_147454/*.root");
+    //// 11pb-1 till here
+          myAnalysis->addInputFile("/storage/top/data_38X/e20skim_Electron_Run2010B-PromptReco-v2_AOD_147757_148058/*.root");
+          myAnalysis->addInputFile("/storage/top/data_38X/e20skim_Electron_Run2010B-PromptReco-v2_AOD_148822_148864/*.root");
+         //should be 22pb - is 21.5
+          myAnalysis->addInputFile("/storage/top/data_38X/e20skim_Electron_Run2010B-PromptReco-v2_AOD_148952_149442/*.root");
+          myAnalysis->addInputFile("/storage/top/data_38X/e20skim_Electron_Run2010B-PromptReco-v2_AOD_149181_149442/*.root");
+        //should be 35pb-1 is 35
+        //    //MC
+          myAnalysis->addInputFile("/storage/top/mc/38Xrepro/e20skim_TTbarJets-madgraph_Spring10-START3X_V26_S09-v1/*.root");
+          myAnalysis->addInputFile("/storage/top/mc/38Xrepro/e20skim_WJets-madgraph_Spring10-START3X_V26_S09-v1/*.root");
+          myAnalysis->addInputFile("/storage/top/mc/38Xrepro/e20skim_ZJets-madgraph_Spring10-START3X_V26_S09-v1/*.root");
+   //      myAnalysis->addInputFile("/storage/top/mc/38Xrereco/e20skim_SingleTop_tChannel-madgraph_Spring10-START3X_V26_S09-v1/*.root");
+   //      myAnalysis->addInputFile("/storage/top/mc/38Xrereco/e20skim_SingleTop_tWChannel-madgraph_Spring10-START3X_V26_S09-v1/*.root");
+        //  //QCD
+          //      myAnalysis->addInputFile("/storage/top/mc/38Xrepro/e20skim_QCD_BCtoE_Pt30to80_Spring10-START3X_V26_S09-v1/*.root");
+          //      myAnalysis->addInputFile("/storage/top/mc/38Xrepro/e20skim_QCD_BCtoE_Pt80to170_Spring10-START3X_V26_S09-v1/*.root");
+          //      myAnalysis->addInputFile(
+          //              "/storage/top/mc/38Xrepro/e20skim_QCD_EMEnriched_Pt20to30_Spring10-START3X_V26_S09-v1/*.root");
+          //      myAnalysis->addInputFile(
+          //             "/storage/top/mc/38Xrepro/e20skim_QCD_EMEnriched_Pt30to80_Spring10-START3X_V26_S09-v1/*.root");
+          //      myAnalysis->addInputFile(
+          //              "/storage/top/mc/38Xrepro/e20skim_QCD_EMEnriched_Pt80to170_Spring10-START3X_V26_S09-v3/*.root");
+          //// photon + jets
+          //      myAnalysis->addInputFile(
+          //              "/storage/top/mc/38Xrepro/e20skim_PhotonJets_Pt40to100-madgraph_Spring10-START3X_V26_S09-v1/*.root");
+          //      myAnalysis->addInputFile(
+          //             "/storage/top/mc/38Xrepro/e20skim_PhotonJets_Pt100to200-madgraph_Spring10-START3X_V26_S09-v1/*.root");
+          //      myAnalysis->addInputFile(
+          //             "/storage/top/mc/38Xrepro/e20skim_PhotonJets_Pt200toInf-madgraph_Spring10-START3X_V26_S09-v1/*.root");
+
     //Vector boson + heavy flavour
     //    myAnalysis->addInputFile("/storage/top/mc/spring10_7TeV_v5/MG/e20skim_vqq/*.root");
     //Zprime samples
