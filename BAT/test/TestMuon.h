@@ -47,7 +47,7 @@ private:
 public:
 	TestMuon() :
 		goodNonIsolatedMuon(200, 199, 1, 1), goodIsolatedMuon(goodNonIsolatedMuon), nonGlobalMuon(goodNonIsolatedMuon),
-				badMuonLowPt(15., 14., 1., 1.), badEtaMuon(450., 50., 50., 444.) {
+				badMuonLowPt(5., 4., 1., 1.), badEtaMuon(450., 50., 50., 444.) {
 		setUpGoodMuon();
 		setUpGoodIsolatedMuon();
 		setUpNonGlobalMuon();
