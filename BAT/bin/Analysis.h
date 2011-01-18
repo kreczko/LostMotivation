@@ -64,7 +64,7 @@ private:
     cutarray singleCuts;
     cutmap cutflowPerFile;
     cutmap singleCutsPerFile;
-    std::vector<InterestingEvent> interestingEvents;
+    std::vector<InterestingEvent> interestingEvents, brokenEvents;
     std::map<unsigned long, std::vector<unsigned long> > eventCheck;
     BAT::CrossSectionProvider weights;
     float weight;
@@ -114,6 +114,7 @@ private:
     void doNotePlots();
     void doQCDStudy();
     void checkForDuplicatedEvents();
+    void checkForBrokenEvents();
 };
 
 #endif /* ANALYSIS_H_ */
