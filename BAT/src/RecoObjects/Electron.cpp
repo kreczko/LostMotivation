@@ -57,7 +57,10 @@ Electron::Electron(float energy, float px, float py, float pz) :
     sharedFractionInnerHits(0),
     zDistanceToPrimaryVertex(initialBigValue),
     dCotThetaToNextTrack(0),
-    distToNextTrack(0){
+    distToNextTrack(0),
+    PFGamma_Isolation(initialBigValue),
+    PFChargedHadron_Isolation(initialBigValue),
+    PFNeutralHadron_Isolation(initialBigValue){
 }
 
 Electron::~Electron() {
