@@ -79,13 +79,16 @@ public:
     const ParticlePointer getHadronicW() const;
     const ParticlePointer getLeptonicTop() const;
     const ParticlePointer getHadronicTop() const;
-    const ParticlePointer getRessonance() const;
+    const ParticlePointer getResonance() const;
 
     bool passesSelectionStep(TTbarEPlusJetsSelection::Step step) const;
     bool passesSelectionStepUpTo(TTbarEPlusJetsSelection::Step upToStep) const;
     bool passesNMinus1(TTbarEPlusJetsSelection::Step omittedStep) const;
     bool passesRelIsoSelection() const;
-    bool passesQCDSelection() const;
+    bool passesRelIsoControlSelection() const;
+    bool passesPFIsoSelection() const;
+    bool passesPFIsoControlSelection() const;
+
     bool passesConversionSelection() const;
 
     bool passesScrapingFilter() const;

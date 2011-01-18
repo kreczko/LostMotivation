@@ -89,13 +89,14 @@ TopPairEventCandidate::~TopPairEventCandidate() {
 }
 
 bool TopPairEventCandidate::passesScrapingFilter() const {
-    if (tracks.size() > 10) {
-        if (numberOfHighPurityTracks / (1.0 * tracks.size()) > 0.25)
-            return true;
-        else
-            return false;
-    } else
-        return true;
+//    if (tracks.size() > 10) {
+//        if (numberOfHighPurityTracks / (1.0 * tracks.size()) > 0.25)
+//            return true;
+//        else
+//            return false;
+//    } else
+//        return true;
+    return isBeamScraping == false;
 }
 
 bool TopPairEventCandidate::passesHighLevelTrigger() const {
@@ -113,7 +114,7 @@ bool TopPairEventCandidate::passesHighLevelTrigger() const {
         else if (runNumber >= 148819 && runNumber < 149181)
             return HLT(HLTriggers::HLT_Ele22_SW_TighterEleId_L1R_v2);
         else if(runNumber >= 149181)
-            return true;//HLT(HLTriggers::HLT_Ele22_SW_TighterEleId_L1R_v3);
+            return HLT(HLTriggers::HLT_Ele22_SW_TighterEleId_L1R_v3);
         else
             return false;
     }
@@ -282,58 +283,96 @@ bool TopPairEventCandidate::passesSelectionStep(enum TTbarEPlusJetsSelection::St
 
 bool TopPairEventCandidate::passesRelIsoSelection() const{
     bool passesFirst3 = passesSelectionStepUpTo(TTbarEPlusJetsSelection::GoodPrimaryvertex);
-    bool passGoodElectrons = false;
-    if(Event::usePFIsolation)
-        passGoodElectrons = goodElectrons.size() > 0 && goodPFIsolatedElectrons.size() < 2;
-    else
-        passGoodElectrons = goodElectrons.size() > 0 && goodIsolatedElectrons.size() < 2;
-    bool passesBothConversionVetos = false;
-    if (passGoodElectrons) {
-        const ElectronPointer electron = MostIsolatedElectron();
-        if (electron->isGood()) {
-            if (useCustomConversionTagger) {
-                conversionTagger->calculateConversionVariables(electron, tracks, 3.8, 0.45);
-                passesBothConversionVetos = electron->isFromConversion() == false && conversionTagger->isFromConversion(
-                        0.02, 0.02) == false;
+        bool passGoodElectrons = goodElectrons.size() > 0 && goodIsolatedElectrons.size() < 2;
+        bool passesBothIsolationvetos = false;
+        if (passGoodElectrons) {
+            const ElectronPointer electron = MostIsolatedElectron();
+            if (electron->isGood()) {
+                if (useCustomConversionTagger) {
+                    conversionTagger->calculateConversionVariables(electron, tracks, 3.8, 0.45);
+                    passesBothIsolationvetos = electron->isFromConversion() == false && conversionTagger->isFromConversion(
+                            0.02, 0.02) == false;
+                }
+                else{
+                    passesBothIsolationvetos = electron->isFromConversion() == false && electron->isTaggedAsConversion(
+                            0.02, 0.02) == false;
+                }
             }
-            else{
-                passesBothConversionVetos = electron->isFromConversion() == false && electron->isTaggedAsConversion(
-                        0.02, 0.02) == false;
-            }
-        }
 
-    }
-    bool muonVeto = hasNoIsolatedMuon();
-    bool Zveto = isNotAZBosonEvent();
-    return passesFirst3 && passGoodElectrons && passesBothConversionVetos && muonVeto && Zveto;
+        }
+        bool muonVeto = hasNoIsolatedMuon();
+        bool Zveto = isNotAZBosonEvent();
+        return passesFirst3 && passGoodElectrons && passesBothIsolationvetos && muonVeto && Zveto;
 }
 
-bool TopPairEventCandidate::passesQCDSelection() const{
+bool TopPairEventCandidate::passesRelIsoControlSelection() const{
     bool passesFirst3 = passesSelectionStepUpTo(TTbarEPlusJetsSelection::GoodPrimaryvertex);
-    bool passGoodElectrons = false;
-        if(Event::usePFIsolation)
-            passGoodElectrons = goodElectrons.size() > 0 && goodPFIsolatedElectrons.size() < 2;
-        else
-            passGoodElectrons = goodElectrons.size() > 0 && goodIsolatedElectrons.size() < 2;
+       bool passGoodElectrons = allElectrons.size() > 0 && goodIsolatedElectrons.size() < 2;
+       bool passesBothIsolationvetos = false;
+       if (passGoodElectrons) {
+           const ElectronPointer electron = MostIsolatedElectron();
+           if (electron->isQCDElectron()) {
+               if (useCustomConversionTagger) {
+                   conversionTagger->calculateConversionVariables(electron, tracks, 3.8, 0.45);
+                   passesBothIsolationvetos = electron->isFromConversion() == false && conversionTagger->isFromConversion(
+                           0.02, 0.02) == false;
+               } else {
+                   passesBothIsolationvetos = electron->isFromConversion() == false && electron->isTaggedAsConversion(
+                           0.02, 0.02) == false;
+               }
+           }
 
-    bool passesBothConversionVetos = false;
-    if (passGoodElectrons) {
-        const ElectronPointer electron = MostIsolatedElectron();
-        if (electron->isQCDElectron()) {
-            if (useCustomConversionTagger) {
-                conversionTagger->calculateConversionVariables(electron, tracks, 3.8, 0.45);
-                passesBothConversionVetos = electron->isFromConversion() == false && conversionTagger->isFromConversion(
-                        0.02, 0.02) == false;
-            } else {
-                passesBothConversionVetos = electron->isFromConversion() == false && electron->isTaggedAsConversion(
-                        0.02, 0.02) == false;
+       }
+       bool muonVeto = hasNoIsolatedMuon();
+       bool Zveto = isNotAZBosonEvent();
+       return passesFirst3 && passGoodElectrons && passesBothIsolationvetos && muonVeto && Zveto;
+}
+
+bool TopPairEventCandidate::passesPFIsoSelection() const{
+    bool passesFirst3 = passesSelectionStepUpTo(TTbarEPlusJetsSelection::GoodPrimaryvertex);
+        bool passGoodElectrons = goodElectrons.size() > 0 && goodPFIsolatedElectrons.size() < 2;
+        bool passesBothIsolationvetos = false;
+        if (passGoodElectrons) {
+            const ElectronPointer electron = MostPFIsolatedElectron();
+            if (electron->isGood()) {
+                if (useCustomConversionTagger) {
+                    conversionTagger->calculateConversionVariables(electron, tracks, 3.8, 0.45);
+                    passesBothIsolationvetos = electron->isFromConversion() == false && conversionTagger->isFromConversion(
+                            0.02, 0.02) == false;
+                }
+                else{
+                    passesBothIsolationvetos = electron->isFromConversion() == false && electron->isTaggedAsConversion(
+                            0.02, 0.02) == false;
+                }
             }
-        }
 
-    }
-    bool muonVeto = hasNoIsolatedMuon();
-    bool Zveto = isNotAZBosonEvent();
-    return passesFirst3 && passGoodElectrons && passesBothConversionVetos && muonVeto && Zveto;
+        }
+        bool muonVeto = hasNoIsolatedMuon();
+        bool Zveto = isNotAZBosonEvent();
+        return passesFirst3 && passGoodElectrons && passesBothIsolationvetos && muonVeto && Zveto;
+}
+
+bool TopPairEventCandidate::passesPFIsoControlSelection() const{
+    bool passesFirst3 = passesSelectionStepUpTo(TTbarEPlusJetsSelection::GoodPrimaryvertex);
+       bool passGoodElectrons = allElectrons.size() > 0 && goodPFIsolatedElectrons.size() < 2;
+       bool passesBothIsolationvetos = false;
+       if (passGoodElectrons) {
+           const ElectronPointer electron = MostPFIsolatedElectron();
+           if (electron->isQCDElectron()) {
+               if (useCustomConversionTagger) {
+                   conversionTagger->calculateConversionVariables(electron, tracks, 3.8, 0.45);
+                   passesBothIsolationvetos = electron->isFromConversion() == false && conversionTagger->isFromConversion(
+                           0.02, 0.02) == false;
+               } else {
+                   passesBothIsolationvetos = electron->isFromConversion() == false && electron->isTaggedAsConversion(
+                           0.02, 0.02) == false;
+               }
+           }
+
+       }
+       bool muonVeto = hasNoIsolatedMuon();
+       bool Zveto = isNotAZBosonEvent();
+       return passesFirst3 && passGoodElectrons && passesBothIsolationvetos && muonVeto && Zveto;
 }
 
 bool TopPairEventCandidate::passesConversionSelection() const {
@@ -703,7 +742,7 @@ const ParticlePointer TopPairEventCandidate::getHadronicTop() const {
     return hadronicTop;
 }
 
-const ParticlePointer TopPairEventCandidate::getRessonance() const {
+const ParticlePointer TopPairEventCandidate::getResonance() const {
     throwExpeptionIfNotReconstructed();
     return ttbarResonance;
 }
@@ -730,7 +769,7 @@ double TopPairEventCandidate::M3() const {
 }
 
 double TopPairEventCandidate::mttbar() const {
-    return getRessonance()->mass();
+    return getResonance()->mass();
 }
 
 const std::vector<TtbarHypothesisPointer>& TopPairEventCandidate::Solutions() const{
