@@ -39,6 +39,7 @@ NTupleEventReader::NTupleEventReader() :
     runNumberReader(new VariableReader<unsigned int> (input, "run")),
     eventNumberReader(new VariableReader<unsigned int> (input, "event")),
     lumiBlockReader(new VariableReader<unsigned int> (input, "ls")),
+    beamScrapingReader(new VariableReader<bool> (input, "isBeamScraping")),
     areReadersSet(false),
     areDatatypesKnown(false),
     currentEvent(),
@@ -64,16 +65,15 @@ const Event& NTupleEventReader::getNextEvent() {
     currentEvent = Event();
     currentEvent.setDataType(getDataType(getCurrentFile()));
     boost::shared_ptr<std::vector<int> > triggers(new std::vector<int>());
-//    std::cout << hltReader->size() << "expected: " << HLTriggers::NUMBER_OF_HLTS << endl;
+//    if(hltReader->size() != HLTriggers::NUMBER_OF_HLTS){
+//        cout << "HLT Trigger mismatch in file " << getCurrentFile() << endl;
+//        cout << hltReader->size() << ", expected: " << HLTriggers::NUMBER_OF_HLTS << endl;
+//    }
+
+
     for(unsigned int i = 0; i < hltReader->size(); i++){
-//        if(i == HLTriggers::NUMBER_OF_HLTS){
-//            cout << endl;
-//            cout << "additional entries:" << endl;
-//        }
-//        cout << hltReader->getIntVariableAt(i) << " ";
         triggers->push_back(hltReader->getIntVariableAt(i));
     }
-//    cout << endl;
     currentEvent.setHLTs(triggers);
     currentEvent.setPrimaryVertex(primaryReader->getVertex());
     if(NTupleEventReader::loadTracks)
@@ -86,6 +86,7 @@ const Event& NTupleEventReader::getNextEvent() {
     currentEvent.setEventNumber(eventNumberReader->getVariable());
     currentEvent.setLocalEventNumber(currentEventEntry);
     currentEvent.setLumiBlock(lumiBlockReader->getVariable());
+    currentEvent.setBeamScrapingVeto(beamScrapingReader->getVariable());
     return currentEvent;
 }
 
@@ -120,6 +121,7 @@ void NTupleEventReader::initiateReadersIfNotSet() {
         runNumberReader->initialise();
         eventNumberReader->initialise();
         lumiBlockReader->initialise();
+        beamScrapingReader->initialise();
         areReadersSet = true;
     }
 }

@@ -49,6 +49,7 @@ protected:
 
     float jetCleaningEfficiency;
     unsigned int numberOfHighPurityTracks;
+    bool isBeamScraping;
 
 public:
     Event();
@@ -68,6 +69,7 @@ public:
     void setLocalEventNumber(unsigned long number);
     void setLumiBlock(unsigned long block);
     void setEventWeight(float weight);
+    void setBeamScrapingVeto(bool isScraping);
 
     const PrimaryVertexPointer PrimaryVertex() const;
     const TrackCollection& Tracks() const;
@@ -83,7 +85,9 @@ public:
     const MuonCollection& GoodMuons() const;
     const MuonCollection& GoodIsolatedMuons() const;
     const METPointer MET() const;
+    const ElectronPointer MostIsolatedElectron(bool usePFIso) const;
     const ElectronPointer MostIsolatedElectron() const;
+    const ElectronPointer MostPFIsolatedElectron() const;
     unsigned long runnumber() const;
     unsigned long eventnumber() const;
     unsigned long localnumber() const;

@@ -36,7 +36,8 @@ Event::Event() :
     lumiBlock(0),
     eventWeight(1.),
     jetCleaningEfficiency(1.),
-    numberOfHighPurityTracks(0) {
+    numberOfHighPurityTracks(0),
+    isBeamScraping(true){
 }
 
 Event::~Event() {
@@ -143,7 +144,7 @@ void Event::cleanGoodJetsAgainstIsolatedElectrons() {
 }
 
 void Event::cleanGoodJetsAgainstMostIsolatedElectron() {
-    const ElectronPointer mostIsolatedElectron = MostIsolatedElectron();
+    const ElectronPointer mostIsolatedElectron = MostIsolatedElectron(Event::usePFIsolation);
     unsigned int initialGoodJets = goodJets.size();
     for (unsigned int jetIndex = 0; jetIndex < goodJets.size(); ++jetIndex) {
         if (goodJets.at(jetIndex)->isWithinDeltaR(0.3, mostIsolatedElectron)) {
@@ -154,12 +155,12 @@ void Event::cleanGoodJetsAgainstMostIsolatedElectron() {
     jetCleaningEfficiency = goodJets.size() / initialGoodJets;
 }
 
-const ElectronPointer Event::MostIsolatedElectron() const {
+const ElectronPointer Event::MostIsolatedElectron(bool usePFIso) const {
     float bestIsolation = 999999999;
     unsigned int bestIsolatedElectron = 990;
     for (unsigned int index = 0; index < allElectrons.size(); ++index) {
         float currentIsolation = 9999999999;
-        if(Event::usePFIsolation)
+        if(usePFIso)
             currentIsolation = allElectrons.at(index)->pfIsolation();
         else
             currentIsolation = allElectrons.at(index)->relativeIsolation();
@@ -171,6 +172,15 @@ const ElectronPointer Event::MostIsolatedElectron() const {
     }
     return allElectrons.at(bestIsolatedElectron);
 }
+
+const ElectronPointer Event::MostIsolatedElectron() const{
+    return MostIsolatedElectron(false);
+}
+
+const ElectronPointer Event::MostPFIsolatedElectron() const{
+    return MostIsolatedElectron(true);
+}
+
 
 void Event::setMuons(MuonCollection muons) {
     allMuons.clear();
@@ -270,6 +280,10 @@ void Event::setLumiBlock(unsigned long block) {
 
 void Event::setEventWeight(float weight) {
     eventWeight = weight;
+}
+
+void Event::setBeamScrapingVeto(bool isScraping){
+    isBeamScraping = isScraping;
 }
 
 const PrimaryVertexPointer Event::PrimaryVertex() const {

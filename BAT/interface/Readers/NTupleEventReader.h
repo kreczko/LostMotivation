@@ -80,6 +80,7 @@ private:
 	boost::scoped_ptr<VariableReader<unsigned int> > runNumberReader;
 	boost::scoped_ptr<VariableReader<unsigned int> > eventNumberReader;
 	boost::scoped_ptr<VariableReader<unsigned int> > lumiBlockReader;
+	boost::scoped_ptr<VariableReader<bool> > beamScrapingReader;
 	bool areReadersSet, areDatatypesKnown;
 	Event currentEvent;
 	boost::array<bool, DataType::NUMBER_OF_DATA_TYPES> seenDataTypes;
