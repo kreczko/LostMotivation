@@ -8,8 +8,8 @@ from copy import deepcopy
 from array import array
 
 class QCDEstimator:
-    luminosity = 36.145#pb-1
-    mc_luminosity = 36.145#pb-1
+    luminosity = 36.135#pb-1
+    mc_luminosity = 36.135#pb-1
     luminosity_unit = 'pb-1'
     scale = luminosity / mc_luminosity
     jetBins = ['0jet', 'allJets', '1jet', '1orMoreJets', '2jets', '2orMoreJets', '3jets', '3orMoreJets', '4orMoreJets']
@@ -25,7 +25,8 @@ class QCDEstimator:
     fitRangesEstimation = [ ( 0.1, 1.6 ), ( 0.2, 1.6 ), ( 0.3, 1.6 )]
     signalRegion = ( 0, 0.1 )
     maxValue = 1.6
-    pfIsoHistogramPrefix = 'QCDest_PFIsolation_'
+    pfIsoHistogramPrefix = 'QCDest_PFIsolation_WithMETCutAndAsymJetCuts_'
+    pfIsoControlRegionHistogramPrefix = 'QCDest_PFIsolation_controlRegion2_WithMETCutAndAsymJetCuts_'
     relIsoHistogramPrefix = 'QCDest_CombRelIso_'
     pfIsoResults = {}
     relIsoResults = {}
@@ -58,10 +59,12 @@ class QCDEstimator:
                                        'numberOfAllMCEvents':0}
 
     def getHistograms( self ):
-        relIsoHists = ['QCDest_CombRelIso_' + jetbin for jetbin in self.jetBins]
-        pfIsoHists = ['QCDest_PFIsolation_' + jetbin for jetbin in self.jetBins]
+        relIsoHists = [self.relIsoHistogramPrefix + jetbin for jetbin in self.jetBins]
+        pfIsoHists = [self.pfIsoHistogramPrefix + jetbin for jetbin in self.jetBins]
+        pfIsoControlHists = [self.pfIsoControlRegionHistogramPrefix + jetbin for jetbin in self.jetBins]
         allHists = relIsoHists
         allHists.extend( pfIsoHists )
+        allHists.extend( pfIsoControlHists )
         HistGetter.hists = allHists
 
         self.histograms = self.histGetter.getHistsFromFiles()
@@ -164,8 +167,10 @@ class QCDEstimator:
         pfIsoFit = self.doFit( data[pfIsoHist] )
         self.pfIsoResults[jetbin]['fitFunction'] = pfIsoFit
         self.pfIsoResults[jetbin]['fitParameters'] = self.getFitParameters( pfIsoFit )
+        estimate = 0
+        if pfIsoFit:
+            estimate = pfIsoFit.Integral( self.signalRegion[0], self.signalRegion[1] ) / ( self.binWidth * self.rebin )
 
-        estimate = pfIsoFit.Integral( self.signalRegion[0], self.signalRegion[1] ) / ( self.binWidth * self.rebin )
         self.pfIsoResults[jetbin]['estimatedNumberOfQCDEvents'] = estimate
 
 #---------------------------------------------------------------------------------------------------------------------- 
@@ -199,6 +204,8 @@ class QCDEstimator:
         data = self.histograms[self.useEntryAsData][histname]
         mcStack = self.histograms['MCStack'][histname]
         fitFunction = results['fitFunction']
+        if not fitFunction:
+            return;
 
         data.GetXaxis().SetRangeUser( 0, self.maxValue - 0.01 );
         fitFunction.SetLineColor( kRed );
@@ -255,12 +262,12 @@ class QCDEstimator:
         x = array( 'd', [1, 2, 3, 4] )
         jetBinsOfInterest = ['1jet', '2jets', '3jets', '4orMoreJets']
         function = self.currentFitFuntion
-        
-        gStyle.SetMarkerSize(1.7);
-        gStyle.SetMarkerStyle(20);
-        c2.SetTopMargin(0.1);
-        c2.SetLeftMargin(0.12);
-        c2.SetRightMargin(0.35);
+
+        gStyle.SetMarkerSize( 1.7 );
+        gStyle.SetMarkerStyle( 20 );
+        c2.SetTopMargin( 0.1 );
+        c2.SetLeftMargin( 0.12 );
+        c2.SetRightMargin( 0.35 );
 
         y = {}
         for fitRange in self.fitRangesClosureTest:
@@ -270,7 +277,9 @@ class QCDEstimator:
 
                 est = results[range][bin]['estimatedNumberOfQCDEvents']
                 true = results[range][bin]['actualNumberOfQCDEvents']
-                variation = ( est - true ) / true
+                variation = 0
+                if not true == 0:
+                    variation = ( est - true ) / true
                 y[range].append( variation )
         gr1 = TGraph( 4, x, array( 'd', y['0.1-1.0'] ) )
         gr2 = TGraph( 4, x, array( 'd', y['0.1-1.2'] ) )
@@ -291,15 +300,17 @@ class QCDEstimator:
         gr7.SetMarkerColor( kOrange );
         gr8.SetMarkerColor( kOrange - 1 );
         gr9.SetMarkerColor( kOrange - 6 );
-        
-        gStyle.SetTitleW(0.9);
-        gStyle.SetTitleH(0.05)
+
+        gStyle.SetTitleW( 0.9 );
+        gStyle.SetTitleH( 0.05 )
 
         h = None
         if function == "gaus":
             h = TH1D( "h", "Variation of QCD estimates with fit range (Gaussian)", 4, 0.5, 4.5 );
         elif function == "pol3":
             h = TH1D( "h", "Variation of QCD estimates with fit range (Pol3)", 4, 0.5, 4.5 );
+        elif function == "pol1":
+            h = TH1D( "h", "Variation of QCD estimates with fit range (Pol1)", 4, 0.5, 4.5 );
         elif function == "landau":
             h = TH1D( "h", "Variation of QCD estimates with fit range (Landau)", 4, 0.5, 4.5 );
 
@@ -342,28 +353,35 @@ class QCDEstimator:
         leg.Draw();
 
         c2.SaveAs( "%s_qcd_estimate_%s.gif" % ( histname, function ) )
+        c2.SaveAs( "%s_qcd_estimate_%s.pdf" % ( histname, function ) )
 
-        h.GetYaxis().SetRangeUser( -1, 1 );
-        c2.SaveAs( "%s_qcd_estimate_%s_zoom_11.gif" % ( histname, function ) );
+        setRange = h.GetYaxis().SetRangeUser
+        saveAs = c2.SaveAs
+        for limit in [1, 2, 3, 6, 8]:
+            setRange( -limit, limit );
+            saveAs( "%s_qcd_estimate_%s_zoom_%d.gif" % ( histname, function, limit ) );
+            saveAs( "%s_qcd_estimate_%s_zoom_%d.pdf" % ( histname, function, limit ) );
 
-        h.GetYaxis().SetRangeUser( -2, 2 );
-        c2.SaveAs( "%s_qcd_estimate_%s_zoom_22.gif" % ( histname, function ) );
-
-        h.GetYaxis().SetRangeUser( -3, 3 );
-        c2.SaveAs( "%s_qcd_estimate_%s_zoom_33.gif" % ( histname, function ) );
-
-        h.GetYaxis().SetRangeUser( -6, 6 );
-        c2.SaveAs( "%s_qcd_estimate_%s_zoom_66.gif" % ( histname, function ) );
-
-        h.GetYaxis().SetRangeUser( -8, 8 );
-        c2.SaveAs( "%s_qcd_estimate_%s_zoom_88.gif" % ( histname, function ) );
+#        h.GetYaxis().SetRangeUser( -2, 2 );
+#        c2.SaveAs( "%s_qcd_estimate_%s_zoom_22.gif" % ( histname, function ) );
+#        c2.SaveAs( "%s_qcd_estimate_%s_zoom_22.pdf" % ( histname, function ) );
+#
+#        h.GetYaxis().SetRangeUser( -3, 3 );
+#        c2.SaveAs( "%s_qcd_estimate_%s_zoom_33.gif" % ( histname, function ) );
+#
+#        h.GetYaxis().SetRangeUser( -6, 6 );
+#        c2.SaveAs( "%s_qcd_estimate_%s_zoom_66.gif" % ( histname, function ) );
+#
+#        h.GetYaxis().SetRangeUser( -8, 8 );
+#        c2.SaveAs( "%s_qcd_estimate_%s_zoom_88.gif" % ( histname, function ) );
 
 
     def getFitParameters( self, fitFunction ):
         fitParameters = {'chi2':-1, 'numberOfdegreesOfFreedom': 0, 'constrain1': 0, 'constrain2': 0,
                          'constrain3': 0, 'constrain4': 0}
-        fitParameters['chi2'] = fitFunction.GetChisquare()
-        fitParameters['numberOfdegreesOfFreedom'] = fitFunction.GetNDF()
+        if fitFunction:
+            fitParameters['chi2'] = fitFunction.GetChisquare()
+            fitParameters['numberOfdegreesOfFreedom'] = fitFunction.GetNDF()
         return fitParameters
 
     def doConstrainedFit( self, histogram, function = 'gaus', limits = ( 0.1, 1.6 ) ):
@@ -443,17 +461,24 @@ class QCDEstimator:
         pass
 
     def printResults( self, results ):
-        estimate = 0
-        predicted = results[results.keys()[0]]['4orMoreJets']['actualNumberOfQCDEvents']
-        allData = results[results.keys()[0]]['4orMoreJets']['numberOfAllDataEvents']
-        allMC = results[results.keys()[0]]['4orMoreJets']['numberOfAllMCEvents']
+        self.printJetBinResults( results, '3orMoreJets' )
+        self.printJetBinResults( results, '4orMoreJets' )
 
-        print 'Estimation for >= 4 jets'
+    def printJetBinResults( self, results, jetBin ):
+        estimate = 0
+        predicted = results[results.keys()[0]][jetBin]['actualNumberOfQCDEvents']
+        allData = results[results.keys()[0]][jetBin]['numberOfAllDataEvents']
+        allMC = results[results.keys()[0]][jetBin]['numberOfAllMCEvents']
+
+        if jetBin == '4orMoreJets':
+            print 'Estimation for >= 4 jets'
+        elif jetBin == '3orMoreJets':
+            print 'Estimation for >= 3 jets'
         print 'predicted number of QCD events', predicted
         for fitRange in self.fitRangesEstimation:
             range = '%1.1f-%1.1f' % fitRange
-            est = results[range]['4orMoreJets']['estimatedNumberOfQCDEvents']
-            true = results[range]['4orMoreJets']['actualNumberOfQCDEvents']
+            est = results[range][jetBin]['estimatedNumberOfQCDEvents']
+            true = results[range][jetBin]['actualNumberOfQCDEvents']
             variation = ( est - true ) / true
             estimate += est
 
@@ -468,39 +493,80 @@ class QCDEstimator:
         print 'average weight factor', weight
         print 'Total number of data in signal', allData
         print 'Total number of MC in signal bin before reweighting QCD', allMC
-        print 'Total number of MC in signal bin before reweighting QCD', ( allMC - predicted ) + predicted * weight
+        print 'Total number of MC in signal bin after reweighting QCD', ( allMC - predicted ) + predicted * weight
+
+    def plotControlRegionComparison( self ):
+        for bin in self.jetBins:
+            hist = self.pfIsoHistogramPrefix + bin
+            histControl = self.pfIsoControlRegionHistogramPrefix + bin
+            QCD_control = self.histograms['qcd'][histControl]
+            QCD = self.histograms['qcd'][hist]
+            nQCD_Control = QCD_control.Integral()
+            nQCD = QCD.Integral()
+            if nQCD_Control > 0:
+                QCD_control.Scale( 1 / nQCD_Control )
+            if nQCD > 0:
+                QCD.Scale( 1 / nQCD )
+            QCD_control.SetFillStyle( 3004 )
+            QCD.GetXaxis().SetRangeUser( 0., self.maxValue - 0.01 )
+            
+            max = 0
+            if QCD.GetMaximum() > QCD_control.GetMaximum():
+                max = QCD.GetMaximum()*1.1
+            else:
+                max = QCD_control.GetMaximum()*1.1
+                
+            QCD.GetYaxis().SetRangeUser(0., max )
+            
+            canvas = TCanvas( "c1", "Shape comparision",  1200, 900 )
+            QCD.Draw()
+            QCD_control.Draw( 'same' )
+            label = self.add_cms_label( self.currentJetBin )
+            label.Draw()
+            
+            leg = TLegend( 0.64, 0.4, 0.9, 0.9 );
+            leg.SetFillStyle( 0 );
+            leg.SetBorderSize( 0 );
+            leg.SetTextFont( 42 );
+            leg.AddEntry(QCD_control, 'QCD control region')
+            leg.AddEntry(QCD, 'QCD standard selection')
+            leg.Draw()
+            
+            canvas.SaveAs( '%s_shapeComparison.png' % hist )
 
 if __name__ == '__main__':
     gROOT.SetBatch( True )
     gROOT.ProcessLine( 'gErrorIgnoreLevel = 1001;' )
 
     path = '/storage/workspace/BristolAnalysisTools/outputfiles/Fall10_NovRereco_PfIso/'
-    files = {'data': path + "data_36.145pb_PFElectron_PF2PATJets_PFMET.root",
-    'ttbar' :  path + "ttjet_36.145pb_PFElectron_PF2PATJets_PFMET.root",
-    'wjets' :  path + "wj_36.145pb_PFElectron_PF2PATJets_PFMET.root",
-    'zjets' :  path + "zj_36.145pb_PFElectron_PF2PATJets_PFMET.root",
-    'bce1' :  path + "bce1_36.145pb_PFElectron_PF2PATJets_PFMET.root",
-    'bce2' :  path + "bce2_36.145pb_PFElectron_PF2PATJets_PFMET.root",
-    'bce3' :  path + "bce3_36.145pb_PFElectron_PF2PATJets_PFMET.root",
-    'enri1' : path + "enri1_36.145pb_PFElectron_PF2PATJets_PFMET.root",
-    'enri2' :  path + "enri2_36.145pb_PFElectron_PF2PATJets_PFMET.root",
-    'enri3' :  path + "enri3_36.145pb_PFElectron_PF2PATJets_PFMET.root",
-    'pj1' :  path + "pj1_36.145pb_PFElectron_PF2PATJets_PFMET.root",
-    'pj2' :  path + "pj2_36.145pb_PFElectron_PF2PATJets_PFMET.root",
-    'pj3' :  path + "pj3_36.145pb_PFElectron_PF2PATJets_PFMET.root",
-    'tW' :  path + "tW_36.145pb_PFElectron_PF2PATJets_PFMET.root",
-    'tchan' :  path + "tchan_36.145pb_PFElectron_PF2PATJets_PFMET.root"}
+    files = {'data': path + "data_36.135pb_PFElectron_PF2PATJets_PFMET.root",
+    'ttbar' :  path + "ttjet_36.135pb_PFElectron_PF2PATJets_PFMET.root",
+    'wjets' :  path + "wj_36.135pb_PFElectron_PF2PATJets_PFMET.root",
+    'zjets' :  path + "zj_36.135pb_PFElectron_PF2PATJets_PFMET.root",
+    'bce1' :  path + "bce1_36.135pb_PFElectron_PF2PATJets_PFMET.root",
+    'bce2' :  path + "bce2_36.135pb_PFElectron_PF2PATJets_PFMET.root",
+    'bce3' :  path + "bce3_36.135pb_PFElectron_PF2PATJets_PFMET.root",
+    'enri1' : path + "enri1_36.135pb_PFElectron_PF2PATJets_PFMET.root",
+    'enri2' :  path + "enri2_36.135pb_PFElectron_PF2PATJets_PFMET.root",
+    'enri3' :  path + "enri3_36.135pb_PFElectron_PF2PATJets_PFMET.root",
+    'pj1' :  path + "pj1_36.135pb_PFElectron_PF2PATJets_PFMET.root",
+    'pj2' :  path + "pj2_36.135pb_PFElectron_PF2PATJets_PFMET.root",
+    'pj3' :  path + "pj3_36.135pb_PFElectron_PF2PATJets_PFMET.root",
+    'tW' :  path + "tW_36.135pb_PFElectron_PF2PATJets_PFMET.root",
+    'tchan' :  path + "tchan_36.135pb_PFElectron_PF2PATJets_PFMET.root"}
     q = QCDEstimator( files )
 #    q.doEstimate('gaus', (0.1, 1.6))
 #    q.doEstimate('gaus', (0.2, 1.6))
-    q.doEstimate( 'gaus' )
+    q.doEstimate( 'landau' )
     print 'ParticleFlowIsolation results'
     q.printResults( q.allPfIsoResults )
     print '=' * 40
 
-    print 'RelIso results'
-    q.printResults( q.allRelIsoResults )
-    print '=' * 40
+#    print 'RelIso results'
+#    q.printResults( q.allRelIsoResults )
+#    print '=' * 40
 
     print 'Starting closure tests'
-    q.doClosureTests( 'gaus' )
+#    q.doClosureTests( 'pol1' )
+    q.plotControlRegionComparison()
+
