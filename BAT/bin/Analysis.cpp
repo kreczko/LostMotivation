@@ -52,7 +52,7 @@ void Analysis::analyze() {
 
 void Analysis::printNumberOfProccessedEventsEvery(unsigned long printEvery) {
     unsigned long eventIndex = eventReader->getNumberOfProccessedEvents();
-    if (eventIndex % printEvery == 0) {
+    if (eventIndex % printEvery == 0 || eventIndex == 1) {
         cout << "Analysing event no " << eventIndex << ", sample: " << DataType::names[currentEvent.getDataType()]
                 << endl;
         cout << "File: " << eventReader->getCurrentFile() << endl;
