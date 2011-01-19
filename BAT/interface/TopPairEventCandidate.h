@@ -79,13 +79,16 @@ public:
     const ParticlePointer getHadronicW() const;
     const ParticlePointer getLeptonicTop() const;
     const ParticlePointer getHadronicTop() const;
-    const ParticlePointer getRessonance() const;
+    const ParticlePointer getResonance() const;
 
     bool passesSelectionStep(TTbarEPlusJetsSelection::Step step) const;
     bool passesSelectionStepUpTo(TTbarEPlusJetsSelection::Step upToStep) const;
     bool passesNMinus1(TTbarEPlusJetsSelection::Step omittedStep) const;
     bool passesRelIsoSelection() const;
-    bool passesQCDSelection() const;
+    bool passesRelIsoControlSelection() const;
+    bool passesPFIsoSelection() const;
+    bool passesPFIsoControlSelection() const;
+
     bool passesConversionSelection() const;
 
     bool passesScrapingFilter() const;
@@ -105,12 +108,12 @@ public:
     bool passesFullTTbarEPlusJetSelection() const;
     bool hasIsolatedElectronInBarrelRegion() const;
 
-    void reconstructUsingTopMassDifference(ElectronPointer electron);
+	void reconstructUsingTopMassDifference(ElectronPointer electron);
     void reconstructUsingChi2(ElectronPointer electron);
     void reconstructUsingSubjets();
     void reconstructUsingMCTruth();
 
-    double calculateTopMassDifference(unsigned short neutrinoSolution) const;
+	double calculateTopMassDifference(unsigned short neutrinoSolution) const;
     double getLeptonicChi2(unsigned short neutrinoSolution) const;
     double getLeptonicChi2(double topMass, double angle) const;
     double getHadronicChi2() const;
