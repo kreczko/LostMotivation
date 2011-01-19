@@ -451,7 +451,7 @@ void TopPairEventCandidate::reconstructUsingChi2(ElectronPointer electron) {
 void TopPairEventCandidate::reconstructNeutrinos() {
     boost::array<double, 2> neutrinoPzs = computeNeutrinoPz();
     double energy1 = sqrt(met->et() * met->et() + neutrinoPzs.at(0) * neutrinoPzs.at(0));
-    double energy2 = sqrt(met->et() * met->et() + neutrinoPzs.at(0) * neutrinoPzs.at(1));
+    double energy2 = sqrt(met->et() * met->et() + neutrinoPzs.at(1) * neutrinoPzs.at(1));
     neutrino1 = ParticlePointer(new Particle(energy1, met->px(), met->py(), neutrinoPzs.at(0)));
     neutrino2 = ParticlePointer(new Particle(energy2, met->px(), met->py(), neutrinoPzs.at(1)));
 
