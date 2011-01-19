@@ -11,49 +11,52 @@ def plotMttbar():
     lumi = 36.145;#3.06 + 1.37 + 2.53 + 0.26;
     oldLumi = 36.145;
     scale = lumi / oldLumi;
-    qcdScale = 1.;
+    qcdScale = 1.19;
     #    data = TFile.Open("data2.9pb_fullSetOfVars.root");
-    data = TFile.Open("/storage/workspace/BristolAnalysisTools/outputfiles/Fall10_NovRereco/data_36.145pb_PFElectron_PF2PATJets_PFMET.root");
-    ttbar = TFile.Open("/storage/workspace/BristolAnalysisTools/outputfiles/Fall10_NovRereco/ttjet_36.145pb_PFElectron_PF2PATJets_PFMET.root");
-    wjets = TFile.Open("/storage/workspace/BristolAnalysisTools/outputfiles/Fall10_NovRereco/wj_36.145pb_PFElectron_PF2PATJets_PFMET.root");
-    zjets = TFile.Open("/storage/workspace/BristolAnalysisTools/outputfiles/Fall10_NovRereco/zj_36.145pb_PFElectron_PF2PATJets_PFMET.root");
-    bce1 = TFile.Open("/storage/workspace/BristolAnalysisTools/outputfiles/Fall10_NovRereco/bce1_36.145pb_PFElectron_PF2PATJets_PFMET.root");
-    bce2 = TFile.Open("/storage/workspace/BristolAnalysisTools/outputfiles/Fall10_NovRereco/bce2_36.145pb_PFElectron_PF2PATJets_PFMET.root");
-    bce3 = TFile.Open("/storage/workspace/BristolAnalysisTools/outputfiles/Fall10_NovRereco/bce3_36.145pb_PFElectron_PF2PATJets_PFMET.root");
-    enri1 = TFile.Open("/storage/workspace/BristolAnalysisTools/outputfiles/Fall10_NovRereco/enri1_36.145pb_PFElectron_PF2PATJets_PFMET.root");
-    enri2 = TFile.Open("/storage/workspace/BristolAnalysisTools/outputfiles/Fall10_NovRereco/enri2_36.145pb_PFElectron_PF2PATJets_PFMET.root");
-    enri3 = TFile.Open("/storage/workspace/BristolAnalysisTools/outputfiles/Fall10_NovRereco/enri3_36.145pb_PFElectron_PF2PATJets_PFMET.root");
-    pj1 = TFile.Open("/storage/workspace/BristolAnalysisTools/outputfiles/Fall10_NovRereco/pj1_36.145pb_PFElectron_PF2PATJets_PFMET.root");
-    pj2 = TFile.Open("/storage/workspace/BristolAnalysisTools/outputfiles/Fall10_NovRereco/pj2_36.145pb_PFElectron_PF2PATJets_PFMET.root");
-    pj3 = TFile.Open("/storage/workspace/BristolAnalysisTools/outputfiles/Fall10_NovRereco/pj3_36.145pb_PFElectron_PF2PATJets_PFMET.root");
-    tW = TFile.Open("/storage/workspace/BristolAnalysisTools/outputfiles/Fall10_NovRereco/tW_36.145pb_PFElectron_PF2PATJets_PFMET.root");
-    tchan = TFile.Open("/storage/workspace/BristolAnalysisTools/outputfiles/Fall10_NovRereco/tchan_36.145pb_PFElectron_PF2PATJets_PFMET.root");
+    data = TFile.Open("/storage/workspace/BristolAnalysisTools/outputfiles/Fall10_NovRereco_PfIso/data_36.135pb_PFElectron_PF2PATJets_PFMET.root");
+    ttbar = TFile.Open("/storage/workspace/BristolAnalysisTools/outputfiles/Fall10_NovRereco_PfIso/ttjet_36.135pb_PFElectron_PF2PATJets_PFMET.root");
+    wjets = TFile.Open("/storage/workspace/BristolAnalysisTools/outputfiles/Fall10_NovRereco_PfIso/wj_36.135pb_PFElectron_PF2PATJets_PFMET.root");
+    zjets = TFile.Open("/storage/workspace/BristolAnalysisTools/outputfiles/Fall10_NovRereco_PfIso/zj_36.135pb_PFElectron_PF2PATJets_PFMET.root");
+    bce1 = TFile.Open("/storage/workspace/BristolAnalysisTools/outputfiles/Fall10_NovRereco_PfIso/bce1_36.135pb_PFElectron_PF2PATJets_PFMET.root");
+    bce2 = TFile.Open("/storage/workspace/BristolAnalysisTools/outputfiles/Fall10_NovRereco_PfIso/bce2_36.135pb_PFElectron_PF2PATJets_PFMET.root");
+    bce3 = TFile.Open("/storage/workspace/BristolAnalysisTools/outputfiles/Fall10_NovRereco_PfIso/bce3_36.135pb_PFElectron_PF2PATJets_PFMET.root");
+    enri1 = TFile.Open("/storage/workspace/BristolAnalysisTools/outputfiles/Fall10_NovRereco_PfIso/enri1_36.135pb_PFElectron_PF2PATJets_PFMET.root");
+    enri2 = TFile.Open("/storage/workspace/BristolAnalysisTools/outputfiles/Fall10_NovRereco_PfIso/enri2_36.135pb_PFElectron_PF2PATJets_PFMET.root");
+    enri3 = TFile.Open("/storage/workspace/BristolAnalysisTools/outputfiles/Fall10_NovRereco_PfIso/enri3_36.135pb_PFElectron_PF2PATJets_PFMET.root");
+    pj1 = TFile.Open("/storage/workspace/BristolAnalysisTools/outputfiles/Fall10_NovRereco_PfIso/pj1_36.135pb_PFElectron_PF2PATJets_PFMET.root");
+    pj2 = TFile.Open("/storage/workspace/BristolAnalysisTools/outputfiles/Fall10_NovRereco_PfIso/pj2_36.135pb_PFElectron_PF2PATJets_PFMET.root");
+    pj3 = TFile.Open("/storage/workspace/BristolAnalysisTools/outputfiles/Fall10_NovRereco_PfIso/pj3_36.135pb_PFElectron_PF2PATJets_PFMET.root");
+    tW = TFile.Open("/storage/workspace/BristolAnalysisTools/outputfiles/Fall10_NovRereco_PfIso/tW_36.135pb_PFElectron_PF2PATJets_PFMET.root");
+    tchan = TFile.Open("/storage/workspace/BristolAnalysisTools/outputfiles/Fall10_NovRereco_PfIso/tchan_36.135pb_PFElectron_PF2PATJets_PFMET.root");
 #    vqq = TFile.Open("vqq_7.22pb_V4PFCalo.root__fullSetOfVars.root");
-#    Zprime500 = TFile.Open("/storage/workspace/BristolAnalysisTools/outputfiles/Zprime_M500GeV_W5GeV_36.145pb.root");
-#    Zprime750 = TFile.Open("/storage/workspace/BristolAnalysisTools/outputfiles/Zprime_M750GeV_W7500MeV_36.145pb.root");
-#    Zprime1000 = TFile.Open("/storage/workspace/BristolAnalysisTools/outputfiles/Zprime_M1TeV_W10GeV_36.145pb.root");
-#    Zprime1250 = TFile.Open("/storage/workspace/BristolAnalysisTools/outputfiles/Zprime_M1250GeV_W12500MeV_36.145pb.root");
-#    Zprime1500 = TFile.Open("/storage/workspace/BristolAnalysisTools/outputfiles/Zprime_M1500GeV_W15GeV_36.145pb.root");
+#    Zprime500 = TFile.Open("/storage/workspace/BristolAnalysisTools/outputfiles/Zprime_M500GeV_W5GeV_36.135pb.root");
+#    Zprime750 = TFile.Open("/storage/workspace/BristolAnalysisTools/outputfiles/Zprime_M750GeV_W7500MeV_36.135pb.root");
+#    Zprime1000 = TFile.Open("/storage/workspace/BristolAnalysisTools/outputfiles/Zprime_M1TeV_W10GeV_36.135pb.root");
+#    Zprime1250 = TFile.Open("/storage/workspace/BristolAnalysisTools/outputfiles/Zprime_M1250GeV_W12500MeV_36.135pb.root");
+#    Zprime1500 = TFile.Open("/storage/workspace/BristolAnalysisTools/outputfiles/Zprime_M1500GeV_W15GeV_36.135pb.root");
 
     hists = [];
-    hists.append('mttbar_conversions')
-    hists.append('mttbar_QCDEnriched')
-    hists.append('mttbar_controlRegion')
+#    hists.append('mttbar_QCDEnriched')
+#    hists.append('mttbar_conversions')
+#    hists.append('mttbar_conversions_withMETCut')
+#    hists.append('mttbar_conversions_withMETAndAsymJets')
+#    hists.append('mttbar_conversions_withAsymJetsCut')
+#    hists.append('mttbar_controlRegion')
 #    hists.append("mttbar");
 #    hists.append("mttbar_2ndSolution");
 #    hists.append("mttbar_3rdSolution");
 #    hists.append("mttbar_allSolutions");
-#    
+##    
 #    hists.append("mttbar_withMETCut");
 #    hists.append("mttbar_2ndSolution_withMETCut");
 #    hists.append("mttbar_3rdSolution_withMETCut");
 #    hists.append("mttbar_allSolutions_withMETCut");
-##    
+#    
 #    hists.append("mttbar_withMETAndAsymJets");
 #    hists.append("mttbar_2ndSolution_withMETAndAsymJets");
 #    hists.append("mttbar_3rdSolution_withMETAndAsymJets");
 #    hists.append("mttbar_allSolutions_withMETAndAsymJets");
-##    
+#    
 #    hists.append("mttbar_withAsymJetsCut");
 #    hists.append("mttbar_2ndSolution_withAsymJetsCut");
 #    hists.append("mttbar_3rdSolution_withAsymJetsCut");
@@ -118,19 +121,29 @@ def plotMttbar():
         "2orMoreJets",
         "3orMoreJets" , "4orMoreJets"]
     jetBinnedhists = []
-    jetBinnedhists.append("QCDest_CombRelIso")
-    jetBinnedhists.append("QCDest_CombRelIso_1btag")
-    jetBinnedhists.append("QCDest_CombRelIso_2btag")
-    jetBinnedhists.append("QCDest_CombRelIso_controlRegion")
-    jetBinnedhists.append("QCDest_CombRelIso_controlRegion_1btag")
-    jetBinnedhists.append("QCDest_CombRelIso_controlRegion_2btag")
+#    jetBinnedhists.append("QCDest_CombRelIso")
+#    jetBinnedhists.append("QCDest_CombRelIso_1btag")
+#    jetBinnedhists.append("QCDest_CombRelIso_2btag")
+#    jetBinnedhists.append("QCDest_CombRelIso_controlRegion")
+#    jetBinnedhists.append("QCDest_CombRelIso_controlRegion_1btag")
+#    jetBinnedhists.append("QCDest_CombRelIso_controlRegion_2btag")
     
-#    jetBinnedhists.append("QCDest_PFIsolation")
+    jetBinnedhists.append("QCDest_PFIsolation")
+    jetBinnedhists.append("QCDest_PFIsolation_WithMETCut")
+    jetBinnedhists.append("QCDest_PFIsolation_WithMETCutAndAsymJetCuts")
+    jetBinnedhists.append("QCDest_PFIsolation_WithAsymJetCuts")
+    
 #    jetBinnedhists.append("QCDest_PFIsolation_1btag")
 #    jetBinnedhists.append("QCDest_PFIsolation_2btag")
 #    jetBinnedhists.append("QCDest_PFIsolation_controlRegion")
 #    jetBinnedhists.append("QCDest_PFIsolation_controlRegion_1btag")
 #    jetBinnedhists.append("QCDest_PFIsolation_controlRegion_2btag")
+#    jetBinnedhists.append("QCDest_PFIsolation_controlRegion2")
+    jetBinnedhists.append("QCDest_PFIsolation_controlRegion2_WithMETCut")
+    jetBinnedhists.append("QCDest_PFIsolation_controlRegion2_WithMETCutAndAsymJetCuts")
+    jetBinnedhists.append("QCDest_PFIsolation_controlRegion2_WithAsymJetCuts")
+#    jetBinnedhists.append("QCDest_PFIsolation_controlRegion2_1btag")
+#    jetBinnedhists.append("QCDest_PFIsolation_controlRegion2_2btag")
     
     jetBinnedhists = [hist + '_' + suffix for hist in jetBinnedhists for suffix in jetBinned]
     hists.extend(jetBinnedhists)
@@ -146,7 +159,7 @@ def plotMttbar():
 #            hist_data2 =  data2.Get(histname);
 #        else
 #            hist_data2 = TH1F(*hist_data);
-        hist_data.Sumw2();
+#        hist_data.Sumw2();
 #        hist_data2.Sumw2();
         hist_ttbar =  ttbar.Get(histname);
         hist_wjets =  wjets.Get(histname);
@@ -295,7 +308,6 @@ def plotMttbar():
             hist_data.SetXTitle("angle between top quarks");
             hist_data.SetYTitle("Events/(0.1 rad)");
             rebin = 10;
-
         elif ("neutrino_pz" in histname):
             hist_data.SetXTitle("neutrino p_{Z} /GeV");
             hist_data.SetYTitle("Events/(10 GeV)");
@@ -305,15 +317,10 @@ def plotMttbar():
             hist_data.SetXTitle("top mass /GeV");
             hist_data.SetYTitle("Events/(20 GeV)");
             rebin = 20;
-            
         elif ('pt_leadingTop' in histname or 'pt_NextToLeadingTop' in histname):
             hist_data.SetXTitle("top p_{T} /GeV");
             hist_data.SetYTitle("Events/(20 GeV)");
             rebin = 20;
-        elif('QCDest_CombRelIso' in histname):
-            hist_data.SetXTitle("relative isolation");
-            hist_data.SetYTitle("Events/(0.1)");
-            rebin = 10;
         elif('QCDest_CombRelIso' in histname):
             hist_data.SetXTitle("relative isolation");
             hist_data.SetYTitle("Events/(0.1)");
@@ -341,6 +348,7 @@ def plotMttbar():
         hist_singleTop.SetAxisRange(Urange[0], Urange[1]);
 
         hist_data.SetMarkerStyle(8);
+        
         hist_ttbar.SetFillStyle(1001);
         hist_ttbar.SetFillColor(kRed + 1);
         hist_wjets.SetFillStyle(1001);
@@ -422,7 +430,14 @@ def plotMttbar():
         hs.Add(hist_wjets);
         hs.Add(hist_singleTop);
         hs.Add(hist_ttbar);
-        hist_data.Draw("error");
+        max = 0
+        if hs.GetMaximum() > hist_data.GetMaximum():
+            max = hs.GetMaximum()*1.1
+        else:
+            max = hist_data.GetMaximum()*1.1
+        
+        hist_data.GetYaxis().SetRangeUser(0, max);
+        hist_data.Draw('error');
         hs.Draw("hist same");
 #        hist_Zprime500.Draw("same");
 #        hist_Zprime750.Draw("same");
@@ -453,7 +468,7 @@ def plotMttbar():
         text2.SetTextFont(42);
         text2.SetTextSizePixels(24);# dflt=28
         text2.Draw();
-        canvases[-1].SaveAs('plots/' + histname + '.png')
+        canvases[-1].SaveAs('/storage/results/' + histname + '.png')
 
 #        cu_hist_data = getCumulativePlot(hist_data, "data");
 ##        cu_hist_data2 = getCumulativePlot(hist_data2, "data2");
