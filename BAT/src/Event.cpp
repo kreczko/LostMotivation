@@ -11,26 +11,16 @@
 using namespace std;
 
 namespace BAT {
-
+bool Event::useCustomConversionTagger = false;
+bool Event::usePFIsolation = false;
 Event::Event() :
-    HLT_Photon10_TO20(false),
-    HLT_Photon15_TO20(false),
-    HLT_Photon15_Cleaned_TO20(false),
-    HLT_Emulated_Photon15(false),
-    HLT_Photon20_Cleaned_L1R(false),
-    HLT_Emulated_Photon20(false),
-    HLT_Ele10_LW_L1R(false),
-    HLT_Ele15_SW_L1R(false),
-    HLT_Ele15_SW_CaloEleId_L1R(false),
-    HLT_Ele17_SW_CaloEleId_L1R(false),
-    HLT_Ele17_SW_TightEleId_L1R(false),
-    HLT_Ele22_SW_TighterEleId_L1R_v2(false),
-    HLT_Ele22_SW_TighterEleId_L1R_v3(false),
+    HLTs(new std::vector<int>()),
     primaryVertex(),
     tracks(),
     allElectrons(),
     goodElectrons(),
     goodIsolatedElectrons(),
+    goodPFIsolatedElectrons(),
     looseElectrons(),
     qcdElectrons(),
     allJets(),
@@ -46,8 +36,8 @@ Event::Event() :
     lumiBlock(0),
     eventWeight(1.),
     jetCleaningEfficiency(1.),
-    numberOfHighPurityTracks(0) {
-
+    numberOfHighPurityTracks(0),
+    isBeamScraping(true){
 }
 
 Event::~Event() {
@@ -87,9 +77,9 @@ void Event::setElectrons(ElectronCollection electrons) {
 void Event::selectElectronsByQuality() {
     goodElectrons.clear();
     goodIsolatedElectrons.clear();
+    goodPFIsolatedElectrons.clear();
     for (unsigned int index = 0; index < allElectrons.size(); ++index) {
         ElectronPointer electron = allElectrons.at(index);
-        electron->setZDistanceToPrimaryVertex(fabs(electron->vz() - primaryVertex->z()));
 
         if (electron->isGood())
             goodElectrons.push_back(electron);
@@ -99,6 +89,11 @@ void Event::selectElectronsByQuality() {
 
         if (electron->isGood() && electron->isIsolated())
             goodIsolatedElectrons.push_back(electron);
+
+        if(electron->algorithm() == ElectronAlgorithm::ParticleFlow){
+            if(electron->isGood() && electron->isPFIsolated())
+                goodPFIsolatedElectrons.push_back(electron);
+        }
 
         if (electron->isGood() == false && electron->isLoose())
             looseElectrons.push_back(electron);
@@ -149,7 +144,7 @@ void Event::cleanGoodJetsAgainstIsolatedElectrons() {
 }
 
 void Event::cleanGoodJetsAgainstMostIsolatedElectron() {
-    const ElectronPointer mostIsolatedElectron = MostIsolatedElectron();
+    const ElectronPointer mostIsolatedElectron = MostIsolatedElectron(Event::usePFIsolation);
     unsigned int initialGoodJets = goodJets.size();
     for (unsigned int jetIndex = 0; jetIndex < goodJets.size(); ++jetIndex) {
         if (goodJets.at(jetIndex)->isWithinDeltaR(0.3, mostIsolatedElectron)) {
@@ -160,17 +155,32 @@ void Event::cleanGoodJetsAgainstMostIsolatedElectron() {
     jetCleaningEfficiency = goodJets.size() / initialGoodJets;
 }
 
-const ElectronPointer Event::MostIsolatedElectron() const {
+const ElectronPointer Event::MostIsolatedElectron(bool usePFIso) const {
     float bestIsolation = 999999999;
     unsigned int bestIsolatedElectron = 990;
     for (unsigned int index = 0; index < allElectrons.size(); ++index) {
-        if (allElectrons.at(index)->relativeIsolation() < bestIsolation) {
-            bestIsolation = allElectrons.at(index)->relativeIsolation();
+        float currentIsolation = 9999999999;
+        if(usePFIso)
+            currentIsolation = allElectrons.at(index)->pfIsolation();
+        else
+            currentIsolation = allElectrons.at(index)->relativeIsolation();
+
+        if (currentIsolation < bestIsolation) {
+            bestIsolation = currentIsolation;
             bestIsolatedElectron = index;
         }
     }
     return allElectrons.at(bestIsolatedElectron);
 }
+
+const ElectronPointer Event::MostIsolatedElectron() const{
+    return MostIsolatedElectron(false);
+}
+
+const ElectronPointer Event::MostPFIsolatedElectron() const{
+    return MostIsolatedElectron(true);
+}
+
 
 void Event::setMuons(MuonCollection muons) {
     allMuons.clear();
@@ -192,56 +202,60 @@ void Event::selectMuonsByQuality() {
     }
 }
 
-void Event::setHLT_Photon10_TO20(bool hltTrigger) {
-    HLT_Photon10_TO20 = hltTrigger;
-}
+//void Event::setHLT_Photon10_TO20(bool hltTrigger) {
+//    HLT_Photon10_TO20 = hltTrigger;
+//}
+//
+//void Event::setHLT_Photon15_TO20(bool hltTrigger) {
+//    HLT_Photon15_TO20 = hltTrigger;
+//}
+//
+//void Event::setHLT_Photon15_Cleaned_TO20(bool hltTrigger) {
+//    HLT_Photon15_Cleaned_TO20 = hltTrigger;
+//}
+//
+//void Event::setHLT_Emulated_Photon15(bool hltTrigger) {
+//    HLT_Emulated_Photon15 = hltTrigger;
+//}
+//
+//void Event::setHLT_Photon20_Cleaned_L1R(bool hltTrigger) {
+//    HLT_Photon20_Cleaned_L1R = hltTrigger;
+//}
+//
+//void Event::setHLT_Emulated_Photon20(bool hltTrigger) {
+//    HLT_Emulated_Photon20 = hltTrigger;
+//}
+//
+//void Event::setHLT_Ele10_LW_L1R(bool hltTrigger){
+//    HLT_Ele10_LW_L1R = hltTrigger;
+//}
+//
+//void Event::setHLT_Ele15_SW_L1R(bool hltTrigger){
+//    HLT_Ele15_SW_L1R = hltTrigger;
+//}
+//
+//void Event::setHLT_Ele15_SW_CaloEleId_L1R(bool hltTrigger){
+//    HLT_Ele15_SW_CaloEleId_L1R = hltTrigger;
+//}
+//
+//void Event::setHLT_Ele17_SW_CaloEleId_L1R(bool hltTrigger){
+//    HLT_Ele17_SW_CaloEleId_L1R = hltTrigger;
+//}
+//
+//void Event::setHLT_Ele17_SW_TightEleId_L1R(bool hltTrigger){
+//    HLT_Ele17_SW_TightEleId_L1R = hltTrigger;
+//}
+//
+//void Event::setHLT_Ele22_SW_TighterEleId_L1R_v2(bool hltTrigger){
+//    HLT_Ele22_SW_TighterEleId_L1R_v2 = hltTrigger;
+//}
+//
+//void Event::setHLT_Ele22_SW_TighterEleId_L1R_v3(bool hltTrigger){
+//    HLT_Ele22_SW_TighterEleId_L1R_v3 = hltTrigger;
+//}
 
-void Event::setHLT_Photon15_TO20(bool hltTrigger) {
-    HLT_Photon15_TO20 = hltTrigger;
-}
-
-void Event::setHLT_Photon15_Cleaned_TO20(bool hltTrigger) {
-    HLT_Photon15_Cleaned_TO20 = hltTrigger;
-}
-
-void Event::setHLT_Emulated_Photon15(bool hltTrigger) {
-    HLT_Emulated_Photon15 = hltTrigger;
-}
-
-void Event::setHLT_Photon20_Cleaned_L1R(bool hltTrigger) {
-    HLT_Photon20_Cleaned_L1R = hltTrigger;
-}
-
-void Event::setHLT_Emulated_Photon20(bool hltTrigger) {
-    HLT_Emulated_Photon20 = hltTrigger;
-}
-
-void Event::setHLT_Ele10_LW_L1R(bool hltTrigger){
-    HLT_Ele10_LW_L1R = hltTrigger;
-}
-
-void Event::setHLT_Ele15_SW_L1R(bool hltTrigger){
-    HLT_Ele15_SW_L1R = hltTrigger;
-}
-
-void Event::setHLT_Ele15_SW_CaloEleId_L1R(bool hltTrigger){
-    HLT_Ele15_SW_CaloEleId_L1R = hltTrigger;
-}
-
-void Event::setHLT_Ele17_SW_CaloEleId_L1R(bool hltTrigger){
-    HLT_Ele17_SW_CaloEleId_L1R = hltTrigger;
-}
-
-void Event::setHLT_Ele17_SW_TightEleId_L1R(bool hltTrigger){
-    HLT_Ele17_SW_TightEleId_L1R = hltTrigger;
-}
-
-void Event::setHLT_Ele22_SW_TighterEleId_L1R_v2(bool hltTrigger){
-    HLT_Ele22_SW_TighterEleId_L1R_v2 = hltTrigger;
-}
-
-void Event::setHLT_Ele22_SW_TighterEleId_L1R_v3(bool hltTrigger){
-    HLT_Ele22_SW_TighterEleId_L1R_v3 = hltTrigger;
+void Event::setHLTs(const boost::shared_ptr<std::vector<int> > triggers){
+    HLTs = triggers;
 }
 
 void Event::setMET(const METPointer met) {
@@ -268,6 +282,10 @@ void Event::setEventWeight(float weight) {
     eventWeight = weight;
 }
 
+void Event::setBeamScrapingVeto(bool isScraping){
+    isBeamScraping = isScraping;
+}
+
 const PrimaryVertexPointer Event::PrimaryVertex() const {
     return primaryVertex;
 }
@@ -286,6 +304,10 @@ const ElectronCollection& Event::GoodElectrons() const {
 
 const ElectronCollection& Event::GoodIsolatedElectrons() const {
     return goodIsolatedElectrons;
+}
+
+const ElectronCollection& Event::GoodPFIsolatedElectrons() const {
+    return goodPFIsolatedElectrons;
 }
 
 const ElectronCollection& Event::QCDElectrons() const{
@@ -359,6 +381,10 @@ void Event::inspect() const {
 
     cout << "number of electrons: " << allElectrons.size() << endl;
     EventContentPrinter::printElectrons(allElectrons);
+}
+
+bool Event::HLT(HLTriggers::value trigger) const{
+    return HLTs->at(trigger) > 0;
 }
 
 }

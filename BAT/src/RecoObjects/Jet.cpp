@@ -8,11 +8,6 @@
 #include "../../interface/RecoObjects/Jet.h"
 
 namespace BAT {
-float Jet::goodJetMaximalAbsoluteEta = 2.4;
-float Jet::goodJetMinimalPt = 30.;
-float Jet::goodJetMinimalElectromagneticFraction = 0.01;
-float Jet::goodJetMinimalNumberOfRecHitsContaining90PercentOfTheJetEnergy = 1;
-float Jet::goodJetMaximalFractionOfEnergyIntheHottestHPDReadout = 0.98;
 
 Jet::Jet() :
     Particle(),
@@ -21,7 +16,6 @@ Jet::Jet() :
     numberOfRecHitsContaining90PercentOfTheJetEnergy(0.),
     fractionOfEnergyIntheHottestHPDReadout(0.),
     btag_discriminators(BJetTagger::NUMBER_OF_BTAGALGORITHMS),
-//    btagInData(-1000),
     numberOfDaughters(0),
     chargedEmEnergyFraction(1),
     neutralHadronEnergyFraction(1),
@@ -38,7 +32,6 @@ Jet::Jet(const Particle& particle) :
     numberOfRecHitsContaining90PercentOfTheJetEnergy(0.),
     fractionOfEnergyIntheHottestHPDReadout(0.),
     btag_discriminators(BJetTagger::NUMBER_OF_BTAGALGORITHMS),
-//    btagInData(-1000),
     numberOfDaughters(0),
     chargedEmEnergyFraction(1),
     neutralHadronEnergyFraction(1),
@@ -52,7 +45,6 @@ Jet::Jet(float energy, float px, float py, float pz) :
     usedAlgorithm(JetAlgorithm::Calo_AntiKT_Cone05),
     electromagneticFraction(0.),
     btag_discriminators(BJetTagger::NUMBER_OF_BTAGALGORITHMS),
-//    btagInData(-1000),
     numberOfDaughters(0),
     chargedEmEnergyFraction(1),
     neutralHadronEnergyFraction(1),
@@ -112,7 +104,7 @@ void Jet::setEMF(float emf) {
     electromagneticFraction = emf;
 }
 
-void Jet::setN90Hits(float n90Hits) {
+void Jet::setN90Hits(int n90Hits) {
     numberOfRecHitsContaining90PercentOfTheJetEnergy = n90Hits;
 }
 
@@ -124,11 +116,7 @@ void Jet::setDiscriminatorForBtagType(float discriminator, BJetTagger::Algorithm
     btag_discriminators[type] = discriminator;
 }
 
-//void Jet::setBtagForData(float btag) {
-//    btagInData = btag;
-//}
-
-void Jet::setNOD(float nod) {
+void Jet::setNOD(int nod) {
     numberOfDaughters = nod;
 }
 void Jet::setCEF(float cef) {
@@ -148,9 +136,9 @@ void Jet::setNCH(float nch) {
 }
 
 bool Jet::isGood() const {
-    bool passesPt = pt() > Jet::goodJetMinimalPt;
-    bool passesEta = fabs(eta()) < Jet::goodJetMaximalAbsoluteEta;
-
+    bool passesPt = pt() > 30;
+    bool passesEta = fabs(eta()) < 2.4;
+    bool jetID = false;
     if (usedAlgorithm == JetAlgorithm::ParticleFlow || usedAlgorithm == JetAlgorithm::PF2PAT) {
         bool passNOD = NOD() > 1;
         bool passCEF = CEF() < 0.99;
@@ -162,19 +150,20 @@ bool Jet::isGood() const {
             passCHF = CHF() > 0;
             passNCH = NCH() > 0;
         }
-        return passesPt && passesEta && passNOD && passCEF && passNHF && passNEF && passCHF && passNCH;
+        jetID = passNOD && passCEF && passNHF && passNEF && passCHF && passNCH;
     }
-    bool passesEMF = emf() > Jet::goodJetMinimalElectromagneticFraction;
-    bool passesN90Hits = n90Hits() > Jet::goodJetMinimalNumberOfRecHitsContaining90PercentOfTheJetEnergy;
-    bool passesFHPD = fHPD() < Jet::goodJetMaximalFractionOfEnergyIntheHottestHPDReadout;
-    return passesPt && passesEta && passesEMF && passesN90Hits && passesFHPD;
+    else{
+        bool passesEMF = emf() > 0.01;
+        bool passesN90Hits = n90Hits() > 1;
+        bool passesFHPD = fHPD() < 0.98;
+        jetID = passesEMF && passesN90Hits && passesFHPD;
+    }
+
+    return passesPt && passesEta && jetID;
 }
 
 bool Jet::isBJetAccordingToBtagAlgorithm(BJetTagger::Algorithm btag) const {
     return BJetTagger::doesDiscriminatorPassBtagOfType(btag_discriminators.at(btag), btag);
 }
 
-//bool Jet::isBJetInData() const {
-//    return BJetTagger::doesDiscriminatorPassBtagOfType(btagInData, BJetTagger::SimpleSecondaryVertex);
-//}
 }

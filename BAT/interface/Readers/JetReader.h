@@ -23,27 +23,27 @@ public:
 	void initialise();
 private:
 	VariableReader<unsigned int> numberOfJetsReader;
-	VariableReader<MultiFloatPointer> energyReader;
-	VariableReader<MultiFloatPointer> pxReader;
-	VariableReader<MultiFloatPointer> pyReader;
-	VariableReader<MultiFloatPointer> pzReader;
-	VariableReader<MultiFloatPointer> massReader;
+	VariableReader<MultiDoublePointer> energyReader;
+	VariableReader<MultiDoublePointer> pxReader;
+	VariableReader<MultiDoublePointer> pyReader;
+	VariableReader<MultiDoublePointer> pzReader;
+	VariableReader<MultiDoublePointer> massReader;
 
-	VariableReader<MultiFloatPointer> emfReader;
-	VariableReader<MultiFloatPointer> n90HitsReader;
-	VariableReader<MultiFloatPointer> fHPDReader;
+	VariableReader<MultiDoublePointer> emfReader;
+	VariableReader<MultiIntPointer> n90HitsReader;
+	VariableReader<MultiDoublePointer> fHPDReader;
 
-	VariableReader<MultiFloatPointer> NODReader;
-	VariableReader<MultiFloatPointer> CEFReader;
-	VariableReader<MultiFloatPointer> NHFReader;
-	VariableReader<MultiFloatPointer> NEFReader;
-	VariableReader<MultiFloatPointer> CHFReader;
-	VariableReader<MultiFloatPointer> NCHReader;
+	VariableReader<MultiIntPointer> NODReader;
+	VariableReader<MultiDoublePointer> CEFReader;
+	VariableReader<MultiDoublePointer> NHFReader;
+	VariableReader<MultiDoublePointer> NEFReader;
+	VariableReader<MultiDoublePointer> CHFReader;
+	VariableReader<MultiIntPointer> NCHReader;
 
-	VariableReader<MultiFloatPointer> btagSimpleSecondaryVertexReader;
-//	VariableReader<MultiFloatPointer> btagSimpleSecondaryVertexReaderData;
-	VariableReader<MultiFloatPointer> btagTrackCountingHighPurityReader;
-	VariableReader<MultiFloatPointer> btagTrackCountingHighEfficiencyReader;
+	VariableReader<MultiDoublePointer> btagSimpleSecondaryVertexReader;
+//	VariableReader<MultiDoublePointer> btagSimpleSecondaryVertexReaderData;
+	VariableReader<MultiDoublePointer> btagTrackCountingHighPurityReader;
+	VariableReader<MultiDoublePointer> btagTrackCountingHighEfficiencyReader;
 
 	JetCollection jets;
 	JetAlgorithm::value usedAlgorithm;

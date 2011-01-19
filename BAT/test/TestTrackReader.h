@@ -22,28 +22,21 @@ using namespace BAT;
 
 struct TestTrackReader {
 private:
-    boost::shared_ptr<TChain> input, input2, input3;
+    boost::shared_ptr<TChain> input;
     boost::scoped_ptr<TrackReader> trackReader;
-    boost::scoped_ptr<VariableReader<unsigned int> > numberOfTracksReader;
     TrackCollection tracks;
     TrackPointer firstTrack;
 public:
     TestTrackReader() :
-        input(new TChain(NTupleEventReader::EVENT_CHAIN)), input2(new TChain(NTupleEventReader::HLT_TRIGGER_CHAIN)),
-                input3(new TChain(NTupleEventReader::ADDITIONAL_CHAIN)), trackReader(new TrackReader(input)),
-                numberOfTracksReader(new VariableReader<unsigned int> (input, "e_num")), tracks(), firstTrack() {
-        input->AddFriend(input2.get());
-        input->AddFriend(input3.get());
+        input(new TChain(NTupleEventReader::EVENT_CHAIN)),
+        trackReader(new TrackReader(input)),
+        tracks(),
+        firstTrack() {
 
         input->Add(InputFile::ttbar);
-        input2->Add(InputFile::ttbar);
-        input3->Add(InputFile::ttbar);
 
         input->LoadTree(1);
         input->SetBranchStatus("*", 0);
-        input2->SetBranchStatus("*", 0);
-        input3->SetBranchStatus("*", 0);
-        numberOfTracksReader->initialise();
         trackReader->initialise();
         input->GetEntry(1);
         tracks = trackReader->getTracks();
@@ -63,7 +56,7 @@ public:
     }
 
     void testFirstTrackD0() {
-        ASSERT_EQUAL_DELTA(-0.0156184, firstTrack->d0(), 0.0000001);
+        ASSERT_EQUAL_DELTA(0.359524, firstTrack->d0(), 0.000001);
     }
 
     void testFirstTrackIsHighPurity() {

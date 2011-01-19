@@ -10,26 +10,33 @@
 namespace BAT {
 
 MuonReader::MuonReader() :
-	numberOfMuonsReader(), energyReader(), pxReader(), pyReader(), pzReader(), ecalIsolationReader(),
-			hcalIsolationReader(), trackerIsolationReader(), isGlobalReader() {
+//	numberOfMuonsReader(),
+	energyReader(),
+	pxReader(),
+	pyReader(),
+	pzReader(),
+	ecalIsolationReader(),
+	hcalIsolationReader(),
+	trackerIsolationReader(),
+	isGlobalReader() {
 
 }
 
-MuonReader::MuonReader(TChainPointer input) :
-	numberOfMuonsReader(input, "Nmus"),
-	energyReader(input, "mus_energy"),
-	pxReader(input, "mus_px"),
-	pyReader(input, "mus_py"),
-	pzReader(input, "mus_pz"),
-	ecalIsolationReader(input, "mus_iso03_emEt"),
-	hcalIsolationReader(input, "mus_iso03_hadEt"),
-	trackerIsolationReader(input, "mus_iso03_sumPt"),
-	isGlobalReader(input, "mus_id_AllGlobalMuons") {
+MuonReader::MuonReader(TChainPointer input, MuonAlgorithm::value algo) :
+//	numberOfMuonsReader(input, "Nmus"),
+	energyReader(input, MuonAlgorithm::prefixes.at(algo) + ".Energy"),
+	pxReader(input, MuonAlgorithm::prefixes.at(algo) + ".Px"),
+	pyReader(input, MuonAlgorithm::prefixes.at(algo) + ".Py"),
+	pzReader(input, MuonAlgorithm::prefixes.at(algo) + ".Pz"),
+	ecalIsolationReader(input, MuonAlgorithm::prefixes.at(algo) + ".EcalIso03"),
+	hcalIsolationReader(input, MuonAlgorithm::prefixes.at(algo) + ".HcalIso03"),
+	trackerIsolationReader(input, MuonAlgorithm::prefixes.at(algo) + ".TrkIso03"),
+	isGlobalReader(input, MuonAlgorithm::prefixes.at(algo) + ".isGoodGlobalMuon") {
 
 }
 
 void MuonReader::initialise() {
-	numberOfMuonsReader.initialise();
+//	numberOfMuonsReader.initialise();
 	energyReader.initialise();
 	pxReader.initialise();
 	pyReader.initialise();
@@ -50,8 +57,8 @@ const MuonCollection& MuonReader::getMuons() {
 }
 
 void MuonReader::readMuons(){
-	unsigned int numberOfMuons = numberOfMuonsReader.getVariable();
-		for (unsigned int index = 0; index < numberOfMuons; index++) {
+//	unsigned int numberOfMuons = numberOfMuonsReader.getVariable();
+		for (unsigned int index = 0; index < energyReader.size(); index++) {
 			float energy = energyReader.getVariableAt(index);
 			float px = pxReader.getVariableAt(index);
 			float py = pyReader.getVariableAt(index);
@@ -60,7 +67,7 @@ void MuonReader::readMuons(){
 			muon.setEcalIsolation(ecalIsolationReader.getVariableAt(index));
 			muon.setHcalIsolation(hcalIsolationReader.getVariableAt(index));
 			muon.setTrackerIsolation(trackerIsolationReader.getVariableAt(index));
-			muon.makeGlobal(isGlobalReader.getVariableAt(index) == 1);
+			muon.makeGlobal(isGlobalReader.getBoolVariableAt(index));
 			muons.push_back(muon);
 		}
 }

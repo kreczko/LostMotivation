@@ -74,7 +74,7 @@ public:
     void testNumberOfHistsInFile(){
         man.writeToDisk();
         boost::shared_ptr<TFile> file(new TFile(expectedDataFile.c_str()));
-        ASSERT_EQUAL(2 + JetBin::NUMBER_OF_JET_BINS, file->GetNkeys());
+        ASSERT_EQUAL(2 + JetBin::NUMBER_OF_JET_BINS + JetBinSummed::NUMBER_OF_SUMMED_JET_BINS, file->GetNkeys());
     }
 
     void testJetBinnedHistInFile(){

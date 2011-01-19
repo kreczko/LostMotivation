@@ -18,7 +18,7 @@ private:
 	Muon leadingMuon;
 public:
 	TestMuonReader() :
-		input(new TChain("configurableAnalysis/eventB")),
+		input(new TChain(NTupleEventReader::EVENT_CHAIN)),
 		reader(new MuonReader(input)),
 		muons(),
 		leadingMuon() {
@@ -35,14 +35,14 @@ public:
 	}
 
 	void testLeadingMuonFourVector(){
-		ASSERT_EQUAL_DELTA(29.6267, leadingMuon.energy(), 0.0001);
-		ASSERT_EQUAL_DELTA(-27.3677, leadingMuon.px(), 0.0001);
-		ASSERT_EQUAL_DELTA(8.21059, leadingMuon.py(), 0.0001);
-		ASSERT_EQUAL_DELTA(7.83097, leadingMuon.pz(), 0.0001);
+		ASSERT_EQUAL_DELTA(79.3238, leadingMuon.energy(), 0.0001);
+		ASSERT_EQUAL_DELTA(-1.85475, leadingMuon.px(), 0.0001);
+		ASSERT_EQUAL_DELTA(-72.8907, leadingMuon.py(), 0.0001);
+		ASSERT_EQUAL_DELTA(-31.2372, leadingMuon.pz(), 0.0001);
 	}
 
 	void testLeadingMuonRelativeIsolation(){
-		ASSERT_EQUAL_DELTA(0.90083, leadingMuon.relativeIsolation(), 0.00001);
+		ASSERT_EQUAL_DELTA(0.0144937, leadingMuon.relativeIsolation(), 0.00001);
 	}
 
 	void testLeadingMuonIsGlobal(){

@@ -20,17 +20,13 @@ namespace BAT {
 
 class Event {
 protected:
-    bool HLT_Photon10_TO20, HLT_Photon15_TO20, HLT_Photon15_Cleaned_TO20, HLT_Emulated_Photon15,
-            HLT_Photon20_Cleaned_L1R, HLT_Emulated_Photon20;
-    bool HLT_Ele10_LW_L1R,  HLT_Ele15_SW_L1R, HLT_Ele15_SW_CaloEleId_L1R, HLT_Ele17_SW_CaloEleId_L1R;
-    bool HLT_Ele17_SW_TightEleId_L1R;
-    bool HLT_Ele22_SW_TighterEleId_L1R_v2;
-    bool HLT_Ele22_SW_TighterEleId_L1R_v3;
+    boost::shared_ptr<std::vector<int> > HLTs;
     PrimaryVertexPointer primaryVertex;
     TrackCollection tracks;
     ElectronCollection allElectrons;
     ElectronCollection goodElectrons;
     ElectronCollection goodIsolatedElectrons;
+    ElectronCollection goodPFIsolatedElectrons;
     ElectronCollection looseElectrons;
     ElectronCollection qcdElectrons;
 
@@ -53,6 +49,7 @@ protected:
 
     float jetCleaningEfficiency;
     unsigned int numberOfHighPurityTracks;
+    bool isBeamScraping;
 
 public:
     Event();
@@ -66,30 +63,20 @@ public:
     void setJets(JetCollection electrons);
     void setMuons(MuonCollection muons);
     void setMET(const METPointer met);
-    void setHLT_Photon10_TO20(bool hltTrigger);
-    void setHLT_Photon15_TO20(bool hltTrigger);
-    void setHLT_Photon15_Cleaned_TO20(bool hltTrigger);
-    void setHLT_Emulated_Photon15(bool hltTrigger);
-    void setHLT_Photon20_Cleaned_L1R(bool hltTrigger);
-    void setHLT_Emulated_Photon20(bool hltTrigger);
-    void setHLT_Ele10_LW_L1R(bool hltTrigger);
-    void setHLT_Ele15_SW_L1R(bool hltTrigger);
-    void setHLT_Ele15_SW_CaloEleId_L1R(bool hltTrigger);
-    void setHLT_Ele17_SW_CaloEleId_L1R(bool hltTrigger);
-    void setHLT_Ele17_SW_TightEleId_L1R(bool hltTrigger);
-    void setHLT_Ele22_SW_TighterEleId_L1R_v2(bool hltTrigger);
-    void setHLT_Ele22_SW_TighterEleId_L1R_v3(bool hltTrigger);
+    void setHLTs(const boost::shared_ptr<std::vector<int> >);
     void setRunNumber(unsigned long number);
     void setEventNumber(unsigned long number);
     void setLocalEventNumber(unsigned long number);
     void setLumiBlock(unsigned long block);
     void setEventWeight(float weight);
+    void setBeamScrapingVeto(bool isScraping);
 
     const PrimaryVertexPointer PrimaryVertex() const;
     const TrackCollection& Tracks() const;
     const ElectronCollection& Electrons() const;
     const ElectronCollection& GoodElectrons() const;
     const ElectronCollection& GoodIsolatedElectrons() const;
+    const ElectronCollection& GoodPFIsolatedElectrons() const;
     const ElectronCollection& QCDElectrons() const;
     const JetCollection& Jets() const;
     const JetCollection& GoodJets() const;
@@ -98,13 +85,18 @@ public:
     const MuonCollection& GoodMuons() const;
     const MuonCollection& GoodIsolatedMuons() const;
     const METPointer MET() const;
+    const ElectronPointer MostIsolatedElectron(bool usePFIso) const;
     const ElectronPointer MostIsolatedElectron() const;
+    const ElectronPointer MostPFIsolatedElectron() const;
     unsigned long runnumber() const;
     unsigned long eventnumber() const;
     unsigned long localnumber() const;
     unsigned long lumiblock() const;
     float weight() const;
     void inspect() const;
+    bool HLT(HLTriggers::value trigger) const;
+    static bool useCustomConversionTagger;
+    static bool usePFIsolation;
 
 private:
     void selectElectronsByQuality();

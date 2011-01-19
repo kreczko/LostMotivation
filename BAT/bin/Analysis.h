@@ -12,7 +12,6 @@
 #include <boost/array.hpp>
 #include <boost/unordered_map.hpp>
 #include "../interface/Readers/NTupleEventReader.h"
-#include "../interface/Filter.h"
 #include "TH1F.h"
 #include "TH2F.h"
 #include "TFile.h"
@@ -58,7 +57,6 @@ typedef boost::unordered_map<std::string, cutarray> cutmap;
 class Analysis {
 private:
     boost::scoped_ptr<BAT::NTupleEventReader> eventReader;
-    boost::scoped_ptr<BAT::Filter> eventFilter;
     BAT::Event currentEvent;
     BAT::TopPairEventCandidate ttbarCandidate;
     BAT::HistogramManager histMan;
@@ -66,7 +64,8 @@ private:
     cutarray singleCuts;
     cutmap cutflowPerFile;
     cutmap singleCutsPerFile;
-    std::vector<InterestingEvent> interestingEvents;
+    std::vector<InterestingEvent> interestingEvents, brokenEvents;
+    std::map<unsigned long, std::vector<unsigned long> > eventCheck;
     BAT::CrossSectionProvider weights;
     float weight;
     BAT::Counter cutflowPerSample;
@@ -87,6 +86,19 @@ public:
     static void useMETAlgorithm(BAT::METAlgorithm::value algo) {
         BAT::NTupleEventReader::metAlgorithm = algo;
     }
+    static void useMuonAlgorithm(BAT::MuonAlgorithm::value algo){
+        BAT::NTupleEventReader::muonAlgorithm = algo;
+    }
+
+    static void usePFIsolation(bool use){
+        BAT::Event::usePFIsolation = use;
+    }
+
+    static void useCustomConversionTagger(bool use){
+        BAT::TopPairEventCandidate::useCustomConversionTagger = use;
+        //custom conversion tagger needs track information
+        BAT::NTupleEventReader::loadTracks = use;
+    }
 private:
     void printNumberOfProccessedEventsEvery(unsigned long printEvery);
 //    void doEcalSpikeAnalysis();
@@ -101,6 +113,8 @@ private:
     void createHistograms();
     void doNotePlots();
     void doQCDStudy();
+    void checkForDuplicatedEvents();
+    void checkForBrokenEvents();
 };
 
 #endif /* ANALYSIS_H_ */

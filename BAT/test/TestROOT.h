@@ -14,21 +14,20 @@ struct TestROOT {
 private:
 	TString invalidBranch;
 	//select two related variables
-	TString numberOfElectrons;
+//	TString numberOfElectrons;
 	TString energyForEachElectron;
 
 	boost::scoped_ptr<TChain> input;
 public:
 	TestROOT() :
 		invalidBranch("this is not in the chain"),
-		numberOfElectrons("Nels"),
-		energyForEachElectron("els_energy"),
-		input(new TChain("configurableAnalysis/eventB")) {
+//		numberOfElectrons("Nels"),
+		energyForEachElectron("Electron.Energy"),
+		input(new TChain(NTupleEventReader::EVENT_CHAIN)) {
 		input->Add(InputFile::ttbar);
 
 		input->GetEntries();
 		input->SetBranchStatus("*", 0);
-		input->SetBranchStatus(numberOfElectrons, 1);
 		input->SetBranchStatus(energyForEachElectron, 1);
 	}
 	void testInvalidTBranch() {
@@ -44,7 +43,7 @@ public:
 	}
 
 	void testValidBranch(){
-		ASSERT(input->GetBranch(numberOfElectrons) != NULL);
+		ASSERT(input->GetBranch(energyForEachElectron) != NULL);
 	}
 
 

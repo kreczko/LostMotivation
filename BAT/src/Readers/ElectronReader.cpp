@@ -11,7 +11,7 @@ namespace BAT {
 //const std::string ElectronReader::algorithmPrefixes[Electron::NUMBER_OF_ELECTRONALGORITHMS] = { "els", "PFElsAll" };
 
 ElectronReader::ElectronReader() :
-    numberOfElectronsReader(),
+//    numberOfElectronsReader(),
     energyReader(),
     pxReader(),
     pyReader(),
@@ -24,8 +24,11 @@ ElectronReader::ElectronReader() :
     ecalIsolationReader(),
     hcalIsolationReader(),
     trackerIsolationReader(),
-    robustLooseIDReader(),
-    robustTightIDReader(),
+    PFGammaIsolationReader(),
+    PFChargedHadronIsolationReader(),
+    PFNeutralHadronIsolationReader(),
+//    robustLooseIDReader(),
+//    robustTightIDReader(),
     sigmaIEtaIEtaReader(),
     dPhiInReader(),
     dEtaInReader(),
@@ -37,40 +40,47 @@ ElectronReader::ElectronReader() :
     track_pt(),
     track_theta(),
     track_charge(),
-    vertex_z(),
+    vertex_dist_z(),
+    dist(),
+    dCotTheta(),
     algorithm(ElectronAlgorithm::Calo),
     electrons() {
 
 }
 
-ElectronReader::ElectronReader(TChainPointer input, TChainPointer input2, ElectronAlgorithm::value algo) :
-    numberOfElectronsReader(input, "N" + ElectronAlgorithm::prefixes.at(algo)),
-    energyReader(input, ElectronAlgorithm::prefixes.at(algo) + "_energy"),
-    pxReader(input, ElectronAlgorithm::prefixes.at(algo) + "_px"),
-    pyReader(input, ElectronAlgorithm::prefixes.at(algo) + "_py"),
-    pzReader(input, ElectronAlgorithm::prefixes.at(algo) + "_pz"),
-    chargeReader(input, ElectronAlgorithm::prefixes.at(algo) + "_charge"),
-    superClusterEtaReader(input, ElectronAlgorithm::prefixes.at(algo) + "_scEta"),
-    d0_BS_Reader(input, ElectronAlgorithm::prefixes.at(algo) + "3_d0_bs"),
-    d0_PV_Reader(input, ElectronAlgorithm::prefixes.at(algo) + "_dB"),
-    numberOfInnerLayerMissingHitsReader(input, ElectronAlgorithm::prefixes.at(algo) + "_innerLayerMissingHits"),
-    ecalIsolationReader(input, ElectronAlgorithm::prefixes.at(algo) + "_dr03EcalRecHitSumEt"),
-    hcalIsolationReader(input, ElectronAlgorithm::prefixes.at(algo) + "_dr03HcalTowerSumEt"),
-    trackerIsolationReader(input,ElectronAlgorithm::prefixes.at(algo) + "_dr03TkSumPt"),
-    robustLooseIDReader(input, ElectronAlgorithm::prefixes.at(algo) + "_robustLooseId"),
-    robustTightIDReader(input, ElectronAlgorithm::prefixes.at(algo) + "_robustTightId"),
-    sigmaIEtaIEtaReader(input, ElectronAlgorithm::prefixes.at(algo) + "_sigmaIEtaIEta"),
-    dPhiInReader(input, ElectronAlgorithm::prefixes.at(algo) + "_dPhiIn"),
-    dEtaInReader(input, ElectronAlgorithm::prefixes.at(algo) + "_dEtaIn"),
-    hadOverEmReader(input, ElectronAlgorithm::prefixes.at(algo) + "_hadOverEm"),
-    sharedFractionInnerHits(input, ElectronAlgorithm::prefixes.at(algo) + "_shFracInnerHits"),
-    trackIDReader(input, ElectronAlgorithm::prefixes.at(algo) + "_closestCtfTrackRef"),
-    track_phi(input, ElectronAlgorithm::prefixes.at(algo) + "_tk_phi"),
-    track_eta(input, ElectronAlgorithm::prefixes.at(algo) + "_tk_eta"),
-    track_pt(input, ElectronAlgorithm::prefixes.at(algo) + "_tk_pt"),
-    track_theta(input, ElectronAlgorithm::prefixes.at(algo) + "_tk_theta"),
-    track_charge(input, ElectronAlgorithm::prefixes.at(algo) + "_tk_charge"),
-    vertex_z(input, ElectronAlgorithm::prefixes.at(algo) + "_vz"),
+ElectronReader::ElectronReader(TChainPointer input, ElectronAlgorithm::value algo) :
+//    numberOfElectronsReader(input, "N" + ElectronAlgorithm::prefixes.at(algo)),
+    energyReader(input, ElectronAlgorithm::prefixes.at(algo) + ".Energy"),
+    pxReader(input, ElectronAlgorithm::prefixes.at(algo) + ".Px"),
+    pyReader(input, ElectronAlgorithm::prefixes.at(algo) + ".Py"),
+    pzReader(input, ElectronAlgorithm::prefixes.at(algo) + ".Pz"),
+    chargeReader(input, ElectronAlgorithm::prefixes.at(algo) + ".Charge"),
+    superClusterEtaReader(input, ElectronAlgorithm::prefixes.at(algo) + ".SCEta"),
+    d0_BS_Reader(input, ElectronAlgorithm::prefixes.at(algo) + ".dBBS"),
+    d0_PV_Reader(input, ElectronAlgorithm::prefixes.at(algo) + ".dB"),
+    numberOfInnerLayerMissingHitsReader(input, ElectronAlgorithm::prefixes.at(algo) + ".MissingHits"),
+    ecalIsolationReader(input, ElectronAlgorithm::prefixes.at(algo) + ".EcalIso03"),
+    hcalIsolationReader(input, ElectronAlgorithm::prefixes.at(algo) + ".HcalIso03"),
+    trackerIsolationReader(input,ElectronAlgorithm::prefixes.at(algo) + ".TrkIso03"),
+    PFGammaIsolationReader(input,ElectronAlgorithm::prefixes.at(algo) + ".PFGammaIso"),
+    PFChargedHadronIsolationReader(input,ElectronAlgorithm::prefixes.at(algo) + ".PfChargedHadronIso"),
+    PFNeutralHadronIsolationReader(input,ElectronAlgorithm::prefixes.at(algo) + ".PfNeutralHadronIso"),
+//    robustLooseIDReader(input, ElectronAlgorithm::prefixes.at(algo) + ".robustLooseId"),
+//    robustTightIDReader(input, ElectronAlgorithm::prefixes.at(algo) + ".robustTightId"),
+    sigmaIEtaIEtaReader(input, ElectronAlgorithm::prefixes.at(algo) + ".SigmaIEtaIEta"),
+    dPhiInReader(input, ElectronAlgorithm::prefixes.at(algo) + ".DeltaPhiTrkSC"),
+    dEtaInReader(input, ElectronAlgorithm::prefixes.at(algo) + ".DeltaEtaTrkSC"),
+    hadOverEmReader(input, ElectronAlgorithm::prefixes.at(algo) + ".HoE"),
+    sharedFractionInnerHits(input, ElectronAlgorithm::prefixes.at(algo) + ".shFracInnerHits"),
+    trackIDReader(input, ElectronAlgorithm::prefixes.at(algo) + ".closestCtfTrackRef"),
+    track_phi(input, ElectronAlgorithm::prefixes.at(algo) + ".GSFTrack.Phi"),
+    track_eta(input, ElectronAlgorithm::prefixes.at(algo) + ".GSFTrack.Eta"),
+    track_pt(input, ElectronAlgorithm::prefixes.at(algo) + ".TrackPt"),
+    track_theta(input, ElectronAlgorithm::prefixes.at(algo) + ".GSFTrack.Theta"),
+    track_charge(input, ElectronAlgorithm::prefixes.at(algo) + ".GSFTrack.Charge"),
+    vertex_dist_z(input, ElectronAlgorithm::prefixes.at(algo) + ".VtxDistZ"),
+    dist(input, ElectronAlgorithm::prefixes.at(algo) + ".Dist"),
+    dCotTheta(input, ElectronAlgorithm::prefixes.at(algo) + ".DCotTheta"),
     algorithm(algo),
     electrons() {
 
@@ -87,20 +97,20 @@ const ElectronCollection& ElectronReader::getElectrons() {
 }
 
 void ElectronReader::readElectrons() {
-    unsigned int numberOfElectrons = numberOfElectronsReader.getVariable();
-    for (unsigned int index = 0; index < numberOfElectrons; index++) {
+//    unsigned int numberOfElectrons = numberOfElectronsReader.getVariable();
+    for (unsigned int index = 0; index < energyReader.size(); index++) {
         float energy = energyReader.getVariableAt(index);
         float px = pxReader.getVariableAt(index);
         float py = pyReader.getVariableAt(index);
         float pz = pzReader.getVariableAt(index);
         ElectronPointer electron(new Electron(energy, px, py, pz));
         electron->setUsedAlgorithm(algorithm);
-        electron->setCharge(chargeReader.getVariableAt(index));
-        if(d0_BS_Reader.doesVariableExist())
+        electron->setCharge(chargeReader.getIntVariableAt(index));
+        if(d0_BS_Reader.doesVariableExist() && algorithm == ElectronAlgorithm::Calo)
             electron->setD0_BS(d0_BS_Reader.getVariableAt(index));
         electron->setD0(d0_PV_Reader.getVariableAt(index));
-        electron->setElectronVertexZPosition(vertex_z.getVariableAt(index));
-        electron->setNumberOfMissingInnerLayerHits(numberOfInnerLayerMissingHitsReader.getVariableAt(index));
+        electron->setZDistanceToPrimaryVertex(vertex_dist_z.getVariableAt(index));
+        electron->setNumberOfMissingInnerLayerHits(numberOfInnerLayerMissingHitsReader.getIntVariableAt(index));
         electron->setEcalIsolation(ecalIsolationReader.getVariableAt(index));
         electron->setHcalIsolation(hcalIsolationReader.getVariableAt(index));
         electron->setTrackerIsolation(trackerIsolationReader.getVariableAt(index));
@@ -109,29 +119,37 @@ void ElectronReader::readElectrons() {
         electron->setDPhiIn(dPhiInReader.getVariableAt(index));
         electron->setDEtaIn(dEtaInReader.getVariableAt(index));
         electron->setHadOverEm(hadOverEmReader.getVariableAt(index));
-        electron->setRobustLooseID(robustLooseIDReader.getVariableAt(index) == 1);
-        electron->setRobustTightID(robustTightIDReader.getVariableAt(index) == 1);
+//        electron->setRobustLooseID(robustLooseIDReader.getVariableAt(index) == 1);
+//        electron->setRobustTightID(robustTightIDReader.getVariableAt(index) == 1);
+        electron->setDistToNextTrack(dist.getVariableAt(index));
+        electron->setDCotThetaToNextTrack(dCotTheta.getVariableAt(index));
 
         electron->setSharedFractionInnerHits(sharedFractionInnerHits.getVariableAt(index));
-        electron->setClosestTrackID(static_cast<int> (trackIDReader.getVariableAt(index)));
+        electron->setClosestTrackID(trackIDReader.getIntVariableAt(index));
         float trackPhi = track_phi.getVariableAt(index);
         float trackEta = track_eta.getVariableAt(index);
         float trackPt = track_pt.getVariableAt(index);
         float trackTheta = track_theta.getVariableAt(index);
-        float trackCharge = track_charge.getVariableAt(index);
+        float trackCharge = track_charge.getIntVariableAt(index);
         TrackPointer track = TrackPointer(new Track(trackPhi, trackEta, trackPt, trackTheta));
         track->setCharge(trackCharge);
         if(algorithm == ElectronAlgorithm::Calo)
             track->setD0(electron->d0_BS());
         else
             track->setD0(electron->d0());
+
+        if(algorithm == ElectronAlgorithm::ParticleFlow){
+            electron->setPFGammaIsolation(PFGammaIsolationReader.getVariableAt(index));
+            electron->setPFChargedHadronIsolation(PFChargedHadronIsolationReader.getVariableAt(index));
+            electron->setPFNeutralHadronIsolation(PFNeutralHadronIsolationReader.getVariableAt(index));
+        }
         electron->setGSFTrack(track);
         electrons.push_back(electron);
     }
 }
 
 void ElectronReader::initialise() {
-    numberOfElectronsReader.initialise();
+//    numberOfElectronsReader.initialise();
     energyReader.initialise();
     pxReader.initialise();
     pyReader.initialise();
@@ -139,7 +157,7 @@ void ElectronReader::initialise() {
     chargeReader.initialise();
     superClusterEtaReader.initialise();
 
-    if(d0_BS_Reader.doesVariableExist())
+    if(d0_BS_Reader.doesVariableExist() && algorithm == ElectronAlgorithm::Calo)
         d0_BS_Reader.initialise();
     d0_PV_Reader.initialise();
     numberOfInnerLayerMissingHitsReader.initialise();
@@ -148,8 +166,8 @@ void ElectronReader::initialise() {
     hcalIsolationReader.initialise();
     trackerIsolationReader.initialise();
 
-    robustLooseIDReader.initialise();
-    robustTightIDReader.initialise();
+//    robustLooseIDReader.initialise();
+//    robustTightIDReader.initialise();
     sigmaIEtaIEtaReader.initialise();
     dPhiInReader.initialise();
     dEtaInReader.initialise();
@@ -162,7 +180,14 @@ void ElectronReader::initialise() {
     track_pt.initialise();
     track_theta.initialise();
     track_charge.initialise();
-    vertex_z.initialise();
+    vertex_dist_z.initialise();
+    dist.initialise();
+    dCotTheta.initialise();
+    if(algorithm == ElectronAlgorithm::ParticleFlow){
+        PFGammaIsolationReader.initialise();
+        PFChargedHadronIsolationReader.initialise();
+        PFNeutralHadronIsolationReader.initialise();
+    }
 }
 
 }

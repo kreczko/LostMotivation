@@ -8,10 +8,6 @@
 #include "../../interface/RecoObjects/PrimaryVertex.h"
 #include <math.h>
 namespace BAT {
-unsigned int PrimaryVertex::goodVertexMinimalNumberOfDegreesOfFreedom = 4;
-float PrimaryVertex::goodVertexMaximalAbsoluteZPosition = 24;
-float PrimaryVertex::goodVertexMaximalAbsoluteRho = 2.0;
-
 
 PrimaryVertex::PrimaryVertex() :
 	is_fake(false), degreesOfFreedom(0), z_position(0), rho(0) {
@@ -54,20 +50,12 @@ bool PrimaryVertex::isFake() const {
 }
 
 bool PrimaryVertex::isGood() const {
-	bool passesNDOF = ndof() >= PrimaryVertex::goodVertexMinimalNumberOfDegreesOfFreedom;
-	bool passesZ = absoluteZPosition() <= PrimaryVertex::goodVertexMaximalAbsoluteZPosition;
-	bool passesRho = absoluteRho() <= PrimaryVertex::goodVertexMaximalAbsoluteRho;
+	bool passesNDOF = ndof() >= 4;
+	bool passesZ = absoluteZPosition() <= 24;//cm
+	bool passesRho = absoluteRho() <= 2.0;
 	bool isNotFake = isFake() == false;
 	return passesNDOF && passesZ && passesRho && isNotFake;
 }
-//
-//bool PrimaryVertex::isGoodInRealData() const {
-//    bool passesNDOF = ndof() >= PrimaryVertex::goodVertexMinimalNumberOfDegreesOfFreedom;
-//    bool passesZ = absoluteZPosition() <= PrimaryVertex::goodVertexMaximalAbsoluteZPositionForRealData;
-//    bool passesRho = absoluteRho() <= PrimaryVertex::goodVertexMaximalAbsoluteRho;
-//    bool isNotFake = isFake() == false;
-//    return passesNDOF && passesZ && passesRho && isNotFake;
-//}
 
 float PrimaryVertex::z() const{
     return z_position;

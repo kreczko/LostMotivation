@@ -7,6 +7,10 @@ using namespace BAT;
 
 struct TestPrimaryVertex {
 private:
+    const static double goodVertexMaximalAbsoluteRho = 2.0;
+    const static double goodVertexMinimalNumberOfDegreesOfFreedom = 4;
+    const static double goodVertexMaximalAbsoluteZPosition = 15.;
+
     PrimaryVertex goodVertex;
     PrimaryVertex badNDOFVertex;
     PrimaryVertex badZPositionVertex;
@@ -31,13 +35,9 @@ public:
     }
 private:
     void setGoodVertexCuts() {
-        PrimaryVertex::goodVertexMaximalAbsoluteRho = 2.0;
-        PrimaryVertex::goodVertexMinimalNumberOfDegreesOfFreedom = 4;
-        PrimaryVertex::goodVertexMaximalAbsoluteZPosition = 15.;
-        maxGoodAbsoluteZ = PrimaryVertex::goodVertexMaximalAbsoluteZPosition;
-        maxGoodRho = PrimaryVertex::goodVertexMaximalAbsoluteRho - 0.1
-                * PrimaryVertex::goodVertexMaximalAbsoluteRho;
-        minGoodNDOF = PrimaryVertex::goodVertexMinimalNumberOfDegreesOfFreedom + 1;
+        maxGoodAbsoluteZ = goodVertexMaximalAbsoluteZPosition;
+        maxGoodRho = goodVertexMaximalAbsoluteRho - 0.1 * goodVertexMaximalAbsoluteRho;
+        minGoodNDOF = goodVertexMinimalNumberOfDegreesOfFreedom + 1;
     }
 
     void setGoodVertex() {

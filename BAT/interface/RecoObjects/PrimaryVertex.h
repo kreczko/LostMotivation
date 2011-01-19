@@ -13,15 +13,15 @@ namespace BAT {
 
 class PrimaryVertex {
 public:
-	static unsigned int goodVertexMinimalNumberOfDegreesOfFreedom;
-	static float goodVertexMaximalAbsoluteZPosition;
-	static float goodVertexMaximalAbsoluteRho;
-
-	static void resetSelectionValues() {
-	    PrimaryVertex::goodVertexMinimalNumberOfDegreesOfFreedom = 4;
-	    PrimaryVertex::goodVertexMaximalAbsoluteZPosition = 24;
-	    PrimaryVertex::goodVertexMaximalAbsoluteRho = 2.0;
-	}
+//	static unsigned int goodVertexMinimalNumberOfDegreesOfFreedom;
+//	static float goodVertexMaximalAbsoluteZPosition;
+//	static float goodVertexMaximalAbsoluteRho;
+//
+//	static void resetSelectionValues() {
+//	    PrimaryVertex::goodVertexMinimalNumberOfDegreesOfFreedom = 4;
+//	    PrimaryVertex::goodVertexMaximalAbsoluteZPosition = 24;
+//	    PrimaryVertex::goodVertexMaximalAbsoluteRho = 2.0;
+//	}
 
 	PrimaryVertex();
 	virtual ~PrimaryVertex();

@@ -88,7 +88,7 @@ public:
     }
 
     void testGetWeightTtbar() {
-        ASSERT_EQUAL_DELTA(157.5 * lumi/1459404, xSectionProvider.getWeight(DataType::ttbar), 0.00000001);
+        ASSERT_EQUAL_DELTA(157.5 * lumi/1306182, xSectionProvider.getWeight(DataType::ttbar), 0.00000001);
     }
 
 };

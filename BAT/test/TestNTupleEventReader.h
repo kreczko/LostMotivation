@@ -146,12 +146,12 @@ public:
 
     void testNumberOfTracksInEvent1() {
         Event currentEvent = TTbarReader->getNextEvent();
-        ASSERT_EQUAL(144, currentEvent.Tracks().size());
+        ASSERT_EQUAL(0, currentEvent.Tracks().size());//Tracks deactivated
     }
 
     void testNumberOfElectronsInEvent1() {
         Event currentEvent = TTbarReader->getNextEvent();
-        ASSERT_EQUAL(3, currentEvent.Electrons().size());
+        ASSERT_EQUAL(2, currentEvent.Electrons().size());
     }
 
     void testNumberOfJetsInEvent1() {
@@ -215,7 +215,7 @@ public:
     }
 
     void testMCLumiBlock() {
-        ASSERT_EQUAL(2, TTbarReader->getNextEvent().lumiblock());
+        ASSERT_EQUAL(7, TTbarReader->getNextEvent().lumiblock());
     }
 
     void testLocalEventNumber() {
@@ -237,20 +237,12 @@ public:
     }
 
     void testEventChainConstant() {
-        ASSERT_EQUAL(0, strcmp("configurableAnalysis/eventB", NTupleEventReader::EVENT_CHAIN));
-    }
-
-    void testHLTChainConstant() {
-        ASSERT_EQUAL(0, strcmp("configurableAnalysis/eventV", NTupleEventReader::HLT_TRIGGER_CHAIN));
-    }
-
-    void testECALCleanlingChainConstant() {
-        ASSERT_EQUAL(0, strcmp("configurableAnalysis/eventA", NTupleEventReader::ADDITIONAL_CHAIN));
+        ASSERT_EQUAL(0, strcmp("rootTupleTree/tree", NTupleEventReader::EVENT_CHAIN));
     }
 
     void testTTbarEventMET() {
         Event event = TTbarReader->getNextEvent();
-        ASSERT_EQUAL_DELTA(47.9642,event.MET()->et(), 0.001);
+        ASSERT_EQUAL_DELTA(69.2572,event.MET()->et(), 0.001);
     }
 
     void testSeenTTbar() {
@@ -284,6 +276,8 @@ public:
 
     void testHLT() {
         unsigned int passedHLT = 0;
+        DataReader->setMaximumNumberOfEvents(1000);
+        DataReader2->setMaximumNumberOfEvents(1000);
         while (DataReader->hasNextEvent()) {
             TopPairEventCandidate cand = TopPairEventCandidate(DataReader->getNextEvent());
             if (cand.passesHighLevelTrigger())
@@ -346,8 +340,6 @@ extern cute::suite make_suite_TestNTupleEventReader() {
     s.push_back(CUTE_SMEMFUN(TestNTupleEventReader, testPrimaryVertex));
     s.push_back(CUTE_SMEMFUN(TestNTupleEventReader, testHLTTrigger));
     s.push_back(CUTE_SMEMFUN(TestNTupleEventReader, testEventChainConstant));
-    s.push_back(CUTE_SMEMFUN(TestNTupleEventReader, testHLTChainConstant));
-    s.push_back(CUTE_SMEMFUN(TestNTupleEventReader, testECALCleanlingChainConstant));
     s.push_back(CUTE_SMEMFUN(TestNTupleEventReader, testTTbarEventMET));
 
     s.push_back(CUTE_SMEMFUN(TestNTupleEventReader, testSeenTTbar));

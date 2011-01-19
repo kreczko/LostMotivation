@@ -17,20 +17,20 @@ using namespace std;
 
 struct TestVariableReader {
 private:
-	TString invalidEmptyVariableName, invalidNotAvailableVariableName, numberOfElectrons, energyForEachElectron;
+	TString invalidEmptyVariableName, invalidNotAvailableVariableName, runNumber, energyForEachElectron;
 	TChainPointer input;
 	boost::scoped_ptr<VariableReader<unsigned int> > singleVariableReader;
-	boost::scoped_ptr<VariableReader<MultiFloatPointer> > multipleVariableReader;
+	boost::scoped_ptr<VariableReader<MultiDoublePointer> > multipleVariableReader;
 	boost::scoped_ptr<VariableReader<int> > invalidEmptyVariableVariableReader, invalidnNotAvailableVariableReader;
 public:
 	TestVariableReader() :
 		invalidEmptyVariableName(""),
 		invalidNotAvailableVariableName("thisIsNotInTheFile"),
-		numberOfElectrons("Nels"),
-		energyForEachElectron("els_energy"),
-		input(new TChain("configurableAnalysis/eventB")),
-		singleVariableReader(new VariableReader<unsigned int>::VariableReader(input, numberOfElectrons)),
-		multipleVariableReader(new VariableReader<MultiFloatPointer>::VariableReader(input,
+		runNumber("run"),
+		energyForEachElectron("Electron.Energy"),
+		input(new TChain(NTupleEventReader::EVENT_CHAIN)),
+		singleVariableReader(new VariableReader<unsigned int>::VariableReader(input, runNumber)),
+		multipleVariableReader(new VariableReader<MultiDoublePointer>::VariableReader(input,
 						energyForEachElectron)),
 		invalidEmptyVariableVariableReader(new VariableReader<int>::VariableReader(input, invalidEmptyVariableName)),
 		invalidnNotAvailableVariableReader(new VariableReader<int>::VariableReader(input, invalidNotAvailableVariableName)) 
@@ -43,11 +43,11 @@ public:
 		input->GetEntry(1);
 	}
 	void testReadSingleVariable() {
-		ASSERT_EQUAL(6, singleVariableReader->getVariable());
+		ASSERT_EQUAL(1, singleVariableReader->getVariable());
 	}
 
 	void testReadMultipleVariable() {
-		ASSERT_EQUAL_DELTA(38.7786, multipleVariableReader->getVariableAt(0), 0.0001);
+		ASSERT_EQUAL_DELTA(108.714, multipleVariableReader->getVariableAt(0), 0.001);
 		ASSERT_EQUAL(singleVariableReader->getVariable(), multipleVariableReader->size());
 	}
 

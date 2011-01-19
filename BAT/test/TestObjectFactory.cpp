@@ -45,7 +45,7 @@ ElectronPointer TestObjectFactory::goodCaloElectron() {
     electron->setD0_BS(0);
     PrimaryVertexPointer pv = TestObjectFactory::goodPrimaryVertex();
     // electron vertex == primary vertex
-    electron->setElectronVertexZPosition(pv->z());
+//    electron->setElectronVertexZPosition(pv->z());
     electron->setZDistanceToPrimaryVertex(0);
 
     electron->setDEtaIn(0);

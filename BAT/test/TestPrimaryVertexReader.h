@@ -14,7 +14,7 @@ struct TestPrimaryVertexReader {
 	PrimaryVertexPointer vertex;
 
 	TestPrimaryVertexReader() :
-		input(new TChain("configurableAnalysis/eventB")),
+		input(new TChain(NTupleEventReader::EVENT_CHAIN)),
 		reader(new PrimaryVertexReader(input)),
 		vertex() {
 		input->Add(InputFile::ttbar);
@@ -25,11 +25,11 @@ struct TestPrimaryVertexReader {
 	}
 
 	void testVertexZPosition() {
-		ASSERT_EQUAL_DELTA(3.02691, vertex->absoluteZPosition(), 0.00001);
+		ASSERT_EQUAL_DELTA(1.86712, vertex->absoluteZPosition(), 0.00001);
 	}
 
 	void testVertexRho(){
-		ASSERT_EQUAL_DELTA(0.0368912, vertex->absoluteRho(), 0.000001);
+		ASSERT_EQUAL_DELTA(0.461491, vertex->absoluteRho(), 0.000001);
 	}
 
 	void testVertexIsFake(){
@@ -37,7 +37,7 @@ struct TestPrimaryVertexReader {
 	}
 
 	void testVertexNDOF(){
-		ASSERT_EQUAL(133, vertex->ndof());
+		ASSERT_EQUAL(111, vertex->ndof());
 	}
 };
 
