@@ -130,7 +130,7 @@ private:
     float superCluser_Eta;
     float ecal_Isolation, hcal_Isolation, tracker_Isolation;
     float innerLayerMissingHits;
-    //used for HEEP
+    //ID variables: https://twiki.cern.ch/twiki/bin/view/CMS/HEEPElectronID
     float sigma_IEtaIEta, dPhi_In, dEta_In, hadOverEm;
     TrackPointer gsfTrack;
     int closesTrackID;
