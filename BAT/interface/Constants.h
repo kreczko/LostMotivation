@@ -85,7 +85,12 @@ const boost::array<std::string, DataType::NUMBER_OF_DATA_TYPES> names = { {
 
 namespace NeutrinoSelectionCriterion {
 enum value {
-    pzClosestToLepton, mostCentral, pzClosestToLeptonOrMostcentralIfAbove300, largestValueOfCosine, chi2
+    pzClosestToLepton,
+    mostCentral,
+    pzClosestToLeptonOrMostcentralIfAbove300,
+    largestValueOfCosine,
+    chi2,
+    TopMassDifference
 };
 }
 
