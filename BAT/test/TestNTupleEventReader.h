@@ -274,24 +274,24 @@ public:
         }
     }
 
-    void testHLT() {
-        unsigned int passedHLT = 0;
-        DataReader->setMaximumNumberOfEvents(1000);
-        DataReader2->setMaximumNumberOfEvents(1000);
-        while (DataReader->hasNextEvent()) {
-            TopPairEventCandidate cand = TopPairEventCandidate(DataReader->getNextEvent());
-            if (cand.passesHighLevelTrigger())
-                passedHLT++;
-        }
-
-        unsigned int passedHLT2 = 0;
-        while (DataReader2->hasNextEvent()) {
-            TopPairEventCandidate cand = TopPairEventCandidate(DataReader2->getNextEvent());
-            if (cand.passesHighLevelTrigger())
-                passedHLT2++;
-        }
-        ASSERT_EQUAL(passedHLT, passedHLT2);
-    }
+//    void testHLT() {
+//        unsigned int passedHLT = 0;
+//        DataReader->setMaximumNumberOfEvents(1000);
+//        DataReader2->setMaximumNumberOfEvents(1000);
+//        while (DataReader->hasNextEvent()) {
+//            TopPairEventCandidate cand = TopPairEventCandidate(DataReader->getNextEvent());
+//            if (cand.passesHighLevelTrigger())
+//                passedHLT++;
+//        }
+//
+//        unsigned int passedHLT2 = 0;
+//        while (DataReader2->hasNextEvent()) {
+//            TopPairEventCandidate cand = TopPairEventCandidate(DataReader2->getNextEvent());
+//            if (cand.passesHighLevelTrigger())
+//                passedHLT2++;
+//        }
+//        ASSERT_EQUAL(passedHLT, passedHLT2);
+//    }
 
     void testAddInputFileNoFileThrowsException() {
         boost::scoped_ptr<NTupleEventReader> reader(new NTupleEventReader());
@@ -344,7 +344,7 @@ extern cute::suite make_suite_TestNTupleEventReader() {
 
     s.push_back(CUTE_SMEMFUN(TestNTupleEventReader, testSeenTTbar));
     s.push_back(CUTE_SMEMFUN(TestNTupleEventReader, testSeenAllMC));
-    s.push_back(CUTE_SMEMFUN(TestNTupleEventReader, testHLT));
+//    s.push_back(CUTE_SMEMFUN(TestNTupleEventReader, testHLT));
     s.push_back(CUTE_SMEMFUN(TestNTupleEventReader, testAddInputFileNoFileThrowsException));
     return s;
 }
