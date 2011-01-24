@@ -89,14 +89,13 @@ TopPairEventCandidate::~TopPairEventCandidate() {
 }
 
 bool TopPairEventCandidate::passesScrapingFilter() const {
-//    if (tracks.size() > 10) {
-//        if (numberOfHighPurityTracks / (1.0 * tracks.size()) > 0.25)
-//            return true;
-//        else
-//            return false;
-//    } else
-//        return true;
-    return isBeamScraping == false;
+    if (tracks.size() > 10) {
+        if (numberOfHighPurityTracks / (1.0 * tracks.size()) > 0.25)
+            return true;
+        else
+            return false;
+    } else
+        return isBeamScraping == false;
 }
 
 bool TopPairEventCandidate::passesHighLevelTrigger() const {
