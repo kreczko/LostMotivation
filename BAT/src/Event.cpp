@@ -159,7 +159,7 @@ const ElectronPointer Event::MostIsolatedElectron(bool usePFIso) const {
     float bestIsolation = 999999999;
     unsigned int bestIsolatedElectron = 990;
     for (unsigned int index = 0; index < allElectrons.size(); ++index) {
-        float currentIsolation = 9999999999;
+        float currentIsolation = 999999999;
         if(usePFIso)
             currentIsolation = allElectrons.at(index)->pfIsolation();
         else
