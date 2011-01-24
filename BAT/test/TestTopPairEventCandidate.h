@@ -218,6 +218,7 @@ private:
         ttbarEvent.setMET(met);
         ttbarEvent.setDataType(DataType::ttbar);
         ttbarEvent.setTracks(moreThan10TracksHighPurity);
+        ttbarEvent.setBeamScrapingVeto(false);
     }
 
     void setUpGoodZEvent() {

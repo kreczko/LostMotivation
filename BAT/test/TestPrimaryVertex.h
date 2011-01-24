@@ -7,9 +7,9 @@ using namespace BAT;
 
 struct TestPrimaryVertex {
 private:
-    const static double goodVertexMaximalAbsoluteRho = 2.0;
-    const static double goodVertexMinimalNumberOfDegreesOfFreedom = 4;
-    const static double goodVertexMaximalAbsoluteZPosition = 15.;
+    double goodVertexMaximalAbsoluteRho;
+    double goodVertexMinimalNumberOfDegreesOfFreedom;
+    double goodVertexMaximalAbsoluteZPosition;
 
     PrimaryVertex goodVertex;
     PrimaryVertex badNDOFVertex;
@@ -21,6 +21,9 @@ private:
 
 public:
     TestPrimaryVertex() :
+        goodVertexMaximalAbsoluteRho(2.0),
+        goodVertexMinimalNumberOfDegreesOfFreedom(4),
+        goodVertexMaximalAbsoluteZPosition(15.),
         goodVertex(),
         badNDOFVertex(),
         badZPositionVertex(),

@@ -7,9 +7,9 @@ using namespace BAT;
 
 struct TestMuon {
 private:
-    const static double goodMuonMinimalPt = 15;
-    const static double goodMuonMaximalAbsoluteEta = 2.5;
-    const static double isolatedMuonMaximalRelativeIsolation = 0.2;
+    double goodMuonMinimalPt;
+    double goodMuonMaximalAbsoluteEta;
+    double isolatedMuonMaximalRelativeIsolation;
 
 	Muon goodNonIsolatedMuon;
 	Muon goodIsolatedMuon;
@@ -46,8 +46,14 @@ private:
 	}
 public:
 	TestMuon() :
-		goodNonIsolatedMuon(200, 199, 1, 1), goodIsolatedMuon(goodNonIsolatedMuon), nonGlobalMuon(goodNonIsolatedMuon),
-				badMuonLowPt(5., 4., 1., 1.), badEtaMuon(450., 50., 50., 444.) {
+	    goodMuonMinimalPt(15),
+	    goodMuonMaximalAbsoluteEta(2.5),
+	    isolatedMuonMaximalRelativeIsolation(0.2),
+		goodNonIsolatedMuon(200, 199, 1, 1),
+		goodIsolatedMuon(goodNonIsolatedMuon),
+		nonGlobalMuon(goodNonIsolatedMuon),
+		badMuonLowPt(5., 4., 1., 1.),
+		badEtaMuon(450., 50., 50., 444.) {
 		setUpGoodMuon();
 		setUpGoodIsolatedMuon();
 		setUpNonGlobalMuon();

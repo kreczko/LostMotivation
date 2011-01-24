@@ -9,14 +9,14 @@ using namespace BAT;
 
 struct TestElectron {
 private:
-    const static double isolatedElectronMaximalRelativeIsolation = 0.1;
-    const static double goodElectronMaximalAbsoluteEta = 2.1;
-    const static double goodElectronMinimalEt = 20.;
-    const static double goodElectronMaximalDistanceFromInteractionPoint = 0.02;
-    const static double MaximalNumberOfMissingInnerLayerHitsBeforeCalledConversion = 0;
-    const static double looseElectronMaximalAbsoluteEta = 2.5;
-    const static double looseElectronMinimalEt = 25;
-    const static double looseIsolatedElectronMaximalRelativeIsolation = 1.0;
+    double isolatedElectronMaximalRelativeIsolation;
+    double goodElectronMaximalAbsoluteEta;
+    double goodElectronMinimalEt;
+    double goodElectronMaximalDistanceFromInteractionPoint;
+    double MaximalNumberOfMissingInnerLayerHitsBeforeCalledConversion;
+    double looseElectronMaximalAbsoluteEta;
+    double looseElectronMinimalEt;
+    double looseIsolatedElectronMaximalRelativeIsolation;
 
     float invalidSwissCross;
     ElectronPointer isolatedElectron;
@@ -32,6 +32,14 @@ private:
 
 public:
     TestElectron() :
+        isolatedElectronMaximalRelativeIsolation(0.1),
+        goodElectronMaximalAbsoluteEta(2.1),
+        goodElectronMinimalEt(20.),
+        goodElectronMaximalDistanceFromInteractionPoint(0.02),
+        MaximalNumberOfMissingInnerLayerHitsBeforeCalledConversion(0),
+        looseElectronMaximalAbsoluteEta(2.5),
+        looseElectronMinimalEt(25),
+        looseIsolatedElectronMaximalRelativeIsolation(1.0),
         invalidSwissCross(2),
         isolatedElectron(TestObjectFactory::goodIsolatedElectron()),
         goodElectron(TestObjectFactory::goodCaloElectron()),

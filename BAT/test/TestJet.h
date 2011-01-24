@@ -13,8 +13,17 @@ struct TestJet {
 	Jet badfHPDJet;
 
 	TestJet() :
-		goodJet(290., 200., 200., 0.), badEtaJet(2900., 200., 0., 2000.), badEtJet(20., 20., 20., 0.), badEMFJet(
-				goodJet), badn90HitsJet(goodJet), badfHPDJet(goodJet) {
+		goodJet(290., 200., 200., 0.),
+		badEtaJet(2900., 200., 0., 2000.),
+		badEtJet(20., 20., 20., 0.),
+		badEMFJet(goodJet),
+		badn90HitsJet(goodJet),
+		badfHPDJet(goodJet),
+		goodJetMaximalAbsoluteEta(2.4),
+		goodJetMinimalPt(30.0),
+		goodJetMinimalElectromagneticFraction(0.01),
+		goodJetMinimalNumberOfRecHitsContaining90PercentOfTheJetEnergy(1),
+		goodJetMaximalFractionOfEnergyIntheHottestHPDReadout(0.98) {
 		setUpGoodJet();
 		setUpBadEtaJet();
 		setUpBadEtJet();
@@ -24,11 +33,11 @@ struct TestJet {
 	}
 private:
 
-	const static double goodJetMaximalAbsoluteEta = 2.4;
-    const static double goodJetMinimalPt = 30.0;
-    const static double goodJetMinimalElectromagneticFraction = 0.01;
-    const static double goodJetMinimalNumberOfRecHitsContaining90PercentOfTheJetEnergy = 1;
-    const static double goodJetMaximalFractionOfEnergyIntheHottestHPDReadout = 0.98;
+	double goodJetMaximalAbsoluteEta;
+    double goodJetMinimalPt;
+    double goodJetMinimalElectromagneticFraction;
+    double goodJetMinimalNumberOfRecHitsContaining90PercentOfTheJetEnergy;
+    double goodJetMaximalFractionOfEnergyIntheHottestHPDReadout;
 
 	void setUpJet(Jet& jet) {
 		jet.setEMF(0.1);
