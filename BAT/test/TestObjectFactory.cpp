@@ -54,6 +54,8 @@ ElectronPointer TestObjectFactory::goodCaloElectron() {
     electron->setSigmaIEtaIEta(0);
 
     electron->setNumberOfMissingInnerLayerHits(0);
+    electron->setDCotThetaToNextTrack(0.5);
+    electron->setDistToNextTrack(0.5);
     if (electron->isGood() == false) {
         cout << "Et " << electron->et() << endl;
         cout << "Eta " << electron->eta() << endl;
@@ -75,6 +77,8 @@ ElectronPointer TestObjectFactory::goodIsolatedElectron() {
 
     assert(electron->isIsolated());
     assert(electron->isGood());
+    assert(electron->isFromConversion() == false);
+    assert(electron->isTaggedAsConversion(0.02,0.02) == false);
     return electron;
 }
 
