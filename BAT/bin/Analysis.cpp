@@ -564,7 +564,7 @@ void Analysis::printSummary() {
         cout << endl;
     }
 
-    cout << "number of broken events: " << brokenEvents.size() << endl;
+    cout << "number of events without electrons: " << brokenEvents.size() << endl;
 }
 
 void Analysis::createHistograms() {
