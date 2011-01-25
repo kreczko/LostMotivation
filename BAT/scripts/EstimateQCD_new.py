@@ -25,7 +25,7 @@ class QCDEstimator:
     fitRangesEstimation = [ ( 0.1, 1.6 ), ( 0.2, 1.6 ), ( 0.3, 1.6 )]
     signalRegion = ( 0, 0.1 )
     maxValue = 1.6
-    pfIsoHistogramPrefix = 'QCDest_PFIsolation_WithMETCutAndAsymJetCuts_'
+    pfIsoHistogramPrefix = 'QCDest_PFIsolation_'
     pfIsoControlRegionHistogramPrefix = 'QCDest_PFIsolation_controlRegion2_WithMETCutAndAsymJetCuts_'
     relIsoHistogramPrefix = 'QCDest_CombRelIso_'
     pfIsoResults = {}
@@ -230,6 +230,8 @@ class QCDEstimator:
             max = data.GetBinContent( 1 ) * 1.1
 
         data.GetYaxis().SetRangeUser( 0, max );
+        data.SetXTitle( "Relative Isolation" );
+        data.SetYTitle( "Events/0.1" );
         # draw mc
         mcStack.Draw( "hist same" );
         data.Draw( "ae same" );
@@ -266,7 +268,7 @@ class QCDEstimator:
         gStyle.SetMarkerSize( 1.7 );
         gStyle.SetMarkerStyle( 20 );
         c2.SetTopMargin( 0.1 );
-        c2.SetLeftMargin( 0.12 );
+#        c2.SetLeftMargin( 0.12 );
         c2.SetRightMargin( 0.35 );
 
         y = {}
@@ -316,7 +318,7 @@ class QCDEstimator:
 
         h.SetStats( kFALSE ); # no statistics
         h.Draw();
-        h.SetYTitle( "Deviation = (Est-True)/True" );
+        h.SetYTitle( "Deviation = (N_{QCD,est}-N_{QCD,true})/N_{QCD,true}" );
         h.GetYaxis().SetRangeUser( -1, 1 );
         h.GetXaxis().SetRangeUser( 0.5, 5.5 );
         h.GetXaxis().SetBinLabel( 1, "1j" );
@@ -462,7 +464,9 @@ class QCDEstimator:
 
     def printResults( self, results ):
         self.printJetBinResults( results, '3orMoreJets' )
+        print '=' * 40
         self.printJetBinResults( results, '4orMoreJets' )
+        print '=' * 40
 
     def printJetBinResults( self, results, jetBin ):
         estimate = 0
@@ -557,16 +561,18 @@ if __name__ == '__main__':
     q = QCDEstimator( files )
 #    q.doEstimate('gaus', (0.1, 1.6))
 #    q.doEstimate('gaus', (0.2, 1.6))
-    q.doEstimate( 'landau' )
+    q.doEstimate( 'gaus' )
     print 'ParticleFlowIsolation results'
     q.printResults( q.allPfIsoResults )
+    print 'Relative isolation results'
+    q.printResults( q.allRelIsoResults )
     print '=' * 40
 
 #    print 'RelIso results'
 #    q.printResults( q.allRelIsoResults )
 #    print '=' * 40
 
-    print 'Starting closure tests'
-#    q.doClosureTests( 'pol1' )
-    q.plotControlRegionComparison()
+#    print 'Starting closure tests'
+#    q.doClosureTests( 'gaus' )
+#    q.plotControlRegionComparison()
 
