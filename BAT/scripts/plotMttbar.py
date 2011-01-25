@@ -4,14 +4,15 @@ from tdrStyle import *
 from ROOT import *
 
 canvases = []
+scanvases = []
 
 def plotMttbar():
     tdrstyle = setTDRStyle();
     gStyle.SetHatchesSpacing(1.0);
-    lumi = 36.145;#3.06 + 1.37 + 2.53 + 0.26;
-    oldLumi = 36.145;
+    lumi = 36.135;#3.06 + 1.37 + 2.53 + 0.26;
+    oldLumi = 36.135;
     scale = lumi / oldLumi;
-    qcdScale = 1.19;
+    qcdScale = {'default':1.72, 'withMETAndAsymJets': 3.03};
     #    data = TFile.Open("data2.9pb_fullSetOfVars.root");
     data = TFile.Open("/storage/workspace/BristolAnalysisTools/outputfiles/Fall10_NovRereco_PfIso/data_36.135pb_PFElectron_PF2PATJets_PFMET.root");
     ttbar = TFile.Open("/storage/workspace/BristolAnalysisTools/outputfiles/Fall10_NovRereco_PfIso/ttjet_36.135pb_PFElectron_PF2PATJets_PFMET.root");
@@ -39,7 +40,7 @@ def plotMttbar():
 #    hists.append('mttbar_QCDEnriched')
 #    hists.append('mttbar_conversions')
 #    hists.append('mttbar_conversions_withMETCut')
-#    hists.append('mttbar_conversions_withMETAndAsymJets')
+    hists.append('mttbar_conversions_withMETAndAsymJets')
 #    hists.append('mttbar_conversions_withAsymJetsCut')
 #    hists.append('mttbar_controlRegion')
 #    hists.append("mttbar");
@@ -128,10 +129,10 @@ def plotMttbar():
 #    jetBinnedhists.append("QCDest_CombRelIso_controlRegion_1btag")
 #    jetBinnedhists.append("QCDest_CombRelIso_controlRegion_2btag")
     
-    jetBinnedhists.append("QCDest_PFIsolation")
-    jetBinnedhists.append("QCDest_PFIsolation_WithMETCut")
-    jetBinnedhists.append("QCDest_PFIsolation_WithMETCutAndAsymJetCuts")
-    jetBinnedhists.append("QCDest_PFIsolation_WithAsymJetCuts")
+#    jetBinnedhists.append("QCDest_PFIsolation")
+#    jetBinnedhists.append("QCDest_PFIsolation_WithMETCut")
+#    jetBinnedhists.append("QCDest_PFIsolation_WithMETCutAndAsymJetCuts")
+#    jetBinnedhists.append("QCDest_PFIsolation_WithAsymJetCuts")
     
 #    jetBinnedhists.append("QCDest_PFIsolation_1btag")
 #    jetBinnedhists.append("QCDest_PFIsolation_2btag")
@@ -139,9 +140,9 @@ def plotMttbar():
 #    jetBinnedhists.append("QCDest_PFIsolation_controlRegion_1btag")
 #    jetBinnedhists.append("QCDest_PFIsolation_controlRegion_2btag")
 #    jetBinnedhists.append("QCDest_PFIsolation_controlRegion2")
-    jetBinnedhists.append("QCDest_PFIsolation_controlRegion2_WithMETCut")
-    jetBinnedhists.append("QCDest_PFIsolation_controlRegion2_WithMETCutAndAsymJetCuts")
-    jetBinnedhists.append("QCDest_PFIsolation_controlRegion2_WithAsymJetCuts")
+#    jetBinnedhists.append("QCDest_PFIsolation_controlRegion2_WithMETCut")
+#    jetBinnedhists.append("QCDest_PFIsolation_controlRegion2_WithMETCutAndAsymJetCuts")
+#    jetBinnedhists.append("QCDest_PFIsolation_controlRegion2_WithAsymJetCuts")
 #    jetBinnedhists.append("QCDest_PFIsolation_controlRegion2_1btag")
 #    jetBinnedhists.append("QCDest_PFIsolation_controlRegion2_2btag")
     
@@ -150,6 +151,9 @@ def plotMttbar():
     gcd = gROOT.cd
 
     for histname in hists:
+        currentSelection = 'default'
+        if 'withMETAndAsymJets' in histname:
+            currentSelection = 'withMETAndAsymJets'
         gcd()
         print histname
         hist_data =  data.Get(histname);
@@ -214,7 +218,7 @@ def plotMttbar():
         hist_qcd.Add(hist_pj1);
         hist_qcd.Add(hist_pj2);
         hist_qcd.Add(hist_pj3);
-        hist_qcd.Scale(qcdScale);
+        hist_qcd.Scale(qcdScale[currentSelection]);
         #        ndata = hist_data.Integral();
         #        ntop = hist_ttbar.Integral();
         #        nwj = hist_wjets.Integral();
@@ -227,12 +231,13 @@ def plotMttbar():
         #                        hist_zjets.Scale(ndata / sumMC);
         #                        hist_qcd.Scale(ndata / sumMC);
         mttbars = ['mttbar_' + suffix for suffix in suffixes]
-        if histname in mttbars:
-            print "taking QCD shape from DATA"
-            name = histname.replace('mttbar', 'mttbar_conversions')
-            hist_qcd = data.Get(name)
-            if( hist_qcd.Integral() > 0):
-                hist_qcd.Scale(nqcd/hist_qcd.Integral())
+        mttbars2 = ['mttbar_withMETAndAsymJets_' + suffix for suffix in suffixes]
+#        if histname in mttbars or histname in mttbars2:
+#            print "taking QCD shape from DATA"
+#            name = histname.replace('mttbar', 'mttbar_conversions')
+#            hist_qcd = data.Get(name)
+#            if( hist_qcd.Integral() > 0):
+#                hist_qcd.Scale(nqcd/hist_qcd.Integral())
         hist_mc = hist_qcd.Clone("all_mc")
         hist_mc.Add(hist_ttbar);
         hist_mc.Add(hist_zjets);
@@ -470,45 +475,50 @@ def plotMttbar():
         text2.Draw();
         canvases[-1].SaveAs('/storage/results/' + histname + '.png')
 
-#        cu_hist_data = getCumulativePlot(hist_data, "data");
-##        cu_hist_data2 = getCumulativePlot(hist_data2, "data2");
-#        cu_hist_ttbar = getCumulativePlot(hist_ttbar, "ttbar");
-#        cu_hist_wjets = getCumulativePlot(hist_wjets, "wjets");
-#        cu_hist_zjets = getCumulativePlot(hist_zjets, "zjets");
-#        cu_hist_qcd = getCumulativePlot(hist_qcd, "qcd");
+        cu_hist_data = getCumulativePlot(hist_data, "data");
+        cu_hist_ttbar = getCumulativePlot(hist_ttbar, "ttbar");
+        cu_hist_wjets = getCumulativePlot(hist_wjets, "wjets");
+        cu_hist_zjets = getCumulativePlot(hist_zjets, "zjets");
+        cu_hist_qcd = getCumulativePlot(hist_qcd, "qcd");
+        cu_hist_singleTop = getCumulativePlot(hist_singleTop, "singleTop");
 ##        cu_hist_Zprime500 = getCumulativePlot(hist_Zprime500, "Zprime500");
 ##        cu_hist_Zprime750 = getCumulativePlot(hist_Zprime750, "Zprime750");
 ##        cu_hist_Zprime1000 = getCumulativePlot(hist_Zprime1000, "Zprime1000");
 ##        cu_hist_Zprime1250 = getCumulativePlot(hist_Zprime1250, "Zprime1250");
 ##        cu_hist_Zprime1500 = getCumulativePlot(hist_Zprime1500, "Zprime1500");
-##        if (histname == "mttbar_rebinned"):
-##            cu_hist_data2.SetXTitle("M_{t#bar{t/GeV");
-##            cu_hist_data2.SetYTitle("Integrated Events/(50 GeV)");
+        cu_hist_data.SetYTitle("Integrated Events/(50 GeV)");
 ##        
 #
-#        cu_hs = THStack("cu_MC", "cu_MC");
-#        cu_hs.Add(cu_hist_qcd);
-#        cu_hs.Add(cu_hist_zjets);
-#        cu_hs.Add(cu_hist_wjets);
-#        cu_hs.Add(cu_hist_ttbar);
-##
-#        cu_c = TCanvas("cu_cname" + histname, histname + "(cu)", 800, 600);
-#        cu_c.cd().SetRightMargin(0.04);
-##        #        cu_hist_data2.Draw("error");
-#        cu_hist_data.Draw("error");
-#        cu_hs.Draw("hist same");
+        cu_hist_data.SetAxisRange(Urange[0], Urange[1]);
+        cu_hist_ttbar.SetAxisRange(Urange[0], Urange[1]);
+        cu_hist_wjets.SetAxisRange(Urange[0], Urange[1]);
+        cu_hist_zjets.SetAxisRange(Urange[0], Urange[1]);
+        cu_hist_qcd.SetAxisRange(Urange[0], Urange[1]);
+        cu_hist_singleTop.SetAxisRange(Urange[0], Urange[1]);
+        
+        cu_hs = THStack("cu_MC", "cu_MC");
+        cu_hs.Add(cu_hist_qcd);
+        cu_hs.Add(cu_hist_zjets);
+        cu_hs.Add(cu_hist_wjets);
+        cu_hs.Add(cu_hist_ttbar);
+        
+        scanvases.append(TCanvas("cu_cname" + histname, histname + "(cu)", 1200, 900))
+        scanvases[-1].cd().SetRightMargin(0.04);
+        cu_hist_data.Draw("error");
+        cu_hs.Draw("hist same");
 ###        cu_hist_Zprime500.Draw("same");
 ###        cu_hist_Zprime750.Draw("same");
 ###        cu_hist_Zprime1000.Draw("same");
 ###        cu_hist_Zprime1250.Draw("same");
 ###        cu_hist_Zprime1500.Draw("same");
 ##        #        cu_hist_data2.Draw("error same");
-#        cu_hist_data.Draw("error same");
-#        leg.Draw();
+        cu_hist_data.Draw("error same");
+        leg.Draw();
 ##
-#        text1.Draw();
+        text1.Draw();
 ##
-#        text2.Draw();
+        text2.Draw();
+        scanvases[-1].SaveAs('/storage/results/' + histname + '_integrated.png')
     
 
 
