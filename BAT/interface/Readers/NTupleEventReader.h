@@ -40,7 +40,6 @@ struct NoFileFoundException: public std::exception {
 class NTupleEventReader {
 public:
 	static const char * EVENT_CHAIN;
-	static const std::string FilePrefix;
 
 	static JetAlgorithm::value jetAlgorithm;
 	static ElectronAlgorithm::value electronAlgorithm;
@@ -88,7 +87,6 @@ private:
 	void selectNextNtupleEvent();
 	void initiateReadersIfNotSet();
 	DataType::value getDataType(const std::string filename);
-	std::string findFileType(const std::string filename);
 	void readDataTypes();
 };
 }

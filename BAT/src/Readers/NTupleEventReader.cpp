@@ -21,8 +21,6 @@ METAlgorithm::value NTupleEventReader::metAlgorithm = METAlgorithm::Calo;
 MuonAlgorithm::value NTupleEventReader::muonAlgorithm = MuonAlgorithm::Default;
 bool NTupleEventReader::loadTracks = false;
 
-const std::string NTupleEventReader::FilePrefix = "nTuple_";
-
 NTupleEventReader::NTupleEventReader() :
     processedEvents(0),
     maximalNumberOfEvents(999999999),
@@ -127,77 +125,13 @@ void NTupleEventReader::initiateReadersIfNotSet() {
 }
 
 DataType::value NTupleEventReader::getDataType(const std::string filename) {
-    std::string fileType = findFileType(filename);
-    if (fileType == "ttbar" || fileType == "ttjet")
-        return DataType::ttbar;
-    else if (fileType == "tchan")
-        return DataType::singleTopTChannel;
-    else if (fileType == "tW")
-        return DataType::singleTop_And_W;
-    else if (fileType == "wj")
-        return DataType::Wjets;
-    else if (fileType == "zj")
-        return DataType::Zjets;
-    else if (fileType == "bce1")
-        return DataType::QCD_BCtoE_Pt20to30;
-    else if (fileType == "bce2")
-        return DataType::QCD_BCtoE_Pt30to80;
-    else if (fileType == "bce3")
-        return DataType::QCD_BCtoE_Pt80to170;
-    else if (fileType == "enri1")
-        return DataType::QCD_EMEnriched_Pt20to30;
-    else if (fileType == "enri2")
-        return DataType::QCD_EMEnriched_Pt30to80;
-    else if (fileType == "enri3")
-        return DataType::QCD_EMEnriched_Pt80to170;
-    else if (fileType == "pj1")
-        return DataType::PhotonJets_Pt40to100;
-    else if (fileType == "pj2")
-        return DataType::PhotonJets_Pt100to200;
-    else if (fileType == "pj3")
-        return DataType::PhotonJets_Pt200toInf;
-    else if (fileType == "VqqJets")
-        return DataType::VQQ;
-    else if (fileType == "Zprime_M500GeV_W5GeV")
-        return DataType::Zprime_M500GeV_W5GeV;
-    else if (fileType == "Zprime_M500GeV_W50GeV")
-        return DataType::Zprime_M500GeV_W50GeV;
-    else if (fileType == "Zprime_M750GeV_W7500MeV")
-        return DataType::Zprime_M750GeV_W7500MeV;
-    else if (fileType == "Zprime_M1TeV_W10GeV")
-        return DataType::Zprime_M1TeV_W10GeV;
-    else if (fileType == "Zprime_M1TeV_W100GeV")
-        return DataType::Zprime_M1TeV_W100GeV;
-    else if (fileType == "Zprime_M1250GeV_W12500MeV")
-        return DataType::Zprime_M1250GeV_W12500MeV;
-    else if (fileType == "Zprime_M1500GeV_W15GeV")
-        return DataType::Zprime_M1500GeV_W15GeV;
-    else if (fileType == "Zprime_M1500GeV_W150GeV")
-        return DataType::Zprime_M1500GeV_W150GeV;
-    else if (fileType == "Zprime_M2TeV_W20GeV")
-        return DataType::Zprime_M2TeV_W20GeV;
-    else if (fileType == "Zprime_M2TeV_W200GeV")
-        return DataType::Zprime_M2TeV_W200GeV;
-    else if (fileType == "Zprime_M3TeV_W30GeV")
-        return DataType::Zprime_M3TeV_W30GeV;
-    else if (fileType == "Zprime_M3TeV_W300GeV")
-        return DataType::Zprime_M3TeV_W300GeV;
-    else if (fileType == "Zprime_M4TeV_W40GeV")
-        return DataType::Zprime_M4TeV_W40GeV;
-    else if (fileType == "Zprime_M4TeV_W400GeV")
-        return DataType::Zprime_M4TeV_W400GeV;
-    else
-        return DataType::DATA;
-}
-
-std::string NTupleEventReader::findFileType(const std::string filename) {
-    std::string filetype = "";
+    DataType::value filetype = DataType::DATA;
 
     for (unsigned int index = 0; index < DataType::names.size(); ++index) {
-        const std::string searchString(NTupleEventReader::FilePrefix + DataType::names.at(index));
+        const std::string searchString(DataType::names.at(index));
 
         if (filename.find(searchString) != std::string::npos) {
-            filetype = DataType::names.at(index);
+            filetype = (DataType::value) index;
         }
     }
     return filetype;
