@@ -41,11 +41,11 @@ void Analysis::analyze() {
         doTTBarAnalysis();
         doNotePlots();
         doQCDStudy();
-        if(currentEvent.getDataType() == DataType::DATA)
-            eventCheck[currentEvent.runnumber()].push_back(currentEvent.eventnumber());
-        checkForBrokenEvents();
+//        if(currentEvent.getDataType() == DataType::DATA)
+//            eventCheck[currentEvent.runnumber()].push_back(currentEvent.eventnumber());
+//        checkForBrokenEvents();
     }
-    checkForDuplicatedEvents();
+//    checkForDuplicatedEvents();
     printInterestingEvents();
     printSummary();
 }
