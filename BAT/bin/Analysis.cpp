@@ -17,7 +17,7 @@
 
 using namespace BAT;
 using namespace std;
-float Analysis::luminosity = 36.135;
+float Analysis::luminosity = 36.145;
 
 void Analysis::analyze() {
     createHistograms();
@@ -183,21 +183,15 @@ void Analysis::doTTBarAnalysis() {
 
 //        histMan.H1D("mttbar")->Fill(mttbar, weight);
         histMan.H1D_BJetBinned("mttbar")->Fill(mttbar, weight);
-        histMan.H1D_BJetBinned("mttbar_2ndSolution")->Fill(solutions.at(1)->resonance->mass(), weight);
-        histMan.H1D_BJetBinned("mttbar_3rdSolution")->Fill(solutions.at(2)->resonance->mass(), weight);
+
         histMan.H1D_BJetBinned("ttbar_pt")->Fill(resonance->pt(), weight);
-        histMan.H1D_BJetBinned("ttbar_pt_2ndSolution")->Fill(solutions.at(1)->resonance->pt(), weight);
-        histMan.H1D_BJetBinned("ttbar_pt_3rdSolution")->Fill(solutions.at(2)->resonance->pt(), weight);
+
         histMan.H1D_BJetBinned("ttbar_px")->Fill(resonance->px(), weight);
         histMan.H1D_BJetBinned("ttbar_py")->Fill(resonance->py(), weight);
         histMan.H1D_BJetBinned("ttbar_pz")->Fill(resonance->pz(), weight);
-        histMan.H1D_BJetBinned("ttbar_pt_3rdSolution")->Fill(solutions.at(2)->resonance->pt(), weight);
 
         histMan.H2D_BJetBinned("ttbar_pt_vs_mttbar")->Fill(mttbar, resonance->pt(), weight);
-        histMan.H2D_BJetBinned("ttbar_pt_vs_mttbar_2ndSolution")->Fill(solutions.at(1)->resonance->mass(),
-                solutions.at(1)->resonance->pt(), weight);
-        histMan.H2D_BJetBinned("ttbar_pt_vs_mttbar_3rdSolution")->Fill(solutions.at(2)->resonance->mass(),
-                solutions.at(2)->resonance->pt(), weight);
+
 
         histMan.H1D("electron_et")->Fill(ttbarCandidate.getElectronFromWDecay()->et(), weight);
         histMan.H1D_BJetBinned("neutrino_pz")->Fill(ttbarCandidate.getNeutrinoFromWDecay()->pz(), weight);
@@ -212,16 +206,7 @@ void Analysis::doTTBarAnalysis() {
             histMan.H2D_BJetBinned("angleTops_vs_mttbar_withMETCut")->Fill(mttbar, angleTops, weight);
             histMan.H1D_BJetBinned("mttbar_withMETCut")->Fill(mttbar, weight);
             histMan.H1D_BJetBinned("ttbar_pt_withMETCut")->Fill(resonance->pt(), weight);
-            histMan.H1D_BJetBinned("mttbar_2ndSolution_withMETCut")->Fill(solutions.at(1)->resonance->mass(), weight);
-            histMan.H1D_BJetBinned("ttbar_pt_2ndSolution_withMETCut")->Fill(solutions.at(1)->resonance->pt(), weight);
-            histMan.H1D_BJetBinned("mttbar_3rdSolution_withMETCut")->Fill(solutions.at(2)->resonance->mass(), weight);
-            histMan.H1D_BJetBinned("ttbar_pt_3rdSolution_withMETCut")->Fill(solutions.at(2)->resonance->pt(), weight);
-
             histMan.H2D_BJetBinned("ttbar_pt_vs_mttbar_withMETCut")->Fill(mttbar, resonance->pt(), weight);
-            histMan.H2D_BJetBinned("ttbar_pt_vs_mttbar_2ndSolution_withMETCut")->Fill(
-                    solutions.at(1)->resonance->mass(), solutions.at(1)->resonance->pt(), weight);
-            histMan.H2D_BJetBinned("ttbar_pt_vs_mttbar_3rdSolution_withMETCut")->Fill(
-                    solutions.at(2)->resonance->mass(), solutions.at(2)->resonance->pt(), weight);
 
             histMan.H1D_BJetBinned("pt_leadingTop_withMETCut")->Fill(leadingTop->pt(), weight);
             histMan.H1D_BJetBinned("pt_NextToLeadingTop_withMETCut")->Fill(nextToLeadingTop->pt(), weight);
@@ -233,20 +218,8 @@ void Analysis::doTTBarAnalysis() {
                 histMan.H2D_BJetBinned("angleTops_vs_mttbar_withMETAndAsymJets")->Fill(mttbar, angleTops, weight);
                 histMan.H1D_BJetBinned("mttbar_withMETAndAsymJets")->Fill(mttbar, weight);
                 histMan.H1D_BJetBinned("ttbar_pt_withMETAndAsymJets")->Fill(resonance->pt(), weight);
-                histMan.H1D_BJetBinned("mttbar_2ndSolution_withMETAndAsymJets")->Fill(solutions.at(1)->resonance->mass(),
-                        weight);
-                histMan.H1D_BJetBinned("ttbar_pt_2ndSolution_withMETAndAsymJets")->Fill(solutions.at(1)->resonance->pt(),
-                        weight);
-                histMan.H1D_BJetBinned("mttbar_3rdSolution_withMETAndAsymJets")->Fill(solutions.at(2)->resonance->mass(),
-                        weight);
-                histMan.H1D_BJetBinned("ttbar_pt_3rdSolution_withMETAndAsymJets")->Fill(solutions.at(2)->resonance->pt(),
-                        weight);
 
                 histMan.H2D_BJetBinned("ttbar_pt_vs_mttbar_withMETAndAsymJets")->Fill(mttbar, resonance->pt(), weight);
-                histMan.H2D_BJetBinned("ttbar_pt_vs_mttbar_2ndSolution_withMETAndAsymJets")->Fill(
-                        solutions.at(1)->resonance->mass(), solutions.at(1)->resonance->pt(), weight);
-                histMan.H2D_BJetBinned("ttbar_pt_vs_mttbar_3rdSolution_withMETAndAsymJets")->Fill(
-                        solutions.at(2)->resonance->mass(), solutions.at(2)->resonance->pt(), weight);
 
                 histMan.H1D_BJetBinned("pt_leadingTop_withMETAndAsymJets")->Fill(leadingTop->pt(), weight);
                 histMan.H1D_BJetBinned("pt_NextToLeadingTop_withMETAndAsymJets")->Fill(nextToLeadingTop->pt(), weight);
@@ -260,20 +233,8 @@ void Analysis::doTTBarAnalysis() {
             histMan.H2D_BJetBinned("angleTops_vs_mttbar_withAsymJetsCut")->Fill(mttbar, angleTops, weight);
             histMan.H1D_BJetBinned("mttbar_withAsymJetsCut")->Fill(mttbar, weight);
             histMan.H1D_BJetBinned("ttbar_pt_withAsymJetsCut")->Fill(resonance->pt(), weight);
-            histMan.H1D_BJetBinned("mttbar_2ndSolution_withAsymJetsCut")->Fill(solutions.at(1)->resonance->mass(),
-                    weight);
-            histMan.H1D_BJetBinned("ttbar_pt_2ndSolution_withAsymJetsCut")->Fill(solutions.at(1)->resonance->pt(),
-                    weight);
-            histMan.H1D_BJetBinned("mttbar_3rdSolution_withAsymJetsCut")->Fill(solutions.at(2)->resonance->mass(),
-                    weight);
-            histMan.H1D_BJetBinned("ttbar_pt_3rdSolution_withAsymJetsCut")->Fill(solutions.at(2)->resonance->pt(),
-                    weight);
 
             histMan.H2D_BJetBinned("ttbar_pt_vs_mttbar_withAsymJetsCut")->Fill(mttbar, resonance->pt(), weight);
-            histMan.H2D_BJetBinned("ttbar_pt_vs_mttbar_2ndSolution_withAsymJetsCut")->Fill(
-                    solutions.at(1)->resonance->mass(), solutions.at(1)->resonance->pt(), weight);
-            histMan.H2D_BJetBinned("ttbar_pt_vs_mttbar_3rdSolution_withAsymJetsCut")->Fill(
-                    solutions.at(2)->resonance->mass(), solutions.at(2)->resonance->pt(), weight);
 
             histMan.H1D_BJetBinned("pt_leadingTop_withAsymJetsCut")->Fill(leadingTop->pt(), weight);
             histMan.H1D_BJetBinned("pt_NextToLeadingTop_withAsymJetsCut")->Fill(nextToLeadingTop->pt(), weight);
@@ -287,6 +248,30 @@ void Analysis::doTTBarAnalysis() {
             histMan.H2D_BJetBinned("ttbar_pt_vs_mttbar_allSolutions")->Fill(
                     solutions.at(solutionIndex)->resonance->mass(), solutions.at(solutionIndex)->resonance->pt(),
                     weight);
+            if (solutionIndex == 1) {
+                histMan.H1D_BJetBinned("mttbar_2ndSolution")->Fill(solutions.at(solutionIndex)->resonance->mass(),
+                        weight);
+
+                histMan.H1D_BJetBinned("ttbar_pt_2ndSolution")->Fill(solutions.at(solutionIndex)->resonance->pt(),
+                        weight);
+
+                histMan.H2D_BJetBinned("ttbar_pt_vs_mttbar_2ndSolution")->Fill(
+                        solutions.at(solutionIndex)->resonance->mass(), solutions.at(solutionIndex)->resonance->pt(),
+                        weight);
+
+            }
+            if (solutionIndex == 2) {
+                histMan.H1D_BJetBinned("mttbar_3rdSolution")->Fill(solutions.at(solutionIndex)->resonance->mass(),
+                        weight);
+
+                histMan.H1D_BJetBinned("ttbar_pt_3rdSolution")->Fill(solutions.at(solutionIndex)->resonance->pt(),
+                        weight);
+
+                histMan.H2D_BJetBinned("ttbar_pt_vs_mttbar_3rdSolution")->Fill(
+                        solutions.at(solutionIndex)->resonance->mass(), solutions.at(solutionIndex)->resonance->pt(),
+                        weight);
+            }
+
             if (ttbarCandidate.MET()->pt() > 20) {
                 histMan.H1D_BJetBinned("mttbar_allSolutions_withMETCut")->Fill(
                         solutions.at(solutionIndex)->resonance->mass(), weight);
@@ -295,6 +280,22 @@ void Analysis::doTTBarAnalysis() {
                 histMan.H2D_BJetBinned("ttbar_pt_vs_mttbar_allSolutions_withMETCut")->Fill(
                         solutions.at(solutionIndex)->resonance->mass(), solutions.at(solutionIndex)->resonance->pt(),
                         weight);
+                if (solutionIndex == 1) {
+                    histMan.H1D_BJetBinned("mttbar_2ndSolution_withMETCut")->Fill(
+                            solutions.at(solutionIndex)->resonance->mass(), weight);
+                    histMan.H1D_BJetBinned("ttbar_pt_2ndSolution_withMETCut")->Fill(
+                            solutions.at(solutionIndex)->resonance->pt(), weight);
+                    histMan.H2D_BJetBinned("ttbar_pt_vs_mttbar_2ndSolution_withMETCut")->Fill(solutions.at(
+                            solutionIndex)->resonance->mass(), solutions.at(solutionIndex)->resonance->pt(), weight);
+                }
+                if (solutionIndex == 2) {
+                    histMan.H1D_BJetBinned("mttbar_3rdSolution_withMETCut")->Fill(
+                            solutions.at(solutionIndex)->resonance->mass(), weight);
+                    histMan.H1D_BJetBinned("ttbar_pt_3rdSolution_withMETCut")->Fill(
+                            solutions.at(solutionIndex)->resonance->pt(), weight);
+                    histMan.H2D_BJetBinned("ttbar_pt_vs_mttbar_3rdSolution_withMETCut")->Fill(solutions.at(
+                            solutionIndex)->resonance->mass(), solutions.at(solutionIndex)->resonance->pt(), weight);
+                }
 
                 if (ttbarCandidate.GoodJets().front()->pt() > 70 && ttbarCandidate.GoodJets().at(1)->pt() > 50) {
                     histMan.H1D_BJetBinned("mttbar_allSolutions_withMETAndAsymJets")->Fill(
@@ -314,10 +315,53 @@ void Analysis::doTTBarAnalysis() {
                 histMan.H2D_BJetBinned("ttbar_pt_vs_mttbar_allSolutions_withAsymJetsCut")->Fill(solutions.at(
                         solutionIndex)->resonance->mass(), solutions.at(solutionIndex)->resonance->pt(), weight);
 
+                if (ttbarCandidate.MET()->et() > 20) {
+
+                    if (solutionIndex == 1) {
+                        histMan.H1D_BJetBinned("mttbar_2ndSolution_withMETAndAsymJets")->Fill(solutions.at(
+                                solutionIndex)->resonance->mass(), weight);
+
+                        histMan.H1D_BJetBinned("ttbar_pt_2ndSolution_withMETAndAsymJets")->Fill(solutions.at(
+                                solutionIndex)->resonance->pt(), weight);
+                        histMan.H2D_BJetBinned("ttbar_pt_vs_mttbar_2ndSolution_withMETAndAsymJets")->Fill(solutions.at(
+                                solutionIndex)->resonance->mass(), solutions.at(solutionIndex)->resonance->pt(), weight);
+                    }
+
+                    if (solutionIndex == 2) {
+                        histMan.H1D_BJetBinned("mttbar_3rdSolution_withMETAndAsymJets")->Fill(solutions.at(
+                                solutionIndex)->resonance->mass(), weight);
+
+                        histMan.H1D_BJetBinned("ttbar_pt_3rdSolution_withMETAndAsymJets")->Fill(solutions.at(
+                                solutionIndex)->resonance->pt(), weight);
+                        histMan.H2D_BJetBinned("ttbar_pt_vs_mttbar_3rdSolution_withMETAndAsymJets")->Fill(solutions.at(
+                                solutionIndex)->resonance->mass(), solutions.at(solutionIndex)->resonance->pt(), weight);
+                    }
+                }
+
+                if (solutionIndex == 1) {
+                    histMan.H2D_BJetBinned("ttbar_pt_vs_mttbar_2ndSolution_withAsymJetsCut")->Fill(solutions.at(
+                            solutionIndex)->resonance->mass(), solutions.at(solutionIndex)->resonance->pt(), weight);
+
+                    histMan.H1D_BJetBinned("mttbar_2ndSolution_withAsymJetsCut")->Fill(
+                            solutions.at(solutionIndex)->resonance->mass(), weight);
+                    histMan.H1D_BJetBinned("mttbar_2ndSolution_withAsymJetsCut")->Fill(
+                            solutions.at(solutionIndex)->resonance->mass(), weight);
+                }
+
+                if (solutionIndex == 2) {
+                    histMan.H2D_BJetBinned("ttbar_pt_vs_mttbar_3rdSolution_withAsymJetsCut")->Fill(solutions.at(
+                            solutionIndex)->resonance->mass(), solutions.at(solutionIndex)->resonance->pt(), weight);
+                    histMan.H1D_BJetBinned("ttbar_pt_3rdSolution_withAsymJetsCut")->Fill(
+                            solutions.at(solutionIndex)->resonance->pt(), weight);
+
+                    histMan.H1D_BJetBinned("ttbar_pt_3rdSolution_withAsymJetsCut")->Fill(
+                            solutions.at(solutionIndex)->resonance->pt(), weight);
+                }
+
             }
 
-//            cout << "total Chi2 = " << solutions.at(solutionIndex)->totalChi2;
-//            cout << ", mass = " << solutions.at(solutionIndex)->resonance->mass() << endl;
+            //            cout << "total Chi2 = " << solutions.at(solutionIndex)->totalChi2;
+            //            cout << ", mass = " << solutions.at(solutionIndex)->resonance->mass() << endl;
         }
 
         if (ttbarCandidate.MET()->et() < 20) {
