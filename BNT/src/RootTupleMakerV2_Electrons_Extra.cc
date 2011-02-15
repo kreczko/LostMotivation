@@ -30,6 +30,18 @@ RootTupleMakerV2_Electrons_Extra::RootTupleMakerV2_Electrons_Extra(const edm::Pa
   produces <std::vector<double> > ( prefix + "GSFTrack.Theta" + suffix );
   produces <std::vector<int> > ( prefix + "GSFTrack.Charge" + suffix );
 
+  produces<std::vector<double> > (prefix + "Vertex.X" + suffix);
+  produces<std::vector<double> > (prefix + "Vertex.Y" + suffix);
+  produces<std::vector<double> > (prefix + "Vertex.Z" + suffix);
+
+  produces<std::vector<double> > (prefix + "VertexWithBS.X" + suffix);
+  produces<std::vector<double> > (prefix + "VertexWithBS.Y" + suffix);
+  produces<std::vector<double> > (prefix + "VertexWithBS.Z" + suffix);
+
+  produces<std::vector<double> > (prefix + "VertexBS.X" + suffix);
+  produces<std::vector<double> > (prefix + "VertexBS.Y" + suffix);
+  produces<std::vector<double> > (prefix + "VertexBS.Z" + suffix);
+
   if (storePFIsolation) {
         produces<std::vector<double> > (prefix + "PfChargedHadronIso" + suffix);
         produces<std::vector<double> > (prefix + "PfNeutralHadronIso" + suffix);
@@ -60,6 +72,18 @@ produce(edm::Event& iEvent, const edm::EventSetup& iSetup) {
   std::auto_ptr<std::vector<double> >  gsfTrackPhi  ( new std::vector<double>()  );
   std::auto_ptr<std::vector<double> >  gsfTrackTheta  ( new std::vector<double>()  );
   std::auto_ptr<std::vector<int> >  gsfTrackCharge  ( new std::vector<int>()  );
+
+  std::auto_ptr<std::vector<double> >  VertexX  ( new std::vector<double>()  );
+  std::auto_ptr<std::vector<double> >  VertexY  ( new std::vector<double>()  );
+  std::auto_ptr<std::vector<double> >  VertexZ  ( new std::vector<double>()  );
+
+  std::auto_ptr<std::vector<double> >  VertexWithBSX  ( new std::vector<double>()  );
+  std::auto_ptr<std::vector<double> >  VertexWithBSY  ( new std::vector<double>()  );
+  std::auto_ptr<std::vector<double> >  VertexWithBSZ  ( new std::vector<double>()  );
+
+  std::auto_ptr<std::vector<double> >  VertexBSX  ( new std::vector<double>()  );
+  std::auto_ptr<std::vector<double> >  VertexBSY  ( new std::vector<double>()  );
+  std::auto_ptr<std::vector<double> >  VertexBSZ  ( new std::vector<double>()  );
 
   //-----------------------------------------------------------------
   edm::Handle < std::vector<pat::Electron> > electrons;
@@ -97,6 +121,11 @@ produce(edm::Event& iEvent, const edm::EventSetup& iSetup) {
       gsfTrackTheta->push_back(it->gsfTrack()->theta());
       gsfTrackCharge->push_back(it->gsfTrack()->charge());
       dB->push_back(it->dB());
+
+      VertexX->push_back(it->vertex().x());
+      VertexY->push_back(it->vertex().y());
+      VertexZ->push_back(it->vertex().z());
+
       if(storePFIsolation){
           pat::IsolationKeys isokeyPfChargedHadronIso = pat::IsolationKeys(4);
           pat::IsolationKeys isokeyPfNeutralHadronIso = pat::IsolationKeys(5);
@@ -137,6 +166,10 @@ produce(edm::Event& iEvent, const edm::EventSetup& iSetup) {
 
         dBPVWithBS->push_back(it->dB());
 
+        VertexWithBSX->push_back(it->vertex().x());
+        VertexWithBSY->push_back(it->vertex().y());
+        VertexWithBSZ->push_back(it->vertex().z());
+
       }
     } else {
       edm::LogError("RootTupleMakerV2_ElectronsExtraError") << "Error! Can't get the product " << inputTagPVWithBS;
@@ -150,6 +183,10 @@ produce(edm::Event& iEvent, const edm::EventSetup& iSetup) {
            break;
 
          dBBS->push_back(it->dB());
+
+         VertexBSX->push_back(it->vertex().x());
+         VertexBSY->push_back(it->vertex().y());
+         VertexBSZ->push_back(it->vertex().z());
 
        }
      } else {
@@ -175,6 +212,18 @@ produce(edm::Event& iEvent, const edm::EventSetup& iSetup) {
   iEvent.put( gsfTrackPhi, prefix + "GSFTrack.Phi" + suffix );
   iEvent.put( gsfTrackTheta, prefix + "GSFTrack.Theta" + suffix );
   iEvent.put( gsfTrackCharge, prefix + "GSFTrack.Charge" + suffix );
+
+  iEvent.put( VertexX, prefix + "Vertex.X" + suffix );
+  iEvent.put( VertexY, prefix + "Vertex.Y" + suffix );
+  iEvent.put( VertexZ, prefix + "Vertex.Z" + suffix );
+
+  iEvent.put( VertexWithBSX, prefix + "VertexWithBS.X" + suffix );
+  iEvent.put( VertexWithBSY, prefix + "VertexWithBS.Y" + suffix );
+  iEvent.put( VertexWithBSZ, prefix + "VertexWithBS.Z" + suffix );
+
+  iEvent.put( VertexBSX, prefix + "VertexBS.X" + suffix );
+  iEvent.put( VertexBSY, prefix + "VertexBS.Y" + suffix );
+  iEvent.put( VertexBSZ, prefix + "VertexBS.Z" + suffix );
 
   if(storePFIsolation){
       iEvent.put( PfChargedHadronIso, prefix + "PfChargedHadronIso" + suffix );
