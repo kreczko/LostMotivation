@@ -59,6 +59,7 @@ public:
     const TrackPointer GSFTrack() const;
     int closestCTFTrackID() const;
     float shFracInnerLayer() const;
+    float ZDistanceToPrimaryVertex() const;
 
     void setRobustLooseID(bool id);
     void setRobustTightID(bool id);

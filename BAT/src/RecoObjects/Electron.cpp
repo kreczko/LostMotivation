@@ -399,6 +399,10 @@ bool Electron::isPFIsolated() const{
     return pfIsolation() < 0.1;
 }
 
+float Electron::ZDistanceToPrimaryVertex() const{
+    return zDistanceToPrimaryVertex;
+}
+
 ElectronAlgorithm::value Electron::algorithm() const{
     return usedAlgorithm;
 }
