@@ -29,6 +29,7 @@ Event::Event() :
     allMuons(),
     goodMuons(),
     goodIsolatedMuons(),
+    genParticles(),
     met(),
     dataType(DataType::DATA),
     runNumber(0),
@@ -66,6 +67,10 @@ void Event::setTracks(TrackCollection tracks) {
         if (tracks.at(index)->isHighPurity())
             numberOfHighPurityTracks++;
     }
+}
+
+void Event::setGenParticles(MCParticleCollection genParticles) {
+	this->genParticles = genParticles;
 }
 
 void Event::setElectrons(ElectronCollection electrons) {
