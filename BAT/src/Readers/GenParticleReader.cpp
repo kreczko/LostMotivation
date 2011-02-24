@@ -62,12 +62,12 @@ void GenParticleReader::readGenParticles() {
 
 
 void GenParticleReader::initialise() {
-	pdgIdReader.initialise();
-	pxReader.initialise();
-    pyReader.initialise();
-    pzReader.initialise();
-    energyReader.initialise();
-    statusReader.initialise();
+	pdgIdReader.initialiseBlindly();
+	pxReader.initialiseBlindly();
+    pyReader.initialiseBlindly();
+    pzReader.initialiseBlindly();
+    energyReader.initialiseBlindly();
+    statusReader.initialiseBlindly();
 }
 
 }
