@@ -19,6 +19,7 @@
 #include "PrimaryVertexReader.h"
 #include "METReader.h"
 #include "TrackReader.h"
+#include "GenParticleReader.h"
 #include <string>
 #include "../Constants.h"
 #include "../CrossSections.h"
@@ -72,6 +73,7 @@ private:
 	boost::scoped_ptr<PrimaryVertexReader> primaryReader;
 	boost::scoped_ptr<TrackReader> trackReader;
 	boost::scoped_ptr<ElectronReader> electronReader;
+	boost::scoped_ptr<GenParticleReader> genParticleReader;
 	boost::scoped_ptr<JetReader> jetReader;
 	boost::scoped_ptr<MuonReader> muonReader;
 	boost::scoped_ptr<METReader> metReader;
