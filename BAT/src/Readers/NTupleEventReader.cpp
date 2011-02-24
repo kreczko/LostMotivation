@@ -49,7 +49,7 @@ NTupleEventReader::~NTupleEventReader() {
 }
 
 void NTupleEventReader::addInputFile(const char * fileName) {
-    unsigned long filesAdded = input->Add(fileName, -1);
+    unsigned long filesAdded = input->Add(fileName, -1);//-1 == number of events is not read!
     if (filesAdded <= 0)
         throw NoFileFoundException("No file found in '" + TString(fileName) + "'");
     numberOfFiles += filesAdded;
