@@ -12,6 +12,7 @@
 #include "RecoObjects/Muon.h"
 #include "RecoObjects/PrimaryVertex.h"
 #include "RecoObjects/MET.h"
+#include "RecoObjects/MCParticle.h"
 #include "Selection.h"
 #include "Constants.h"
 #include "Printers/EventContentPrinter.h"
@@ -38,6 +39,8 @@ protected:
     MuonCollection goodMuons;
     MuonCollection goodIsolatedMuons;
 
+    MCParticleCollection genParticles;
+
     METPointer met;
 
     DataType::value dataType;
@@ -59,6 +62,7 @@ public:
     void setDataType(DataType::value type);
     void setPrimaryVertex(PrimaryVertexPointer vertex);
     void setTracks(TrackCollection tracks);
+    void setGenParticles(MCParticleCollection genParticles);
     void setElectrons(ElectronCollection electrons);
     void setJets(JetCollection electrons);
     void setMuons(MuonCollection muons);
@@ -73,6 +77,7 @@ public:
 
     const PrimaryVertexPointer PrimaryVertex() const;
     const TrackCollection& Tracks() const;
+    const MCParticleCollection& GenParticles() const;
     const ElectronCollection& Electrons() const;
     const ElectronCollection& GoodElectrons() const;
     const ElectronCollection& GoodIsolatedElectrons() const;
