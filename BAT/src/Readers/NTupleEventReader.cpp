@@ -60,9 +60,9 @@ void NTupleEventReader::addInputFileWithoutCheck(const char * fileName) {
 }
 
 const Event& NTupleEventReader::getNextEvent() {
-    selectNextNtupleEvent();
     currentEvent = Event();
     currentEvent.setDataType(getDataType(getCurrentFile()));
+    selectNextNtupleEvent();
     boost::shared_ptr<std::vector<int> > triggers(new std::vector<int>());
 
     for(unsigned int i = 0; i < hltReader->size(); i++){
@@ -73,7 +73,8 @@ const Event& NTupleEventReader::getNextEvent() {
     if(NTupleEventReader::loadTracks)
         currentEvent.setTracks(trackReader->getTracks());
     currentEvent.setElectrons(electronReader->getElectrons());
-//    currentEvent.setGenParticles(genParticleReader->getGenParticles());
+    if(!currentEvent.isRealData())
+    	currentEvent.setGenParticles(genParticleReader->getGenParticles());
     currentEvent.setJets(jetReader->getJets());
     currentEvent.setMuons(muonReader->getMuons());
     currentEvent.setMET(metReader->getMET());
@@ -110,7 +111,8 @@ void NTupleEventReader::initiateReadersIfNotSet() {
         if(NTupleEventReader::loadTracks)
             trackReader->initialise();
         electronReader->initialise();
-//        genParticleReader->initialise();
+//        if(!currentEvent.isRealData())
+        genParticleReader->initialise();
         jetReader->initialise();
         muonReader->initialise();
         metReader->initialise();
@@ -120,6 +122,7 @@ void NTupleEventReader::initiateReadersIfNotSet() {
         beamScrapingReader->initialise();
         areReadersSet = true;
     }
+
 }
 
 DataType::value NTupleEventReader::getDataType(const std::string filename) {
