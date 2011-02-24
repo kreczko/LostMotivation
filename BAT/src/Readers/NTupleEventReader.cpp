@@ -31,6 +31,7 @@ NTupleEventReader::NTupleEventReader() :
     primaryReader(new PrimaryVertexReader(input)),
     trackReader(new TrackReader(input)),
     electronReader(new ElectronReader(input, NTupleEventReader::electronAlgorithm)),
+    genParticleReader(new GenParticleReader(input)),
     jetReader(new JetReader(input, NTupleEventReader::jetAlgorithm)),
     muonReader(new MuonReader(input, NTupleEventReader::muonAlgorithm)),
     metReader(new METReader(input, NTupleEventReader::metAlgorithm)),
@@ -63,11 +64,6 @@ const Event& NTupleEventReader::getNextEvent() {
     currentEvent = Event();
     currentEvent.setDataType(getDataType(getCurrentFile()));
     boost::shared_ptr<std::vector<int> > triggers(new std::vector<int>());
-//    if(hltReader->size() != HLTriggers::NUMBER_OF_HLTS){
-//        cout << "HLT Trigger mismatch in file " << getCurrentFile() << endl;
-//        cout << hltReader->size() << ", expected: " << HLTriggers::NUMBER_OF_HLTS << endl;
-//    }
-
 
     for(unsigned int i = 0; i < hltReader->size(); i++){
         triggers->push_back(hltReader->getIntVariableAt(i));
@@ -77,6 +73,7 @@ const Event& NTupleEventReader::getNextEvent() {
     if(NTupleEventReader::loadTracks)
         currentEvent.setTracks(trackReader->getTracks());
     currentEvent.setElectrons(electronReader->getElectrons());
+//    currentEvent.setGenParticles(genParticleReader->getGenParticles());
     currentEvent.setJets(jetReader->getJets());
     currentEvent.setMuons(muonReader->getMuons());
     currentEvent.setMET(metReader->getMET());
@@ -113,6 +110,7 @@ void NTupleEventReader::initiateReadersIfNotSet() {
         if(NTupleEventReader::loadTracks)
             trackReader->initialise();
         electronReader->initialise();
+//        genParticleReader->initialise();
         jetReader->initialise();
         muonReader->initialise();
         metReader->initialise();
