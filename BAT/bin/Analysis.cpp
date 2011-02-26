@@ -583,6 +583,27 @@ void Analysis::doQCDStudy() {
         histMan.H1D_JetBinned("MostPFIsolatedElectron_dEtaIn")->Fill(electron->dEtaIn(), weight);
     }
 
+    if (ttbarCandidate.passesAntiIsolationSelection()) {
+        ElectronPointer electron = ttbarCandidate.GoodElectrons().front();
+        try {
+            ttbarCandidate.reconstructUsingChi2(electron);
+            float mttbar = ttbarCandidate.mttbar();
+            histMan.H1D_BJetBinned("mttbar_antiIsolated")->Fill(mttbar, weight);
+            if (ttbarCandidate.MET()->pt() > 20) {
+                histMan.H1D_BJetBinned("mttbar_antiIsolated_withMETCut")->Fill(mttbar, weight);
+                if (ttbarCandidate.GoodJets().front()->pt() > 70 && ttbarCandidate.GoodJets().at(1)->pt() > 50) {
+                    histMan.H1D_BJetBinned("mttbar_antiIsolated_withMETAndAsymJets")->Fill(mttbar, weight);
+                }
+            }
+            if (ttbarCandidate.GoodJets().front()->pt() > 70 && ttbarCandidate.GoodJets().at(1)->pt() > 50) {
+                histMan.H1D_BJetBinned("mttbar_antiIsolated_withAsymJetsCut")->Fill(mttbar, weight);
+            }
+
+        } catch (ReconstructionException& e) {
+            cout << "Could not reconstruct event: " << e.what() << endl;
+        }
+    }
+
 }
 
 void Analysis::printInterestingEvents() {
@@ -620,16 +641,20 @@ void Analysis::createHistograms() {
     histMan.addH1D_JetBinned("diElectronMass", "diElectronMass", 1000, 0, 1000);
 
     histMan.addH1D_BJetBinned("mttbar_conversions", "mttbar", 5000, 0, 5000);
+    histMan.addH1D_BJetBinned("mttbar_antiIsolated", "mttbar", 5000, 0, 5000);
     histMan.addH1D_BJetBinned("mttbar_QCDEnriched", "mttbar", 5000, 0, 5000);
     histMan.addH1D_BJetBinned("mttbar_controlRegion", "mttbar", 5000, 0, 5000);
 
     histMan.addH1D_BJetBinned("mttbar_conversions_withMETCut", "mttbar", 5000, 0, 5000);
+    histMan.addH1D_BJetBinned("mttbar_antiIsolated_withMETCut", "mttbar", 5000, 0, 5000);
     histMan.addH1D_BJetBinned("mttbar_controlRegion_withMETCut", "mttbar", 5000, 0, 5000);
 
     histMan.addH1D_BJetBinned("mttbar_conversions_withMETAndAsymJets", "mttbar", 5000, 0, 5000);
+    histMan.addH1D_BJetBinned("mttbar_antiIsolated_withMETAndAsymJets", "mttbar", 5000, 0, 5000);
     histMan.addH1D_BJetBinned("mttbar_controlRegion_withMETAndAsymJets", "mttbar", 5000, 0, 5000);
 
     histMan.addH1D_BJetBinned("mttbar_conversions_withAsymJetsCut", "mttbar", 5000, 0, 5000);
+    histMan.addH1D_BJetBinned("mttbar_antiIsolated_withAsymJetsCut", "mttbar", 5000, 0, 5000);
     histMan.addH1D_BJetBinned("mttbar_controlRegion_withAsymJetsCut", "mttbar", 5000, 0, 5000);
 
     histMan.addH1D_BJetBinned("mttbar", "mttbar", 5000, 0, 5000);
