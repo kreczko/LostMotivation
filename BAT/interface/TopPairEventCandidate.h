@@ -88,6 +88,7 @@ public:
     bool passesRelIsoControlSelection() const;
     bool passesPFIsoSelection() const;
     bool passesPFIsoControlSelection() const;
+    bool passesAntiIsolationSelection() const;
 
     bool passesConversionSelection() const;
 

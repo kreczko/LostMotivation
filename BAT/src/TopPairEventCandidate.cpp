@@ -378,8 +378,20 @@ bool TopPairEventCandidate::passesConversionSelection() const {
     bool passesFirst6 = passesSelectionStepUpTo(TTbarEPlusJetsSelection::Zveto);
     bool isConversion1 = isolatedElectronDoesNotComeFromConversion() == false;
     bool isConversion2 = isolatedElectronNotTaggedAsFromConversion() == false;
-    bool atLeast4Jets = goodJets.size() >= 4;
+    bool atLeast4Jets = hasAtLeastFourGoodJets();
     return passesFirst6 && (isConversion1 || isConversion2) && atLeast4Jets;
+}
+
+bool TopPairEventCandidate::passesAntiIsolationSelection() const {
+    bool passesFirst3 = passesSelectionStep(TTbarEPlusJetsSelection::GoodPrimaryvertex);
+    bool passesNonIsoElectron = goodElectrons.size() > 0 && goodIsolatedElectrons.size() == 0;
+
+    bool muonVeto = passesSelectionStep(TTbarEPlusJetsSelection::LooseMuonVeto);
+    bool zveto = passesSelectionStep(TTbarEPlusJetsSelection::Zveto);
+    bool conversionVeto = (goodElectrons.front()->isFromConversion() || goodElectrons.front()->isTaggedAsConversion(
+            0.2, 0.2)) == false;
+    bool jets = hasAtLeastFourGoodJets();
+    return passesFirst3 && passesNonIsoElectron && muonVeto && zveto && conversionVeto && jets;
 }
 
 void TopPairEventCandidate::reconstructUsingTopMassDifference(ElectronPointer electron) {
