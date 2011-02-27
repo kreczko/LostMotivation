@@ -16,45 +16,54 @@ VariableReader<MultiFloatPointer>::~VariableReader(){
 
 template<>
 unsigned int VariableReader<MultiFloatPointer>::size() const{
+    throwExceptionIfNotItitialised();
     return variable->size();
 }
 
 template<>
 unsigned int VariableReader<MultiDoublePointer>::size() const{
+    throwExceptionIfNotItitialised();
     return variable->size();
 }
 
 template<>
 unsigned int VariableReader<MultiIntPointer>::size() const{
+    throwExceptionIfNotItitialised();
     return variable->size();
 }
 
 template<>
 unsigned int VariableReader<MultiBoolPointer>::size() const{
+    throwExceptionIfNotItitialised();
     return variable->size();
 }
 
 template<>
 double VariableReader<MultiFloatPointer>::getVariableAt(unsigned int index) const{
+    throwExceptionIfNotItitialised();
     return variable->at(index);
 }
 
 template<>
 double VariableReader<MultiDoublePointer>::getVariableAt(unsigned int index) const{
+    throwExceptionIfNotItitialised();
     return variable->at(index);
 }
 
 template<>
 int VariableReader<MultiIntPointer>::getIntVariableAt(unsigned int index) const{
+    throwExceptionIfNotItitialised();
     return variable->at(index);
 }
 
 template<>
 unsigned int VariableReader<MultiIntPointer>::getUIntVariableAt(unsigned int index) const{
+    throwExceptionIfNotItitialised();
     return variable->at(index);
 }
 template<>
 bool VariableReader<MultiBoolPointer>::getBoolVariableAt(unsigned int index) const{
+    throwExceptionIfNotItitialised();
     return variable->at(index);
 }
 }

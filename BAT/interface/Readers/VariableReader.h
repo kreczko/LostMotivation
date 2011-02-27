@@ -34,6 +34,19 @@ struct VariableNotFoundException: public std::exception {
     }
 };
 
+struct VariableNotInitialisedException: public std::exception {
+    TString msg;
+    VariableNotInitialisedException(TString message) :
+        msg(message) {
+    }
+    ~VariableNotInitialisedException() throw () {
+    }
+
+    const char* what() const throw () {
+        return msg;
+    }
+};
+
 template<typename variableType = unsigned int>
 class VariableReader {
 public:
@@ -75,6 +88,11 @@ public:
 
     bool doesVariableExist() {
         return input->GetBranch(variableName) != NULL;
+    }
+
+    void throwExceptionIfNotItitialised() const{
+        if (variable == 0)
+            throw VariableNotFoundException("Trying to access variable '" + variableName + "' before initialisation.");
     }
 protected:
     TChainPointer input;
