@@ -107,7 +107,7 @@ void ElectronReader::readElectrons() {
         electron->setUsedAlgorithm(algorithm);
         electron->setCharge(chargeReader.getIntVariableAt(index));
         if(d0_BS_Reader.doesVariableExist() && algorithm == ElectronAlgorithm::Calo)
-            electron->setD0_BS(d0_BS_Reader.getVariableAt(index));
+            electron->setD0_wrtBeamSpot(d0_BS_Reader.getVariableAt(index));
         electron->setD0(d0_PV_Reader.getVariableAt(index));
         electron->setZDistanceToPrimaryVertex(vertex_dist_z.getVariableAt(index));
         electron->setNumberOfMissingInnerLayerHits(numberOfInnerLayerMissingHitsReader.getIntVariableAt(index));
@@ -134,7 +134,7 @@ void ElectronReader::readElectrons() {
         TrackPointer track = TrackPointer(new Track(trackPhi, trackEta, trackPt, trackTheta));
         track->setCharge(trackCharge);
         if(algorithm == ElectronAlgorithm::Calo)
-            track->setD0(electron->d0_BS());
+            track->setD0(electron->d0_wrtBeamSpot());
         else
             track->setD0(electron->d0());
 

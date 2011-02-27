@@ -157,9 +157,9 @@ bool Electron::isGood(const float minEt) const {
 
     bool passesD0 = false;
     if(usedAlgorithm == ElectronAlgorithm::Calo)
-        passesD0 = fabs(d0_BS()) < 0.02;//cm
-    else
-        passesD0 = fabs(d0()) < 0.02;//cm
+        passesD0 = fabs(d0_wrtBeamSpot()) < 0.02;//cm
+    else// use d0 wrt primary vertex for
+        passesD0 = fabs(d0()) < 0.01;//cm
 
     bool passesDistanceToPV = fabs(zDistanceToPrimaryVertex) < 1;
     bool passesID = VBTF_W70_ElectronID();
@@ -172,7 +172,7 @@ bool Electron::isQCDElectron(const float minEt) const {
 
     bool passesD0 = false;
     if(usedAlgorithm == ElectronAlgorithm::Calo)
-        passesD0 = fabs(d0_BS()) < 0.02;//cm
+        passesD0 = fabs(d0_wrtBeamSpot()) < 0.02;//cm
     else
         passesD0 = fabs(d0()) < 0.02;//cm
 

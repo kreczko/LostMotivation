@@ -18,7 +18,7 @@ Particle::Particle() :
 
 Particle::Particle(const Particle& particle) :
     particleMass(particle.mass()), particleCharge(particle.charge()), distanceFromInteractionPointInMicron(
-            particle.d0()), distanceFromInteractionPointInMicron_wrt_to_BeamSpot(particle.d0_BS()), fourvector(
+            particle.d0()), distanceFromInteractionPointInMicron_wrt_to_BeamSpot(particle.d0_wrtBeamSpot()), fourvector(
             particle.getFourVector()) {
 
 }
@@ -42,7 +42,7 @@ float Particle::d0() const {
     return distanceFromInteractionPointInMicron;
 }
 
-float Particle::d0_BS() const {
+float Particle::d0_wrtBeamSpot() const {
     return distanceFromInteractionPointInMicron_wrt_to_BeamSpot;
 }
 
@@ -98,7 +98,7 @@ void Particle::setD0(float d0) {
     distanceFromInteractionPointInMicron = d0;
 }
 
-void Particle::setD0_BS(float d0) {
+void Particle::setD0_wrtBeamSpot(float d0) {
     distanceFromInteractionPointInMicron_wrt_to_BeamSpot = d0;
 }
 
