@@ -14,11 +14,12 @@ namespace BAT {
 
 class GenParticleReader {
 private:
-	VariableReader<MultiIntPointer> pdgIdReader;
+    VariableReader<MultiDoublePointer> energyReader;
     VariableReader<MultiDoublePointer> pxReader;
     VariableReader<MultiDoublePointer> pyReader;
     VariableReader<MultiDoublePointer> pzReader;
-    VariableReader<MultiDoublePointer> energyReader;
+
+    VariableReader<MultiIntPointer> pdgIdReader;
     VariableReader<MultiIntPointer> statusReader;
     VariableReader<MultiIntPointer> motherIndexReader;
 

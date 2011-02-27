@@ -73,8 +73,8 @@ const Event& NTupleEventReader::getNextEvent() {
     if(NTupleEventReader::loadTracks)
         currentEvent.setTracks(trackReader->getTracks());
     currentEvent.setElectrons(electronReader->getElectrons());
-//    if(!currentEvent.isRealData())
-//    	currentEvent.setGenParticles(genParticleReader->getGenParticles());
+    if(!currentEvent.isRealData())
+    	currentEvent.setGenParticles(genParticleReader->getGenParticles());
     currentEvent.setJets(jetReader->getJets());
     currentEvent.setMuons(muonReader->getMuons());
     currentEvent.setMET(metReader->getMET());

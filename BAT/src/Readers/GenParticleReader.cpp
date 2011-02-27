@@ -9,22 +9,22 @@
 namespace BAT {
 
 GenParticleReader::GenParticleReader() :
-	pdgIdReader(),
+    energyReader(),
 	pxReader(),
 	pyReader(),
 	pzReader(),
-	energyReader(),
+	pdgIdReader(),
 	statusReader(),
 	motherIndexReader() {
 
 }
 
 GenParticleReader::GenParticleReader(TChainPointer input) :
-	pdgIdReader(input, "GenParticle.PdgId"),
+    energyReader(input, "GenParticle.Energy"),
     pxReader(input, "GenParticle.Px"),
     pyReader(input, "GenParticle.Py"),
     pzReader(input, "GenParticle.Pz"),
-    energyReader(input, "GenParticle.Energy"),
+    pdgIdReader(input, "GenParticle.PdgId"),
     statusReader(input, "GenParticle.Status"),
     motherIndexReader(input, "GenParticle.MotherIndex") {
 
@@ -43,18 +43,20 @@ const MCParticleCollection& GenParticleReader::getGenParticles() {
 
 void GenParticleReader::readGenParticles() {
     for (unsigned int index = 0; index < pxReader.size(); index++) {
-    	int pdgId = pdgIdReader.getIntVariableAt(index);
+        float energy = energyReader.getVariableAt(index);
         float px = pxReader.getVariableAt(index);
         float py = pyReader.getVariableAt(index);
         float pz = pzReader.getVariableAt(index);
-        float energy = energyReader.getVariableAt(index);
-        int motherIndex = motherIndexReader.getIntVariableAt(index);
+
+
+        int pdgId = pdgIdReader.getIntVariableAt(index);
         int status = statusReader.getIntVariableAt(index);
+        int motherIndex = motherIndexReader.getIntVariableAt(index);
 
         MCParticlePointer genParticle(new MCParticle(energy, px, py, pz));
         genParticle->setPdgId(pdgId);
-        genParticle->setMotherIndex(motherIndex);
         genParticle->setStatus(status);
+        genParticle->setMotherIndex(motherIndex);
 
         genParticles.push_back(genParticle);
     }
@@ -62,12 +64,14 @@ void GenParticleReader::readGenParticles() {
 
 
 void GenParticleReader::initialise() {
-	pdgIdReader.initialiseBlindly();
+    energyReader.initialiseBlindly();
 	pxReader.initialiseBlindly();
     pyReader.initialiseBlindly();
     pzReader.initialiseBlindly();
-    energyReader.initialiseBlindly();
+
+    pdgIdReader.initialiseBlindly();
     statusReader.initialiseBlindly();
+    motherIndexReader.initialiseBlindly();
 }
 
 }
