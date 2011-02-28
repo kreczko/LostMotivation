@@ -98,7 +98,7 @@ private:
         goodLooseElectron->setZDistanceToPrimaryVertex(0);
         TrackPointer track = TrackPointer(new Track(goodLooseElectron->phi(), goodLooseElectron->eta(),
                 goodLooseElectron->pt(), goodLooseElectron->theta()));
-        track->setD0(goodLooseElectron->d0_BS());
+        track->setD0(goodLooseElectron->d0_wrtBeamSpot());
         track->setCharge(goodLooseElectron->charge());
         assert(goodLooseElectron->isGood() == false);
         assert(goodLooseElectron->isLoose() && goodLooseElectron->relativeIsolation() < 1.);
@@ -544,7 +544,7 @@ public:
         electron->setEcalIsolation(0);
         electron->setTrackerIsolation(0);
         electron->setNumberOfMissingInnerLayerHits(0);
-        electron->setD0_BS(0);
+        electron->setD0_wrtBeamSpot(0);
         electron->setSuperClusterEta(0);
         electron->setDEtaIn(0);
         electron->setDPhiIn(0);

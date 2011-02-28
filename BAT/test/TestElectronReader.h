@@ -112,7 +112,7 @@ public:
 
     void testTRackd0(){
         const TrackPointer track = firstElectron->GSFTrack();
-        ASSERT_EQUAL(firstElectron->d0_BS(), track->d0());
+        ASSERT_EQUAL(firstElectron->d0_wrtBeamSpot(), track->d0());
     }
 };
 extern cute::suite make_suite_TestElectronReader() {

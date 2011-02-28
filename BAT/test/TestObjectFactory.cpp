@@ -42,7 +42,7 @@ ElectronPointer TestObjectFactory::goodCaloElectron() {
     ElectronPointer electron = ElectronPointer(new Electron(100., 99., 13., 5.));
     electron->setUsedAlgorithm(ElectronAlgorithm::Calo);
     electron->setSuperClusterEta(0);
-    electron->setD0_BS(0);
+    electron->setD0_wrtBeamSpot(0);
     PrimaryVertexPointer pv = TestObjectFactory::goodPrimaryVertex();
     // electron vertex == primary vertex
 //    electron->setElectronVertexZPosition(pv->z());
@@ -60,7 +60,7 @@ ElectronPointer TestObjectFactory::goodCaloElectron() {
         cout << "Et " << electron->et() << endl;
         cout << "Eta " << electron->eta() << endl;
         cout << "VBTF 70 " << electron->VBTF_W70_ElectronID() << endl;
-        cout << "d0 " << electron->d0_BS() << endl;
+        cout << "d0 " << electron->d0_wrtBeamSpot() << endl;
         cout << "Et " << electron->et() << endl;
     }
     assert(electron->isGood());

@@ -104,10 +104,10 @@ private:
 
     void setBadInCrackElectron() {
         badInCrackElectron->setSuperClusterEta(1.5);
-        badInCrackElectron->setD0_BS(0.0001);
+        badInCrackElectron->setD0_wrtBeamSpot(0.0001);
         //make sure it passes all other requirements
         assert(badInCrackElectron->et() > goodElectronMinimalEt);
-        assert(fabs(badInCrackElectron->d0_BS()) < goodElectronMaximalDistanceFromInteractionPoint);
+        assert(fabs(badInCrackElectron->d0_wrtBeamSpot()) < goodElectronMaximalDistanceFromInteractionPoint);
         //and fails the selected
         assert(fabs(badInCrackElectron->eta()) < goodElectronMaximalAbsoluteEta);
         assert(badInCrackElectron->isInCrack());
