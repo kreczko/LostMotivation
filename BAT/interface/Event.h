@@ -32,6 +32,7 @@ protected:
     ElectronCollection qcdElectrons;
 
     JetCollection allJets;
+    JetCollection genJets;
     JetCollection goodJets;
     JetCollection goodBJets;
 
@@ -64,7 +65,8 @@ public:
     void setTracks(TrackCollection tracks);
     void setGenParticles(MCParticleCollection genParticles);
     void setElectrons(ElectronCollection electrons);
-    void setJets(JetCollection electrons);
+    void setJets(JetCollection jets);
+    void setGenJets(JetCollection genJets);
     void setMuons(MuonCollection muons);
     void setMET(const METPointer met);
     void setHLTs(const boost::shared_ptr<std::vector<int> >);
@@ -84,6 +86,7 @@ public:
     const ElectronCollection& GoodPFIsolatedElectrons() const;
     const ElectronCollection& QCDElectrons() const;
     const JetCollection& Jets() const;
+    const JetCollection& GenJets() const;
     const JetCollection& GoodJets() const;
     const JetCollection& GoodBJets() const;
     const MuonCollection& Muons() const;
