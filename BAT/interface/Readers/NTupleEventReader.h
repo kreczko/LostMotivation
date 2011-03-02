@@ -75,6 +75,7 @@ private:
 	boost::scoped_ptr<ElectronReader> electronReader;
 	boost::scoped_ptr<GenParticleReader> genParticleReader;
 	boost::scoped_ptr<JetReader> jetReader;
+	boost::scoped_ptr<GenJetReader> genJetReader;
 	boost::scoped_ptr<MuonReader> muonReader;
 	boost::scoped_ptr<METReader> metReader;
 

@@ -111,6 +111,12 @@ void Event::setJets(JetCollection jets) {
     selectGoodJets();
 }
 
+void Event::setGenJets(JetCollection jets) {
+    genJets.clear();
+    genJets = jets;
+}
+
+
 void Event::selectGoodJets() {
     goodJets.clear();
     for (unsigned int index = 0; index < allJets.size(); ++index) {
@@ -322,6 +328,11 @@ const ElectronCollection& Event::QCDElectrons() const{
 const JetCollection& Event::Jets() const {
     return allJets;
 }
+
+const JetCollection& Event::GenJets() const {
+    return genJets;
+}
+
 
 const JetCollection& Event::GoodJets() const {
     return goodJets;

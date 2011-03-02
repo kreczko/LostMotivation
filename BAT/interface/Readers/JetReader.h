@@ -10,26 +10,44 @@
 #include "VariableReader.h"
 #include "../RecoObjects/Jet.h"
 #include <string>
-namespace BAT {
 
-class JetReader {
-public:
-//	const static std::string algorithmPrefixes[JetAlgorithm::NUMBER_OF_JETALGORITHMS];
+
+namespace BAT {
 	
-	JetReader();
-	JetReader(TChainPointer, JetAlgorithm::value algo = JetAlgorithm::Calo_AntiKT_Cone05);
-	virtual ~JetReader();
-	const JetCollection& getJets();
-	void initialise();
-private:
-	VariableReader<unsigned int> numberOfJetsReader;
+class JetReaderBase {
+public:
+	JetReaderBase();
+	JetReaderBase(TChainPointer, const TString &fieldPrefix,
+		JetAlgorithm::value algo = JetAlgorithm::Calo_AntiKT_Cone05);
+	virtual ~JetReaderBase();
+	virtual const JetCollection& getJets();
+	virtual void initialise();
+protected:
 	VariableReader<MultiDoublePointer> energyReader;
 	VariableReader<MultiDoublePointer> pxReader;
 	VariableReader<MultiDoublePointer> pyReader;
 	VariableReader<MultiDoublePointer> pzReader;
 	VariableReader<MultiDoublePointer> massReader;
 
+	JetCollection jets;
+	JetAlgorithm::value usedAlgorithm;
+	virtual void readJets();
+	virtual void readJet(JetPointer &jet, unsigned int jetIndex) = 0;
+};
+
+
+class JetReader : public JetReaderBase {
+public:
+//	const static std::string algorithmPrefixes[JetAlgorithm::NUMBER_OF_JETALGORITHMS];
+	
+	JetReader();
+	JetReader(TChainPointer, JetAlgorithm::value algo = JetAlgorithm::Calo_AntiKT_Cone05);
+	virtual ~JetReader();
+	virtual void initialise();
+	
+protected:
 	VariableReader<MultiDoublePointer> emfReader;
+	VariableReader<unsigned int> numberOfJetsReader;
 	VariableReader<MultiIntPointer> n90HitsReader;
 	VariableReader<MultiDoublePointer> fHPDReader;
 
@@ -44,12 +62,24 @@ private:
 //	VariableReader<MultiDoublePointer> btagSimpleSecondaryVertexReaderData;
 	VariableReader<MultiDoublePointer> btagTrackCountingHighPurityReader;
 	VariableReader<MultiDoublePointer> btagTrackCountingHighEfficiencyReader;
-
-	JetCollection jets;
-	JetAlgorithm::value usedAlgorithm;
-	void readJets();
+	
+	virtual void readJet(JetPointer &jet, unsigned int jetIndex);
 };
 
+
+class GenJetReader : public JetReaderBase {
+public:
+	GenJetReader();
+	GenJetReader(TChainPointer, JetAlgorithm::value algo = JetAlgorithm::Calo_AntiKT_Cone05);
+	virtual ~GenJetReader();
+	virtual void initialise();
+	
+protected:
+	VariableReader<MultiDoublePointer> emfReader;
+	VariableReader<MultiDoublePointer> chargeReader;
+	
+	virtual void readJet(JetPointer &jet, unsigned int jetIndex);
+};
 }
 
 #endif /* JETREADER_H_ */
