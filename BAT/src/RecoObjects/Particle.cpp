@@ -24,8 +24,11 @@ Particle::Particle(const Particle& particle) :
 }
 
 Particle::Particle(float energy, float px, float py, float pz) :
-    particleMass(0), particleCharge(0), distanceFromInteractionPointInMicron(99999),
-            distanceFromInteractionPointInMicron_wrt_to_BeamSpot(999999), fourvector(px, py, pz, energy) {
+    particleMass(0),
+    particleCharge(0),
+    distanceFromInteractionPointInMicron(99999),
+    distanceFromInteractionPointInMicron_wrt_to_BeamSpot(999999),
+    fourvector(px, py, pz, energy) {
 }
 
 Particle::~Particle() {
