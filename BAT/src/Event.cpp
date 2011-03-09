@@ -213,58 +213,6 @@ void Event::selectMuonsByQuality() {
     }
 }
 
-//void Event::setHLT_Photon10_TO20(bool hltTrigger) {
-//    HLT_Photon10_TO20 = hltTrigger;
-//}
-//
-//void Event::setHLT_Photon15_TO20(bool hltTrigger) {
-//    HLT_Photon15_TO20 = hltTrigger;
-//}
-//
-//void Event::setHLT_Photon15_Cleaned_TO20(bool hltTrigger) {
-//    HLT_Photon15_Cleaned_TO20 = hltTrigger;
-//}
-//
-//void Event::setHLT_Emulated_Photon15(bool hltTrigger) {
-//    HLT_Emulated_Photon15 = hltTrigger;
-//}
-//
-//void Event::setHLT_Photon20_Cleaned_L1R(bool hltTrigger) {
-//    HLT_Photon20_Cleaned_L1R = hltTrigger;
-//}
-//
-//void Event::setHLT_Emulated_Photon20(bool hltTrigger) {
-//    HLT_Emulated_Photon20 = hltTrigger;
-//}
-//
-//void Event::setHLT_Ele10_LW_L1R(bool hltTrigger){
-//    HLT_Ele10_LW_L1R = hltTrigger;
-//}
-//
-//void Event::setHLT_Ele15_SW_L1R(bool hltTrigger){
-//    HLT_Ele15_SW_L1R = hltTrigger;
-//}
-//
-//void Event::setHLT_Ele15_SW_CaloEleId_L1R(bool hltTrigger){
-//    HLT_Ele15_SW_CaloEleId_L1R = hltTrigger;
-//}
-//
-//void Event::setHLT_Ele17_SW_CaloEleId_L1R(bool hltTrigger){
-//    HLT_Ele17_SW_CaloEleId_L1R = hltTrigger;
-//}
-//
-//void Event::setHLT_Ele17_SW_TightEleId_L1R(bool hltTrigger){
-//    HLT_Ele17_SW_TightEleId_L1R = hltTrigger;
-//}
-//
-//void Event::setHLT_Ele22_SW_TighterEleId_L1R_v2(bool hltTrigger){
-//    HLT_Ele22_SW_TighterEleId_L1R_v2 = hltTrigger;
-//}
-//
-//void Event::setHLT_Ele22_SW_TighterEleId_L1R_v3(bool hltTrigger){
-//    HLT_Ele22_SW_TighterEleId_L1R_v3 = hltTrigger;
-//}
-
 void Event::setHLTs(const boost::shared_ptr<std::vector<int> > triggers){
     HLTs = triggers;
 }
